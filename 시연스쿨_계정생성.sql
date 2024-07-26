@@ -1,0 +1,2 @@
+CREATE USER SiyeonSchool IDENTIFIED BY SiyeonSchool;
+GRANT CONNECT, RESOURCE TO SiyeonSchool;
