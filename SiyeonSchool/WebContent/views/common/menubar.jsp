@@ -28,7 +28,7 @@
 <body>
 
     <div class="header-area" align="center">
-        <a href="javascript:void(0)"><img src="resources/images/home_sel.png" alt="홈버튼"></a>
+        <a href="javascript:void(0)"><img src="resources/images/home_sel.png" alt="홈버튼입니다"></a>
         <a href="javascript:void(0)"><img src="resources/images/mail_sel.png" alt="메일버튼"></a>
         <a href="javascript:void(0)"><img src="resources/images/todo_sel.png" alt="todo버튼"></a>
         <a href="javascript:void(0)"><img src="resources/images/add_sel.png" alt="주소록버튼"></a>
