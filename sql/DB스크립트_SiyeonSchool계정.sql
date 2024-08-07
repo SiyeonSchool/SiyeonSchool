@@ -437,13 +437,16 @@ INSERT INTO MAIL_OWNER VALUES(2, 3, 2, DEFAULT, DEFAULT);
 INSERT INTO MAIL_OWNER VALUES(1, 2, 2, DEFAULT, DEFAULT);
 INSERT INTO MAIL_OWNER VALUES(1, 1, 1, DEFAULT, DEFAULT);
 
-
 --------------------------------------------------------------------------------
 --###############  메일_첨부파일  ###############
 --------------------------------------------------------------------------------
+CREATE TABLE MAIL_ATTACHMENT(
+    MAIL_NO NUMBER,
+    FILE_NO NUMBER,
+    PRIMARY KEY(MAIL_NO, FILE_NO)
+);
 
-
-
+COMMENT ON COLUMN 
 
 
 
