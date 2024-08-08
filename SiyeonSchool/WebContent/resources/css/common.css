@@ -1,0 +1,43 @@
+/* 
+    모든 페이지에 공통으로 쓰이는 css입니다.
+    menubar는 menubar.css로 별도로 관리합니다.
+*/
+
+/* 자주 사용할 색상 변수
+   사용법 예시 => color: var(--lightGrey) */
+:root {
+    /* 메인 테마컬러 */
+    --darkSkyBlue: #45d3ff;
+    --lightDarkBlue: #c2f0ff;
+    --darkPurple: #a98aff;
+    --lightPurple: #d0bfff;
+
+    /* 각 페이지 테마컬러 */
+
+    /* 기타 컬러 */
+    --lightGrey: #9a9a9a;
+    --darkGrey: #333;
+
+}
+
+
+
+/* 글자체 "민산스" from "눈누" => https://noonnu.cc/font_page/828 */
+/* 저희 피그마에서 썼던 글자체랑 비슷한걸로 골랐어요! */
+@font-face {
+    font-family: 'MinSans-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    height: 100vh;
+    position: relative;
+
+    color: var(--darkGrey);
+    font-family: "MinSans-Regular", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;   
+}

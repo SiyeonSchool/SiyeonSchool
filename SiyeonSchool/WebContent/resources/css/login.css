@@ -1,0 +1,19 @@
+/* #homeBtn은 로그인 페이지 구현 완료될때까지 남겨주세요! */
+#homeBtn{ 
+    color: red;
+    position: absolute;
+    display: block;
+    top: 10px;
+    left: 10px;
+}
+
+/* 아래는 지우셔도 됩니다! */
+h1 {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 30px;
+    font-weight: bold;
+}
