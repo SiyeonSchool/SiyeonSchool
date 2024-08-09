@@ -27,6 +27,11 @@ DROP TABLE SURVEY_MEMBER CASCADE CONSTRAINTS;
 DROP TABLE SURVEY_QUESTION CASCADE CONSTRAINTS;
 DROP TABLE SURVEY_CHOICE CASCADE CONSTRAINTS;
 DROP TABLE SURVEY_ANSWER CASCADE CONSTRAINTS;
+DROP TABLE SUBJECT CASCADE CONSTRAINTS;
+DROP TABLE TEST_KIND CASCADE CONSTRAINTS;
+DROP TABLE SCORE CASCADE CONSTRAINTS;
+DROP TABLE ATD_STATE CASCADE CONSTRAINTS;
+DROP TABLE ATTENDANCE CASCADE CONSTRAINTS;
 
 
 -- 시퀀스 삭제
@@ -700,11 +705,110 @@ INSERT INTO SURVEY_ANSWER VALUES(1, 4, '4');
 INSERT INTO SURVEY_ANSWER VALUES(1, 5, '3');
 INSERT INTO SURVEY_ANSWER VALUES(5, 2, '영화보기, 등산, 요리');
 
+--------------------------------------------------------------------------------
+--###############  능력단위  ###############
+--------------------------------------------------------------------------------
+CREATE TABLE SUBJECT(
+    SUBJECT_NO NUMBER PRIMARY KEY,
+    SUBJECT_NAME VARCHAR(50)
+);
+
+COMMENT ON COLUMN SUBJECT.SUBJECT_NO IS '능력단위번호 1 ~ 18';
+COMMENT ON COLUMN SUBJECT.SUBJECT_NAME IS '능력단위명';
+
+INSERT INTO SUBJECT VALUES(1, '프로그래밍 언어 활용');
+INSERT INTO SUBJECT VALUES(2, '프로그래밍 언어 응용');
+INSERT INTO SUBJECT VALUES(3, '네트워크 프로그래밍 구현');
+INSERT INTO SUBJECT VALUES(4, '데이터베이스 구현');
+INSERT INTO SUBJECT VALUES(5, 'SQL활용');
+INSERT INTO SUBJECT VALUES(6, 'SQL응용');
+INSERT INTO SUBJECT VALUES(7, 'UI 디자인');
+INSERT INTO SUBJECT VALUES(8, 'UI 구현');
+INSERT INTO SUBJECT VALUES(9, '서버 프로그램 구현');
+INSERT INTO SUBJECT VALUES(10, '애플리케이션 설계');
+INSERT INTO SUBJECT VALUES(11, '인터페이스 구현');
+INSERT INTO SUBJECT VALUES(12, '요구사항 확인');
+INSERT INTO SUBJECT VALUES(13, '화면 구현');
+INSERT INTO SUBJECT VALUES(14, '통합 구현');
+INSERT INTO SUBJECT VALUES(15, '프로젝트 기반 공공데이터 활용');
+INSERT INTO SUBJECT VALUES(16, '프로젝트 기반 공공데이터 아키텍처 설계');
+INSERT INTO SUBJECT VALUES(17, '애플리케이션 테스트 수행');
+INSERT INTO SUBJECT VALUES(18, '애플리케이션 배포');
+--------------------------------------------------------------------------------
+--###############  시험구분  ###############
+--------------------------------------------------------------------------------
+CREATE TABLE TEST_KIND(
+    TEST_KIND_NO NUMBER PRIMARY KEY,
+    TEST_KIND_NAME VARCHAR2(30)
+);
+
+COMMENT ON COLUMN TEST_KIND.TEST_KIND_NO IS '구분번호';
+COMMENT ON COLUMN TEST_KIND.TEST_KIND_NAME IS '구분명';
+
+INSERT INTO TEST_KIND VALUES(1, '문제해결시나리오');
+INSERT INTO TEST_KIND VALUES(2, '포트폴리오(신)');
+--------------------------------------------------------------------------------
+--###############  성적  ###############
+--------------------------------------------------------------------------------
+CREATE TABLE SCORE (
+    TEST_NO NUMBER PRIMARY KEY,
+    USER_NO NUMBER NOT NULL,
+    CLASS_NAME VARCHAR2(30) NOT NULL,
+    SUBJECT_NO NUMBER NOT NULL,
+    TEST_KIND_NO NUMBER NOT NULL,
+    SCORE NUMBER,
+    FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO),
+    FOREIGN KEY(SUBJECT_NO) REFERENCES SUBJECT(SUBJECT_NO),
+    FOREIGN KEY(TEST_KIND_NO) REFERENCES TEST_KIND(TEST_KIND_NO)
+);
+
+COMMENT ON COLUMN SCORE.TEST_NO IS '시험번호';
+COMMENT ON COLUMN SCORE.USER_NO IS '유저번호';
+COMMENT ON COLUMN SCORE.CLASS_NAME IS '교과구분';
+COMMENT ON COLUMN SCORE.SUBJECT_NO IS '능력단위 번호';
+COMMENT ON COLUMN SCORE.TEST_KIND_NO IS '구분번호';
+COMMENT ON COLUMN SCORE.SCORE IS '시험점수';
+
+INSERT INTO SCORE VALUES(1, 2, 'NCS전공교과', 1, 1, 100);
+INSERT INTO SCORE VALUES(2, 2, 'NCS전공교과', 2, 1, 100);
+INSERT INTO SCORE VALUES(3, 2, 'NCS전공교과', 3, 1, 100);
+INSERT INTO SCORE VALUES(4, 2, 'NCS전공교과', 4, 1, 100);
+INSERT INTO SCORE VALUES(5, 2, 'NCS전공교과', 5, 1, NULL);
 
 --------------------------------------------------------------------------------
---###############  테이블명  ###############
+--###############  출결상태  ###############
 --------------------------------------------------------------------------------
+CREATE TABLE ATD_STATE(
+    STATE_CODE VARCHAR2(6) PRIMARY KEY,
+    STATE_NAME VARCHAR2(6) NOT NULL
+);
 
+COMMENT ON COLUMN ATD_STATE.STATE_CODE IS '상태코드';
+COMMENT ON COLUMN ATD_STATE.STATE_NAME IS '상태이름(출석:ATD/지각:LATE/결석:ABS/조퇴:E_OUT)';
+
+INSERT INTO ATD_STATE VALUES('ATD', '출석');
+INSERT INTO ATD_STATE VALUES('LATE', '지각');
+INSERT INTO ATD_STATE VALUES('ABS', '결석');
+INSERT INTO ATD_STATE VALUES('E_OUT', '조퇴');
+
+--------------------------------------------------------------------------------
+--###############  출결  ###############
+--------------------------------------------------------------------------------
+CREATE TABLE ATTENDANCE(
+    USER_NO NUMBER,
+    DAY DATE,
+    STATE_CODE VARCHAR2(6),
+    USE_DAY_OFF NUMBER,
+    PRIMARY KEY(USER_NO, DAY),
+    FOREIGN KEY(STATE_CODE) REFERENCES ATD_STATE(STATE_CODE)
+);
+
+INSERT INTO ATTENDANCE VALUES(1, '2024/08/08', 'ATD', NULL);
+INSERT INTO ATTENDANCE VALUES(1, '2024/08/09', 'ATD', NULL);
+INSERT INTO ATTENDANCE VALUES(1, '2024/08/10', 'ATD', NULL);
+INSERT INTO ATTENDANCE VALUES(2, '2024/08/08', 'ATD', NULL);
+INSERT INTO ATTENDANCE VALUES(2, '2024/08/09', 'ATD', NULL);
+INSERT INTO ATTENDANCE VALUES(2, '2024/08/10', 'ATD', NULL);
 
 -- 커밋!!
 COMMIT;
