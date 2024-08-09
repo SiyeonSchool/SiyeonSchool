@@ -31,6 +31,11 @@ DROP TABLE TEST_KIND CASCADE CONSTRAINTS;
 DROP TABLE SCORE CASCADE CONSTRAINTS;
 DROP TABLE ATD_STATE CASCADE CONSTRAINTS;
 DROP TABLE ATTENDANCE CASCADE CONSTRAINTS;
+DROP TABLE CALENDAR CASCADE CONSTRAINTS;
+DROP TABLE TODO CASCADE CONSTRAINTS;
+DROP TABLE HOMEWORK_TEACHER CASCADE CONSTRAINTS;
+DROP TABLE HOMEWORK_STUDENT CASCADE CONSTRAINTS;
+DROP TABLE HOMEWORK_COMMENT CASCADE CONSTRAINTS;
 
 
 -- 시퀀스 삭제
@@ -788,6 +793,76 @@ INSERT INTO ATTENDANCE VALUES(1, '2024/08/10', 'ATD', NULL);
 INSERT INTO ATTENDANCE VALUES(2, '2024/08/08', 'ATD', NULL);
 INSERT INTO ATTENDANCE VALUES(2, '2024/08/09', 'ATD', NULL);
 INSERT INTO ATTENDANCE VALUES(2, '2024/08/10', 'ATD', NULL);
+
+--------------------------------------------------------------------------------
+--###############  일정표  ###############
+--------------------------------------------------------------------------------
+
+CREATE TABLE "CALENDAR" (
+	"CALENDAR_NO" NUMBER PRIMARY KEY,
+	"CONTACTS_NO" NUMBER,
+	"WRITER_NO"	NUMBER NOT NULL,
+	"TITLE"	VARCHAR2(50) NOT NULL,
+	"DESCRIPTION" VARCHAR2(100),
+	"START_DATE" DATE NOT NULL,
+	"END_DATE" DATE NOT NULL
+);
+
+COMMENT ON COLUMN CALENDAR.CONTACTS_NO IS '개인:NULL';
+
+
+
+--------------------------------------------------------------------------------
+--###############  할 일  ###############
+--------------------------------------------------------------------------------
+CREATE TABLE "TODO" (
+	"TODO_NO" NUMBER PRIMARY KEY,
+	"CONTACTS_NO" NUMBER,
+	"WRITER_NO"	NUMBER NOT NULL,
+	"CONTENT" VARCHAR2(100) NOT NULL
+);
+
+COMMENT ON COLUMN TODO.CONTACTS_NO IS '개인:NULL';
+
+
+--------------------------------------------------------------------------------
+--###############  과제_선생님  ###############
+--------------------------------------------------------------------------------
+
+CREATE TABLE "HOMEWORK_TEACHER" (
+	"HOMEWORK_NO" NUMBER PRIMARY KEY,
+	"FILE_NO" NUMBER NOT NULL,
+	"WRITER_NO"	NUMBER NOT NULL,
+	"SUBJECT" VARCHAR2(60) NOT NULL,
+	"HOMEWORK_TITLE" VARCHAR2(30) NOT NULL,
+	"HOMEWORK_END_DATE"	DATE NOT NULL,
+	"HOMEWORK_DESCRIPTION" VARCHAR2(500) NOT NULL,
+	"SUBMIT_STATUS"	CHAR(1)	NOT NULL,
+	"WRITE_DATE" DATE DEFAULT SYSDATE NOT NULL,
+	"FILE_NAME"	VARCHAR2(100)
+);
+
+COMMENT ON COLUMN HOMEWORK_TEACHER.SUBMIT_STATUS IS '제출:Y/미제출:N';
+
+--------------------------------------------------------------------------------
+--###############  과제_학생  ###############
+--------------------------------------------------------------------------------
+
+CREATE TABLE "HOMEWORK_STUDENT" (
+	"HOMEWORK_SUBMIT_NO" NUMBER PRIMARY KEY,
+	"USER_NO" NUMBER NOT NULL,
+	"FILE_NO" NUMBER NOT NULL,
+	"FILE_NAME"	VARCHAR2(100)NOT NULL,
+	"USER_NAME"	VARCHAR2(30) NOT NULL,
+	"SUBMIT_DATE" DATE DEFAULT SYSDATE NOT NULL,
+	"SUBMIT_STATUS"	CHAR(1)	NOT NULL
+);
+
+COMMENT ON COLUMN HOMEWORK_STUDENT.SUBMIT_STATUS IS '제출:Y/미제출:N';
+
+--------------------------------------------------------------------------------
+--###############  과제_댓글  ###############
+--------------------------------------------------------------------------------
 
 -- 커밋!!
 COMMIT;
