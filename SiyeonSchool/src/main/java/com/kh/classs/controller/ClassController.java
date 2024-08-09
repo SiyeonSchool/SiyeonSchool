@@ -1,4 +1,4 @@
-package com.kh.home.controller;
+package com.kh.classs.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class HomeController
+ * Servlet implementation class ClassController
  */
-@WebServlet("/home")
-public class HomeController extends HttpServlet {
+@WebServlet("/class")
+public class ClassController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HomeController() {
+    public ClassController() {
         super();
     }
 
@@ -25,10 +25,8 @@ public class HomeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.getSession().setAttribute("currentPage", "home");
-		request.getRequestDispatcher("views/home/home.jsp").forward(request, response);
-		
+		request.getSession().setAttribute("currentPage", "class");
+		request.getRequestDispatcher("views/class/class.jsp").forward(request, response);
 	}
 
 	/**

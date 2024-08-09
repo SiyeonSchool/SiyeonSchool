@@ -1,4 +1,4 @@
-package com.kh.home.controller;
+package com.kh.tool.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,26 +8,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class HomeController
+ * Servlet implementation class ToolController
  */
-@WebServlet("/home")
-public class HomeController extends HttpServlet {
+@WebServlet("/tool")
+public class ToolController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HomeController() {
+    public ToolController() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.getSession().setAttribute("currentPage", "home");
-		request.getRequestDispatcher("views/home/home.jsp").forward(request, response);
+
+		request.getSession().setAttribute("currentPage", "tool");
+		request.getRequestDispatcher("views/tool/tool.jsp").forward(request, response);
 		
 	}
 
@@ -35,6 +36,7 @@ public class HomeController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

@@ -38,7 +38,7 @@
 
     <!-- 구글 아이콘 (material io) : div class에 "material-icons" 추가하고, 해당 텍스트를 div의 내용에 넣으면 적용가능 
                                     ex) <div class="material-icons">search</div> -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp|Material+Symbols+Rounded|Material+Symbols+Outlined" rel="stylesheet">
 
 </head>
     <!-- common으로 head 태그내 내용들을 쓰기 위한 파일이라서, body 부분 필요없음 -->

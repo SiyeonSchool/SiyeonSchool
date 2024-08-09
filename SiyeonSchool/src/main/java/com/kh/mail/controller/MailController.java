@@ -1,4 +1,4 @@
-package com.kh.home.controller;
+package com.kh.mail.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class HomeController
+ * Servlet implementation class ContactsController
  */
-@WebServlet("/home")
-public class HomeController extends HttpServlet {
+@WebServlet("/mail")
+public class MailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HomeController() {
+    public MailController() {
         super();
     }
 
@@ -26,8 +26,8 @@ public class HomeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getSession().setAttribute("currentPage", "home");
-		request.getRequestDispatcher("views/home/home.jsp").forward(request, response);
+		request.getSession().setAttribute("currentPage", "mail");
+		request.getRequestDispatcher("views/mail/mail.jsp").forward(request, response);
 		
 	}
 

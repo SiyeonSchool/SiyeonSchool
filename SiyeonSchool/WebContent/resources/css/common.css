@@ -8,11 +8,13 @@
 :root {
     /* 메인 테마컬러 */
     --darkSkyBlue: #45d3ff;
-    --lightDarkBlue: #c2f0ff;
+    --lightSkyBlue: #c2f0ff;
     --darkPurple: #a98aff;
     --lightPurple: #d0bfff;
 
     /* 각 페이지 테마컬러 */
+    --darkGreen: #6CF100;
+    --lightGreen: #C7F2A4;
 
     /* 기타 컬러 */
     --lightGrey: #9a9a9a;
@@ -34,10 +36,22 @@
 body{
     height: 100vh;
     position: relative;
-
     color: var(--darkGrey);
     font-family: "MinSans-Regular", sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 1.4;   
+}
+
+img{
+    /* 
+    이미지는 기본으로 inline이고, baseline이라는 개념을 가지고 있음. 
+    그래서 이미지 밑에 공간이 약간 들어감.
+    이걸 없애기 위해서 display를 block으로 지정해줌
+    */
+    display: block;
+}
+
+a{
+    text-decoration-line: none;
 }
