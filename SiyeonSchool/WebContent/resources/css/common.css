@@ -6,19 +6,37 @@
 /* 자주 사용할 색상 변수
    사용법 예시 => color: var(--lightGrey) */
 :root {
-    /* 메인 테마컬러 */
+    /* --- 메인 테마컬러 --- */
     --darkSkyBlue: #45d3ff;
     --lightSkyBlue: #c2f0ff;
+
     --darkPurple: #a98aff;
     --lightPurple: #d0bfff;
 
-    /* 각 페이지 테마컬러 */
+    /* --- 각 페이지 테마컬러 ---*/
+    /* 일정 */
     --darkGreen: #6CF100;
     --lightGreen: #C7F2A4;
 
-    /* 기타 컬러 */
-    --lightGrey: #9a9a9a;
+    /* 주소록 */
+    --darkOrange: #FF9900;
+    --lightOrange: #FFD177;
+
+    /* 수업 */
+    --darkRed: #EF5F5F;
+    --lightRed: #FA9595;
+
+    /* 과제 */
+    --darkPink: #FD83FF;
+    --lightPink: #FEC6FF;
+
+    /* 도구 */
+    --darkBlue: #2153f8;
+    --lightBlue: #6880FD;
+
+    /* --- 기타 컬러 --- */
     --darkGrey: #333;
+    --lightGrey: #9a9a9a;
 
 }
 

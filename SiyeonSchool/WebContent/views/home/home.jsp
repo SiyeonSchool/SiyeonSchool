@@ -13,8 +13,6 @@
 
 	<%@ include file="../common/menubar.jsp" %>
 	
-	<a id="myPageBtn" href="<%= contextPath %>/mypage">마이페이지로</a>
-	
 	<!-- 아래는 지우셔도 됩니다. 감사합니다! -->
 	<br><br>
 
