@@ -14,6 +14,7 @@
 
 	<!-- 메뉴바 CSS -->
 	<link rel="stylesheet" href="resources/css/menubar.css">
+	<script defer src="resources/js/menubar.js"></script>
 </head>
 <body>
 
@@ -103,7 +104,7 @@
 		<!-- ==================== 오른쪽 프로필쪽 메뉴 ==================== -->
         <div class="right-menu">
 			<!-- 알림 -->
-            <div class="material-icons-outlined">notifications</div>
+            <div id="notification" class="material-icons-outlined">notifications</div>
 
 			<!-- 프로필 -->
 			<div class="profile">
@@ -113,37 +114,50 @@
 			</div>
         </div>
 
-		<!-- 숨겨진 메뉴 -->
+		<!-- ==================== 숨겨진 오른쪽 메뉴 ==================== -->
 		<div class="hidden-right-menu">
 
 			<!-- 숨겨진 알림 -->
-			<div class="hidden-notification">
+			<div class="hidden-notification hidden">
 				<ul>
 					<li>
-						장원영 (wyjang)님이 댓글을 남겼습니다.
-						<span>2024-07-30 13:00</span>
+						<p>장원영 <span class="userId">(wyjang)</span>님이 댓글을 남겼습니다.</p>
+						<p class="time-and-cross">2024-07-30 13:00
+							<span class="material-icons">clear</span>
+						</p>
 					</li>
 					<li>
-						손흥민 (hmson)님이 댓글을 남겼습니다.
-						<span>2024-07-30 13:00</span>
+						<p>손흥민 <span class="userId">(hmson)</span>님이 댓글을 남겼습니다.</p>
+						<p class="time-and-cross">2024-07-30 13:00
+							<span class="material-icons">clear</span>
+						</p>
 					</li>
 					<li>
-						주지훈 (jhjoo)님이 댓글을 남겼습니다.
-						<span>2024-07-30 13:00</span>
+						<p>황희찬 <span class="userId">(hchwang)</span>님이 댓글을 남겼습니다.</p>
+						<p class="time-and-cross">2024-07-30 13:00
+							<span class="material-icons">clear</span>
+						</p>
 					</li>
+					<li>
+						<p>나관리 <span class="userId">(admin)</span>님이 설문조사를 요청하였습니다.</p>
+						<p class="time-and-cross">2024-07-30 13:00
+							<span class="material-icons">clear</span>
+						</p>
+					</li>
+
 				</ul>
 			</div>
 
 			<!-- 숨겨진 프로필메뉴 -->
-			<div class="hidden-profile">
+			<div class="hidden-profile hidden">
 				<ul>
 					<li>
 						<span class="material-icons">account_circle</span>
-						마이페이지
+						<span><a href="<%= contextPath %>/mypage">마이페이지</a></span>
 					</li>
 					<li>
 						<span class="material-icons">logout</span>
-						로그아웃
+						<span><a href="<%= contextPath %>">로그아웃</a></span>
 					</li>
 				</ul>
 			</div>

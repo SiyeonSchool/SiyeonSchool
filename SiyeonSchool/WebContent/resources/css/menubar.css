@@ -50,7 +50,7 @@ header .main-menu a .menu-icon{
 }
 
 header .main-menu a .menu-icon:hover{
-    opacity: 0.5;
+    opacity: .5;
 }
 
 /* 각 메뉴 아이콘 이미지: 지금은 사실 안쓰임 */
@@ -87,7 +87,7 @@ header .right-menu .profile{
 }
 
 header .right-menu .profile:hover{
-    opacity: 0.5;
+    opacity: .5;
 }
 
 /* 프로필 아이콘 */
@@ -112,32 +112,100 @@ header .right-menu .profile .profile-name{
 /* 접는 아이콘 */
 header .right-menu .profile .material-symbols-rounded{
     font-size: 45px;
-    opacity: 0.6;
+    opacity: .6;
 }
 
+/* ==================== 숨겨진 오른쪽 메뉴 ==================== */
 header .hidden-right-menu{
-    border: 1px solid red;
     position: absolute;
     display: flex;
-    right: 30px;
+    right: 28px;
     top: 80px;
+}
+
+header .hidden-right-menu>*{
+    border: 1px solid var(--lightGrey);
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+header .hidden-right-menu .hidden{
+    visibility: hidden;
 }
 
 /* ------- 숨겨진 알림  -------*/
 header .hidden-right-menu .hidden-notification{
-    border: 1px solid blue;
+    margin-right: 20px;
 }
 
-header .hidden-right-menu .hidden-notification ul li span{
+/* 알림 - 각각의 줄 */
+header .hidden-right-menu .hidden-notification ul li{
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    cursor: pointer;
+}
+
+header .hidden-right-menu .hidden-notification ul li:hover {
+    opacity: .5;
+}
+
+/* 알림 - 마지막 줄 */
+header .hidden-right-menu .hidden-notification ul li:last-child{
+    margin-bottom: 0;
+}
+
+/* 알림 - 유저 아이디 */
+header .hidden-right-menu .hidden-notification ul li .userId{
     font-size: 12px;
+    color: var(--lightGrey);
+}
+
+/* 알림 - 시간 */
+header .hidden-right-menu .hidden-notification ul li .time-and-cross{
+    font-size: 12px;
+    color: var(--lightGrey);
+    display: flex;
+    align-items: flex-end;
+    margin-left: 10px;
+}
+
+/* 알림 - 삭제버튼 */
+header .hidden-right-menu .hidden-notification ul li .time-and-cross .material-icons{
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+header .hidden-right-menu .hidden-notification ul li .time-and-cross .material-icons:hover{
+    color: red;
 }
 
 /* ------- 숨겨진 프로필메뉴  -------*/
 header .hidden-right-menu .hidden-profile{
-    border: 1px solid blue;
-    color: var(--lightGrey);
+    color: var(--darkGrey);
+    width: 120px;
+    height: fit-content;
 }
 
-header .hidden-right-menu .hidden-profile{
+/* 마이페이지 & 로그아웃 - 각각의 줄 */
+header .hidden-right-menu .hidden-profile ul li{
+    display: flex;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
 
+header .hidden-right-menu .hidden-profile ul li:last-child{
+    margin-bottom: 0;
+}
+
+header .hidden-right-menu .hidden-profile ul li:hover{
+    opacity: .5;
+}
+
+/* 마이페이지 & 로그아웃 - 아이콘 */
+header .hidden-right-menu .hidden-profile ul li .material-icons{
+    color: var(--lightGrey);
+    margin-right: 5px;
 }
