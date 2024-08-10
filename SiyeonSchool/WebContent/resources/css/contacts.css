@@ -1,5 +1,107 @@
-/* 아래는 지우셔도 됩니다! */
-h1 {
-    font-size: 50px;
+/* ==================== 사이드바 ==================== */
+aside{
+    position: absolute;
+    width: 300px;
+    height: 100vh;
+    border-right: 1px solid var(--lightGrey);
+    box-shadow: 0 3px 5px var(--lightGrey);
+}
+
+/* ------- 공유주소록 or 개인주소록 ------- */
+aside>div{
+    padding: 5px 0;
+}
+
+/* 공유주소록, 개인주소록 - 사이 경계선 */
+aside>div:first-child{
+    border-bottom: 1px solid var(--lightGrey);
+}
+
+/* 공유주소록, 개인주소록 - 글자*/
+aside>div h2{
+    font-size: 1.3rem;
     font-weight: bold;
+    padding: 10px 10px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 공유주소록, 개인주소록 - 추가버튼 */
+aside>div h2 a{
+    height: 24px;
+}
+
+aside>div h2 a .material-symbols-rounded{
+    color: var(--lightGrey);
+}
+
+aside>div h2 a .material-symbols-rounded:hover{
+    color: var(--darkGrey);
+}
+
+/* ------- 주소록 카테고리 ------- */
+aside>div ul{
+
+}
+
+aside>div ul li{
+
+}
+
+aside>div ul li:hover{
+    width: 100%;
+    background-color: var(--lightOrange);
+    font-weight: bold;
+}
+
+/* 주소록 한줄 통째로 차지함 */
+aside>div ul li a{
+    height: 100%;
+    width: 100%;
+    padding: 10px 0 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+aside>div ul li a div{
+    display: flex;
+    align-items: flex-end;
+}
+
+aside>div ul li a div span{
+
+}
+
+/* 사람 이모티콘 */
+aside>div ul li a div span.material-icons-round{
+    color: var(--darkGrey);
+    opacity: .7;
+    margin-right: 5px;
+}
+
+/* 주소록카테고리 */
+aside>div ul li a div span.title{
+    line-height: 24px;
+}
+
+/* 인원수 표기 */
+aside>div ul li a div span.userNum{
+    margin-left: 5px;
+    font-size: 12px;
+    color: var(--lightGrey);
+}
+
+
+
+
+
+
+
+/* ==================== 메인 컨텐츠 ==================== */
+main{
+    position: absolute;
+    left: 300px;
+    width: 100vw;
+    height: 100vh;
 }
