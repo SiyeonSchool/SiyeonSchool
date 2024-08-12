@@ -40,6 +40,9 @@
                                     ex) <div class="material-icons">search</div> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp|Material+Symbols+Rounded|Material+Symbols+Outlined" rel="stylesheet">
 
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </head>
     <!-- common으로 head 태그내 내용들을 쓰기 위한 파일이라서, body 부분 필요없음 -->
 </html>
