@@ -40,8 +40,6 @@
 
 }
 
-
-
 /* 글자체 "민산스" from "눈누" => https://noonnu.cc/font_page/828 */
 /* 저희 피그마에서 썼던 글자체랑 비슷한걸로 골랐어요! */
 @font-face {
@@ -51,6 +49,10 @@
     font-style: normal;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body{
     height: 100vh;
     position: relative;
@@ -58,7 +60,10 @@ body{
     font-family: "MinSans-Regular", sans-serif;
     font-size: 16px;
     font-weight: 400;
-    line-height: 1.4;   
+    line-height: 1.4;
+    min-width: 1000px; /* 화면을 줄였을때, 메인메뉴 헤더 아이콘간 겹침을 방지함.*/
+    overflow: hidden;
+
 }
 
 img{
@@ -72,4 +77,10 @@ img{
 
 a{
     text-decoration-line: none;
+    color: var(--darkGrey);
+}
+
+a:visited{
+    /* 방문한 링크. 보라색(?)으로 바뀌는것 방지함 */
+    color: var(--darkGrey);
 }

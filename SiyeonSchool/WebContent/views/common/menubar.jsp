@@ -11,8 +11,6 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-
-	<!-- 메뉴바 CSS -->
 	<link rel="stylesheet" href="resources/css/menubar.css">
 	<script defer src="resources/js/menubar.js"></script>
 </head>

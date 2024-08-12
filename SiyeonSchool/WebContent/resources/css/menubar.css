@@ -12,6 +12,7 @@ header {
     justify-content: center;
     align-items: center;
     position: relative;
+    z-index: 1;
 }
 
 /* ==================== 왼쪽 로고 ==================== */
@@ -149,7 +150,7 @@ header .hidden-right-menu .hidden-notification ul li{
 }
 
 header .hidden-right-menu .hidden-notification ul li:hover {
-    opacity: .5;
+    font-weight: bold;
 }
 
 /* 알림 - 마지막 줄 */
@@ -185,7 +186,7 @@ header .hidden-right-menu .hidden-notification ul li .time-and-cross .material-i
 /* ------- 숨겨진 프로필메뉴  -------*/
 header .hidden-right-menu .hidden-profile{
     color: var(--darkGrey);
-    width: 120px;
+    width: 140px;
     height: fit-content;
 }
 
@@ -201,11 +202,15 @@ header .hidden-right-menu .hidden-profile ul li:last-child{
 }
 
 header .hidden-right-menu .hidden-profile ul li:hover{
-    opacity: .5;
+    font-weight: bold;
 }
 
 /* 마이페이지 & 로그아웃 - 아이콘 */
 header .hidden-right-menu .hidden-profile ul li .material-icons{
     color: var(--lightGrey);
     margin-right: 5px;
+}
+
+header .hidden-right-menu .hidden-profile ul li span:last-child a{
+    line-height: 24px;
 }
