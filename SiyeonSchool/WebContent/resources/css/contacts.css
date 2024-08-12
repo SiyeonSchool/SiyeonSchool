@@ -129,6 +129,17 @@ main{
     height: calc(100vh - 100px); /* 세로 화면크기 - 메뉴바 높이*/
 }
 
+/* ------- 메인 컨텐츠 - 공동속성 ------- */
+/* input, button, label 글자체 */
+main input,
+main button,
+main label{
+    font-family: "MinSans-Regular", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16px;
+}
+
 /* 각 섹션 구분선 */
 main section{
     width: 100%;
@@ -143,10 +154,7 @@ main section.first-section{
     padding: 15px 0;
 }
 
-main section.first-section>*{
-
-}
-
+/* 버튼 - 그룹 */
 main section.first-section .btn-group{
     position:absolute;
     left: 10px;
@@ -165,8 +173,6 @@ main section.first-section .btn-group button{
     padding: 8px;
     margin-right: 10px;
     cursor: pointer;
-    font-size: 14px;
-    line-height: 14px;
     display: inline-block;
 }
 
@@ -184,7 +190,7 @@ main section.first-section .btn-group button:last-child{
 
 /* 버튼 - 이메일 버튼 안 아이콘 */
 main section.first-section .btn-group button:last-child span.icon{
-    font-size: 20px;
+    font-size: 24px;
     color: var(--lightGrey);
     margin-right: 5px;
 }
@@ -194,17 +200,31 @@ main section.first-section .btn-group button:last-child span.icon:hover{
     color: var(--darkGrey);
 }
 
-
+/* 검색창 - 바로 바깥 div*/
 main section.first-section .search-bar{
-
+    margin-right: 10px;
 }
 
-main section.first-section .search-option{
-    
+/* 검색창 */
+main section.first-section .search-bar input{
+    height: 36px;
 }
 
+/* 검색창 - focus시 테두리 강조 안되게 */
+main section.first-section .search-bar input:focus{
+    outline: none;
+}
 
+/* 검색옵션 - div */
+main section.first-section .search-options{
+    display: flex;
+    align-items: center;
+}
 
+main section.first-section .search-options label{
+    margin-right: 10px;
+    cursor: pointer;
+}
 
 
 

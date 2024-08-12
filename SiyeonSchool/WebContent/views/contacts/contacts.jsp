@@ -361,8 +361,9 @@
 
 	<!-- ==================== 메인 컨텐츠 ==================== -->
 	<main>
-		<!-- first-section: 버튼, 검색창 -->
+		<!-- ------- first-section: 버튼, 검색창 ------- -->
 		<section class="first-section">
+
 			<div class="btn-group">
 				<button>공유 주소록에 추가</button>
 				<button>내 주소록에 추가</button>
@@ -371,13 +372,20 @@
 					<span>메일</span>
 				</button>
 			</div>
+
 			<div class="search-bar">
-				<input type="text">
+				<input type="text" name="keyword" placeholder="검색어를 입력해주세요.">
 			</div>
-			<div class="search-option">
-				<input type="checkbox">
-				<input type="checkbox">
-				<input type="checkbox">
+
+			<div class="search-options">
+				<input type="checkbox" id="search-by-userName" name="search-option">
+				<label for="search-by-userName">이름</label>
+
+				<input type="checkbox" id="search-by-userId" name="search-option">
+				<label for="search-by-userId">아이디</label>
+
+				<input type="checkbox" id="search-all-students" name="search-option">
+				<label for="search-all-students">학생</label>
 			</div>
 		</section>
 
