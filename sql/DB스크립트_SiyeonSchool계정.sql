@@ -2,7 +2,7 @@
 --------------------------------------------------------------------------------
 --############### 기존 데이터 삭제  ###############
 --------------------------------------------------------------------------------
--- 테이블 삭제: CASCADE CONSTRAINTS를 해줘야 외래키로 엮어있는 데이터들이 잘 지워짐.
+-- 테이블 삭제
 DROP TABLE ATTACHMENT CASCADE CONSTRAINTS;
 DROP TABLE QUESTION CASCADE CONSTRAINTS;
 DROP TABLE USERS CASCADE CONSTRAINTS;
@@ -61,10 +61,6 @@ DROP SEQUENCE SEQ_HOMEWORK_SUBMIT_NO;
 DROP SEQUENCE SEQ_TODO_NO;
 
 
---------------------------------------------------------------------------------
--- 주의! <첨부파일>, <QUESTION> 테이블이 <USERS>테이블 보다 위에서 선언되야함. 이렇게 안하면 에러남.
--- 이유: <USERS>테이블에서 <ATTACHMENT>, <QUESTION> 테이블을 외래키로 사용하고 있는데,
---        다른 두 테이블이 생성되지 않은 상태에서 <USERS>테이블이 먼저 읽히면, 해당 테이블들을 인식못하게됨. 결국 에러로 <USERS>테이블이 생성안되게됨.
 --------------------------------------------------------------------------------
 --###############  첨부파일  ###############
 --------------------------------------------------------------------------------
@@ -127,7 +123,7 @@ INSERT INTO QUESTION VALUES(SEQ_QUESTIONNO.NEXTVAL, '추억하고 싶은 날짜�
 --------------------------------------------------------------------------------
 --###############  유저  ###############
 --------------------------------------------------------------------------------
-CREATE TABLE USERS( -- USER는 예약어라 테이블명에 사용 못함. 대신 뒤에 S를 붙여 사용.
+CREATE TABLE USERS(
     USER_NO NUMBER PRIMARY KEY,
     USER_ID VARCHAR2(20) NOT NULL UNIQUE,
     USER_PWD VARCHAR2(20) NOT NULL,
@@ -148,7 +144,7 @@ CREATE TABLE USERS( -- USER는 예약어라 테이블명에 사용 못함. 대�
     FOREIGN KEY(PROFILE_FILE_NO) REFERENCES ATTACHMENT(FILE_NO),
     FOREIGN KEY(QUESTION_NO) REFERENCES QUESTION(QUESTION_NO),
     CHECK(USER_AUTH IN ('U', 'A')),
-    CHECK(STATUS IN ('Y', 'N'))
+    CHECK(STATUS IN ('W', 'Y', 'N'))
 );
 
 COMMENT ON COLUMN USERS.USER_NO IS '유저번호'; 
@@ -165,7 +161,7 @@ COMMENT ON COLUMN USERS.PROFILE_FILE_NO IS '프로필사진';
 COMMENT ON COLUMN USERS.QUESTION_NO IS '질문번호(아이디/비밀번호 찾기용)'; 
 COMMENT ON COLUMN USERS.QUESTION_ANSWER IS '질문답변(아이디/비밀번호 찾기용)'; 
 COMMENT ON COLUMN USERS.USER_AUTH IS '유저권한(일반유저:U/관리자:A)';
-COMMENT ON COLUMN USERS.STATUS IS '상태(미탈퇴:Y/탈퇴:N)';
+COMMENT ON COLUMN USERS.STATUS IS '상태(대기:W/가입:Y/탈퇴:N)';
 COMMENT ON COLUMN USERS.GITHUB_URL IS '깃허브주소';
 COMMENT ON COLUMN USERS.NOTION_URL IS '노션주소';
 
@@ -181,7 +177,7 @@ INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user04', 'pass04', '손흥민', '0
 --------------------------------------------------------------------------------
 --###############  댓글  ###############
 --------------------------------------------------------------------------------
-CREATE TABLE COMMENTS( -- COMMENT는 예약어라 테이블명에 사용 못함. 대신 뒤에 S를 붙여 사용.
+CREATE TABLE COMMENTS(
     COMMENT_NO NUMBER PRIMARY KEY,
     COMMENT_TYPE CHAR(1) DEFAULT 'P' NOT NULL,
     P_COMMENT_NO NUMBER,
@@ -987,5 +983,8 @@ INSERT INTO HOMEWORK_ATTACHMENT VALUES(2,13);
 INSERT INTO HOMEWORK_ATTACHMENT VALUES(3,14);
 
 
+
+
+--------------------------------------------------------------------------------
 -- 커밋!!
 COMMIT;
