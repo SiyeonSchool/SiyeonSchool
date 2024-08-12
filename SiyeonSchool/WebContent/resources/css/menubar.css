@@ -132,12 +132,14 @@ header .hidden-right-menu>*{
 }
 
 header .hidden-right-menu .hidden{
-    visibility: hidden;
+    display: none;
 }
 
 /* ------- 숨겨진 알림  -------*/
 header .hidden-right-menu .hidden-notification{
-    margin-right: 20px;
+    position: absolute;
+    right: 160px;
+    width: 480px;
 }
 
 /* 알림 - 각각의 줄 */
@@ -149,6 +151,7 @@ header .hidden-right-menu .hidden-notification ul li{
     cursor: pointer;
 }
 
+/* 알림 - 각각의 줄 - hover시 글자 굵게 */
 header .hidden-right-menu .hidden-notification ul li:hover {
     font-weight: bold;
 }
@@ -185,9 +188,11 @@ header .hidden-right-menu .hidden-notification ul li .time-and-cross .material-i
 
 /* ------- 숨겨진 프로필메뉴  -------*/
 header .hidden-right-menu .hidden-profile{
-    color: var(--darkGrey);
+    position: absolute;
+    right: 0;
     width: 140px;
     height: fit-content;
+    color: var(--darkGrey);
 }
 
 /* 마이페이지 & 로그아웃 - 각각의 줄 */

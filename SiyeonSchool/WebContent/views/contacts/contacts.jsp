@@ -361,8 +361,8 @@
 
 	<!-- ==================== 메인 컨텐츠 ==================== -->
 	<main>
-		<!-- ------- first-section: 버튼, 검색창 ------- -->
-		<section class="first-section">
+		<!-- ------- 검색창 섹션 (section__serach-bar) ------- -->
+		<section class="section__serach-bar">
 
 			<div class="btn-group">
 				<button>공유 주소록에 추가</button>
@@ -375,6 +375,7 @@
 
 			<div class="search-bar">
 				<input type="text" name="keyword" placeholder="검색어를 입력해주세요.">
+				<span class="material-symbols-outlined icon">search</span>
 			</div>
 
 			<div class="search-options">
@@ -389,8 +390,69 @@
 			</div>
 		</section>
 
-		<section>즐겨찾기 이름 아이디 역할 ..</section>
-		<section>실제 사용자 리스트 들어올 공간</section>
+		<!-- 목록 헤더 섹션 (section__list-header) -->
+		<section class="section__list-header">
+
+			<div class="checkbox">
+				<input type="checkbox" name="" id="">
+			</div>
+
+			<div class="star">
+				<span class="material-icons-round icon star-icon fill">star</span>
+				<span class="material-symbols-rounded icon">arrow_drop_down</span>
+			</div>
+
+			<div class="userName">
+				이름
+				<span class="material-symbols-rounded icon">arrow_drop_down</span>
+			</div>
+			<div class="userId">
+				아이디
+				<span class="material-symbols-rounded icon">arrow_drop_down</span>
+			</div>
+			<div class="role">
+				역할
+				<span class="material-symbols-rounded icon">arrow_drop_down</span>
+			</div>
+			<div class="birthday">
+				생일
+				<span class="material-symbols-rounded icon">arrow_drop_down</span>
+			</div>
+			<div class="phone">
+				연락처
+				<span class="material-symbols-rounded icon">arrow_drop_down</span>
+			</div>
+		</section>
+
+		<!-- 목록 섹션 (section__list) -->
+		<section class="section__list">
+			<ul>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					
+					<div class="star">
+						<span class="material-symbols-rounded icon star-icon">star</span>
+					</div>
+
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						나관리
+					</div>
+
+					<div class="userId">admin</div>
+					<div class="role">선생님</div>
+					<div class="birthday">1월 23일</div>
+					<div class="phone">010-1111-2222</div>
+				</li>
+
+			</ul>
+		</section>
+
+
 		
 	</main>
 	
