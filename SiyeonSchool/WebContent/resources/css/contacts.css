@@ -2,7 +2,7 @@
 aside{
     position: absolute;
     width: 300px;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 100px); /* 세로 화면크기 - 메뉴바 높이*/
     border-right: 1px solid var(--lightGrey);
     box-shadow: 0 3px 5px var(--lightGrey);
     max-height: calc(100vh - 100px);
@@ -121,12 +121,101 @@ aside .sm-cate>div .material-icons{
     margin-right: 5px;
 }
 
-
-
 /* ==================== 메인 컨텐츠 ==================== */
 main{
     position: absolute;
     left: 300px;
-    width: 100vw;
-    height: calc(100vh - 100px);
+    width: calc(100vw - 300px); /* 가로 화면크기 - 사이드바 크기*/
+    height: calc(100vh - 100px); /* 세로 화면크기 - 메뉴바 높이*/
 }
+
+/* 각 섹션 구분선 */
+main section{
+    width: 100%;
+    border-bottom: 1px solid var(--lightGrey);
+}
+
+/* ------- first-section: 버튼, 검색창 ------- */
+main section.first-section{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+}
+
+main section.first-section>*{
+
+}
+
+main section.first-section .btn-group{
+    position:absolute;
+    left: 10px;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    height: 36px;
+    margin: auto;
+}
+
+/* 버튼 */
+main section.first-section .btn-group button{
+    border: 1px solid var(--lightGrey);
+    border-radius: 3px;
+    background-color: #fff;
+    padding: 8px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 14px;
+    display: inline-block;
+}
+
+/* 버튼 - 후버시 */
+main section.first-section .btn-group button:hover{
+    background-color: var(--lightOrange);
+    font-weight: bold;
+}
+
+/* 버튼 - 이메일 버튼 */
+main section.first-section .btn-group button:last-child{
+    display: flex;
+    align-items: center;
+}
+
+/* 버튼 - 이메일 버튼 안 아이콘 */
+main section.first-section .btn-group button:last-child span.icon{
+    font-size: 20px;
+    color: var(--lightGrey);
+    margin-right: 5px;
+}
+
+/* 버튼 - 이메일 버튼 안 아이콘 - 후버시 */
+main section.first-section .btn-group button:last-child span.icon:hover{
+    color: var(--darkGrey);
+}
+
+
+main section.first-section .search-bar{
+
+}
+
+main section.first-section .search-option{
+    
+}
+
+
+
+
+
+
+
+/* 
+main section button.email-btn{
+
+} */
+
+/* 버튼 - 이메일 버튼 안 아이콘 */
+/* main section button.email-btn span.icon{
+    font-size: 16px;
+} */
+

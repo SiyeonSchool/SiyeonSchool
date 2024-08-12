@@ -361,7 +361,29 @@
 
 	<!-- ==================== 메인 컨텐츠 ==================== -->
 	<main>
-		<h2>내용 공간</h2>
+		<!-- first-section: 버튼, 검색창 -->
+		<section class="first-section">
+			<div class="btn-group">
+				<button>공유 주소록에 추가</button>
+				<button>내 주소록에 추가</button>
+				<button>
+					<span class="material-symbols-outlined icon">mail</span>
+					<span>메일</span>
+				</button>
+			</div>
+			<div class="search-bar">
+				<input type="text">
+			</div>
+			<div class="search-option">
+				<input type="checkbox">
+				<input type="checkbox">
+				<input type="checkbox">
+			</div>
+		</section>
+
+		<section>즐겨찾기 이름 아이디 역할 ..</section>
+		<section>실제 사용자 리스트 들어올 공간</section>
+		
 	</main>
 	
 </body>
