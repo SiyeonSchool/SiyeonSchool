@@ -24,22 +24,66 @@
 	width: 100%;
 	height: 100%;
 	position: absolute;
+	z-index: -1;
 }
 
-#login {
+#login{
 	border: 1px solid #77ddff;
-	background-color: #77ddff;
-	opacity: 1;
+	background-color: rgb(223, 247, 255);
 	border-radius: 20px;
 	width: 1000px;
 	height: 600px;
 	margin: auto;
+	display: flex;
+	z-index: 10;
 }
 
 #left, #right {
 	width: 50%;
 	height: 100%;
+	}
+
+#left img{
+	width: 250px;
+	margin: auto;
+	margin-top: 50px;
 }
+#right img{
+	width: 45%;
+	margin: auto;
+	margin-top: 50px;
+}
+#left p{
+	text-align: center;
+	font-size: larger;
+	margin: 20px 50px;
+}
+#right p{
+	font-size: 24px;
+	font-weight: 800;
+	margin: 0 0 0 20px;
+}
+
+#right table{
+	margin: auto;
+}
+
+.first{
+	background-color: #A98AFF;
+}
+.first:focus{
+	opacity: 0.3;
+}
+
+input{
+	width: 410px;
+	height: 40px;
+	border-radius: 5px;
+}
+form input{
+	margin: 10px 20px
+}
+
 </style>
 </head>
 <body>
@@ -56,12 +100,31 @@
 		<canvas id="canvas" class="canvas"></canvas>
 		<div id="login">
 			<div id="left">
-				<img src="resources/images/login_left.png" alt=""> <br>
+				<img src="resources/images/login_logo.png" alt=""> <br>
 				<p>
-					아무튼간에 잘해보자잉~ <br>
+					아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~ <br>
 				</p>
 			</div>
-			<div id="right"></div>
+			<div id="right">
+				<img src="resources/images/SiS_Logo.png" alt="">
+				<table border="1">
+					<tr>
+						<td class="first">1</td>
+						<td rowspan="2">&nbsp;</td>
+						<td class="first">1</td>
+					</tr>
+					<tr>
+						<td>학생</td>
+						<td>관리자</td>
+					</tr>
+				</table>
+				<form action="">
+					<p>아이디</p>
+					<input type="text" placeholder="영문, 숫자 조합으로 입력해주세요.(6~18자) "><br>
+					<p>비밀번호</p>
+					<input type="password" placeholder="영문, 숫자,특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)"><br>
+				</form>
+			</div>
 		</div>
 	</div>
 	<script>
@@ -104,11 +167,7 @@
 		         originy = mouse.y;
 		       
 		     });
-		     // window.evt("touchmove", function (e) {
-		     //     originx = e.originalEvent.touches[0].pageX;
-		     //     originy = e.originalEvent.touches[0].pageY;
-		     // });
-		
+		     
 		     var network = new Field(0, 0, 50);
 		     var emit = new Emitter(0, 0, 50);
 		     
@@ -238,7 +297,7 @@
 		         if (mouse === undefined) {
 		             this.mouse = true;
 		         } else {
-		             this.mouse = mouse;
+		            //  this.mouse = mouse;
 		         }
 		
 		         this.particles = [];
@@ -344,8 +403,11 @@
 		     originx = canvas.width / 2;
 		     originy = canvas.height / 2;
 		 }
+
+
 		
 		 init();
+		 
 
     </script>
 
