@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectAllUserList">
+		SELECT
+               USER_NO
+             , USER_ID
+             , USER_NAME
+             , PHONE
+             , PHONE_PUBLIC
+             , TO_CHAR(BIRTHDAY, 'MM"월" DD"일"') "BIRTHDAY"
+             , PROFILE_FILE_NO
+             , USER_AUTH
+		  FROM USERS
+		 ORDER
+		    BY USER_AUTH, USER_NAME
+	</entry>
+
+
+</properties>
