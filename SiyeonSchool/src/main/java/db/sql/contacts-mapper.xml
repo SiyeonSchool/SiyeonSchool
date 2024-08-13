@@ -2,20 +2,39 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 
-	<entry key="selectAllUserList">
+	<entry key="selectCategoryList">
+	   SELECT
+		      CATEGORY_NO
+		    , CATEGORY_NAME
+		 FROM CONTACTS_CATEGORY
+		WHERE STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectContactsList">
+		SELECT
+	           CONTACTS_NO
+	         , CONTACTS_NAME
+	         , CONTACTS_TYPE
+	         , CATEGORY_NO
+	      FROM CONTACTS
+	     WHERE STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectUserList">
 		SELECT
                USER_NO
              , USER_ID
              , USER_NAME
              , PHONE
              , PHONE_PUBLIC
-             , TO_CHAR(BIRTHDAY, 'MM"월" DD"일"') "BIRTHDAY"
+             , TO_CHAR(BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
              , PROFILE_FILE_NO
              , USER_AUTH
 		  FROM USERS
+		 WHERE STATUS = 'Y' 
 		 ORDER
 		    BY USER_AUTH, USER_NAME
 	</entry>
-
+	
 
 </properties>

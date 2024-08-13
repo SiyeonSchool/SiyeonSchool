@@ -58,7 +58,7 @@ aside .icon.edit{
 /* 인원수 표기 */
 aside .userCount{
     margin-left: 5px;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--lightGrey);
 }
 

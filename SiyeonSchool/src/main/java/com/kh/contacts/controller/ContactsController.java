@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.contacts.model.service.ContactsService;
+import com.kh.contacts.model.vo.Contacts;
+import com.kh.contacts.model.vo.ContactsCategory;
 import com.kh.user.model.vo.User;
 
 /**
@@ -31,10 +33,15 @@ public class ContactsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ArrayList<User> list = new ContactsService().selectUserList();
+		ArrayList<ContactsCategory> categoryList = new ContactsService().selectCategoryList();
+		ArrayList<Contacts> contactsList = new ContactsService().selectContactsList();
+		ArrayList<User> userList = new ContactsService().selectUserList();
+		
+		request.setAttribute("categoryList", categoryList);
+		request.setAttribute("contactsList", contactsList);
+		request.setAttribute("userList", userList);
 		
 		request.getSession().setAttribute("currentPage", "contacts");
-		request.setAttribute("list", list);
 		request.getRequestDispatcher("views/contacts/contacts.jsp").forward(request, response);
 		
 	}

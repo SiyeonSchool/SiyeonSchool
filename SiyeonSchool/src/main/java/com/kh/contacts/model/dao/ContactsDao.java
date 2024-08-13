@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import static com.kh.common.JDBCTemplate.*;
+
+import com.kh.contacts.model.vo.Contacts;
+import com.kh.contacts.model.vo.ContactsCategory;
 import com.kh.user.model.vo.User;
 
 public class ContactsDao {
@@ -26,11 +29,69 @@ public class ContactsDao {
 		}
 	}
 	
+	public ArrayList<ContactsCategory> selectCategoryList(Connection conn) {
+		ArrayList<ContactsCategory> list = new ArrayList<ContactsCategory>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCategoryList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ContactsCategory ca = new ContactsCategory();
+				ca.setCategoryNo(rset.getInt("CATEGORY_NO"));
+				ca.setCategoryName(rset.getString("CATEGORY_NAME"));
+				
+				list.add(ca);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Contacts> selectContactsList(Connection conn) {
+		ArrayList<Contacts> list = new ArrayList<Contacts>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectContactsList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Contacts c = new Contacts();
+				c.setContactsNo(rset.getInt("CONTACTS_NO"));
+				c.setContactsName(rset.getString("CONTACTS_NAME"));
+				c.setContactsType(rset.getString("CONTACTS_TYPE"));
+				c.setCategoryNo(rset.getInt("CATEGORY_NO"));
+				
+				list.add(c);
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
 	public ArrayList<User> selectUserList(Connection conn) {
 		ArrayList<User> list = new ArrayList<User>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectAllUserList");
+		String sql = prop.getProperty("selectUserList");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -59,5 +120,9 @@ public class ContactsDao {
 		
 		return list;
 	}
+
+
+	
+	
 
 }

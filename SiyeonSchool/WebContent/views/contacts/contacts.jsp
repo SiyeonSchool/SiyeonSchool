@@ -1,3 +1,5 @@
+<%@page import="com.kh.contacts.model.vo.ContactsCategory"%>
+<%@page import="com.kh.contacts.model.vo.Contacts"%>
 <%@page import="com.kh.user.model.vo.User"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -5,7 +7,14 @@
 
 <%@ include file="../common/common.jsp" %>
 <%
-	ArrayList<User> userList = (ArrayList<User>)request.getAttribute("list");
+	ArrayList<ContactsCategory> categoryList = (ArrayList<ContactsCategory>)request.getAttribute("categoryList");
+	// 카테고리번호, 카테고리명 
+
+	ArrayList<Contacts> contactsList = (ArrayList<Contacts>)request.getAttribute("contactsList");
+	// 주소록번호, 주소록명, 주소록타입, 카테고리번호
+	
+	ArrayList<User> userList = (ArrayList<User>)request.getAttribute("userList");
+	// 유저번호, 유저ID, 유저이름, 연락처, 연락처공개여부, 생일, 프로필사진파일번호, 사용자권한
 %>
 
 <!DOCTYPE html>
@@ -22,8 +31,8 @@
 	<!-- ==================== 사이드바 ==================== -->
 	<aside>
 
-		<!-- ------- 대분류: ex) 공유주소록, 개인주소록 ------- -->
-		<div class="big-cate">
+		<!-- ------- 대분류: 공유주소록 ------- -->
+		<div class="big-cate public-contacts">
 
 			<h2 class="big-cate__title">
 				공유 주소록
@@ -34,293 +43,56 @@
 
 			<ul class="big-cate__contents">
 
-				<!-- ------- 중분류: ex) 세미프로젝트 ------- -->
+				<!-- ------- 중분류: 모든 사용자 ------- -->
 				<li class="mid-cate">
 					<div class="mid-cate__title active">
 						<div>
 							<span class="material-icons-round icon people">people</span>
 							<span>모든 사용자</span>
-							<span class="userCount">(24)</span>
+							<span class="userCount">(<%= userList.size() %>)</span>
 						</div>
 					</div>
 				</li>
 
-				<!-- ------- 중분류: ex) 세미프로젝트 ------- -->
-				<li class="mid-cate">
-
-					<div class="mid-cate__title">
-						<div>
-							<span class="material-icons-round icon people">people</span>
-							<span class="title">자바 미니 팀프로젝트</span>
-							<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
+				<!-- ------- 중분류: ex) 세미 프로젝트 ------- -->
+				<% for(ContactsCategory ca : categoryList) { %>
+					<li class="mid-cate">
+	
+						<div class="mid-cate__title">
+							<input type="hidden" value="<%= ca.getCategoryNo() %>">
+							<div>
+								<span class="material-icons-round icon people">people</span>
+								<span class="title"><%= ca.getCategoryName() %></span>
+								<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
+							</div>
+							<div>
+								<span class="material-symbols-rounded icon edit">edit</span>
+							</div>
 						</div>
-						<div>
-							<span class="material-symbols-rounded icon edit">edit</span>
-						</div>
-					</div>
-
-					<ul class="mid-cate__contents hidden">
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>1조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>2조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>3조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>4조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>5조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-					</ul> <!-- .mid-cate__contents -->
-				</li> <!-- .mid-cate ------- 중분류: ex) 세미프로젝트 ------- -->
-				
-				<!-- ------- 중분류: ex) 세미프로젝트 ------- -->
-				<li class="mid-cate">
-
-					<div class="mid-cate__title">
-						<div>
-							<span class="material-icons-round icon people">people</span>
-							<span class="title">웹 클론 프로젝트</span>
-							<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
-						</div>
-						<div>
-							<span class="material-symbols-rounded icon edit">edit</span>
-						</div>
-					</div>
-
-					<ul class="mid-cate__contents hidden">
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>1조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>2조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>3조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>4조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>5조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-					</ul> <!-- .mid-cate__contents -->
-				</li> <!-- .mid-cate ------- 중분류: ex) 세미프로젝트 ------- -->
-
-				<!-- ------- 중분류: ex) 세미프로젝트 ------- -->
-				<li class="mid-cate">
-
-					<div class="mid-cate__title">
-						<div>
-							<span class="material-icons-round icon people">people</span>
-							<span class="title">세미 프로젝트</span>
-							<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
-						</div>
-						<div>
-							<span class="material-symbols-rounded icon edit">edit</span>
-						</div>
-					</div>
-
-					<ul class="mid-cate__contents hidden">
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>1조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>2조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>3조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>4조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>5조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-					</ul> <!-- .mid-cate__contents -->
-				</li> <!-- .mid-cate ------- 중분류: ex) 세미프로젝트 ------- -->
-
-				<!-- ------- 중분류: ex) 세미프로젝트 ------- -->
-				<li class="mid-cate">
-
-					<div class="mid-cate__title">
-						<div>
-							<span class="material-icons-round icon people">people</span>
-							<span class="title">파이널 프로젝트</span>
-							<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
-						</div>
-						<div>
-							<span class="material-symbols-rounded icon edit">edit</span>
-						</div>
-					</div>
-
-					<ul class="mid-cate__contents hidden">
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>1조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>2조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>3조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>4조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-						<!-- ------- 소분류: ex) 2조 ------- -->
-						<li class="sm-cate">
-							<div>
-								<span class="material-icons icon">subdirectory_arrow_right</span>
-								<span>5조</span>
-								<span class="userCount">(6)</span>
-							</div>
-						</li>
-
-					</ul> <!-- .mid-cate__contents -->
-				</li> <!-- .mid-cate ------- 중분류: ex) 세미프로젝트 ------- -->
-
-				<!-- ------- 중분류: ex) 세미프로젝트 ------- -->
-				<li class="mid-cate">
-
-					<div class="mid-cate__title">
-						<div>
-							<span class="material-icons-round icon people">people</span>
-							<span class="title">자격증 스터디</span>
-						</div>
-						<div>
-							<span class="material-symbols-rounded icon edit">edit</span>
-						</div>
-					</div>
-
-				</li> <!-- .mid-cate ------- 중분류: ex) 세미프로젝트 ------- -->
+	
+						<ul class="mid-cate__contents hidden">
+							<!-- ------- 소분류: ex) 세미 2조 ------- -->
+							<% for(Contacts c : contactsList) { %>
+								<% if(c.getCategoryNo() == ca.getCategoryNo()) { // 주소록이 해당 카테고리에 속할경우 %>
+									<li class="sm-cate">
+										<div>
+											<span class="material-icons icon">subdirectory_arrow_right</span>
+											<span><%= c.getContactsName() %></span>
+											<span class="userCount">(6)</span>
+										</div>
+									</li>
+								<% } %>
+							<% } %>
+						</ul>
+						
+					</li>
+				<% } %>
 
 			</ul> <!-- .big-cate__contents -->
 		</div> <!-- .big-cate ------- 대분류: ex) 공유주소록, 개인주소록 ------- -->
 
-		<!-- ------- 대분류: ex) 공유주소록, 개인주소록 ------- -->
-		<div class="big-cate">
+		<!-- ------- 대분류: 개인주소록 ------- -->
+		<div class="big-cate private-contacts">
 
 			<h2 class="big-cate__title">
 				개인 주소록
@@ -330,34 +102,25 @@
 			</h2>
 
 			<ul class="big-cate__contents">
-
-				<!-- ------- 중분류: ex) 세미프로젝트 ------- -->
-				<li class="mid-cate">
-					<div class="mid-cate__title">
-						<div>
-							<span class="material-icons-round icon people">people</span>
-							<span>기본 주소록 1</span>
-							<span class="userCount">(3)</span>
-						</div>
-						<div>
-							<span class="material-symbols-rounded icon edit">edit</span>
-						</div>
-					</div>
-				</li>
-
-				<!-- ------- 중분류: ex) 세미프로젝트 ------- -->
-				<li class="mid-cate">
-					<div class="mid-cate__title">
-						<div>
-							<span class="material-icons-round icon people">people</span>
-							<span>기본 주소록 2</span>
-							<span class="userCount">(3)</span>
-						</div>
-						<div>
-							<span class="material-symbols-rounded icon edit">edit</span>
-						</div>
-					</div>
-				</li>
+			
+				<!-- ------- 중분류: ex) 개인주소록1 ------- -->
+				<% for(Contacts c : contactsList) { %>
+					<% if(c.getContactsType().equals("P")) { // 주소록타입이 P(개인)인 경우 %>
+						<li class="mid-cate">
+							<div class="mid-cate__title">
+								<div>
+									<span class="material-icons-round icon people">people</span>
+									<span><%= c.getContactsName() %></span>
+									<span class="userCount">(3)</span>
+								</div>
+								<div>
+									<span class="material-symbols-rounded icon edit">edit</span>
+								</div>
+							</div>
+						</li>
+					<% } %>
+				<% } %>
+				
 
 			</ul> <!-- .big-cate__contents -->
 		</div> <!-- .big-cate ------- 대분류: ex) 공유주소록, 개인주소록 ------- -->
@@ -465,7 +228,7 @@
 						<div class="birthday"><%= u.getBirthday() %></div>
 						
 						<div class="phone">
-							<% if(u.getPhone() == null) { %>
+							<% if(u.getPhonePublic().equals("N")) { %>
 								비공개
 							<% }else { %>
 								<%= u.getPhone() %>
@@ -476,8 +239,6 @@
 				
 			</ul>
 		</section>
-
-
 		
 	</main>
 	
