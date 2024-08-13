@@ -392,40 +392,43 @@
 
 		<!-- 목록 헤더 섹션 (section__list-header) -->
 		<section class="section__list-header">
-
-			<div class="checkbox">
-				<input type="checkbox" name="" id="">
-			</div>
-
-			<div class="star">
-				<span class="material-icons-round icon star-icon fill">star</span>
-				<span class="material-symbols-rounded icon">arrow_drop_down</span>
-			</div>
-
-			<div class="userName">
-				이름
-				<span class="material-symbols-rounded icon">arrow_drop_down</span>
-			</div>
-			<div class="userId">
-				아이디
-				<span class="material-symbols-rounded icon">arrow_drop_down</span>
-			</div>
-			<div class="role">
-				역할
-				<span class="material-symbols-rounded icon">arrow_drop_down</span>
-			</div>
-			<div class="birthday">
-				생일
-				<span class="material-symbols-rounded icon">arrow_drop_down</span>
-			</div>
-			<div class="phone">
-				연락처
-				<span class="material-symbols-rounded icon">arrow_drop_down</span>
-			</div>
+			<ul>
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+		
+					<div class="star">
+						<span class="material-icons-round icon star fill">star</span>
+						<span class="material-symbols-rounded icon drop_down">arrow_drop_down</span>
+					</div>
+		
+					<div class="userName">
+						<span class="text">이름</span>
+						<span class="material-symbols-rounded icon drop_down">arrow_drop_down</span>
+					</div>
+					<div class="userId">
+						<span class="text">아이디</span>
+						<span class="material-symbols-rounded icon drop_down">arrow_drop_down</span>
+					</div>
+					<div class="role">
+						<span class="text">역할</span>
+						<span class="material-symbols-rounded icon drop_down">arrow_drop_down</span>
+					</div>
+					<div class="birthday">
+						<span class="text">생일</span>
+						<span class="material-symbols-rounded icon drop_down">arrow_drop_down</span>
+					</div>
+					<div class="phone">
+						<span class="text">연락처</span>
+						<span class="material-symbols-rounded icon drop_down">arrow_drop_down</span>
+					</div>
+				</li>
+			</ul>
 		</section>
 
-		<!-- 목록 섹션 (section__list) -->
-		<section class="section__list">
+		<!-- 목록 내용 섹션 (section__list-content) -->
+		<section class="section__list-content">
 			<ul>
 
 				<!-- 한 줄의 사용자 데이터 -->
@@ -433,21 +436,382 @@
 					<div class="checkbox">
 						<input type="checkbox" name="" id="">
 					</div>
-					
 					<div class="star">
-						<span class="material-symbols-rounded icon star-icon">star</span>
+						<span class="material-icons-round icon star fill">star</span>
 					</div>
-
 					<div class="userName">
 						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
 						나관리
 					</div>
-
 					<div class="userId">admin</div>
 					<div class="role">선생님</div>
 					<div class="birthday">1월 23일</div>
 					<div class="phone">010-1111-2222</div>
 				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">4월 17일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+				
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+				<!-- 한 줄의 사용자 데이터 -->
+				<li>
+					<div class="checkbox">
+						<input type="checkbox" name="" id="">
+					</div>
+					<div class="star">
+						<span class="material-symbols-rounded icon star">star</span>
+					</div>
+					<div class="userName">
+						<span class="material-symbols-rounded icon profile-pic">account_circle</span>
+						아무개
+					</div>
+					<div class="userId">user01</div>
+					<div class="role">학생</div>
+					<div class="birthday">3월 21일</div>
+					<div class="phone">010-3333-4444</div>
+				</li>
+
+
+
+
 
 			</ul>
 		</section>

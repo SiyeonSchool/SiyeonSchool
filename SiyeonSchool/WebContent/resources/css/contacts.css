@@ -1,5 +1,15 @@
 /* ==================== 주소록 ==================== */
 
+:root{
+    /* 사이드바 가로 폭 */
+    --sidebar-width: 300px;
+
+    --contact-searchbar-height: calc(15px + 36px + 10px);
+    --contact-list-header-height: 40px;
+
+    --contactsHover: #ffd27773;
+}
+
 /* ------- 주소록 공통속성 ------- */
 /* 아이콘 - 평상시: 회색 */
 aside .icon,
@@ -22,6 +32,7 @@ main input[type="checkbox"]{
 
 /* 체크박스 레이블 */
 main label{
+    padding-left: 1px;
     margin-right: 10px;
     cursor: pointer;
 }
@@ -29,8 +40,8 @@ main label{
 /* ==================== 사이드바 ==================== */
 aside{
     position: absolute;
-    width: 300px;
-    height: calc(100vh - 100px); /* 세로 화면크기 - 메뉴바 높이*/
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
     border-right: 1px solid var(--lightGrey);
     box-shadow: 0 3px 5px var(--lightGrey);
     max-height: calc(100vh - 100px);
@@ -88,13 +99,17 @@ aside .mid-cate__title{
     cursor: pointer;
 }
 
-/* 중분류, 소분류 - 각 줄 후버시,클릭시 효과 */
+/* 중분류, 소분류 - 각 줄 클릭시 효과 */
 aside .mid-cate__title.active,  /* 중분류 - 클릭시*/
-aside .mid-cate__title:hover,   /* 중분류 - 후버시*/
-aside .sm-cate.active,          /* 소분류 - 클릭시*/
-aside .sm-cate:hover{           /* 소분류 - 후버시*/
+aside .sm-cate.active{          /* 소분류 - 클릭시*/
     background-color: var(--lightOrange);
     font-weight: bold;
+}
+
+/* 중분류, 소분류 - 각 줄 후버시 효과 */
+aside .mid-cate__title:hover,   /* 중분류 - 후버시*/
+aside .sm-cate:hover{           /* 소분류 - 후버시*/
+    background-color: var(--contactsHover);
 }
 
 aside .mid-cate__title>div{
@@ -142,8 +157,8 @@ aside .sm-cate>div .material-icons{
 main{
     position: absolute;
     left: 300px;
-    width: calc(100vw - 300px); /* 가로 화면크기 - 사이드바 크기*/
-    height: calc(100vh - 100px); /* 세로 화면크기 - 메뉴바 높이*/
+    width: calc(100vw - var(--sidebar-width)); /* 가로 화면크기 - 사이드바 크기*/
+    height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
 }
 
 /* ------- 메인 컨텐츠 - 공동속성 ------- */
@@ -246,32 +261,108 @@ main .section__serach-bar .search-options{
     align-items: center;
 }
 
-/* ------- 목록 헤더 섹션, 목록 섹션 - 공통속성 ------- */
-main .section__list-header,
-main .section__list li{
+main .section__serach-bar .search-options input[type="checkbox"]{
+    margin-bottom: 5px;
+}
+
+/* ------- 목록 헤더 섹션 (section__list-header), 목록 섹션 (section__list) - 공통속성 ------- */
+main section li{
     width: 100%;
     border-bottom: 1px solid var(--lightGrey);
     display: flex;
 }
 
+main section li div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-/* 목록 헤더 섹션 (section__list-header) */
-/* 목록 섹션 (section__list) */
-main section div.checkbox{width: 5%;};
-main section div.star{width: 10%;};
-main section div.userName{width: 20%;};
-main section div.userId{width: 15%;};
-main section div.role{width: 10%;};
-main section div.birthday{width: 15%;};
-main section div.phone{width: 25%;};
+/* 가로 길이 비율 */
+main section li div.checkbox{width: 5%;}
+main section li div.star{width: 5%;}
+main section li div.userName{width: 20%;}
+main section li div.userId{width: 20%;}
+main section li div.role{width: 15%;}
+main section li div.birthday{width: 15%;}
+main section li div.phone{width: 20%;}
+
+main section li div span{
+    cursor: pointer;
+}
+
+/* 별 */
+main section li div span.icon.star{
+    line-height: 24px;
+}
 
 
-
+/* 별 - 색상 채워진 별 */
+main section li div span.icon.star.fill{
+    color: var(--lightOrange);
+}
 
 /* ------- 목록 헤더 섹션 (section__list-header) ------- */
+main .section__list-header li div{
+    height: 40px;
+}
 
+/* 목록 헤더 섹션 (section__list-header) - 체크박스 */
+main .section__list-header li div.checkbox{
+    padding-left: 0;
+}
 
-/* 별표 */
-main span.star-icon.fill{
-    color: var(--lightOrange);
+/* 목록 헤더 섹션 (section__list-header) - 별표 div */
+main .section__list-header li div.star{
+    padding-left: 24px;
+}
+
+main .section__list-header li div span{
+    line-height: 30px;
+}
+
+/* 목록 헤더 섹션 (section__list-header) - 별표 */
+main .section__list-header li div span.star{
+    line-height: 30px !important;
+    padding: 5px 0 5px 10px;
+}
+
+/* 목록 헤더 섹션 (section__list-header) - 글자 */
+main .section__list-header li div span.text{
+    padding: 5px 0 5px 10px;
+}
+
+/* 목록 헤더 섹션 (section__list-header) - dropdown 아이콘 */
+main .section__list-header li div span.icon.drop_down{
+    padding: 5px 10px 5px 0;
+}
+
+/* ------- 목록 내용 섹션 (section__list-content) ------- */
+main .section__list-content{
+    height: calc(100vh - var(--menubar-height) - var(--contact-searchbar-height) - var(--contact-list-header-height));
+    max-height: calc(100vh - var(--menubar-height) - var(--contact-searchbar-height) - var(--contact-list-header-height));
+    overflow: auto;
+}
+
+/* 목록 내용 섹션 (section__list-content) - 각각의 줄 */
+main .section__list-content li{
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+/* 목록 내용 섹션 (section__list-content) - 각각의 줄 후버시 배경색 */
+main .section__list-content li:hover{
+    background-color: var(--contactsHover);
+    
+}
+
+/* 목록 내용 섹션 (section__list-content) - 프로필 사진 */
+main .section__list-content li div span.profile-pic{
+    font-size: 40px;
+    margin-right: 10px;
+}
+
+/* 목록 내용 섹션 (section__list-content) - 별표 */
+main .section__list-content li div.star span.star{
+    padding: 8px;
 }

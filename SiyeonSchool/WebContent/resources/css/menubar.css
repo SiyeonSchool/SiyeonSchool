@@ -3,10 +3,14 @@
     menubar가 있는 페이지에만 적용되므로, 모든 페이지의 css가 필요하시면 common.css을 참고하여주세요.
 */
 
+:root{
+    --menubar-height: 100px
+}
+
 /* ==================== 헤더 전체 ==================== */
 header {
     width: 100%;
-    height: 100px;
+    height: var(--menubar-height);
     box-shadow: 0px 3px 5px var(--lightGrey);
     display: flex;
     justify-content: center;
