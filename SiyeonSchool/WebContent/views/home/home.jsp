@@ -9,12 +9,14 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="resources/css/myPage.css">
 <style>
-
-#progress {
+.countDay{
 	position: absolute;
 	right: 150px;
 	top : 150px;
     margin-bottom: 17px;
+}
+
+#progress {
     appearance: none;
 }
 
@@ -39,50 +41,38 @@
 
 	<%@ include file="../common/menubar.jsp" %>
 	
-	<progress class="progress" id="progress" min="0" max="100"></progress>
+	<div class="countDay">
+		<progress class="progress" id="progress" min="0" max="100"></progress>
+		<br>
+		<span class="dDay"></span>
 
-	<span class="dDay"></span>
+	</div>
 
 	<script>
-		$(function() {
-			let progress = 0;
-			let startDay = new Date('2024-05-09');
+		setInterval(countDown, 100);
+
+		function countDown() {
+			let startDay = new Date('Fri May 09 2024 09:00:00 GMT+0900 (한국 표준시)');
 			let today = new Date();
-			let lastDay = new Date('2024-10-26');
-			
-			let hour = today.getHours();
-			let min = today.getMinutes();
-			let sec = today.getSeconds();
-			let msec = today.getMilliseconds();
-			
-			if(hour < 10){
-				// 한자리 수 일 경우
-				hour = "0" + hour;
-			}
-			if(min < 10){
-				min = "0" + min;
-			}
-			if(sec < 10){
-				sec = "0" + sec;
-			}
-			if(msec < 10){
-				msec = "00" + msec;
-			}else if(msec < 100){
-				msec = "0" + msec;
-			}
+			let lastDay = new Date('Fri Oct 25 2024 18:00:00 GMT+0900 (한국 표준시)');
 			
 			let lstime = lastDay - startDay;
-			let lsDays = Math.ceil(lstime / (1000 * 60 * 60 * 24));
+			//let lsDays = Math.ceil(lstime / (1000 * 60 * 60 * 24));
 
 			let ltTime = lastDay - today;
-			let ltDays = Math.ceil(ltTime / (1000 * 60 * 60 * 24));
+			//let ltDays = Math.ceil(ltTime / (1000 * 60 * 60 * 24));
 
+			//console.log(lstime)
+			console.log(ltTime)
 
-            $('#progress').attr('value', (lsDays - ltDays) / lsDays * 100);
+            $('#progress').attr('value',((lstime - ltTime) / lstime * 100).toPrecision(8));
 
-			document.querySelector('.dDay').textContent = (lsDays - ltDays) / lsDays * 100;
-			
-		})
+			document.querySelector('.dDay').innerHTML = ((lstime - ltTime) / lstime * 100).toPrecision(8);
+
+			// let today = new Date();
+
+			// document.querySelector('.dDay').innerHTML = today;
+		}
 	</script>
 	
 </body>
