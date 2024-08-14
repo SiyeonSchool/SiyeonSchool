@@ -26,7 +26,7 @@
 	z-index: -1;
 }
 
-#login{
+#singIn{
 	border: 1px solid #77ddff;
 	background-color: rgb(223, 247, 255);
 	border-radius: 20px;
@@ -37,80 +37,10 @@
 	z-index: 10;
 }
 
-#left{
-	border-right-color: #77ddff;
-	border-right-style: solid;
-	border-right-width: 1px;
-}
-
-#left, #right {
-	width: 50%;
-	height: 100%;
-	}
-
-#left img{
-	width: 250px;
-	margin: auto;
-	margin-top: 50px;
-}
-#right img{
-	width: 45%;
-	margin: auto;
-	margin-top: 50px;
-	margin-bottom: 20px;
-}
-#left p{
-	text-align: center;
-	font-weight: bold;
-	margin: 20px 50px;
-}
-#right p{
-	font-size: 24px;
-	font-weight: 800;
-	margin: 0 0 0 50px;
-}
-
-#right table{
-	margin: auto;
-	margin-bottom: 20px;
-	background-color: #C2F0FF;
-}
-
-.first{
-	background-color: #A98AFF;
-	width: 106px;
-	height: 1px;
-	opacity: 0.5;
-}
-.second{
-	height: 35px;
-	vertical-align:middle;
-	font-weight: 600;
-}
-.first:hover{
-	opacity: 1;
-}
-
-input{
-	width: 410px;
-	height: 40px;
-	border-radius: 5px;
-}
-form input{
-	margin: 10px 0 20px 45px
-}
-
-input::placeholder{font-size: 11px; color:#a98affc9;}
-
-#null{background-color: rgb(223, 247, 255);
-width: 15px;}
-
-form{position: relative;}
-
 button{
-	width: 152px;
+	width: 360;
 	height: 47px;
-	border-radius: 5px;
+	border-radius: 10px;
 	background-color: #46D3FF;
 	color: white;
 	font-size: 20px;
@@ -121,78 +51,55 @@ button{
 	left: 175px;
 }
 
-button:hover{
-	background-color: #00c3ff;
-	cursor: pointer;
-}
-
-ul{display: flex;}
-
-li{
-	position: relative;
-	top: 100px;
-	left: 120px;
-	font-weight: 600;
-}
-
-li::before{
-	position: absolute;
-	content: "";
-	display: block;
-	width: 2px;
-	height: 18px;
-	background-color: black;
-}
-li a{padding: 12px;}
-
-li:first-child::before{display: none;}
-
 </style>
 </head>
 <body>
-	<!-- 이 "홈으로" a태그는 로그인 페이지 구현 끝날때까지 남겨주세요! -->
-	
-	<!-- <p>
-		위 "홈으로" 태그만 남겨주시고, 다 지우셔도 됩니다!<br> 화면구현하시는데 방해가 안되도록 absolute
-		포지션으로 잡아놓았습니다. <br> <br> 나중에 로그인 화면이 구현이 다 되면, 홈으로 이동할 수 있게
-		부탁드려요.<br> 그땐 당연히 저 위에 "홈으로" 태그도 지우셔도 됩니다. <br> 감사합니다!! - 동규
-	</p>
-	-->
 	<div id="background">
-		<a id="homeBtn" href="<%=contextPath%>/home">홈으로</a>
 		<canvas id="canvas" class="canvas"></canvas>
-		<div id="login">
-			<div id="left">
-				<img src="resources/images/login_logo.png" alt=""> <br>
-				<p>
-					아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~ <br>
-				</p>
-			</div>
-			<div id="right">
-				<img src="resources/images/SiS_Logo.png" alt="">
-				<table border="1">
-					<tr>
-						<td class="first"></td>
-						<td rowspan="2" id="null">&nbsp;</td>
-						<td class="first"></td>
-					</tr>
-					<tr>
-						<th class="second">학 생</th>
-						<th class="second">관 리 자</th>
-					</tr>
-				</table>
-				<form action="">
-					<p>아이디</p>
-					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) "><br>
-					<p>비밀번호</p>
-					<input type="password" name="userPwd" placeholder=" 영문, 숫자, 특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)"><br>
-					<button type="submit">로 그 인</button>
-				</form>
-				<ul>
-					<li><a href="http://localhost:8222/SiS/UserIdPwdFind">아이디 / 비밀번호 찾기 </a></li>
-					<li><a href="http://localhost:8222/SiS/singIn">회원가입</a></li>
-				</ul>
-			</div>
+		<div id="singIn">
+            <table border="1">
+                <tr>
+                    <th>아이디<button>중복화인</button></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>비밀번호 확인</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>생년월일</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>질문</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>답변</th>
+                    <td></td>
+                </tr>
+            </table>
+            <button>회원가입 승인 요청</button>
 		</div>
 	</div>
 	<script>
