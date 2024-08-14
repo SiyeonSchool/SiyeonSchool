@@ -19,9 +19,16 @@ public class ContactsService {
 		return list;
 	}
 	
-	public ArrayList<Contacts> selectContactsList() {
+	public ArrayList<Contacts> selectPrivateContactsList(int ownerNo) {
 		Connection conn = getConnection();
-		ArrayList<Contacts> list = new ContactsDao().selectContactsList(conn);
+		ArrayList<Contacts> list = new ContactsDao().selectPrivateContactsList(conn, ownerNo);
+		close(conn);
+		return list;
+	}
+	
+	public ArrayList<Contacts> selectPublicContactsList(int categoryNo) {
+		Connection conn = getConnection();
+		ArrayList<Contacts> list = new ContactsDao().selectPublicContactsList(conn, categoryNo);
 		close(conn);
 		return list;
 	}

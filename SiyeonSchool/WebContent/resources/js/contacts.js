@@ -67,9 +67,36 @@ $(".sm-cate").click(function(){
 
 // ############## 아직 미완성!!! #####################################
 // ajax로 클릭된 주소록 데이터 가져오기
-$(".public-contacts .mid-cate__title").click(function(){
+$(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로 생성된 카테고리만 적용됨(.dynamic)
+    const categoryNo = $(this).find("input").val();
+    const contentsArea = $(this).next(); // ul.mid-cate__contents
+    console.log(categoryNo);
 
-    console.log($(this).find("input").val());
+    $.ajax({
+        url:"contacts/list.pc",
+        data:{categoryNo:categoryNo},
+        success:function(result){
+            
+            let value = "";
+            for(let i=0; i<result.length; i++) {
+
+                value +=    `<li class="sm-cate">
+                                <div>
+                                    <span class="material-icons icon">subdirectory_arrow_right</span>
+                                    <span> ${result[i].contactsName}</span>
+                                    <span class="userCount">(${result[i].userCount})</span>
+                                </div>
+                            </li>\n`
+            }
+            
+            // $(".mid-cate__contents").html(value);
+            console.log(contentsArea.html(value));
+        },
+        error:function(){
+            console.log("ajax 통신 실패: 주소록 카테고리 " + categoryNo + "번의 데이터 조회실패.");
+        }
+    })
+
 
 });
 

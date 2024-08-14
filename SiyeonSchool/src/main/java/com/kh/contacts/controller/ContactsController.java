@@ -33,15 +33,23 @@ public class ContactsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		int ownerNo = 1; // 나중에 사용자번호 받아올 예정 (로그인 구현후)
+		
+		// 카테고리 조회
 		ArrayList<ContactsCategory> categoryList = new ContactsService().selectCategoryList();
-		ArrayList<Contacts> contactsList = new ContactsService().selectContactsList();
+		
+		// 개인주소록 목록조회
+		ArrayList<Contacts> pivateContactsList = new ContactsService().selectPrivateContactsList(ownerNo);
+		
+		// 전체사용자 조회
 		ArrayList<User> userList = new ContactsService().selectUserList();
 		
 		request.setAttribute("categoryList", categoryList);
-		request.setAttribute("contactsList", contactsList);
+		request.setAttribute("pivateContactsList", pivateContactsList);
 		request.setAttribute("userList", userList);
 		
-		request.getSession().setAttribute("currentPage", "contacts");
+		request.getSession().setAttribute("currentPage", "contacts"); // 메뉴바에서 해당 메뉴의 아이콘 선택을 위한 값
+		
 		request.getRequestDispatcher("views/contacts/contacts.jsp").forward(request, response);
 		
 	}

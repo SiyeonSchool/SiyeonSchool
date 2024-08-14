@@ -10,8 +10,8 @@
 	ArrayList<ContactsCategory> categoryList = (ArrayList<ContactsCategory>)request.getAttribute("categoryList");
 	// 카테고리번호, 카테고리명 
 
-	ArrayList<Contacts> contactsList = (ArrayList<Contacts>)request.getAttribute("contactsList");
-	// 주소록번호, 주소록명, 주소록타입, 카테고리번호
+	ArrayList<Contacts> pivateContactsList = (ArrayList<Contacts>)request.getAttribute("pivateContactsList");
+	// 주소록번호, 주소록명, 인원수
 	
 	ArrayList<User> userList = (ArrayList<User>)request.getAttribute("userList");
 	// 유저번호, 유저ID, 유저이름, 연락처, 연락처공개여부, 생일, 프로필사진파일번호, 사용자권한
@@ -58,7 +58,7 @@
 				<% for(ContactsCategory ca : categoryList) { %>
 					<li class="mid-cate">
 	
-						<div class="mid-cate__title">
+						<div class="mid-cate__title dynamic">
 							<input type="hidden" value="<%= ca.getCategoryNo() %>">
 							<div>
 								<span class="material-icons-round icon people">people</span>
@@ -70,19 +70,9 @@
 							</div>
 						</div>
 	
+						<!-- ajax로 데이터가 동적으로 들어갈 공간 - 소분류: ex) 세미 2조 -->
 						<ul class="mid-cate__contents hidden">
-							<!-- ------- 소분류: ex) 세미 2조 ------- -->
-							<% for(Contacts c : contactsList) { %>
-								<% if(c.getCategoryNo() == ca.getCategoryNo()) { // 주소록이 해당 카테고리에 속할경우 %>
-									<li class="sm-cate">
-										<div>
-											<span class="material-icons icon">subdirectory_arrow_right</span>
-											<span><%= c.getContactsName() %></span>
-											<span class="userCount">(6)</span>
-										</div>
-									</li>
-								<% } %>
-							<% } %>
+								
 						</ul>
 						
 					</li>
@@ -102,25 +92,6 @@
 			</h2>
 
 			<ul class="big-cate__contents">
-			
-				<!-- ------- 중분류: ex) 개인주소록1 ------- -->
-				<% for(Contacts c : contactsList) { %>
-					<% if(c.getContactsType().equals("P")) { // 주소록타입이 P(개인)인 경우 %>
-						<li class="mid-cate">
-							<div class="mid-cate__title">
-								<div>
-									<span class="material-icons-round icon people">people</span>
-									<span><%= c.getContactsName() %></span>
-									<span class="userCount">(3)</span>
-								</div>
-								<div>
-									<span class="material-symbols-rounded icon edit">edit</span>
-								</div>
-							</div>
-						</li>
-					<% } %>
-				<% } %>
-				
 
 			</ul> <!-- .big-cate__contents -->
 		</div> <!-- .big-cate ------- 대분류: ex) 공유주소록, 개인주소록 ------- -->

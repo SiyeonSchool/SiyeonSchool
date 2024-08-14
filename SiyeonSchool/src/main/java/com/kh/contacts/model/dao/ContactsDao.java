@@ -57,22 +57,54 @@ public class ContactsDao {
 		return list;
 	}
 	
-	public ArrayList<Contacts> selectContactsList(Connection conn) {
+	public ArrayList<Contacts> selectPrivateContactsList(Connection conn, int ownerNo) {
 		ArrayList<Contacts> list = new ArrayList<Contacts>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectContactsList");
+		String sql = prop.getProperty("selectPrivateContactsList");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
 				Contacts c = new Contacts();
 				c.setContactsNo(rset.getInt("CONTACTS_NO"));
 				c.setContactsName(rset.getString("CONTACTS_NAME"));
-				c.setContactsType(rset.getString("CONTACTS_TYPE"));
-				c.setCategoryNo(rset.getInt("CATEGORY_NO"));
+				c.setUserCount(rset.getInt("COUNT"));
+				
+				list.add(c);
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Contacts> selectPublicContactsList(Connection conn, int categoryNo) {
+		ArrayList<Contacts> list = new ArrayList<Contacts>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPublicContactsList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, categoryNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Contacts c = new Contacts();
+				c.setContactsNo(rset.getInt("CONTACTS_NO"));
+				c.setContactsName(rset.getString("CONTACTS_NAME"));
+				c.setUserCount(rset.getInt("COUNT"));
 				
 				list.add(c);
 			}

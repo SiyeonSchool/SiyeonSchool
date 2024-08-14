@@ -6,16 +6,19 @@ public class Contacts {
 	private String contactsType;
 	private String status;
 	private int categoryNo;
+	private int userCount; // 해당 주소록의 인원수 
 	
 	public Contacts() {}
 
-	public Contacts(int contactsNo, String contactsName, String contactsType, String status, int categoryNo) {
+	public Contacts(int contactsNo, String contactsName, String contactsType, String status, int categoryNo,
+			int userCount) {
 		super();
 		this.contactsNo = contactsNo;
 		this.contactsName = contactsName;
 		this.contactsType = contactsType;
 		this.status = status;
 		this.categoryNo = categoryNo;
+		this.userCount = userCount;
 	}
 
 	public int getContactsNo() {
@@ -58,10 +61,18 @@ public class Contacts {
 		this.categoryNo = categoryNo;
 	}
 
+	public int getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(int userCount) {
+		this.userCount = userCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Contacts [contactsNo=" + contactsNo + ", contactsName=" + contactsName + ", contactsType="
-				+ contactsType + ", status=" + status + ", categoryNo=" + categoryNo + "]";
-	};
-	
+				+ contactsType + ", status=" + status + ", categoryNo=" + categoryNo + ", userCount=" + userCount + "]";
+	}
+
 }
