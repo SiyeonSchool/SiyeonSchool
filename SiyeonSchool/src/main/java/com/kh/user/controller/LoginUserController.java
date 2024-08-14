@@ -1,4 +1,4 @@
-package com.kh.myPage.controller;
+package com.kh.user.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -6,21 +6,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.kh.myPage.model.service.MyPageService;
+import com.kh.user.model.service.UserService;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class MyPageInfoListController
+ * Servlet implementation class LoginUserController
  */
-@WebServlet("/myInfo.list")
-public class MyPageInfoListController extends HttpServlet {
+@WebServlet("/login.user")
+public class LoginUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MyPageInfoListController() {
+    public LoginUserController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,16 +30,19 @@ public class MyPageInfoListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = "user01";
-		int result = new MyPageService().selectUser(userId);
+		
+		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
 
-		if(result > 0){
-			User user = new MyPageService().selectUserInfo(userId);
-            request.setAttribute("user", user);	
+		User loginUser = new UserService().loginUser(userId, userPwd);
+
+		if(loginUser != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("loginUser", loginUser);
+
+			response.sendRedirect(request.getContextPath() + "/home");
 		}
 
-		request.getSession().setAttribute("currentPage", "mypageInfo");
-		request.getRequestDispatcher("views/myPage/myPageInfo.jsp").forward(request, response);
 	}
 
 	/**
