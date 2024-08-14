@@ -23,7 +23,7 @@
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	z-index: -1;
+	z-index: 0;
 }
 
 #login{
@@ -34,7 +34,7 @@
 	height: 600px;
 	margin: auto;
 	display: flex;
-	z-index: 10;
+	z-index: 1;
 }
 
 #left{
@@ -56,8 +56,8 @@
 #right img{
 	width: 45%;
 	margin: auto;
-	margin-top: 50px;
-	margin-bottom: 20px;
+	margin-top: 80px;
+	margin-bottom: 60px;
 }
 #left p{
 	text-align: center;
@@ -74,21 +74,6 @@
 	margin: auto;
 	margin-bottom: 20px;
 	background-color: #C2F0FF;
-}
-
-.first{
-	background-color: #A98AFF;
-	width: 106px;
-	height: 1px;
-	opacity: 0.5;
-}
-.second{
-	height: 35px;
-	vertical-align:middle;
-	font-weight: 600;
-}
-.first:hover{
-	opacity: 1;
 }
 
 input{
@@ -117,7 +102,7 @@ button{
 	font-weight: 700;
 	border: none;
 	position: absolute;
-	top: 230px;
+	top: 260px;
 	left: 175px;
 }
 
@@ -130,7 +115,7 @@ ul{display: flex;}
 
 li{
 	position: relative;
-	top: 100px;
+	top: 130px;
 	left: 120px;
 	font-weight: 600;
 }
@@ -170,18 +155,8 @@ li:first-child::before{display: none;}
 			</div>
 			<div id="right">
 				<img src="resources/images/SiS_Logo.png" alt="">
-				<table border="1">
-					<tr>
-						<td class="first"></td>
-						<td rowspan="2" id="null">&nbsp;</td>
-						<td class="first"></td>
-					</tr>
-					<tr>
-						<th class="second">학 생</th>
-						<th class="second">관 리 자</th>
-					</tr>
-				</table>
-				<form action="">
+				
+				<form action="" id="login-form">
 					<p>아이디</p>
 					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) "><br>
 					<p>비밀번호</p>
@@ -189,8 +164,8 @@ li:first-child::before{display: none;}
 					<button type="submit">로 그 인</button>
 				</form>
 				<ul>
-					<li><a href="http://localhost:8222/SiS/UserIdPwdFind">아이디 / 비밀번호 찾기 </a></li>
-					<li><a href="http://localhost:8222/SiS/singIn">회원가입</a></li>
+					<li><a href="<%=contextPath%>/UserIdPwdFind">아이디 / 비밀번호 찾기 </a></li>
+					<li><a href="<%=contextPath%>/signIn">회원가입</a></li>
 				</ul>
 			</div>
 		</div>
