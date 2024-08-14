@@ -208,6 +208,11 @@ main .section__serach-bar .btn-group button{
     display: inline-block;
 }
 
+/* 마지막 버튼 (메일 버튼)*/
+main .section__serach-bar .btn-group button:last-child{
+    margin-right: 0
+}
+
 /* 버튼 - 후버시 */
 main .section__serach-bar .btn-group button:hover{
     background-color: var(--lightOrange);
@@ -282,11 +287,11 @@ main section li div{
 /* 가로 길이 비율 */
 main section li div.checkbox{width: 5%;}
 main section li div.star{width: 5%;}
-main section li div.userName{width: 20%;}
-main section li div.userId{width: 20%;}
-main section li div.role{width: 15%;}
-main section li div.birthday{width: 15%;}
-main section li div.phone{width: 20%;}
+main section li div.userName{width: 18%;} /* 100% - 10% = 90%   => 90% / 5 = 18%*/
+main section li div.userId{width: 18%;}
+main section li div.role{width: 18%;}
+main section li div.birthday{width: 18%;}
+main section li div.phone{width: 18%;}
 
 main section li div span{
     cursor: pointer;

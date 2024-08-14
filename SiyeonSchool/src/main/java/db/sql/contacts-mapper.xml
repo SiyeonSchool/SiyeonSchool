@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 
-	<!-- 전체카테고리 조회 -->
+	<!-- 전체카테고리 조회 (공유주소록) -->
 	<entry key="selectCategoryList">
 	   SELECT
 		      CATEGORY_NO
@@ -64,22 +64,22 @@
 	
 	<!-- 주소록구성원 조회 -->
 	<entry key="selectUsersList">
-			SELECT
-	               USER_NO
-	             , USER_ID
-	             , USER_NAME
-	             , PHONE
-	             , PHONE_PUBLIC
-	             , TO_CHAR(BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
-	             , PROFILE_FILE_NO
-	             , USER_AUTH
-			  FROM USERS
-			 WHERE STATUS = 'Y'
-	           AND USER_NO IN (SELECT USER_NO
-	                             FROM CONTACTS_MEMBER
-	                            WHERE CONTACTS_NO = ?)
-			 ORDER
-			    BY USER_AUTH, USER_NAME
+		SELECT
+               U.USER_NO
+             , U.USER_ID
+             , U.USER_NAME
+             , U.PHONE
+             , U.PHONE_PUBLIC
+             , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
+             , U.PROFILE_FILE_NO
+             , U.USER_AUTH
+             , CM.ROLE
+		  FROM USERS "U"
+		  JOIN CONTACTS_MEMBER "CM" ON (U.USER_NO = CM.USER_NO)
+		 WHERE U.STATUS = 'Y'
+           AND CM.CONTACTS_NO = ?
+		 ORDER
+		    BY CM.ROLE DESC, USER_NAME
 	</entry>
 
 </properties>

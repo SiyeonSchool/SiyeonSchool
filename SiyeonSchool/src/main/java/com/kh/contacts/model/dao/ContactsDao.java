@@ -175,6 +175,7 @@ public class ContactsDao {
 				u.setBirthday(rset.getString("BIRTHDAY"));
 				u.setProfileFileNo(rset.getInt("PROFILE_FILE_NO"));
 				u.setUserAuth(rset.getString("USER_AUTH"));
+				u.setRole(rset.getString("ROLE"));
 				
 				list.add(u);
 			}

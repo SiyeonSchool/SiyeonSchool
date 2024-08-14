@@ -12,7 +12,6 @@
 
 	ArrayList<Contacts> pivateContactsList = (ArrayList<Contacts>)request.getAttribute("pivateContactsList");
 	// 개인주소록 - 주소록번호, 주소록명, 인원수
-
 %>
 
 <!DOCTYPE html>
@@ -95,6 +94,7 @@
 					<li class="mid-cate">
 						<div class="mid-cate__title">
 							<div>
+								<input type="hidden" value="<%= c.getContactsNo() %>">
 								<span class="material-icons-round icon people">people</span>
 								<span><%= c.getContactsName() %></span>
 								<span class="userCount">(<%= c.getUserCount() %>)</span>
