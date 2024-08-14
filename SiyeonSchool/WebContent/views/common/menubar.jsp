@@ -151,11 +151,11 @@
 				<ul>
 					<li>
 						<span class="material-icons">account_circle</span>
-						<span><a href="<%= contextPath %>/mypage">마이페이지</a></span>
+						<span><a href="<%= contextPath2 %>/mypage">마이페이지</a></span>
 					</li>
 					<li>
 						<span class="material-icons">logout</span>
-						<span><a href="<%= contextPath %>">로그아웃</a></span>
+						<span><a href="<%= contextPath2 %>">로그아웃</a></span>
 					</li>
 				</ul>
 			</div>
