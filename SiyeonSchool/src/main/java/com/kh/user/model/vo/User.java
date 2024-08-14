@@ -1,7 +1,5 @@
 package com.kh.user.model.vo;
 
-import java.sql.Date;
-
 public class User {
    
    private int userNo;
