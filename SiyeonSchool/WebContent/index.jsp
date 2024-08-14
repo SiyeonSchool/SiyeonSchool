@@ -82,8 +82,10 @@ input{
 	border-radius: 5px;
 }
 form input{
-	margin: 10px 0 20px 45px
+	margin: 10px 0 20px 45px;
+	border: none;
 }
+
 
 input::placeholder{font-size: 11px; color:#a98affc9;}
 
@@ -144,7 +146,7 @@ li:first-child::before{display: none;}
 	</p>
 	-->
 	<div id="background">
-		<a id="homeBtn" href="<%=contextPath%>/home">홈으로</a>
+		<!-- <a id="homeBtn" href="<%=contextPath%>/home">홈으로</a> -->
 		<canvas id="canvas" class="canvas"></canvas>
 		<div id="login">
 			<div id="left">
@@ -156,7 +158,7 @@ li:first-child::before{display: none;}
 			<div id="right">
 				<img src="resources/images/SiS_Logo.png" alt="">
 				
-				<form action="" id="login-form">
+				<form action="<%=contextPath %>/login.user" id="login-form" method="post">
 					<p>아이디</p>
 					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) "><br>
 					<p>비밀번호</p>
