@@ -46,7 +46,7 @@
 	</entry>
 	
 	<!-- 전체사용자 조회 -->
-	<entry key="selectUserList">
+	<entry key="selectAllUsersList">
 		SELECT
                USER_NO
              , USER_ID
@@ -62,5 +62,24 @@
 		    BY USER_AUTH, USER_NAME
 	</entry>
 	
+	<!-- 주소록구성원 조회 -->
+	<entry key="selectUsersList">
+			SELECT
+	               USER_NO
+	             , USER_ID
+	             , USER_NAME
+	             , PHONE
+	             , PHONE_PUBLIC
+	             , TO_CHAR(BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
+	             , PROFILE_FILE_NO
+	             , USER_AUTH
+			  FROM USERS
+			 WHERE STATUS = 'Y'
+	           AND USER_NO IN (SELECT USER_NO
+	                             FROM CONTACTS_MEMBER
+	                            WHERE CONTACTS_NO = ?)
+			 ORDER
+			    BY USER_AUTH, USER_NAME
+	</entry>
 
 </properties>

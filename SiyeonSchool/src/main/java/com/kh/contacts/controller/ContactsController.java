@@ -40,16 +40,11 @@ public class ContactsController extends HttpServlet {
 		
 		// 개인주소록 목록조회
 		ArrayList<Contacts> pivateContactsList = new ContactsService().selectPrivateContactsList(ownerNo);
-		
-		// 전체사용자 조회
-		ArrayList<User> userList = new ContactsService().selectUserList();
-		
+	
 		request.setAttribute("categoryList", categoryList);
 		request.setAttribute("pivateContactsList", pivateContactsList);
-		request.setAttribute("userList", userList);
 		
 		request.getSession().setAttribute("currentPage", "contacts"); // 메뉴바에서 해당 메뉴의 아이콘 선택을 위한 값
-		
 		request.getRequestDispatcher("views/contacts/contacts.jsp").forward(request, response);
 		
 	}

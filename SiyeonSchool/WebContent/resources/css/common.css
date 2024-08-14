@@ -61,7 +61,7 @@ body{
     font-size: 16px;
     font-weight: 400;
     line-height: 1.4;
-    min-width: 1000px; /* 화면을 줄였을때, 메인메뉴 헤더 아이콘간 겹침을 방지함.*/
+    min-width: 1500px; /* 화면을 줄였을때, 메인메뉴 헤더 아이콘간 겹침을 방지함.*/
     overflow: hidden;
 
 }

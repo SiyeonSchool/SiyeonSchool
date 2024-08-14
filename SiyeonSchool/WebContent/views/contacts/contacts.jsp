@@ -8,13 +8,11 @@
 <%@ include file="../common/common.jsp" %>
 <%
 	ArrayList<ContactsCategory> categoryList = (ArrayList<ContactsCategory>)request.getAttribute("categoryList");
-	// 카테고리번호, 카테고리명 
+	// 공유주소록 - 카테고리번호, 카테고리명 
 
 	ArrayList<Contacts> pivateContactsList = (ArrayList<Contacts>)request.getAttribute("pivateContactsList");
-	// 주소록번호, 주소록명, 인원수
-	
-	ArrayList<User> userList = (ArrayList<User>)request.getAttribute("userList");
-	// 유저번호, 유저ID, 유저이름, 연락처, 연락처공개여부, 생일, 프로필사진파일번호, 사용자권한
+	// 개인주소록 - 주소록번호, 주소록명, 인원수
+
 %>
 
 <!DOCTYPE html>
@@ -44,12 +42,12 @@
 			<ul class="big-cate__contents">
 
 				<!-- ------- 중분류: 모든 사용자 ------- -->
-				<li class="mid-cate">
+				<li class="mid-cate allUsers">
 					<div class="mid-cate__title active">
 						<div>
 							<span class="material-icons-round icon people">people</span>
 							<span>모든 사용자</span>
-							<span class="userCount">(<%= userList.size() %>)</span>
+							<span class="userCount"></span>
 						</div>
 					</div>
 				</li>
@@ -70,16 +68,15 @@
 							</div>
 						</div>
 	
-						<!-- ajax로 데이터가 동적으로 들어갈 공간 - 소분류: ex) 세미 2조 -->
 						<ul class="mid-cate__contents hidden">
-								
+							<!-- ajax로 데이터가 동적으로 들어갈 공간 - 소분류: ex) 세미 2조 -->
 						</ul>
 						
 					</li>
 				<% } %>
 
 			</ul> <!-- .big-cate__contents -->
-		</div> <!-- .big-cate ------- 대분류: ex) 공유주소록, 개인주소록 ------- -->
+		</div> <!-- .big-cate ------- 대분류: 공유주소록 ------- -->
 
 		<!-- ------- 대분류: 개인주소록 ------- -->
 		<div class="big-cate private-contacts">
@@ -92,9 +89,25 @@
 			</h2>
 
 			<ul class="big-cate__contents">
-
+			
+				<!-- ------- 중분류: ex) 개인주소록1 ------- -->
+				<% for(Contacts c : pivateContactsList) { %>
+					<li class="mid-cate">
+						<div class="mid-cate__title">
+							<div>
+								<span class="material-icons-round icon people">people</span>
+								<span><%= c.getContactsName() %></span>
+								<span class="userCount">(<%= c.getUserCount() %>)</span>
+							</div>
+							<div>
+								<span class="material-symbols-rounded icon edit">edit</span>
+							</div>
+						</div>
+					</li>
+				<% } %>
+				
 			</ul> <!-- .big-cate__contents -->
-		</div> <!-- .big-cate ------- 대분류: ex) 공유주소록, 개인주소록 ------- -->
+		</div> <!-- .big-cate ------- 대분류: 개인주소록 ------- -->
 
 	</aside>
 
@@ -169,45 +182,7 @@
 		<!-- 목록 내용 섹션 (section__list-content) -->
 		<section class="section__list-content">
 			<ul>
-
-				<% for(User u : userList) {%>
-					<!-- 한 줄의 사용자 데이터 -->
-					<li>
-						<div class="checkbox">
-							<input type="checkbox" name="" id="">
-						</div>
-						
-						<div class="star">
-							<span class="material-symbols-rounded icon star">star</span>
-						</div>
-						
-						<div class="userName">
-							<span class="material-symbols-rounded icon profile-pic">account_circle</span>
-							<%= u.getUserName() %>
-						</div>
-						
-						<div class="userId"><%= u.getUserId() %></div>
-						
-						<div class="role">
-							<% if(u.getUserAuth().equals("A")) { %>
-								선생님
-							<% }else { %>
-								학생
-							<% } %>
-						</div>
-						
-						<div class="birthday"><%= u.getBirthday() %></div>
-						
-						<div class="phone">
-							<% if(u.getPhonePublic().equals("N")) { %>
-								비공개
-							<% }else { %>
-								<%= u.getPhone() %>
-							<% } %>
-						</div>
-					</li>
-				<% } %>
-				
+				<!-- ajax로 데이터가 동적으로 들어갈 공간 - 유저 정보 한줄씩 -->
 			</ul>
 		</section>
 		

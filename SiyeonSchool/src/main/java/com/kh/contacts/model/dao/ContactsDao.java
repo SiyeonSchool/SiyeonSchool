@@ -119,11 +119,11 @@ public class ContactsDao {
 		return list;
 	}
 
-	public ArrayList<User> selectUserList(Connection conn) {
+	public ArrayList<User> selectAllUsersList(Connection conn) {
 		ArrayList<User> list = new ArrayList<User>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectUserList");
+		String sql = prop.getProperty("selectAllUsersList");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -153,8 +153,40 @@ public class ContactsDao {
 		return list;
 	}
 
-
-	
-	
+	public ArrayList<User> selectUsersList(Connection conn, int contactsNo) {
+		ArrayList<User> list = new ArrayList<User>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectUsersList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, contactsNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				User u = new User();
+				u.setUserNo(rset.getInt("USER_NO"));
+				u.setUserId(rset.getString("USER_ID"));
+				u.setUserName(rset.getString("USER_NAME"));
+				u.setPhone(rset.getString("PHONE"));
+				u.setPhonePublic(rset.getString("PHONE_PUBLIC"));
+				u.setBirthday(rset.getString("BIRTHDAY"));
+				u.setProfileFileNo(rset.getInt("PROFILE_FILE_NO"));
+				u.setUserAuth(rset.getString("USER_AUTH"));
+				
+				list.add(u);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
 
 }

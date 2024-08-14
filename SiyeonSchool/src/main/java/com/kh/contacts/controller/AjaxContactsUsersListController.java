@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.kh.contacts.model.service.ContactsService;
-import com.kh.contacts.model.vo.Contacts;
+import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class AjaxPublicContactsListContoller
+ * Servlet implementation class AjaxContactsUsersListController
  */
-@WebServlet("/contacts/list.publicContacts")
-public class AjaxPublicContactsListContoller extends HttpServlet {
+@WebServlet("/contacts/list.users")
+public class AjaxContactsUsersListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxPublicContactsListContoller() {
+    public AjaxContactsUsersListController() {
         super();
     }
 
@@ -31,10 +31,10 @@ public class AjaxPublicContactsListContoller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		// 사이드바에서 클릭한 공유주소록 카테고리의 하위 주소록 목록조회
-		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
-		ArrayList<Contacts> list = new ContactsService().selectPublicContactsList(categoryNo);
+		int contactsNo = Integer.parseInt(request.getParameter("contactsNo"));
+		
+		// 주소록번호로 해당 주소록에 해당하는 유저 리스트 조회 
+		ArrayList<User> list = new ContactsService().selectUsersList(contactsNo);
 		
 		response.setContentType("application/json; charset=utf-8");
 		new Gson().toJson(list, response.getWriter());
@@ -45,7 +45,6 @@ public class AjaxPublicContactsListContoller extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

@@ -8,7 +8,7 @@ public class User {
    private String userName;
    private String phone;
    private String phonePublic;
-   private String birthday;
+   private String birthday; // sql에서 날짜양식을 지정하여 문자열로 가져옴
    private String email;
    private String address;
    private String enrollDate; // sql에서 날짜양식을 지정하여 문자열로 가져옴

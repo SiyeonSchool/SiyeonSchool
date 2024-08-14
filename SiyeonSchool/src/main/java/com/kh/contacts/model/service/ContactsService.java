@@ -33,9 +33,16 @@ public class ContactsService {
 		return list;
 	}
 	
-	public ArrayList<User> selectUserList() {
+	public ArrayList<User> selectAllUsersList() {
 		Connection conn = getConnection();
-		ArrayList<User> list = new ContactsDao().selectUserList(conn);
+		ArrayList<User> list = new ContactsDao().selectAllUsersList(conn);
+		close(conn);
+		return list;
+	}
+
+	public ArrayList<User> selectUsersList(int contactsNo) {
+		Connection conn = getConnection();
+		ArrayList<User> list = new ContactsDao().selectUsersList(conn, contactsNo);
 		close(conn);
 		return list;
 	}

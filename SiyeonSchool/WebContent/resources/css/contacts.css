@@ -159,6 +159,7 @@ main{
     left: 300px;
     width: calc(100vw - var(--sidebar-width)); /* 가로 화면크기 - 사이드바 크기*/
     height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
+    min-width: calc(1500px - var(--sidebar-width)); /* 화면을 더 줄일 수 없도록함. 화면 줄었을때 요소간 겹침 방지*/
 }
 
 /* ------- 메인 컨텐츠 - 공동속성 ------- */
