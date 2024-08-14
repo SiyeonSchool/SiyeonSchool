@@ -8,21 +8,72 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="resources/css/myPage.css">
+<style>
+.countDay{
+	position: absolute;
+	right: 150px;
+	top : 150px;
+    margin-bottom: 17px;
+}
+
+#progress {
+    appearance: none;
+}
+
+#progress::-webkit-progress-bar {
+    background-color: #f2f2f2;
+    border-radius: 12px;
+    border: 1px solid #eeeeee;
+    width: 250px;
+    height: 18px;
+    overflow: hidden;
+}
+
+#progress::-webkit-progress-value {
+    background : #C2F0FF;
+    border-radius: 0px;
+    width: 48px;
+    height: 18px;
+}
+</style>
 </head>
 <body>
 
 	<%@ include file="../common/menubar.jsp" %>
 	
-	<!-- 아래는 지우셔도 됩니다. 감사합니다! -->
-	<br><br>
+	<div class="countDay">
+		<progress class="progress" id="progress" min="0" max="100"></progress>
+		<br>
+		<span class="dDay"></span>
 
-	<h1>home 입니다.</h1><br>
-	<h2>희섭님 여기서 작업 부탁드려요~ </h2><br>
-	<p>
-		이 글은 당연히 지우셔도 됩니다. <br>
-		다른사람이 링크 타고 갈 수 있도록 메뉴바만 남겨주세요. <br>
-		감사합니다!! - 동규
-	</p>
+	</div>
+
+	<script>
+		setInterval(countDown, 100);
+
+		function countDown() {
+			let startDay = new Date('Fri May 09 2024 09:00:00 GMT+0900 (한국 표준시)');
+			let today = new Date();
+			let lastDay = new Date('Fri Oct 25 2024 18:00:00 GMT+0900 (한국 표준시)');
+			
+			let lstime = lastDay - startDay;
+			//let lsDays = Math.ceil(lstime / (1000 * 60 * 60 * 24));
+
+			let ltTime = lastDay - today;
+			//let ltDays = Math.ceil(ltTime / (1000 * 60 * 60 * 24));
+
+			//console.log(lstime)
+			console.log(ltTime)
+
+            $('#progress').attr('value',((lstime - ltTime) / lstime * 100).toPrecision(8));
+
+			document.querySelector('.dDay').innerHTML = ((lstime - ltTime) / lstime * 100).toPrecision(8);
+
+			// let today = new Date();
+
+			// document.querySelector('.dDay').innerHTML = today;
+		}
+	</script>
 	
 </body>
 </html>
