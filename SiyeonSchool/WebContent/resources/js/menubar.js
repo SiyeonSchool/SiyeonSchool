@@ -1,5 +1,3 @@
-console.log("js 테스트");
-
 // 알림 아이콘 클릭시, 숨겨진 창 보여주거나 숨김. (알림내용)
 $("#notification").click(function(){
     if($(".hidden-notification").hasClass("hidden")) {
