@@ -1,3 +1,5 @@
+<%@page import="com.kh.user.model.vo.User"%>
+<%@page import="com.kh.user.controller.LoginUserController"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -5,6 +7,8 @@
 	String contextPath2 = request.getContextPath(); // "/SiS" // common.jsp와 중복을 피하기위해 뒤에 숫자2 추가함. (common.jsp를 사용해도 되긴하지만, IDE에서는 변수로 인식을 못함.)
 
 	String currentPage = (String)request.getSession().getAttribute("currentPage"); // 현재 어느 페이지(메뉴)에 있는지 표기하기 위한 변수
+	
+	User loginUser = (User)session.getAttribute("loginUser"); // 로그인 한 유저 정보
 %>
 
 <!DOCTYPE html>
@@ -107,7 +111,7 @@
 			<!-- 프로필 -->
 			<div class="profile">
 				<div class="material-icons">account_circle</div>
-				<div class="profile-name">차은우</div>
+				<div class="profile-name"><%= loginUser.getUserName() %></div>
 				<div class="material-symbols-rounded">keyboard_arrow_down</div>
 			</div>
         </div>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="loginUser">
+		SELECT 
+		       USER_NO
+		     , USER_ID
+		     , USER_PWD
+		     , USER_NAME
+		     , PHONE
+		     , PHONE_PUBLIC
+		     , BIRTHDAY
+		     , EMAIL
+		     , ADDRESS
+		     , ENROLL_DATE
+		     , MODIFY_DATE
+		     , PROFILE_FILE_NO
+		     , QUESTION_NO
+		     , QUESTION_ANSWER
+		     , USER_AUTH
+		     , STATUS
+		     , GITHUB_URL
+		     , NOTION_URL
+		  FROM USERS
+		 WHERE USER_ID = ?
+		   AND USER_PWD = ?
+		   AND STATUS = 'Y'
+	</entry>
+
+</properties>

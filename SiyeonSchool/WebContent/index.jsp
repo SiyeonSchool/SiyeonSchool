@@ -181,7 +181,7 @@ li:first-child::before{display: none;}
 						<th class="second">관 리 자</th>
 					</tr>
 				</table>
-				<form action="">
+				<form action="<%=contextPath%>/login.user" method="post">
 					<p>아이디</p>
 					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) "><br>
 					<p>비밀번호</p>
