@@ -40,11 +40,8 @@ public class ContactsDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				ContactsCategory ca = new ContactsCategory();
-				ca.setCategoryNo(rset.getInt("CATEGORY_NO"));
-				ca.setCategoryName(rset.getString("CATEGORY_NAME"));
-				
-				list.add(ca);
+				list.add(new ContactsCategory(rset.getInt("CATEGORY_NO"),
+					      					  rset.getString("CATEGORY_NAME")));
 			}
 			
 		} catch (SQLException e) {
@@ -70,12 +67,9 @@ public class ContactsDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				Contacts c = new Contacts();
-				c.setContactsNo(rset.getInt("CONTACTS_NO"));
-				c.setContactsName(rset.getString("CONTACTS_NAME"));
-				c.setUserCount(rset.getInt("COUNT"));
-				
-				list.add(c);
+				list.add(new Contacts(rset.getInt("CONTACTS_NO"),
+									  rset.getString("CONTACTS_NAME"),
+									  rset.getInt("COUNT")));
 			}
 				
 		} catch (SQLException e) {
@@ -101,12 +95,9 @@ public class ContactsDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				Contacts c = new Contacts();
-				c.setContactsNo(rset.getInt("CONTACTS_NO"));
-				c.setContactsName(rset.getString("CONTACTS_NAME"));
-				c.setUserCount(rset.getInt("COUNT"));
-				
-				list.add(c);
+				list.add(new Contacts(rset.getInt("CONTACTS_NO"),
+									  rset.getString("CONTACTS_NAME"),
+									  rset.getInt("COUNT")));
 			}
 				
 		} catch (SQLException e) {
@@ -119,7 +110,7 @@ public class ContactsDao {
 		return list;
 	}
 
-	public ArrayList<User> selectAllUsersList(Connection conn) {
+	public ArrayList<User> selectAllUsersList(Connection conn, int currentUserNo) {
 		ArrayList<User> list = new ArrayList<User>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -127,20 +118,19 @@ public class ContactsDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, currentUserNo);
+			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				User u = new User();
-				u.setUserNo(rset.getInt("USER_NO"));
-				u.setUserId(rset.getString("USER_ID"));
-				u.setUserName(rset.getString("USER_NAME"));
-				u.setPhone(rset.getString("PHONE"));
-				u.setPhonePublic(rset.getString("PHONE_PUBLIC"));
-				u.setBirthday(rset.getString("BIRTHDAY"));
-				u.setProfileFileNo(rset.getInt("PROFILE_FILE_NO"));
-				u.setUserAuth(rset.getString("USER_AUTH"));
-				
-				list.add(u);
+				list.add(new User(rset.getInt("USER_NO"),
+						          rset.getString("USER_ID"),
+						          rset.getString("USER_NAME"),
+						          rset.getString("PHONE"),
+						          rset.getString("BIRTHDAY"),
+						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("ROLE"),
+						          rset.getString("STAR")));
 			}
 			
 		} catch (SQLException e) {
@@ -153,31 +143,62 @@ public class ContactsDao {
 		return list;
 	}
 
-	public ArrayList<User> selectUsersList(Connection conn, int contactsNo) {
+	public ArrayList<User> selectContactsUsersList(Connection conn, int currentUserNo, int contactsNo) {
 		ArrayList<User> list = new ArrayList<User>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectUsersList");
+		String sql = prop.getProperty("selectContactsUsersList");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, contactsNo);
+			pstmt.setInt(1, currentUserNo);
+			pstmt.setInt(2, contactsNo);
 			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				User u = new User();
-				u.setUserNo(rset.getInt("USER_NO"));
-				u.setUserId(rset.getString("USER_ID"));
-				u.setUserName(rset.getString("USER_NAME"));
-				u.setPhone(rset.getString("PHONE"));
-				u.setPhonePublic(rset.getString("PHONE_PUBLIC"));
-				u.setBirthday(rset.getString("BIRTHDAY"));
-				u.setProfileFileNo(rset.getInt("PROFILE_FILE_NO"));
-				u.setUserAuth(rset.getString("USER_AUTH"));
-				u.setRole(rset.getString("ROLE"));
-				
-				list.add(u);
+				list.add(new User(rset.getInt("USER_NO"),
+						          rset.getString("USER_ID"),
+						          rset.getString("USER_NAME"),
+						          rset.getString("PHONE"),
+						          rset.getString("BIRTHDAY"),
+						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("ROLE"),
+						          rset.getString("STAR")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<User> selectCategoryUsersList(Connection conn, int currentUserNo, int categoryNo) {
+		ArrayList<User> list = new ArrayList<User>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCategoryUsersList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, currentUserNo);
+			pstmt.setInt(2, categoryNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new User(rset.getInt("USER_NO"),
+						          rset.getString("USER_ID"),
+						          rset.getString("USER_NAME"),
+						          rset.getString("PHONE"),
+						          rset.getString("BIRTHDAY"),
+						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("ROLE"),
+						          rset.getString("STAR")));
 			}
 			
 		} catch (SQLException e) {

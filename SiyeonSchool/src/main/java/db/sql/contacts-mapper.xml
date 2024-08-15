@@ -25,6 +25,8 @@
 		 GROUP
 		    BY C.CONTACTS_NO, 
 		       C.CONTACTS_NAME
+		 ORDER
+            BY C.CONTACTS_NO
 	</entry>
 	
 	<!-- 공유주소록 조회: CATEGORY_NO에 속한 공유주소록 조회 -->
@@ -45,41 +47,73 @@
             BY C.CONTACTS_NO
 	</entry>
 	
-	<!-- 전체사용자 조회 -->
+	<!-- 전체사용자 조회: CURRENT_USER_NO가 표시한 "별"포함 -->
 	<entry key="selectAllUsersList">
 		SELECT
-               USER_NO
-             , USER_ID
-             , USER_NAME
-             , PHONE
-             , PHONE_PUBLIC
-             , TO_CHAR(BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
-             , PROFILE_FILE_NO
-             , USER_AUTH
-		  FROM USERS
-		 WHERE STATUS = 'Y' 
-		 ORDER
-		    BY USER_AUTH, USER_NAME
+		       U.USER_NO
+		     , U.USER_ID
+		     , U.USER_NAME
+		     , CASE WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            ELSE U.PHONE
+		       END AS "PHONE"
+		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') AS "BIRTHDAY"
+		     , U.PROFILE_FILE_NO
+		     , CASE WHEN U.USER_AUTH = 'A' THEN '선생님'
+		            ELSE '학생'
+		       END AS "ROLE"
+		     , CS.STAR
+		  FROM USERS "U"
+		  LEFT JOIN CONTACTS_STAR "CS" ON (U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?)
+		 WHERE U.STATUS = 'Y'
+		 ORDER BY U.USER_AUTH, U.USER_NAME
 	</entry>
 	
 	<!-- 주소록구성원 조회 -->
-	<entry key="selectUsersList">
+	<entry key="selectContactsUsersList">
 		SELECT
-               U.USER_NO
-             , U.USER_ID
-             , U.USER_NAME
-             , U.PHONE
-             , U.PHONE_PUBLIC
-             , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
-             , U.PROFILE_FILE_NO
-             , U.USER_AUTH
-             , CM.ROLE
-		  FROM USERS "U"
+		       U.USER_NO
+		     , U.USER_ID
+		     , U.USER_NAME
+		     , CASE WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            ELSE U.PHONE
+		       END AS "PHONE"
+		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
+		     , U.PROFILE_FILE_NO
+		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
+		            WHEN CM.ROLE = 'F' THEN '팀원'
+		            ELSE '-'
+		       END AS "ROLE"
+		     , CS.STAR
+		  FROM USERS U
 		  JOIN CONTACTS_MEMBER "CM" ON (U.USER_NO = CM.USER_NO)
+		  LEFT JOIN CONTACTS_STAR "CS" ON (U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?)
 		 WHERE U.STATUS = 'Y'
-           AND CM.CONTACTS_NO = ?
-		 ORDER
-		    BY CM.ROLE DESC, USER_NAME
+		   AND CM.CONTACTS_NO = ?
+		 ORDER BY CM.ROLE DESC, USER_NAME
+	</entry>
+	
+	<!-- 카테고리구성원 조회: ex) 세미프로젝트 1조~5조 전체구성원 (모든 팀장 + 팀원) -->
+	<entry key="selectCategoryUsersList">
+		SELECT
+		       U.USER_NO
+		     , U.USER_ID
+		     , U.USER_NAME
+		     , CASE WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            ELSE U.PHONE
+		       END AS "PHONE"
+		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
+		     , U.PROFILE_FILE_NO
+		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
+		            WHEN CM.ROLE = 'F' THEN '팀원'
+		            ELSE '-'
+		       END AS "ROLE"
+		     , CS.STAR
+		  FROM USERS U
+		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
+		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
+		 WHERE U.STATUS = 'Y'
+		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
+		 ORDER BY CM.ROLE DESC, U.USER_NAME
 	</entry>
 
 </properties>

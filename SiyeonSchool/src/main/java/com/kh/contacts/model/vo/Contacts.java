@@ -21,6 +21,13 @@ public class Contacts {
 		this.userCount = userCount;
 	}
 
+	public Contacts(int contactsNo, String contactsName, int userCount) {
+		super();
+		this.contactsNo = contactsNo;
+		this.contactsName = contactsName;
+		this.userCount = userCount;
+	}
+
 	public int getContactsNo() {
 		return contactsNo;
 	}

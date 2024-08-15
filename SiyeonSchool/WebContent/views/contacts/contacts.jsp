@@ -52,14 +52,14 @@
 				</li>
 
 				<!-- ------- 중분류: ex) 세미 프로젝트 ------- -->
-				<% for(ContactsCategory ca : categoryList) { %>
+				<% for(ContactsCategory cc : categoryList) { %>
 					<li class="mid-cate">
 	
 						<div class="mid-cate__title dynamic">
-							<input type="hidden" value="<%= ca.getCategoryNo() %>">
+							<input type="hidden" value="<%= cc.getCategoryNo() %>">
 							<div>
 								<span class="material-icons-round icon people">people</span>
-								<span class="title"><%= ca.getCategoryName() %></span>
+								<span class="title"><%= cc.getCategoryName() %></span>
 								<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
 							</div>
 							<div>

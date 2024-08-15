@@ -21,14 +21,15 @@ public class User {
    private String githubUrl;
    private String notionUrl;
    private String role; // 주소록에서 유저조회시 필요한 '역할'을 담는 변수
+   private String star; // 주소록에서 유저조회시 필요한 '별'을 담는 변수
    
    public User() {}
 
-   // 모든 필드용 생성자
+    // 모든 필드용 생성자
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
 			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
 			int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl,
-			String role) {
+			String role, String star) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
@@ -49,9 +50,10 @@ public class User {
 		this.githubUrl = githubUrl;
 		this.notionUrl = notionUrl;
 		this.role = role;
+		this.star = star;
 	}
 	
-	// role을 제외한 생성자
+	// role, star를 제외한 생성자
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
 			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
 			int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl) {
@@ -74,6 +76,20 @@ public class User {
 		this.status = status;
 		this.githubUrl = githubUrl;
 		this.notionUrl = notionUrl;
+	}
+	
+	// 주소록에 사용할 생성자
+	public User(int userNo, String userId, String userName, String phone, String birthday,
+			int profileFileNo, String role, String star) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userName = userName;
+		this.phone = phone;
+		this.birthday = birthday;
+		this.profileFileNo = profileFileNo;
+		this.role = role;
+		this.star = star;
 	}
 
 	public int getUserNo() {
@@ -228,6 +244,14 @@ public class User {
 		this.role = role;
 	}
 	
+	public String getStar() {
+		return star;
+	}
+
+	public void setStar(String star) {
+		this.star = star;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userNo=" + userNo + ", userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName
@@ -235,7 +259,7 @@ public class User {
 				+ ", address=" + address + ", enrollDate=" + enrollDate + ", modifyDate=" + modifyDate
 				+ ", profileFileNo=" + profileFileNo + ", questionNo=" + questionNo + ", questionAnswer="
 				+ questionAnswer + ", userAuth=" + userAuth + ", status=" + status + ", githubUrl=" + githubUrl
-				+ ", notionUrl=" + notionUrl + ", role=" + role + "]";
+				+ ", notionUrl=" + notionUrl + ", role=" + role + ", star=" + star + "]";
 	}
 
 }

@@ -33,16 +33,23 @@ public class ContactsService {
 		return list;
 	}
 	
-	public ArrayList<User> selectAllUsersList() {
+	public ArrayList<User> selectAllUsersList(int currentUserNo) {
 		Connection conn = getConnection();
-		ArrayList<User> list = new ContactsDao().selectAllUsersList(conn);
+		ArrayList<User> list = new ContactsDao().selectAllUsersList(conn, currentUserNo);
 		close(conn);
 		return list;
 	}
 
-	public ArrayList<User> selectUsersList(int contactsNo) {
+	public ArrayList<User> selectContactsUsersList(int currentUserNo, int contactsNo) {
 		Connection conn = getConnection();
-		ArrayList<User> list = new ContactsDao().selectUsersList(conn, contactsNo);
+		ArrayList<User> list = new ContactsDao().selectContactsUsersList(conn, currentUserNo, contactsNo);
+		close(conn);
+		return list;
+	}
+	
+	public ArrayList<User> selectCategoryUsersList(int currentUserNo, int categoryNo) {
+		Connection conn = getConnection();
+		ArrayList<User> list = new ContactsDao().selectCategoryUsersList(conn, currentUserNo, categoryNo);
 		close(conn);
 		return list;
 	}
