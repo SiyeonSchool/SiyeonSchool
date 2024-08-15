@@ -24,6 +24,7 @@ public class User {
    
    public User() {}
 
+   // 모든 필드용 생성자
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
 			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
 			int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl,
@@ -50,6 +51,31 @@ public class User {
 		this.role = role;
 	}
 	
+	// role을 제외한 생성자
+	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
+			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
+			int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.phone = phone;
+		this.phonePublic = phonePublic;
+		this.birthday = birthday;
+		this.email = email;
+		this.address = address;
+		this.enrollDate = enrollDate;
+		this.modifyDate = modifyDate;
+		this.profileFileNo = profileFileNo;
+		this.questionNo = questionNo;
+		this.questionAnswer = questionAnswer;
+		this.userAuth = userAuth;
+		this.status = status;
+		this.githubUrl = githubUrl;
+		this.notionUrl = notionUrl;
+	}
+
 	public int getUserNo() {
 		return userNo;
 	}

@@ -33,7 +33,8 @@ public class ContactsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int ownerNo = 1; // 나중에 사용자번호 받아올 예정 (로그인 구현후)
+		// 현재 로그인한 사용자번호. 개인주소록 조회시 사용됨.
+		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		
 		// 카테고리 조회
 		ArrayList<ContactsCategory> categoryList = new ContactsService().selectCategoryList();

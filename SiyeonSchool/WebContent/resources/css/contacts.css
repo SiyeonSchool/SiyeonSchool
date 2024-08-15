@@ -194,10 +194,9 @@ main .section__serach-bar .btn-group{
     top: 15px;
     display: flex;
     height: 36px;
-
 }
 
-/* 버튼 */
+/* 버튼  (주소록에 추가, 메일버튼) */
 main .section__serach-bar .btn-group button{
     border: 1px solid var(--lightGrey);
     border-radius: 3px;
