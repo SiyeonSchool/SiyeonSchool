@@ -31,6 +31,7 @@ public class AjaxContactsAllUsersListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// "모든사용자" 조회용 컨트롤러
 		
 		int currentUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		

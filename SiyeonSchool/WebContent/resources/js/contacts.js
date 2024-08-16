@@ -208,45 +208,61 @@ function convertUserListToStr(userList){
 
 // 주소록구성원 정렬 : 클릭한 정렬기준으로 해당하는 주소록 구성원들을 정렬하여 화면에 뿌려주기.
 $("main .section__list-header li div span").click(function(){
+    
+    // 정렬기준
     const sortBy = $(this).parent().attr("class"); //star, userName, userId, role, birthday, phone
     console.log(sortBy);
     
-    const activeElements = $(".active");
-
-    if(activeElements.length == 1) {
-        const firstActive = activeElements.first().find("input");
-        console.log(firstActive.attr("name"));
-        console.log(firstActive.val());
-        sortUsersList(firstActive.val(), null, sortBy); // 매개변수 (categoryNo, contactsNo, sortBy)
-
-    } else if(activeElements.length == 2) {
-        const lastActive = activeElements.last().find("input");
-        console.log(lastActive.attr("name"));
-        console.log(lastActive.val());
-        sortUsersList(null, lastActive.val(), sortBy); // 매개변수 (categoryNo, contactsNo, sortBy)
+    // 정렬순서 (내림차순/오름차순)
+    const arrowSpan = $(this).parent().find("span.drop_down");
+    let isDesc; // 내림차순? (true: 내림차순 / false: 오름차순)
+    if(arrowSpan.text() == "arrow_drop_down") {
+        arrowSpan.text("arrow_drop_up");
+        isDesc = false;
+    }else {
+        arrowSpan.text("arrow_drop_down");
+        isDesc = true;
     }
+    
+    // 다른 정렬기준을 화면에서 초기화
+    $(this).parent().siblings().find("span.drop_down").text("arrow_drop_down");
 
+    // 정렬시키는 메소드 실행
+    const activeEl = $(".active"); // 사이드바에서 해당 주소록카테고리 혹은 주소록 번호를 가져오기 위함.
 
+    if(activeEl.length == 1) { // 주소록카테고리 클릭한 경우
+        const hiddenInput = activeEl.first().find("input");
+        
+        if(hiddenInput.attr("name") == "categoryNo"){ // 주소록카테고리
+            sortUsersList(hiddenInput.val(), null, sortBy, isDesc); // 매개변수 (categoryNo, contactsNo, sortBy, isDesc)
+        }else { // 개인주소록
+            sortUsersList(null, hiddenInput.val(), sortBy, isDesc); // 매개변수 (categoryNo, contactsNo, sortBy, isDesc)
+        };
 
+    } else if(activeEl.length == 2) { // 주소록카테고리 하위의 주소록 클릭한경우
+        const hiddenInput = activeEl.last().find("input");
+        sortUsersList(null, hiddenInput.val(), sortBy, isDesc); // 매개변수 (categoryNo, contactsNo, sortBy, isDesc)
+    }
 });
 
-function sortUsersList(categoryNo, contactsNo, sortBy) {
-    console.log(`----sortUsersList(${categoryNo}, ${contactsNo}, ${sortBy})----`);
+// 유저정렬 : 정렬조건에 따라 db에서 조회하여 화면에 뿌려주기.
+function sortUsersList(categoryNo, contactsNo, sortBy, isDesc) {
     $.ajax({
         url:"contacts/list.orderBy",
         data:{
             categoryNo:categoryNo,
             contactsNo:contactsNo,
             sortBy:sortBy,
+            isDesc:isDesc,
         },
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result));
         },
         error:function(){
             if(contactsNo == null) {
-                console.log(`ajax 통신 실패: 주소록카테고리${categoryNo}번 ${sortBy}로 구성원정렬실패.`);
+                console.log(`ajax 통신 실패: 주소록카테고리${categoryNo}번 ${sortBy} ${isDesc}로 구성원정렬실패.`);
             } else if(categoryNo == null) {
-                console.log(`ajax 통신 실패: 주소록${contactsNo}번 ${sortBy}로 구성원정렬실패.`);
+                console.log(`ajax 통신 실패: 주소록${contactsNo}번 ${sortBy} ${isDesc}로 구성원정렬실패.`);
             }
         },
     })

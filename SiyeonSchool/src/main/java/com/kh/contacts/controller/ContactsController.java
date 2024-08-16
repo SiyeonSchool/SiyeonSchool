@@ -32,6 +32,7 @@ public class ContactsController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 주소록 메인화면을 띄우기 위한 컨트롤러
 		
 		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		
