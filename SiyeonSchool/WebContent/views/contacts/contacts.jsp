@@ -43,6 +43,7 @@
 				<!-- ------- 중분류: 모든 사용자 ------- -->
 				<li class="mid-cate allUsers">
 					<div class="mid-cate__title active">
+						<input type="hidden" name="categoryNo" value="0">
 						<div>
 							<span class="material-icons-round icon people">people</span>
 							<span>모든 사용자</span>
@@ -56,7 +57,7 @@
 					<li class="mid-cate">
 	
 						<div class="mid-cate__title dynamic">
-							<input type="hidden" value="<%= cc.getCategoryNo() %>">
+							<input type="hidden" name="categoryNo" value="<%= cc.getCategoryNo() %>">
 							<div>
 								<span class="material-icons-round icon people">people</span>
 								<span class="title"><%= cc.getCategoryName() %></span>
@@ -93,8 +94,8 @@
 				<% for(Contacts c : pivateContactsList) { %>
 					<li class="mid-cate">
 						<div class="mid-cate__title">
+							<input type="hidden" name="contactsNo" value="<%= c.getContactsNo() %>">
 							<div>
-								<input type="hidden" value="<%= c.getContactsNo() %>">
 								<span class="material-icons-round icon people">people</span>
 								<span><%= c.getContactsName() %></span>
 								<span class="userCount">(<%= c.getUserCount() %>)</span>

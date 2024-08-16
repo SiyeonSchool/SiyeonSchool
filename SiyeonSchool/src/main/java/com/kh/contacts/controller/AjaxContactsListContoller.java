@@ -31,9 +31,10 @@ public class AjaxContactsListContoller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		// 사이드바에서 클릭한 공유주소록 카테고리의 하위 주소록 목록조회 (주소록명 + 인원수)
+
 		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
+		
 		ArrayList<Contacts> list = new ContactsService().selectPublicContactsList(categoryNo);
 		
 		response.setContentType("application/json; charset=utf-8");

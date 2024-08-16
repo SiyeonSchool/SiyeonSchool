@@ -81,9 +81,9 @@ $(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로
         success:function(result){
             let value = "";
             for(let i=0; i<result.length; i++) {
-                value +=    `<li class="sm-cate">
+                value +=   `<li class="sm-cate">
+                            <input type="hidden" name="contactsNo" value="${result[i].contactsNo}">
                                 <div>
-                                    <input type="hidden" value="${result[i].contactsNo}">
                                     <span class="material-icons icon">subdirectory_arrow_right</span>
                                     <span> ${result[i].contactsName}</span>
                                     <span class="userCount">(${result[i].userCount})</span>
@@ -104,22 +104,24 @@ $(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로
 
 /* ==================== 메인 컨텐츠 ==================== */
 
+// -------------- 메인 컨텐츠 - 기본조회 --------------
+
 selectAllUsersList(); // 전체사용자조회 실행. 주소록 페이지 들어오면 바로 실행함.
 
-// 공유주소록 클릭시, 해당하는 주소록구성원 화면에 뿌려주기.
-$(".mid-cate__contents").on("click", ".sm-cate", function(){ // 동적으로 생성된 객체에 효과를 주기 위해 이 방식을 사용함.
+// 사이드바에서 공유주소록 클릭시, 해당하는 주소록구성원 화면에 뿌려주기.
+$("aside .mid-cate__contents").on("click", ".sm-cate", function(){ // 동적으로 생성된 객체에 효과를 주기 위해 이 방식을 사용함.
     const contactsNo = $(this).find("input").val(); // 클릭된 주소록 번호
     selectContactsMemberList(contactsNo);
 })
 
-// 개인주소록 클릭시, 해당하는 주소록구성원 화면에 뿌려주기.
-$(".big-cate.private-contacts .mid-cate").click(function(){
+// 사이드바에서 개인주소록 클릭시, 해당하는 주소록구성원 화면에 뿌려주기.
+$("aside .big-cate.private-contacts .mid-cate").click(function(){
     const contactsNo = $(this).find("input").val(); // 클릭된 주소록 번호
     selectContactsMemberList(contactsNo);
 });
 
 // 사이드바에서 "모든사용자" 클릭시, 모든사용자를 메인화면에 뿌려줌.
-$(".public-contacts li.allUsers").click(function(){
+$("aside .public-contacts li.allUsers").click(function(){
     selectAllUsersList();
 });
 
@@ -184,7 +186,7 @@ function convertUserListToStr(userList){
         str += `<!-- 한 줄의 사용자 데이터 -->
                 <li class="userInfo">
                     <div class="checkbox">
-                        <input type="checkbox" name="" id="">
+                        <input type="checkbox" value="${userList[i].userNo}">
                     </div>
                     <div class="star">
                         <span class="${classValue}">star</span>
@@ -201,4 +203,53 @@ function convertUserListToStr(userList){
     }
     return str;
 }
+
+// -------------- 메인 컨텐츠 - 정렬 --------------
+
+// 주소록구성원 정렬 : 클릭한 정렬기준으로 해당하는 주소록 구성원들을 정렬하여 화면에 뿌려주기.
+$("main .section__list-header li div span").click(function(){
+    const sortBy = $(this).parent().attr("class"); //star, userName, userId, role, birthday, phone
+    console.log(sortBy);
+    
+    const activeElements = $(".active");
+
+    if(activeElements.length == 1) {
+        const firstActive = activeElements.first().find("input");
+        console.log(firstActive.attr("name"));
+        console.log(firstActive.val());
+        sortUsersList(firstActive.val(), null, sortBy); // 매개변수 (categoryNo, contactsNo, sortBy)
+
+    } else if(activeElements.length == 2) {
+        const lastActive = activeElements.last().find("input");
+        console.log(lastActive.attr("name"));
+        console.log(lastActive.val());
+        sortUsersList(null, lastActive.val(), sortBy); // 매개변수 (categoryNo, contactsNo, sortBy)
+    }
+
+
+
+});
+
+function sortUsersList(categoryNo, contactsNo, sortBy) {
+    console.log(`----sortUsersList(${categoryNo}, ${contactsNo}, ${sortBy})----`);
+    $.ajax({
+        url:"contacts/list.orderBy",
+        data:{
+            categoryNo:categoryNo,
+            contactsNo:contactsNo,
+            sortBy:sortBy,
+        },
+        success:function(result){
+            mainContentsUserListArea.html(convertUserListToStr(result));
+        },
+        error:function(){
+            if(contactsNo == null) {
+                console.log(`ajax 통신 실패: 주소록카테고리${categoryNo}번 ${sortBy}로 구성원정렬실패.`);
+            } else if(categoryNo == null) {
+                console.log(`ajax 통신 실패: 주소록${contactsNo}번 ${sortBy}로 구성원정렬실패.`);
+            }
+        },
+    })
+}
+
 
