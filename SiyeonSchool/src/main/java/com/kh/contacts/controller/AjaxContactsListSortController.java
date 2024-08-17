@@ -17,14 +17,14 @@ import com.kh.user.model.vo.User;
 /**
  * Servlet implementation class AjaxContactsSortUsersListController
  */
-@WebServlet("/contacts/list.orderBy")
-public class AjaxContactsSortUsersListController extends HttpServlet {
+@WebServlet("/contacts/list.sort")
+public class AjaxContactsListSortController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxContactsSortUsersListController() {
+    public AjaxContactsListSortController() {
         super();
     }
 

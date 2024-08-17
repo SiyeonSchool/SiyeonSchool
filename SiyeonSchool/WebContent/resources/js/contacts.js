@@ -211,7 +211,6 @@ $("main .section__list-header li div span").click(function(){
     
     // 정렬기준
     const sortBy = $(this).parent().attr("class"); //star, userName, userId, role, birthday, phone
-    console.log(sortBy);
     
     // 정렬순서 (내림차순/오름차순)
     const arrowSpan = $(this).parent().find("span.drop_down");
@@ -248,7 +247,7 @@ $("main .section__list-header li div span").click(function(){
 // 유저정렬 : 정렬조건에 따라 db에서 조회하여 화면에 뿌려주기.
 function sortUsersList(categoryNo, contactsNo, sortBy, isDesc) {
     $.ajax({
-        url:"contacts/list.orderBy",
+        url:"contacts/list.sort",
         data:{
             categoryNo:categoryNo,
             contactsNo:contactsNo,
@@ -268,4 +267,74 @@ function sortUsersList(categoryNo, contactsNo, sortBy, isDesc) {
     })
 }
 
+// -------------- 메인 컨텐츠 - 기타효과 --------------
 
+// 헤더의 체크박스 클릭시, 리스트 전체의 체크박스 선택or해제
+$("main .section__list-header :checkbox").click(function(){
+    const headerCheckbox = $(".section__list-header :checkbox");
+    const contentsCheckbox = $(".section__list-content :checkbox");
+
+    if(headerCheckbox.prop("checked")) {
+        contentsCheckbox.prop("checked", true);
+    }else {
+        contentsCheckbox.prop("checked", false);
+    };
+});
+
+
+
+// 각 유저의 "별"을 클릭하면 DB에 반영 ("별"로 등록/해제)
+const filledStar = "material-icons-round icon star fill"; // "채워진별"의 클래스명
+const emptyStar = "material-symbols-rounded icon star";   // "빈별"의 클래스명
+
+// "별" 클릭시 이벤트
+$("main .section__list-content").on("click", "span.star", function(){
+    const star = $(this); // 클릭된 "별"
+    const otherUserNo = star.parent().prev().find(":checkbox").val(); // 바로 이전 div에 있는 checkbox의 value인 userNo를 가져옴.
+
+    if(star.hasClass(emptyStar)) { // "빈별"인 경우 -> "채워진별"로 변경
+        insertStar(otherUserNo, star);
+    }else {                        // "채워진별" -> "빈별"로 변경
+        deleteStar(otherUserNo, star);
+    }
+});
+
+// "별" 추가
+function insertStar(otherUserNo, star){
+    $.ajax({
+        url:"contacts/insert.star",
+        data:{
+            otherUserNo:otherUserNo,
+        },
+        success:function(result){
+            if (result > 0) {
+                // 성공시, 화면에 해당 아이콘 변경(빈별 -> 채워진별)
+                star.removeClass(emptyStar);
+                star.addClass(filledStar);
+            }
+        },
+        error:function(){
+            console.log(`ajax 통신 실패: 별 추가 실패`);
+        },
+    })
+}
+
+// "별" 삭제
+function deleteStar(otherUserNo, star){
+    $.ajax({
+        url:"contacts/delete.star",
+        data:{
+            otherUserNo:otherUserNo,
+        },
+        success:function(result){
+            if (result > 0) {
+                // 성공시, 화면에 해당 아이콘 변경(채워진별 -> 빈별)
+                star.removeClass(filledStar);
+                star.addClass(emptyStar);
+            }
+        },
+        error:function(){
+            console.log(`ajax 통신 실패: 별 삭제 실패`);
+        },
+    })
+}

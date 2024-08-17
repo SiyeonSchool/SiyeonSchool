@@ -33,9 +33,11 @@
 
 			<h2 class="big-cate__title">
 				공유 주소록
-				<a href="">
-					<span class="material-symbols-rounded icon">add</span>
-				</a>
+				<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
+					<a href="">
+						<span class="material-symbols-rounded icon">add</span>
+					</a>
+				<% } %>
 			</h2>
 
 			<ul class="big-cate__contents">
@@ -63,9 +65,11 @@
 								<span class="title"><%= cc.getCategoryName() %></span>
 								<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
 							</div>
-							<div>
-								<span class="material-symbols-rounded icon edit">edit</span>
-							</div>
+							<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
+								<div>
+									<span class="material-symbols-rounded icon edit">edit</span>
+								</div>
+							<% } %>
 						</div>
 	
 						<ul class="mid-cate__contents hidden">

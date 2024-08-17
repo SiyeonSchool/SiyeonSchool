@@ -347,4 +347,46 @@ public class ContactsDao {
 		return list;
 	}
 
+	public int insertStar(Connection conn, int currentUserNo, int otherUserNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertStar");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, currentUserNo);
+			pstmt.setInt(2, otherUserNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int deleteStar(Connection conn, int currentUserNo, int otherUserNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteStar");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, currentUserNo);
+			pstmt.setInt(2, otherUserNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 }

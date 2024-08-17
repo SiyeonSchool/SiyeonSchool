@@ -76,4 +76,30 @@ public class ContactsService {
 		return list;
 	}
 
+	public int insertStar(int currentUserNo, int otherUserNo) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().insertStar(conn, currentUserNo, otherUserNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public int deleteStar(int currentUserNo, int otherUserNo) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().deleteStar(conn, currentUserNo, otherUserNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
 }

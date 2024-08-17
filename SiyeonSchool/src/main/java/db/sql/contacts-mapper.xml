@@ -995,4 +995,32 @@
 		 ORDER BY PHONE DESC, U.USER_NAME ASC
 	</entry>
 	
+	<!-- ===================== 별 ============================= -->
+	
+	<!-- <별> 추가 -->
+	<entry key="insertStar">
+		 INSERT
+		    INTO CONTACTS_STAR
+		    ( 
+		      STAR_NO
+		    , CURRENT_USER_NO
+		    , OTHER_USER_NO
+		    , STAR
+		    )
+		    VALUES
+		    (
+		      SEQ_CONTACTS_STARNO.NEXTVAL
+		     , ?
+		     , ?
+		     , 'Y'
+		     )
+	</entry>
+	
+	<!-- <별> 삭제 -->
+	<entry key="deleteStar">
+		DELETE FROM CONTACTS_STAR
+	     WHERE CURRENT_USER_NO = ?
+	       AND OTHER_USER_NO = ?
+	</entry>
+	
 </properties>

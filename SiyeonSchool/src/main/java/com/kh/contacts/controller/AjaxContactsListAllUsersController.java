@@ -14,16 +14,16 @@ import com.kh.contacts.model.service.ContactsService;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class AjaxContactsCategoryUsersList
+ * Servlet implementation class AjaxContactsAllUsersListController
  */
-@WebServlet("/contacts/list.categoryUsers")
-public class AjaxContactsCategoryUsersList extends HttpServlet {
+@WebServlet("/contacts/list.allUsers")
+public class AjaxContactsListAllUsersController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxContactsCategoryUsersList() {
+    public AjaxContactsListAllUsersController() {
         super();
     }
 
@@ -31,16 +31,14 @@ public class AjaxContactsCategoryUsersList extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 카테고리구성원 조회용 컨트롤러 - 카테고리구성원 조회: ex) 세미 1조~5조 전체구성원 (모든 팀장 + 팀원)
+		// "모든사용자" 조회용 컨트롤러
 		
 		int currentUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
-		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));		
 		
-		ArrayList<User> list = new ContactsService().selectCategoryUsersList(currentUserNo, categoryNo);
+		ArrayList<User> list = new ContactsService().selectAllUsersList(currentUserNo);
 		
 		response.setContentType("application/json; charset=utf-8");
 		new Gson().toJson(list, response.getWriter());
-	
 	}
 
 	/**
