@@ -196,7 +196,7 @@ main .section__serach-bar .btn-group{
     height: 36px;
 }
 
-/* 버튼  (주소록에 추가, 메일버튼) */
+/* 버튼  */
 main .section__serach-bar .btn-group button{
     border: 1px solid var(--lightGrey);
     border-radius: 3px;
@@ -207,28 +207,33 @@ main .section__serach-bar .btn-group button{
     display: inline-block;
 }
 
-/* 마지막 버튼 (메일 버튼)*/
-main .section__serach-bar .btn-group button:last-child{
-    margin-right: 0
-}
-
-/* 버튼 - 후버시 */
+/* 버튼 - hover시 */
 main .section__serach-bar .btn-group button:hover{
     background-color: var(--lightOrange);
     font-weight: bold;
 }
 
 /* 버튼 - 이메일 버튼 */
-main .section__serach-bar .btn-group button:last-child{
+main .section__serach-bar .btn-group button.email{
     display: flex;
     align-items: center;
 }
 
 /* 버튼 - 이메일 버튼 안 아이콘 */
-main .section__serach-bar .btn-group button:last-child span.icon{
+main .section__serach-bar .btn-group button.email span.icon{
     font-size: 24px;
     margin-right: 5px;
 }
+
+/* 버튼 - "주소록에서삭제"버튼 */
+/* main .section__serach-bar .btn-group button.deleteBtn{
+    display: block;
+} */
+
+/* 버튼 - "주소록에서삭제"버튼 - 숨김 */
+/* main .section__serach-bar .btn-group button.deleteBtn.hidden{
+    display: none;
+} */
 
 /* 검색창 - 바로 바깥 div*/
 main .section__serach-bar .search-bar{
@@ -370,4 +375,91 @@ main .section__list-content li div span.profile-pic{
 /* 목록 내용 섹션 (section__list-content) - 별표 */
 main .section__list-content li div.star span.star{
     padding: 8px;
+}
+
+/* ==================== Modal ==================== */
+/* modal - 전체화면에 투명한 회색배경 깔아주기 */
+main .modal-background {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: calc(var(--menubar-height) + 10px); /* modal창 세로 위치*/
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* modal - ".show" 클래스 추가되면 modal창 보이게 */
+main .modal-background.show {
+    display: block;
+}
+
+/* modal - 실제 modal창 */
+main .modal-background .modal-addMember {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid var(--lightGrey);
+    border-radius: 10px;
+    width: 50%;
+    position: relative;
+    max-height: calc(100vh - var(--menubar-height) - 20px); /* model창 세로 최대크기 */;
+    overflow: auto;
+}
+
+/* modal - 닫기 아이콘 */
+main .modal-background .modal-addMember .closeBtn{
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+/* modal - 제목 h3 */
+main .modal-background .modal-addMember h3{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+/* modal - h4 */
+main .modal-background .modal-addMember h4{
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* modal - h5 */
+main .modal-background .modal-addMember h5{
+    font-size: 1.1rem;
+}
+
+/* modal - p */
+main .modal-background .modal-addMember p{
+    margin: 8px 0;
+}
+
+/* modal - h5 */
+main .modal-background .modal-addMember hr{
+    margin: 20px 0;
+}
+
+/* modal - submit 버튼 */
+main .modal-background .modal-addMember input[type="submit"]{
+    display: block;
+    width: 200px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-top: 10px;
+    padding: 10px 0;
+    cursor: pointer;
+    border: 1px solid var(--lightGrey);
+    border-radius: 10px;
+}
+
+/* modal - submit 버튼 - hover 효과 */
+main .modal-background .modal-addMember input[type="submit"]:hover{
+    background-color: var(--lightOrange);
+    font-weight: bold;
 }

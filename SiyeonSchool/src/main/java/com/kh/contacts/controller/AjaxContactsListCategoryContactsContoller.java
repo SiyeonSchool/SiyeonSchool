@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.kh.contacts.model.service.ContactsService;
-import com.kh.user.model.vo.User;
+import com.kh.contacts.model.vo.Contacts;
 
 /**
- * Servlet implementation class AjaxContactsCategoryUsersList
+ * Servlet implementation class AjaxPublicContactsListContoller
  */
-@WebServlet("/contacts/list.categoryUsers")
-public class AjaxContactsListCategoryUsers extends HttpServlet {
+@WebServlet("/contacts/list.categoryContacts")
+public class AjaxContactsListCategoryContactsContoller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxContactsListCategoryUsers() {
+    public AjaxContactsListCategoryContactsContoller() {
         super();
     }
 
@@ -31,22 +31,22 @@ public class AjaxContactsListCategoryUsers extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 카테고리구성원 조회용 컨트롤러 - 카테고리구성원 조회: ex) 세미 1조~5조 전체구성원 (모든 팀장 + 팀원)
+		// 주소록목록 조회용 컨트롤러 - "공유"주소록 조회: CATEGORY_NO에 속한 공유주소록 하위 주소록 조회 (주소록명 + 인원수)
+
+		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
 		
-		int currentUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
-		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));		
-		
-		ArrayList<User> list = new ContactsService().selectCategoryUsersList(currentUserNo, categoryNo);
+		ArrayList<Contacts> list = new ContactsService().selectPublicContactsList(categoryNo);
 		
 		response.setContentType("application/json; charset=utf-8");
 		new Gson().toJson(list, response.getWriter());
-	
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

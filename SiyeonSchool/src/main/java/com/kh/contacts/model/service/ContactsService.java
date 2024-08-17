@@ -101,5 +101,25 @@ public class ContactsService {
 		close(conn);
 		return result;
 	}
+	
+	public ArrayList<Contacts> selectContactsList(int ownerNo) {
+		Connection conn = getConnection();
+		ArrayList<Contacts> list = new ContactsDao().selectContactsList(conn, ownerNo);
+		close(conn);
+		return list;
+	}
+
+	public int insertContactsMember(int contactsNo, ArrayList<Integer> checkedUsersNoList) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().insertContactsMember(conn, contactsNo, checkedUsersNoList);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
 
 }

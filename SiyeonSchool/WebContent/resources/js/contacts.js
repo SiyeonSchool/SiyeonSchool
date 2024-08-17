@@ -74,9 +74,10 @@ $(".mid-cate__contents").on("click", ".sm-cate", function(){ // 동적으로 생
 $(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로 생성된 카테고리 클릭시(.dynamic). (== "모든사용자"를 제외한 나머지 공유주소록 클릭시)
     const categoryNo = $(this).find("input").val();
     const contentsArea = $(this).next();
-    
+
     $.ajax({
-        url:"contacts/list.contacts",
+        url:"contacts/list.categoryContacts",
+        type:"get",
         data:{categoryNo:categoryNo},
         success:function(result){
             let value = "";
@@ -104,6 +105,23 @@ $(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로
 
 /* ==================== 메인 컨텐츠 ==================== */
 
+
+// -------------- "주소록에서 삭제"버튼 - 선택한 주소록에 따라 숨기거나 보여줌 --------------
+const deleteBtn = $("main .section__serach-bar .btn-group .deleteBtn");
+
+function hideDeleteBtn(){
+    // if(!deleteBtn.hasClass("hidden")) {
+    //     deleteBtn.addClass("hidden");
+    // }
+};
+
+function showDeleteBtn(){
+    // if(deleteBtn.hasClass("hidden")) {
+    //     deleteBtn.removeClass("hidden");
+    // }
+};
+
+
 // -------------- 메인 컨텐츠 - 기본조회 --------------
 
 selectAllUsersList(); // 전체사용자조회 실행. 주소록 페이지 들어오면 바로 실행함.
@@ -126,12 +144,15 @@ $("aside .public-contacts li.allUsers").click(function(){
 });
 
 
-const mainContentsUserListArea = $(".section__list-content ul");
+const mainContentsUserListArea = $(".section__list-content ul"); // 메인컨텐츠 공간
 
-// 전체사용자조회
+// 모든사용자조회
 function selectAllUsersList() {
+    hideDeleteBtn(); // "모든사용자조회"탭에서는 "주소록에서 삭제"버튼 숨기기
+
     $.ajax({
         url:"contacts/list.allUsers",
+        type:"get",
         data:{},
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result)); // 화면에 전체사용자 리스트 뿌려주기.
@@ -143,10 +164,15 @@ function selectAllUsersList() {
     })
 }
 
+
+
 // 카테고리구성원조회 : 카테고리 클릭시, 해당하는 카테고리구성원 화면에 뿌려주기
 function selectCategoryUsersList(categoryNo){
+    showDeleteBtn();
+
     $.ajax({
         url:"contacts/list.categoryUsers",
+        type:"get",
         data:{categoryNo:categoryNo},
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result));
@@ -159,8 +185,11 @@ function selectCategoryUsersList(categoryNo){
 
 // 주소록구성원조회 : 주소록 클릭시, 해당하는 주소록구성원 화면에 뿌려주기
 function selectContactsMemberList(contactsNo){
+    showDeleteBtn();
+
     $.ajax({
         url:"contacts/list.contactsUsers",
+        type:"get",
         data:{contactsNo:contactsNo},
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result));
@@ -186,7 +215,7 @@ function convertUserListToStr(userList){
         str += `<!-- 한 줄의 사용자 데이터 -->
                 <li class="userInfo">
                     <div class="checkbox">
-                        <input type="checkbox" value="${userList[i].userNo}">
+                        <input type="checkbox" name="userNo" value="${userList[i].userNo}">
                     </div>
                     <div class="star">
                         <span class="${classValue}">star</span>
@@ -247,7 +276,8 @@ $("main .section__list-header li div span").click(function(){
 // 유저정렬 : 정렬조건에 따라 db에서 조회하여 화면에 뿌려주기.
 function sortUsersList(categoryNo, contactsNo, sortBy, isDesc) {
     $.ajax({
-        url:"contacts/list.sort",
+        url:"contacts/list.sortUsers",
+        type:"get",
         data:{
             categoryNo:categoryNo,
             contactsNo:contactsNo,
@@ -269,6 +299,7 @@ function sortUsersList(categoryNo, contactsNo, sortBy, isDesc) {
 
 // -------------- 메인 컨텐츠 - 기타효과 --------------
 
+// ---- 체크박스 ----
 // 헤더의 체크박스 클릭시, 리스트 전체의 체크박스 선택or해제
 $("main .section__list-header :checkbox").click(function(){
     const headerCheckbox = $(".section__list-header :checkbox");
@@ -281,9 +312,32 @@ $("main .section__list-header :checkbox").click(function(){
     };
 });
 
+// 각각의 유저줄 클릭시 해당 체크박스 선택or해제
+$("main .section__list-content").on("click", "li.userInfo", function(event){
+
+    // 클릭한 요소가 "별"이거나 "사진"인 경우, 이벤트 실행안하고 빠져나감.
+    if ($(event.target).is('span.star')) {
+        return;
+    }else if($(event.target).is('span.profile-pic')) {
+        return;
+    }else if($(event.target).is(':checkbox')) {
+        return;
+    }
+
+    const clickedCheckbox = $(this).find(":checkbox");
+
+    if(clickedCheckbox.prop("checked")) { // 이미 체크된경우
+        clickedCheckbox.prop("checked", false);
+    }else { //체크 안된경우
+        clickedCheckbox.prop("checked", true);
+    }
+});
 
 
+// ---- 별 ----
 // 각 유저의 "별"을 클릭하면 DB에 반영 ("별"로 등록/해제)
+
+// "별"에 사용되는 클래스명 선언
 const filledStar = "material-icons-round icon star fill"; // "채워진별"의 클래스명
 const emptyStar = "material-symbols-rounded icon star";   // "빈별"의 클래스명
 
@@ -303,6 +357,7 @@ $("main .section__list-content").on("click", "span.star", function(){
 function insertStar(otherUserNo, star){
     $.ajax({
         url:"contacts/insert.star",
+        type:"post",
         data:{
             otherUserNo:otherUserNo,
         },
@@ -323,6 +378,7 @@ function insertStar(otherUserNo, star){
 function deleteStar(otherUserNo, star){
     $.ajax({
         url:"contacts/delete.star",
+        type:"post",
         data:{
             otherUserNo:otherUserNo,
         },
@@ -338,3 +394,65 @@ function deleteStar(otherUserNo, star){
         },
     })
 }
+
+/* ==================== Modal ==================== */
+// modal창을 감싸고있는 배경 element. (전체화면)
+const modal = $("main .modal-background");
+
+// "주소록에추가" 버튼 클릭시, modal창 보여줌.
+$("main .section__serach-bar .btn-group .addBtn").click(function(){
+
+    // 선택된 체크박스 요소들
+    const checkedUsersEls =  $("main .section__list-content li.userInfo div.checkbox input:checkbox:checked"); 
+
+    // 선택한 유저가 있는지 검증
+    if(checkedUsersEls.length == 0) {
+        alert("선택한 유저가 없습니다.\n주소록에 추가할 유저를 선택 후 다시 시도해주세요.");
+        return;
+    };
+
+    // "주소록에추가" 버튼 클릭한 시점에 체크박스에 선택된 유저들의 번호를 구하여 배열에 저장
+    const checkedUsersNoList = []; // 선택된 유저들의 실제 번호가 담기는 배열.
+    for(let i=0; i<checkedUsersEls.length; i++){
+        checkedUsersNoList.push(checkedUsersEls[i].value);
+    }
+
+    // DB에서 목록조회하여 modal에 뿌리고 modal창 열기. 
+    $.ajax({
+        url:"contacts/list.allContacts",
+        type:"get",
+        data:{},
+        success:function(result){
+            // 화면에 뿌려줄수있도록 문자열로 변환
+            let resultStr = "";
+            for(let i=0; i<result.length; i++){
+                resultStr +=   `<input type="radio" name="contactsNo" value="${result[i].contactsNo}" id="${result[i].contactsNo}">
+                                <label for="${result[i].contactsNo}">${result[i].contactsName}</label> <br>\n`
+            }
+            resultStr +=   `<hr>
+                            <input type="hidden" name="checkedUsersNoList" value=${checkedUsersNoList}>
+                            <input type="submit" value="추가">\n`
+
+            // 전체주소록목록 화면에 뿌리기
+            $("main .modal-background .modal-addMember form").html(resultStr); 
+            
+            // modal창 열기
+            modal.addClass("show"); 
+        },
+        error:function(){
+            console.log(`ajax 통신 실패: 현유저가 소유하고 있는 주소록전체목록 조회실패`);
+        },
+    })
+})
+
+// modal창의 닫기(X)버튼 클릭시, modal창 닫힘.
+$("main .modal-background .modal-addMember .closeBtn").click(function(){
+    modal.removeClass("show");
+})
+
+// modal창 바깥 클릭시, modal창 닫힘.
+$(window).on('click', function(event) {
+    if ($(event.target).is(modal)) {
+        modal.removeClass('show');
+    }
+});

@@ -389,4 +389,54 @@ public class ContactsDao {
 		return result;
 	}
 
+	public ArrayList<Contacts> selectContactsList(Connection conn, int ownerNo) {
+		ArrayList<Contacts> list = new ArrayList<Contacts>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectContactsList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Contacts(rset.getInt("CONTACTS_NO"),
+									  rset.getString("CONTACTS_NAME")));
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public int insertContactsMember(Connection conn, int contactsNo, ArrayList<Integer> checkedUsersNoList) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertContactsMember");
+		
+		try {
+			for(Integer userNo : checkedUsersNoList) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, contactsNo);
+				pstmt.setInt(2, userNo);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 }

@@ -14,16 +14,16 @@ import com.kh.contacts.model.service.ContactsService;
 import com.kh.contacts.model.vo.Contacts;
 
 /**
- * Servlet implementation class AjaxPublicContactsListContoller
+ * Servlet implementation class ContactsMemberInsertController
  */
-@WebServlet("/contacts/list.contacts")
-public class AjaxContactsListContactsContoller extends HttpServlet {
+@WebServlet("/contacts/insert.member")
+public class ContactsMemberInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxContactsListContactsContoller() {
+    public ContactsMemberInsertController() {
         super();
     }
 
@@ -31,22 +31,34 @@ public class AjaxContactsListContactsContoller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 주소록목록 조회용 컨트롤러 - "공유"주소록 조회: CATEGORY_NO에 속한 공유주소록 하위 주소록 조회 (주소록명 + 인원수)
+		// 주서록구성원 추가 컨트롤러 : "특정주소록"에 "특정유저"를 추가
+		
+		int contactsNo = Integer.parseInt(request.getParameter("contactsNo"));
+		String[] strList = request.getParameter("checkedUsersNoList").split(","); // ex) "22,13,12" -> ["22","13","12"]
+		ArrayList<Integer> checkedUsersNoList = new ArrayList<Integer>();         // ex) [22,13,12]
+		
+		for(String s : strList) {
+			checkedUsersNoList.add(Integer.parseInt(s));
+		}
+		
+		int result = new ContactsService().insertContactsMember(contactsNo, checkedUsersNoList);
+		
+		// 결과 어떻게 할지 결정해야함~
+		if(result > 0) {
+			System.out.println("성공");
+		} else {
+			System.out.println("실패");
+		}
+		
+		
+		//response.getWriter().print(result);
 
-		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
-		
-		ArrayList<Contacts> list = new ContactsService().selectPublicContactsList(categoryNo);
-		
-		response.setContentType("application/json; charset=utf-8");
-		new Gson().toJson(list, response.getWriter());
-		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

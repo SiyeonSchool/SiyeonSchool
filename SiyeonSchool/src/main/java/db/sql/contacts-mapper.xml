@@ -1023,4 +1023,32 @@
 	       AND OTHER_USER_NO = ?
 	</entry>
 	
+	<!-- ===================== 주소록 ============================= -->
+	<!-- 주소록 목록조회: OWNER_NO가 소유하고 있는 모든주소록 조회 -->
+	<entry key="selectContactsList">
+		SELECT 
+	           CONTACTS_NO
+	         , CONTACTS_NAME
+		  FROM CONTACTS
+		 WHERE OWNER_NO = ?
+		   AND STATUS = 'Y'
+	</entry>
+	
+	<!-- 주소록구성원 추가: "특정주소록"에 "특정유저"를 추가 -->
+	<entry key="insertContactsMember">
+		INSERT
+		  INTO CONTACTS_MEMBER
+			 (
+			   CONTACTS_NO
+			 , USER_NO
+			 , ROLE
+			 )
+			 VALUES
+			 (
+			   ?
+			 , ?
+			 , NULL
+			 )
+	</entry>
+	
 </properties>

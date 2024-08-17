@@ -122,11 +122,12 @@
 		<section class="section__serach-bar">
 
 			<div class="btn-group">
-				<button>주소록에 추가</button>
-				<button>
+				<button class="email">
 					<span class="material-symbols-outlined icon">mail</span>
 					<span>메일</span>
 				</button>
+				<button class="addBtn">주소록에 추가</button>
+				<button class="deleteBtn">주소록에서 삭제</button>
 			</div>
 
 			<div class="search-bar">
@@ -145,6 +146,21 @@
 				<label for="search-all-students">학생</label>
 			</div>
 		</section>
+
+		<!-- modal - "주소록에추가"  -->
+		<div class="modal-background">
+			<div class="modal-addMember">
+				<span class="material-symbols-rounded icon closeBtn">close</span>
+
+				<h3>주소록에 추가</h3>
+				<p>주소록을 선택해주세요. (선택한 사용자를 해당 주소록에 추가합니다.)</p>
+				<hr>
+
+				<form action="contacts/insert.member" method="post">
+					<!-- ajax로 데이터가 동적으로 들어갈 공간 - 현재 유저가 소유한 주소록명 한줄씩 -->
+				</form>
+			</div>
+		</div>
 
 		<!-- 목록 헤더 섹션 (section__list-header) -->
 		<section class="section__list-header">
@@ -189,6 +205,8 @@
 				<!-- ajax로 데이터가 동적으로 들어갈 공간 - 유저 정보 한줄씩 -->
 			</ul>
 		</section>
+
+
 		
 	</main>
 	

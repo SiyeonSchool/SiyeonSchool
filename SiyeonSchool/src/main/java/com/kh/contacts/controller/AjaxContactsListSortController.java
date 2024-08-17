@@ -17,7 +17,7 @@ import com.kh.user.model.vo.User;
 /**
  * Servlet implementation class AjaxContactsSortUsersListController
  */
-@WebServlet("/contacts/list.sort")
+@WebServlet("/contacts/list.sortUsers")
 public class AjaxContactsListSortController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -44,17 +44,17 @@ public class AjaxContactsListSortController extends HttpServlet {
 			int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
 			
 			if(categoryNo == 0) { // "전체사용자" 정렬
-				ContactsUsersSortInfo si = new ContactsUsersSortInfo(currentUserNo, 0, 0, orderBy, isDesc); // categoryNo & contactsNo를 0으로 넘김
+				ContactsUsersSortInfo si = new ContactsUsersSortInfo(currentUserNo, 0, 0, orderBy, isDesc); // 필요없는 categoryNo & contactsNo를 0으로 넘김
 				list = new ContactsService().selectAllUsersListOrderBy(si);
 						
 			}else { // "주소록카테고리구성원" 정렬
-				ContactsUsersSortInfo si = new ContactsUsersSortInfo(currentUserNo, categoryNo, 0, orderBy, isDesc);  // contactsNo를 0으로 넘김
+				ContactsUsersSortInfo si = new ContactsUsersSortInfo(currentUserNo, categoryNo, 0, orderBy, isDesc);  // 필요없는 contactsNo를 0으로 넘김
 				list = new ContactsService().selectCategoryUsersListOrderBy(si);
 			}
 			
 		}else { // "주소록구성원" 정렬
 			int contactsNo = Integer.parseInt(request.getParameter("contactsNo"));
-			ContactsUsersSortInfo si = new ContactsUsersSortInfo(currentUserNo, 0, contactsNo, orderBy, isDesc); // categoryNo를 0으로 넘김
+			ContactsUsersSortInfo si = new ContactsUsersSortInfo(currentUserNo, 0, contactsNo, orderBy, isDesc); // 필요없는 categoryNo를 0으로 넘김
 			list = new ContactsService().selectContactsUsersListOrderBy(si);
 		}
 		
