@@ -64,10 +64,17 @@
 	font-weight: bold;
 	margin: 20px 50px;
 }
-#right p{
+.p{
 	font-size: 24px;
 	font-weight: 800;
 	margin: 0 0 0 50px;
+}
+
+#error-message{
+	 color: red; 
+	 font-size: 12px;
+	 margin-left: 45px;
+	 visibility: hidden;
 }
 
 #right table{
@@ -130,7 +137,11 @@ li::before{
 	height: 18px;
 	background-color: black;
 }
-li a{padding: 12px;}
+
+
+li a{
+	padding: 12px;
+}
 
 li:first-child::before{display: none;}
 
@@ -159,10 +170,13 @@ li:first-child::before{display: none;}
 				<img src="resources/images/SiS_Logo.png" alt="">
 				
 				<form action="<%=contextPath %>/login.user" id="login-form" method="post">
-					<p>아이디</p>
-					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) "><br>
-					<p>비밀번호</p>
-					<input type="password" name="userPwd" placeholder=" 영문, 숫자, 특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)"><br>
+					<p class="p">아이디</p>
+					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) " requried><br>
+					<p class="p">비밀번호</p>
+					<input type="password" name="userPwd" placeholder=" 영문, 숫자, 특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)" requried><br>
+					 <p id="error-message">
+				        아이디 또는 비밀번호가 잘못 되었습니다. 아이디와 비밀번호를 정확히 입력해 주세요.
+				    </p>
 					<button type="submit">로 그 인</button>
 				</form>
 				<ul>
@@ -172,8 +186,21 @@ li:first-child::before{display: none;}
 			</div>
 		</div>
 	</div>
+	
+
+	
 	<script>
-	    let mouse, originx, originy, cvs;
+
+		window.onload = function() {
+			// 서버에서 전달된 loginFailed 속성의 값을 가져옴
+			var loginFailed = "<%= request.getAttribute("loginFailed") != null ? "true" : "false" %>";
+
+			// 로그인 실패 시 에러 메시지 표시
+			if (loginFailed === "true") {
+				document.getElementById("error-message").style.visibility = 'visible';
+			}
+		}
+		let mouse, originx, originy, cvs;
 		
 		 // Safari doesn't support EventTarget
 		 var EventTarget = EventTarget || false;
@@ -448,10 +475,10 @@ li:first-child::before{display: none;}
 		     originx = canvas.width / 2;
 		     originy = canvas.height / 2;
 		 }
-
-
 		
 		 init();
+		 
+		 
 		 
 
     </script>

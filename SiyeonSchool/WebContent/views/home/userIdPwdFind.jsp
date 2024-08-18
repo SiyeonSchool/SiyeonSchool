@@ -28,12 +28,89 @@
 	margin: auto;
     top: 109.5px;
 }
+
+table{
+	width: 90%;
+	height: 90%;
+	position:relative;
+	margin: auto;
+	margin-top: 35px;
+}
+
+#header{
+	text-align: left;
+	font-weight: bold;
+	font-size: 22px;
+}
+th{
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+select:invalid, input::placeholder{
+	font-size: 13px;
+	color: #a98affe8;
+}
 </style>
 </head>
 <body>
     <canvas id="canvas" class="canvas"></canvas>
     <div id="find">
-       
+       <table>
+			<form action="">
+				<tr>
+					<th colspan="2" id="header">아이디/비밀번호 찾기</th>
+				</tr>
+				<tr>
+						<th>이름</th>		
+						<td><input type="text" placeholder="이름" required></td>
+				</tr>
+				<tr>
+						<th>생년월일</th>		
+						<td><input type="text" placeholder="생년월일 6자리" required></td>
+				</tr>
+				<tr>
+					<th>질문</th>		
+					<td colspan="2">
+						<select name="question" id="" required>
+							<option value="" disabled selected>회원가입시 선택한 질문</option>
+							<option value=""></option>
+							<option value=""></option>
+							<option value=""></option>
+							<option value=""></option>
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>답변</th>		
+					<td><input type="text" placeholder="회원가입시 입력한 답변" required></td>
+				</tr>
+				<tr>
+					<th><button id="btn-find">찾기</button></th>
+				</tr>
+			</form>
+			<tr>
+				<th>아이디</th>
+				<td><input type="text"></td>
+			</tr>
+			<tr>
+				<th>변경 비밀번호</th>
+				<td><input type="password" placeholder="변경 비밀번호 입력" required></td>
+			</tr>
+			<tr>
+				<th>비밀번호 확인</th>
+				<td><input type="password" placeholder="비밀번호 확인" required></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<button>이전</button>
+					<button>변경</button>
+				</td>
+			</tr>
+
+	   </table>
+		
     </div>
 
     <script>

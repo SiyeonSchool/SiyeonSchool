@@ -17,7 +17,7 @@
 	z-index: 0;
 }
 
-#singIn {
+#signIn {
 	border: 1px solid #77ddff;
 	background-color: rgb(223, 247, 255);
 	border-radius: 20px;
@@ -163,62 +163,154 @@ select:invalid{
 <body>
 	<canvas id="canvas" class="canvas"></canvas>
 	<!-- <div id="background"> -->
-		<div id="singIn">
-			<form action="" method="post">
+		<div id="signIn">
+			<form action="<%= contextPath %>/insert.user" method="post" id="signIn-form" onsubmit="return validateForm();">
 				<table>
 					<tr>
 						<th><span>*</span> 아이디</th>
-						<td><input type="text" class="s" id="userid" placeholder="영문, 숫자 조합으로 입력해주세요.(6~18자)" required><button id="checkId">중복확인</button></td>
+						<td><input type="text" class="s" name="userId" id="userId" placeholder="영문, 숫자 조합으로 입력해주세요.(6~18자)" required><button type="button" id="checkId" onclick="idCheck();">중복확인</button></td>
 					</tr>
 					<tr>
 						<th><span>*</span> 비밀번호</th>
-						<td><input type="text" class="l" placeholder="영문, 숫자,특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)" required></td>
+						<td><input type="text" class="l" name="userPwd" placeholder="영문, 숫자,특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)" required></td>
 					</tr>
 					<tr>
 						<th><span>*</span> 비밀번호 확인</th>
-						<td><input type="text" class="l" placeholder="비밀번호를 다시 한번 입력해주세요." required></td>
+						<td><input type="text" class="l" name="userPwdCheck" placeholder="비밀번호를 다시 한번 입력해주세요." required></td>
 					</tr>
 					<tr>
 						<th><span>*</span> 이름</th>
-						<td><input type="text" class="l" placeholder="이름을 입력해주세요." required></td>
+						<td><input type="text" class="l" name="userName" placeholder="이름을 입력해주세요." required></td>
 					</tr>
 					<tr>
 						<th><span>*</span> 생년월일</th>
-						<td><input type="text" class="l" placeholder="6자리 입력해주세요. ex) 00.10.20" required></td>
+						<td><input type="text" class="l" name="Birthday" placeholder="6자리 입력해주세요. ex) 00-10-20" required></td>
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td><input type="text" class="l" placeholder="상세주소는 필수 입력 항목이 아닙니다. ex) 서울 강남구"></td>
+						<td><input type="text" class="l" name="Address" placeholder="상세주소는 필수 입력 항목이 아닙니다. ex) 서울 강남구"></td>
 					</tr>
 					<tr>
 						<th>이메일</th>
-						<td><input type="text" class="l" placeholder="이메일 형식에 알맞게 입력해주세요."></td>
+						<td><input type="text" class="l" name="email" placeholder="이메일 형식에 알맞게 입력해주세요."></td>
 					</tr>
 					<tr>
 						<th><span>*</span> 전화번호</th>
-						<td><input type="text" class="l" placeholder="-를 포함해 입력해주세요" required></td>
+						<td><input type="text" class="l" name="phone" placeholder="-를 포함해 입력해주세요" required></td>
 					</tr>
 					<tr>
 						<th><span>*</span> 질문</th>
 						<td><select name="question" required>
 								<option value="" disabled selected>아이디/비밀번호 찾기에 사용됩니다.</option>
-								<option value="">2</option>
+								<option value=""></option>
+								<option value=""></option>
+								<option value=""></option>
+								<option value=""></option>
+								<option value=""></option>
 							</select></td>
 					</tr>
 					<tr>
 						<th><span>*</span> 답변</th>
-						<td><input type="text" class="l" placeholder="아이디/비밀번호 찾기에 사용됩니다." required></td>
+						<td><input type="text" class="l" name="answer" placeholder="아이디/비밀번호 찾기에 사용됩니다." required></td>
 					</tr>
 					<tr>
 						<td colspan="2" id="end"><span>*</span> 필수 입력 항목입니다.</td>
 					</tr>
 				</table>
-				<button type="submit" id="submit" onclick="alert('관리자에게 회원가입 승인 요청을 보냈습니다.\n관리자의 승인을 기다려주세요.')">회원가입 요청</button>
+				<button type="submit" id="submit" disabled onclick="alert('관리자에게 회원가입 승인 요청을 보냈습니다.\n관리자의 승인을 기다려주세요.')">회원가입 요청</button>
 				<button id="back" onclick="history.back()">회원가입 취소</button>
 			</form>
 		</div>
 	<!-- </div> -->
+	
 	<script>
+		function validateForm() {
+			// 아이디 검증 (영문, 숫자 조합으로 6~18자)
+			const userId = document.forms["signIn-form"]["userId"].value;
+			const userIdRegex = /^[a-zA-Z0-9]{6,18}$/;
+			if (!userIdRegex.test(userId)) {
+				alert("아이디는 영문과 숫자 조합으로 6~18자여야 합니다.");
+				return false;
+			}
+
+			// 비밀번호 검증 (영문, 숫자, 특수문자 조합으로 6~18자)
+			const userPwd = document.forms["signIn-form"]["userPwd"].value;
+			const userPwdRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,18}$/;
+			if (!userPwdRegex.test(userPwd)) {
+				alert("비밀번호는 영문, 숫자, 특수문자(!,@,#,$,%,^,&,*) 조합으로 6~18자여야 합니다.");
+				return false;
+			}
+
+			// 비밀번호 확인
+			const userPwdCheck = document.forms["signIn-form"]["userPwdCheck"].value;
+			if (userPwd !== userPwdCheck) {
+				alert("비밀번호 확인이 일치하지 않습니다.");
+				return false;
+			}
+
+			// 이름 검증 (최소 1자 이상 입력)
+			const userName = document.forms["signIn-form"]["userName"].value;
+			if (userName.length < 1) {
+				alert("이름을 입력해주세요.");
+				return false;
+			}
+
+			// 생년월일 검증 (6자리, ex: 00-10-20)
+			const birthday = document.forms["signIn-form"]["Birthday"].value;
+			const birthdayRegex = /^\d{2}-\d{2}-\d{2}$/;
+			if (!birthdayRegex.test(birthday)) {
+				alert("생년월일은 00-10-20 형식으로 입력해주세요.");
+				return false;
+			}
+
+			// 이메일 형식 검증
+			const email = document.forms["signIn-form"]["email"].value;
+			if (email) {
+				const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+				if (!emailRegex.test(email)) {
+					alert("이메일 형식이 올바르지 않습니다.");
+					return false;
+				}
+			}
+
+			// 전화번호 검증 (-를 포함하여 입력, ex: 010-1234-5678)
+			const phone = document.forms["signIn-form"]["phone"].value;
+			const phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+			if (!phoneRegex.test(phone)) {
+				alert("전화번호는 -를 포함하여 올바른 형식으로 입력해주세요.");
+				return false;
+			}
+
+			// 모든 검증을 통과한 경우
+			return true;
+		}
+	</script>
+	
+	<script>
+		
+		function idCheck(){
+			const $idInput = $("#signIn-form input[name=userId]");
+			
+			$.ajax({
+				url:"checkId",
+				data:{idCheck:$idInput.val()},
+				success:function(result){
+					console.log(result);
+					
+					if(result === 'NNNNN'){ // 사용불가
+						alert("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
+						$idInput.focus();
+					}else{ // 사용가능
+						if(confirm("사용가능한 아이디입니다.")){
+							$("#signIn-form :submit");
+						}
+					}
+					
+				}, 
+			});
+		}
+	
+	
 		let mouse, originx, originy, cvs;
 
 		// Safari doesn't support EventTarget

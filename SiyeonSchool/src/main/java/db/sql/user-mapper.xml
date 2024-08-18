@@ -27,5 +27,58 @@
 		   AND USER_PWD = ?
 		   AND STATUS = 'Y'
 	</entry>
+	
+	<entry key="checkId">
+		SELECT 
+		        COUNT(*) "COUNT"
+		  FROM USERS
+		 WHERE USER_ID = ?
+	</entry>
+	
+	<entry key="insertUser">
+		INSERT
+		  INTO USERS
+		        (
+		          USER_NO
+		        , USER_ID
+		        , USER_PWD
+		        , USER_NAME
+		        , PHONE
+		        , PHONE_PUBLIC
+		        , BIRTHDAY
+		        , EMAIL
+		        , ADDRESS
+		        , ENROLL_DATE
+		        , MODIFY_DATE
+		        , PROFILE_FILE_NO
+		        , QUESTION_NO
+		        , QUESTION_ANSWER
+		        , USER_AUTH
+		        , STATUS
+		        , GITHUB_URL
+		        , NOTION_URL
+		        )
+		  VALUES
+		        (
+		          SEQ_USERNO.NEXTVAL
+		        , ?
+		        , ?
+		        , ?
+		        , ?
+		        , DEFAULT
+		        , ?
+		        , ?
+		        , ?
+		        , DEFAULT
+		        , DEFAULT
+		        , NULL
+		        , ?
+		        , ?
+		        , DEFAULT
+		        , DEFAULT
+		        , NULL
+		        , NULL);
+
+	</entry>
 
 </properties>

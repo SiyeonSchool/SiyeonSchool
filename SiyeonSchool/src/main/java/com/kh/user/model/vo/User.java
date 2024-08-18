@@ -22,8 +22,26 @@ public class User {
    private String notionUrl;
    
    public User() {}
+   
+   
 
-   public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
+   public User(String userId, String userPwd, String userName, String phone, String birthday, String email, String address,
+		int questionNo, String questionAnswer) {
+	super();
+	this.userId = userId;
+	this.userPwd = userPwd;
+	this.userName = userName;
+	this.phone = phone;
+	this.birthday = birthday;
+	this.email = email;
+	this.address = address;
+	this.questionNo = questionNo;
+	this.questionAnswer = questionAnswer;
+}
+
+
+
+public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
          String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
          int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl) {
       super();
