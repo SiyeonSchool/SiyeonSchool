@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -418,22 +419,40 @@ public class ContactsDao {
 
 	public int insertContactsMember(Connection conn, int contactsNo, ArrayList<Integer> checkedUsersNoList) {
 		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertContactsMember");
+		PreparedStatement selectPstmt = null;
+		PreparedStatement insertPstmt = null;
+		ResultSet rset = null;
+		String selectSql = prop.getProperty("selectRole");
+		String insertSql = prop.getProperty("insertContactsMember");
 		
 		try {
-			for(Integer userNo : checkedUsersNoList) {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, contactsNo);
-				pstmt.setInt(2, userNo);
-				
-				result = pstmt.executeUpdate();
+			// 역할 조회
+			selectPstmt = conn.prepareStatement(selectSql);
+			selectPstmt.setInt(1, contactsNo);
+			rset = selectPstmt.executeQuery();
+			
+			String role = null;
+			if(rset.next()) {
+				role = rset.getString("ROLE");
 			}
 			
+			// 구성원 추가
+			for(Integer userNo : checkedUsersNoList) {
+				insertPstmt = conn.prepareStatement(insertSql);
+				insertPstmt.setInt(1, contactsNo);
+				insertPstmt.setInt(2, userNo);
+				insertPstmt.setString(3, role);
+				
+				result = insertPstmt.executeUpdate();
+			}
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return result -1; // 이미 DB에 해당 주소록에 선택한 userNo가 있음을 알리기 위함.
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);
+			close(insertPstmt);
+			close(rset);
+			close(selectPstmt);
 		}
 		
 		return result;

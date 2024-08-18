@@ -8,10 +8,10 @@
 <%@ include file="../common/common.jsp" %>
 <%
 	ArrayList<ContactsCategory> categoryList = (ArrayList<ContactsCategory>)request.getAttribute("categoryList");
-	// 공유주소록 - 카테고리번호, 카테고리명 
+	// 사이드바에 사용될 정보 (공유주소록) - 카테고리번호, 카테고리명 
 
 	ArrayList<Contacts> pivateContactsList = (ArrayList<Contacts>)request.getAttribute("pivateContactsList");
-	// 개인주소록 - 주소록번호, 주소록명, 인원수
+	// 사이드바에 사용될 정보 (개인주소록) - 주소록번호, 주소록명, 인원수
 %>
 
 <!DOCTYPE html>
@@ -24,7 +24,7 @@
 <body>
 
 	<%@ include file="../common/menubar.jsp" %>
-	
+
 	<!-- ==================== 사이드바 ==================== -->
 	<aside>
 
@@ -127,7 +127,6 @@
 					<span>메일</span>
 				</button>
 				<button class="addBtn">주소록에 추가</button>
-				<button class="deleteBtn">주소록에서 삭제</button>
 			</div>
 
 			<div class="search-bar">
@@ -156,9 +155,9 @@
 				<p>주소록을 선택해주세요. (선택한 사용자를 해당 주소록에 추가합니다.)</p>
 				<hr>
 
-				<form action="contacts/insert.member" method="post">
+				<div class="modal-addMember__contactsList">
 					<!-- ajax로 데이터가 동적으로 들어갈 공간 - 현재 유저가 소유한 주소록명 한줄씩 -->
-				</form>
+				</div>
 			</div>
 		</div>
 
@@ -167,7 +166,7 @@
 			<ul>
 				<li>
 					<div class="checkbox">
-						<input type="checkbox" name="" id="">
+						<input type="checkbox">
 					</div>
 		
 					<div class="star">

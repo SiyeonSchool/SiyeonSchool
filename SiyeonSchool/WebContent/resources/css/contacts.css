@@ -3,10 +3,13 @@
 :root{
     /* 사이드바 가로 폭 */
     --sidebar-width: 300px;
+    --contact-content-width: calc(100vw - var(--sidebar-width));
 
     --contact-searchbar-height: calc(15px + 36px + 10px);
     --contact-list-header-height: 40px;
-
+    --content-list-content-height: calc(100vh - var(--menubar-height) - var(--contact-searchbar-height) - var(--contact-list-header-height));
+    
+    
     --contactsHover: #ffd27773;
 }
 
@@ -157,7 +160,7 @@ aside .sm-cate>div .material-icons{
 main{
     position: absolute;
     left: 300px;
-    width: calc(100vw - var(--sidebar-width)); /* 가로 화면크기 - 사이드바 크기*/
+    width: var(--contact-content-width); 
     height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
     min-width: calc(1500px - var(--sidebar-width)); /* 화면을 더 줄일 수 없도록함. 화면 줄었을때 요소간 겹침 방지*/
 }
@@ -349,8 +352,8 @@ main .section__list-header li div span.icon.drop_down{
 
 /* ------- 목록 내용 섹션 (section__list-content) ------- */
 main .section__list-content{
-    height: calc(100vh - var(--menubar-height) - var(--contact-searchbar-height) - var(--contact-list-header-height));
-    max-height: calc(100vh - var(--menubar-height) - var(--contact-searchbar-height) - var(--contact-list-header-height));
+    height: var(--content-list-content-height);
+    max-height: var(--content-list-content-height);
     overflow: auto;
 }
 
@@ -363,7 +366,20 @@ main .section__list-content li{
 /* 목록 내용 섹션 (section__list-content) - 각각의 줄 후버시 배경색 */
 main .section__list-content li:hover{
     background-color: var(--contactsHover);
-    
+}
+
+/* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */
+main .section__list-content li.userInfo.noUsers{
+    height: var(--content-list-content-height);
+    padding: 100px 0 0 420px;
+    border-bottom: none;
+    cursor: default;
+    font-weight: bold;
+}
+
+/* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */
+main .section__list-content li.userInfo.noUsers:hover{
+    background-color: #fff;
 }
 
 /* 목록 내용 섹션 (section__list-content) - 프로필 사진 */

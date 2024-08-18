@@ -1047,8 +1047,19 @@
 			 (
 			   ?
 			 , ?
-			 , NULL
+			 , ?
 			 )
+	</entry>
+	
+	<!-- 역할 조회: 주소록구성원 추가시 필요. -->
+	<!--          공유주소록이면 'F'(팀원) / 개인주소록이면 'NULL' 반환 -->
+	<entry key="selectRole">
+		SELECT 
+			   CASE WHEN CATEGORY_NO IS NOT NULL THEN 'F'
+			        ELSE NULL
+			   END AS ROLE 
+		  FROM CONTACTS
+	     WHERE CONTACTS_NO = ?
 	</entry>
 	
 </properties>

@@ -83,7 +83,7 @@ $(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로
             let value = "";
             for(let i=0; i<result.length; i++) {
                 value +=   `<li class="sm-cate">
-                            <input type="hidden" name="contactsNo" value="${result[i].contactsNo}">
+                                <input type="hidden" name="contactsNo" value="${result[i].contactsNo}">
                                 <div>
                                     <span class="material-icons icon">subdirectory_arrow_right</span>
                                     <span> ${result[i].contactsName}</span>
@@ -104,23 +104,6 @@ $(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로
 
 
 /* ==================== 메인 컨텐츠 ==================== */
-
-
-// -------------- "주소록에서 삭제"버튼 - 선택한 주소록에 따라 숨기거나 보여줌 --------------
-const deleteBtn = $("main .section__serach-bar .btn-group .deleteBtn");
-
-function hideDeleteBtn(){
-    // if(!deleteBtn.hasClass("hidden")) {
-    //     deleteBtn.addClass("hidden");
-    // }
-};
-
-function showDeleteBtn(){
-    // if(deleteBtn.hasClass("hidden")) {
-    //     deleteBtn.removeClass("hidden");
-    // }
-};
-
 
 // -------------- 메인 컨텐츠 - 기본조회 --------------
 
@@ -143,13 +126,11 @@ $("aside .public-contacts li.allUsers").click(function(){
     selectAllUsersList();
 });
 
-
-const mainContentsUserListArea = $(".section__list-content ul"); // 메인컨텐츠 공간
+// 메인컨텐츠 공간: 사용자리스트를 표기하기 위한 공간
+const mainContentsUserListArea = $(".section__list-content ul");
 
 // 모든사용자조회
 function selectAllUsersList() {
-    hideDeleteBtn(); // "모든사용자조회"탭에서는 "주소록에서 삭제"버튼 숨기기
-
     $.ajax({
         url:"contacts/list.allUsers",
         type:"get",
@@ -157,6 +138,7 @@ function selectAllUsersList() {
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result)); // 화면에 전체사용자 리스트 뿌려주기.
             $(".allUsers .userCount").text(`(${result.length})`); // 사이드바 카테고리 중, "모든사용자"의 인원수 채워넣기. ex) 모든사용자(31)
+            hideDeleteContactsUserBtn();
         },
         error:function(){
             console.log("ajax 통신 실패: 전체사용자 조회실패).");
@@ -164,18 +146,15 @@ function selectAllUsersList() {
     })
 }
 
-
-
 // 카테고리구성원조회 : 카테고리 클릭시, 해당하는 카테고리구성원 화면에 뿌려주기
 function selectCategoryUsersList(categoryNo){
-    showDeleteBtn();
-
     $.ajax({
         url:"contacts/list.categoryUsers",
         type:"get",
         data:{categoryNo:categoryNo},
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result));
+            displayDeleteContactsUserBtn();
         },
         error:function(){
             console.log("ajax 통신 실패: 카테고리 " + categoryNo +  "번 구성원 조회실패.");
@@ -185,14 +164,13 @@ function selectCategoryUsersList(categoryNo){
 
 // 주소록구성원조회 : 주소록 클릭시, 해당하는 주소록구성원 화면에 뿌려주기
 function selectContactsMemberList(contactsNo){
-    showDeleteBtn();
-
     $.ajax({
         url:"contacts/list.contactsUsers",
         type:"get",
         data:{contactsNo:contactsNo},
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result));
+            displayDeleteContactsUserBtn();
         },
         error:function(){
             console.log("ajax 통신 실패: 주소록 " + contactsNo +  "번 구성원 조회실패.");
@@ -203,32 +181,38 @@ function selectContactsMemberList(contactsNo){
 // 리스트문자열변환 : 유저리스트를 화면에 뿌려줄수있는 문자열로 바꿔주기
 function convertUserListToStr(userList){
     let str = "";
-    for(let i=0; i<userList.length; i++) {
 
-        let classValue;
-        if(userList[i].star === "Y"){
-            classValue = "material-icons-round icon star fill"; // 노랑색 색칠된 별
-        }else {
-            classValue = "material-symbols-rounded icon star"; // 회색 테두리만 있는 별
+    if(userList.length == 0) { // 유저가 없는 경우
+        str =  `<li class="userInfo noUsers">해당 주소록에 속한 구성원이 없습니다.</li>`;
+
+    }else { // 유저가 있는 경우
+        for(let i=0; i<userList.length; i++) {
+
+            let classValue;
+            if(userList[i].star === "Y"){
+                classValue = "material-icons-round icon star fill"; // 노랑색 색칠된 별
+            }else {
+                classValue = "material-symbols-rounded icon star"; // 회색 테두리만 있는 별
+            }
+    
+            str += `<!-- 한 줄의 사용자 데이터 -->
+                    <li class="userInfo">
+                        <div class="checkbox">
+                            <input type="checkbox" name="userNo" value="${userList[i].userNo}">
+                        </div>
+                        <div class="star">
+                            <span class="${classValue}">star</span>
+                        </div>
+                        <div class="userName">
+                            <span class="material-symbols-rounded icon profile-pic">account_circle</span>
+                            ${userList[i].userName}
+                        </div>
+                        <div class="userId">${userList[i].userId}</div>
+                        <div class="role">${userList[i].role}</div>
+                        <div class="birthday">${userList[i].birthday}</div>
+                        <div class="phone">${userList[i].phone}</div>
+                    </li>\n`;
         }
-
-        str += `<!-- 한 줄의 사용자 데이터 -->
-                <li class="userInfo">
-                    <div class="checkbox">
-                        <input type="checkbox" name="userNo" value="${userList[i].userNo}">
-                    </div>
-                    <div class="star">
-                        <span class="${classValue}">star</span>
-                    </div>
-                    <div class="userName">
-                        <span class="material-symbols-rounded icon profile-pic">account_circle</span>
-                        ${userList[i].userName}
-                    </div>
-                    <div class="userId">${userList[i].userId}</div>
-                    <div class="role">${userList[i].role}</div>
-                    <div class="birthday">${userList[i].birthday}</div>
-                    <div class="phone">${userList[i].phone}</div>
-                </li>\n`;
     }
     return str;
 }
@@ -297,9 +281,7 @@ function sortUsersList(categoryNo, contactsNo, sortBy, isDesc) {
     })
 }
 
-// -------------- 메인 컨텐츠 - 기타효과 --------------
-
-// ---- 체크박스 ----
+// -------------- 체크박스 --------------
 // 헤더의 체크박스 클릭시, 리스트 전체의 체크박스 선택or해제
 $("main .section__list-header :checkbox").click(function(){
     const headerCheckbox = $(".section__list-header :checkbox");
@@ -334,7 +316,7 @@ $("main .section__list-content").on("click", "li.userInfo", function(event){
 });
 
 
-// ---- 별 ----
+// -------------- 별 --------------
 // 각 유저의 "별"을 클릭하면 DB에 반영 ("별"로 등록/해제)
 
 // "별"에 사용되는 클래스명 선언
@@ -395,7 +377,8 @@ function deleteStar(otherUserNo, star){
     })
 }
 
-/* ==================== Modal ==================== */
+/* -------------- "주소록에추가" Modal -------------- */
+
 // modal창을 감싸고있는 배경 element. (전체화면)
 const modal = $("main .modal-background");
 
@@ -431,10 +414,10 @@ $("main .section__serach-bar .btn-group .addBtn").click(function(){
             }
             resultStr +=   `<hr>
                             <input type="hidden" name="checkedUsersNoList" value=${checkedUsersNoList}>
-                            <input type="submit" value="추가">\n`
+                            <input type="submit" value="추가" onclick="insertContactsMember();">\n`
 
             // 전체주소록목록 화면에 뿌리기
-            $("main .modal-background .modal-addMember form").html(resultStr); 
+            $("main .modal-addMember__contactsList").html(resultStr); 
             
             // modal창 열기
             modal.addClass("show"); 
@@ -456,3 +439,80 @@ $(window).on('click', function(event) {
         modal.removeClass('show');
     }
 });
+
+// modal창에서 "추가"버튼 클릭시, DB에 반영하고, 해당 주소록을 메인컨텐츠 화면에 뿌려줌. modal창은 닫음. 
+function insertContactsMember(){
+    const contactsNo = $(".modal-addMember__contactsList :radio:checked").val();
+    const checkedUsersNoList = $(".modal-addMember__contactsList :hidden").val();
+
+    $.ajax({
+        url:"contacts/insert.member",
+        type:"post",
+        data:{
+            contactsNo:contactsNo,
+            checkedUsersNoList:checkedUsersNoList,
+        },
+        success:function(result){
+            if(result > 0) {
+                alert("성공적으로 주소록에 구성원을 추가하였습니다.");
+                clickSidebarContactsNo(contactsNo, checkedUsersNoList); // 선택한 주소록을 사이드바에서 클릭하기
+                modal.removeClass("show");
+            }else if(result == -1){
+                alert("선택한 주소록에 이미 해당 구성원이 있습니다. 확인후 다시 시도해주세요.");
+            }else {
+                alert("주소록에 구성원 추가를 실패하였습니다.");
+            }
+        },
+        error:function(){
+            console.log(`ajax 통신 실패: 주소록에 구성원 추가를 실패하였습니다. `);
+        },
+    })
+    
+}
+
+// 사이드바에서 주소록번호에 해당하는 메뉴 클릭하기
+function clickSidebarContactsNo(contactsNo, checkedUsersNoListStr){
+    // 변경된 주소록 메뉴 찾기
+    // 개인주소록에서 먼저 찾고, 없으면 공유주소록에서 찾음
+    let updatedEl = $(`.mid-cate__title input[name="contactsNo"][value="${contactsNo}"]`).parent(); // 개인주소록 내
+    if(updatedEl.length == 0) {
+        updatedEl = $(`.mid-cate__contents input[name="contactsNo"][value="${contactsNo}"]`).parent(); // 공유주소록 내
+    }
+
+    // 사이드바 주소록명 옆에 붙는 인원수 업데이트 - ex) "자바 1조 (3)" -> "자바 1조 (7)"
+    const userCountEl = $(updatedEl).find("span.userCount");
+    let prevUsersCount = userCountEl.text().replace(/[()]/g, ''); //ex) "(3)" -> "3"
+    prevUsersCount = parseInt(prevUsersCount, 10); // 숫자로 형변환
+    let addedUsersCount = checkedUsersNoListStr.split(",").length; //ex)"18,24,27,2" -> ["18","24","27","2"] -> 4
+    let finalUsersCount = prevUsersCount + addedUsersCount;
+    userCountEl.text(`(${finalUsersCount})`); // 최종 인원수로 업데이트
+
+    updatedEl.click(); // 사이드바에서 클릭하면, 이미 정의된 이벤트 덕분에 메인컨텐츠영역에도 주소록구성원목록을 뿌려주게됨.
+}
+
+
+// -------------- "주소록에서 제거" 버튼 --------------
+// 유저를 주소록에서 제거할때 사용.
+
+const mainBtnGroupArea = $(".section__serach-bar .btn-group"); // 버튼을 넣을 공간
+const deleteContactsUserBtn = `<button class="deleteBtn">주소록에서 제외</button>`; // 실제 버튼
+
+// "주소록에서제외"버튼 - 보여주기
+function displayDeleteContactsUserBtn() {
+
+    // ################ 본인의 주소록이 아닌경우에는 보여주면 안됨!! => 구현해야함! ##################
+    // 방법1) 주소록소유자와 본인이 일치한지 확인 -> 맞으면 보여주기, 아니면 무시
+    // 방법2) 공유주소록이면 관리자인지 확인 -> 맞으면 보여주기, 아니면 무시
+
+    if($(mainBtnGroupArea).find(".deleteBtn").length == 0) { // 버튼이 없다면 -> 추가
+        $(mainBtnGroupArea).append(deleteContactsUserBtn);
+    }
+}
+
+// "주소록에서제외"버튼 - 제거
+function hideDeleteContactsUserBtn() {
+    const deleteBtn = $(mainBtnGroupArea).find(".deleteBtn");
+    if(deleteBtn.length != 0){ // 버튼이 있다면 -> 제거
+        $(deleteBtn).remove();
+    }
+}

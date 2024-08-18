@@ -12,18 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.kh.contacts.model.service.ContactsService;
 import com.kh.contacts.model.vo.Contacts;
+import com.kh.contacts.model.vo.ContactsCategory;
+import com.kh.user.model.vo.User;
 
 /**
  * Servlet implementation class ContactsMemberInsertController
  */
 @WebServlet("/contacts/insert.member")
-public class ContactsMemberInsertController extends HttpServlet {
+public class AjaxContactsMemberInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ContactsMemberInsertController() {
+    public AjaxContactsMemberInsertController() {
         super();
     }
 
@@ -43,16 +45,7 @@ public class ContactsMemberInsertController extends HttpServlet {
 		
 		int result = new ContactsService().insertContactsMember(contactsNo, checkedUsersNoList);
 		
-		// 결과 어떻게 할지 결정해야함~
-		if(result > 0) {
-			System.out.println("성공");
-		} else {
-			System.out.println("실패");
-		}
-		
-		
-		//response.getWriter().print(result);
-
+		response.getWriter().print(result);
 	}
 
 	/**
