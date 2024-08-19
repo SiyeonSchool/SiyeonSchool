@@ -12,9 +12,6 @@ import java.util.Properties;
 
 import static com.kh.common.JDBCTemplate.*;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.kh.contacts.model.vo.Contacts;
 import com.kh.contacts.model.vo.ContactsCategory;
 import com.kh.contacts.model.vo.ContactsMember;
@@ -464,6 +461,26 @@ public class ContactsDao {
 				
 				result = pstmt.executeUpdate();
 			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int insertContacts(Connection conn, String contactsName, int ownerNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertPrivateContacts");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contactsName);
+			pstmt.setInt(2, ownerNo);
+			
+			result = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import static com.kh.common.JDBCTemplate.*;
 
-import com.google.gson.JsonArray;
 import com.kh.contacts.model.dao.ContactsDao;
 import com.kh.contacts.model.vo.Contacts;
 import com.kh.contacts.model.vo.ContactsCategory;
@@ -127,6 +126,19 @@ public class ContactsService {
 	public int deleteContactsMember(ArrayList<ContactsMember> contactsMemberList) {
 		Connection conn = getConnection();
 		int result = new ContactsDao().deleteContactsMember(conn, contactsMemberList);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int insertContacts(String contactsName, int ownerNo) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().insertContacts(conn, contactsName, ownerNo);
 		
 		if(result > 0) {
 			commit(conn);

@@ -425,10 +425,10 @@ function deleteStar(otherUserNo, star){
     })
 }
 
-/* -------------- "주소록에추가" Modal -------------- */
+/* -------------- modal창 - "주소록에추가"-------------- */
 
 // modal창을 감싸고있는 배경 element. (전체화면)
-const modal = $("main .modal-background");
+const modalAddMember = $("main .modal-addMember-bg");
 
 // "주소록에추가" 버튼 클릭시, modal창 보여줌.
 $("main .section__serach-bar .btn-group .addBtn").click(function(){
@@ -468,7 +468,7 @@ $("main .section__serach-bar .btn-group .addBtn").click(function(){
             $("main .modal-addMember__contactsList").html(resultStr); 
             
             // modal창 열기
-            modal.addClass("show"); 
+            modalAddMember.addClass("show"); 
         },
         error:function(){
             console.log(`ajax 통신 실패: 현유저가 소유하고 있는 주소록전체목록 조회실패`);
@@ -477,14 +477,14 @@ $("main .section__serach-bar .btn-group .addBtn").click(function(){
 })
 
 // modal창의 닫기(X)버튼 클릭시, modal창 닫힘.
-$("main .modal-background .modal-addMember .closeBtn").click(function(){
-    modal.removeClass("show");
+$("main .modal-addMember-bg .modal-addMember .closeBtn").click(function(){
+    modalAddMember.removeClass("show");
 })
 
 // modal창 바깥 클릭시, modal창 닫힘.
 $(window).on('click', function(event) {
-    if ($(event.target).is(modal)) {
-        modal.removeClass('show');
+    if ($(event.target).is(modalAddMember)) {
+        modalAddMember.removeClass('show');
     }
 });
 
@@ -506,7 +506,7 @@ function insertContactsMember(){
 
                 let addedUsersCount = checkedUsersNoList.split(",").length; //ex)"18,24,27,2" -> ["18","24","27","2"] -> 4
                 clickSidebarContactsNo(contactsNo, true, addedUsersCount); // 선택한 주소록을 사이드바에서 클릭하기
-                modal.removeClass("show");
+                modalAddMember.removeClass("show");
             }else if(result == -1){
                 alert("선택한 주소록에 이미 해당 구성원이 있습니다. 확인후 다시 시도해주세요.");
             }else {
@@ -568,47 +568,113 @@ function hideDeleteContactsUserBtn() {
     }
 }
 
-// ############ 작업중 ##############
 // "주소록에서 제외"버튼 클릭시 실행되는 기능
 function deleteContactsMember(){
-    const activeEl = $("aside .active");
-    let contactsNo = $(activeEl).filter(".sm-cate").find(":hidden").val(); // 유저번호
-    const checkedUserElList = $(".section__list-content .userInfo div.checkbox :checkbox:checked"); // 체크박스로 선택된 유저 리스트
-    const checkedUsersObjList = []; // 최종적으로 전달할 객체 리스트
 
-    for(let i=0; i<checkedUserElList.length; i++) {
-        const userNo = $(checkedUserElList[i]).val(); // 유저번호
-
-        if(activeEl.length == 1) { // 카테고리주소록인경우, 주소록번호가 각각의 유저마다 다르므로 개별로 할당해줌.
-            contactsNo = $(checkedUserElList[i]).parent().parent().find(".contactsInfo :hidden").val();
-            if(contactsNo === undefined){
-                contactsNo = $(activeEl).find(":hidden").val();
+    if(confirm("정말로 해당 구성원을 주소록에서 제외하시겠습니까?")) {
+        const activeEl = $("aside .active");
+        let contactsNo = $(activeEl).filter(".sm-cate").find(":hidden").val(); // 유저번호
+        const checkedUserElList = $(".section__list-content .userInfo div.checkbox :checkbox:checked"); // 체크박스로 선택된 유저 리스트
+        const checkedUsersObjList = []; // 최종적으로 전달할 객체 리스트
+    
+        for(let i=0; i<checkedUserElList.length; i++) {
+            const userNo = $(checkedUserElList[i]).val(); // 유저번호
+    
+            if(activeEl.length == 1) { // 카테고리주소록인경우, 주소록번호가 각각의 유저마다 다르므로 개별로 할당해줌.
+                contactsNo = $(checkedUserElList[i]).parent().parent().find(".contactsInfo :hidden").val();
+                if(contactsNo === undefined){
+                    contactsNo = $(activeEl).find(":hidden").val();
+                }
             }
+    
+            checkedUsersObjList.push({
+                contactsNo: contactsNo,
+                userNo: userNo,
+            });
         }
-
-        checkedUsersObjList.push({
-            contactsNo: contactsNo,
-            userNo: userNo,
-        });
+    
+        $.ajax({
+            url:"contacts/delete.member",
+            type:"post",
+            data:{
+                checkedUsersObjList: JSON.stringify(checkedUsersObjList),
+            },
+            success:function(result){
+                if(result > 0) {
+                    alert("성공적으로 구성원을 해당 주소록에서 제외였습니다.");
+                    clickSidebarContactsNo(contactsNo, false, checkedUsersObjList.length); // 선택한 주소록을 사이드바에서 클릭하기
+                }else {
+                    alert("주소록에서 구성원 제외를 실패하였습니다.");
+                }
+            },
+            error:function(){
+                console.log(`ajax 통신 실패: 주소록에서 구성원 제외를 실패하였습니다. `);
+            },
+        })
     }
+}
+
+
+/* -------------- modal창 - 공통 -------------- */
+
+// "주소록에 추가" 관련 modal은 여기 공통부분에 있는 코드 사용 안함 (재사용 못하도록 코드를 짰었음... 배우고있습니다..)
+
+function showModal(modalBgEl) {
+    $(modalBgEl).addClass("show");
+}
+
+function hideModal(modalBgEl){
+    $(modalBgEl).removeClass("show");
+}
+
+function closeModal(closeBtn){
+    const modalBg = $(closeBtn).parent().parent();
+    hideModal(modalBg);
+}
+
+
+/* -------------- modal창 - 개인주소록 추가 -------------- */
+const modalAddPrivateContactBg = $(".modal-addPrivateContact-bg");
+
+// 사이드바에서 개인주소록 추가(+) 버튼 클릭시, modal창 열기.
+function showModal_AddPrivateContacts() {
+    showModal(modalAddPrivateContactBg);
+}
+
+// modal창 바깥 클릭시, modal창 닫힘.
+$(window).on('click', function(event) {
+    if ($(event.target).is(modalAddPrivateContactBg)) {
+        hideModal(modalAddPrivateContactBg);
+    }
+});
+
+// modal창에서 "추가" 버튼 클릭시
+function insertPrivateContacts() {
+    const contactsName = $("#newPrivateContactsName").val();
 
     $.ajax({
-        url:"contacts/delete.member",
+        url:"contacts/insert.privateContacts",
         type:"post",
         data:{
-            checkedUsersObjList: JSON.stringify(checkedUsersObjList),
+            contactsName:contactsName,
         },
         success:function(result){
             if(result > 0) {
-                alert("성공적으로 구성원을 해당 주소록에서 제외였습니다.");
-                clickSidebarContactsNo(contactsNo, false, checkedUsersObjList.length); // 선택한 주소록을 사이드바에서 클릭하기
+                alert("성공적으로 개인주소록을 추가하였습니다.");
+                
+                // ########### 작업중 ###########
+                // 후속처리 해줘야함.
+                // 1) modal 창 닫기
+                // 2) 새로생긴 주소록 클릭하기
+
             }else {
-                alert("주소록에서 구성원 제외를 실패하였습니다.");
+                alert("개인주소록 추가에 실패하였습니다.\n중복되는 주소록이름이 있는지 확인 후 다시 시도해주세요.");
+                // ########### 작업중 ###########
+                // 실제 중복되는 이름 입력시 실패가 뜨는지 테스트하기!
             }
         },
         error:function(){
-            console.log(`ajax 통신 실패: 주소록에서 구성원 제외를 실패하였습니다. `);
+            console.log(`ajax 통신 실패`);
         },
     })
-
 }

@@ -40,9 +40,9 @@
 			<h2 class="big-cate__title">
 				공유 주소록
 				<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
-					<a href="">
+					<div class="addContactsBtn">
 						<span class="material-symbols-rounded icon">add</span>
-					</a>
+					</div>
 				<% } %>
 			</h2>
 
@@ -93,9 +93,9 @@
 
 			<h2 class="big-cate__title">
 				개인 주소록
-				<a href="">
+				<div class="addContactsBtn" onclick="showModal_AddPrivateContacts();">
 					<span class="material-symbols-rounded icon">add</span>
-				</a>
+				</div>
 			</h2>
 
 			<ul class="big-cate__contents">
@@ -152,21 +152,6 @@
 			</div>
 		</section>
 
-		<!-- modal - "주소록에추가"  -->
-		<div class="modal-background">
-			<div class="modal-addMember">
-				<span class="material-symbols-rounded icon closeBtn">close</span>
-
-				<h3>주소록에 추가</h3>
-				<p>주소록을 선택해주세요. (선택한 사용자를 해당 주소록에 추가합니다.)</p>
-				<hr>
-
-				<div class="modal-addMember__contactsList">
-					<!-- ajax로 데이터가 동적으로 들어갈 공간 - 현재 유저가 소유한 주소록명 한줄씩 -->
-				</div>
-			</div>
-		</div>
-
 		<!-- 목록 헤더 섹션 (section__list-header) -->
 		<section class="section__list-header">
 			<ul>
@@ -213,7 +198,37 @@
 			</ul>
 		</section>
 
+		<!-- modal창 - "주소록에추가"  -->
+		<div class="modal-bg modal-addMember-bg">
+			<div class="modal modal-addMember">
+				<span class="material-symbols-rounded icon closeBtn">close</span>
 
+				<h3>주소록에 추가</h3>
+				<p>주소록을 선택해주세요. (선택한 사용자를 해당 주소록에 추가합니다.)</p>
+				<hr>
+
+				<div class="modal-addMember__contactsList">
+					<!-- ajax로 데이터가 동적으로 들어갈 공간 - 현재 유저가 소유한 주소록명 한줄씩 -->
+				</div>
+			</div>
+		</div>
+
+		<!-- modal창 - 개인주소록 추가 -->
+		<div class="modal-bg modal-addPrivateContact-bg">
+			<div class="modal modal-addPrivateContact">
+				<span class="material-symbols-rounded icon closeBtn" onclick="closeModal(this);">close</span>
+
+				<h3>개인주소록 추가</h3>
+				<p>개인주소록을 추가합니다. 새로운 주소록의 이름을 입력해주세요.</p>
+				<hr>
+
+				<label for="newPrivateContactsName">새 주소록 이름 :</label>
+				<input type="text" name="newPrivateContactsName" id="newPrivateContactsName">
+
+				<hr>
+				<input type="submit" value="추가" onclick="insertPrivateContacts();">
+			</div>
+		</div>
 		
 	</main>
 	

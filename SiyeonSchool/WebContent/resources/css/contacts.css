@@ -86,8 +86,9 @@ aside .big-cate__title{
 }
 
 /* 대분류 - 추가(+)버튼(을 감싸고있는 a태그) */
-aside .big-cate__title a{
+aside .big-cate__title div.addContactsBtn{
     height: 24px;
+    cursor: pointer;
 }
 
 /* ------- 중분류: ex) 세미프로젝트 ------- */
@@ -393,8 +394,11 @@ main .section__list-content li div.star span.star{
 }
 
 /* ==================== Modal ==================== */
+
+/* ---------- modal - 공통 ---------- */
+
 /* modal - 전체화면에 투명한 회색배경 깔아주기 */
-main .modal-background {
+main .modal-bg{
     display: none;
     position: fixed;
     z-index: 1;
@@ -407,12 +411,12 @@ main .modal-background {
 }
 
 /* modal - ".show" 클래스 추가되면 modal창 보이게 */
-main .modal-background.show {
+main .modal-bg.show{
     display: block;
 }
 
 /* modal - 실제 modal창 */
-main .modal-background .modal-addMember {
+main .modal-bg .modal{
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -425,42 +429,41 @@ main .modal-background .modal-addMember {
 }
 
 /* modal - 닫기 아이콘 */
-main .modal-background .modal-addMember .closeBtn{
+main .modal-bg .modal .closeBtn{
     cursor: pointer;
     position: absolute;
     top: 20px;
     right: 20px;
 }
-
 /* modal - 제목 h3 */
-main .modal-background .modal-addMember h3{
+main .modal-bg .modal h3{
     font-size: 1.3rem;
     font-weight: bold;
 }
 
 /* modal - h4 */
-main .modal-background .modal-addMember h4{
+main .modal-bg .modal h4{
     font-size: 1.1rem;
     font-weight: bold;
 }
 
 /* modal - h5 */
-main .modal-background .modal-addMember h5{
+main .modal-bg .modal h5{
     font-size: 1.1rem;
 }
 
 /* modal - p */
-main .modal-background .modal-addMember p{
+main .modal-bg .modal p{
     margin: 8px 0;
 }
 
-/* modal - h5 */
-main .modal-background .modal-addMember hr{
+/* modal - hr */
+main .modal-bg .modal hr{
     margin: 20px 0;
 }
 
 /* modal - submit 버튼 */
-main .modal-background .modal-addMember input[type="submit"]{
+main .modal-bg .modal input[type="submit"]{
     display: block;
     width: 200px;
     margin: auto;
@@ -474,7 +477,10 @@ main .modal-background .modal-addMember input[type="submit"]{
 }
 
 /* modal - submit 버튼 - hover 효과 */
-main .modal-background .modal-addMember input[type="submit"]:hover{
+main .modal-bg .modal input[type="submit"]:hover{
     background-color: var(--lightOrange);
     font-weight: bold;
 }
+
+
+/* ---------- modal - 개인주소록 추가 ---------- */

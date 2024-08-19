@@ -4,6 +4,7 @@ public class Contacts {
 	private int contactsNo;
 	private String contactsName;
 	private String contactsType;
+	private int ownerNo;
 	private String status;
 	private int categoryNo;
 	private int userCount; // 해당 주소록의 인원수 
@@ -20,7 +21,7 @@ public class Contacts {
 		this.categoryNo = categoryNo;
 		this.userCount = userCount;
 	}
-
+	
 	public Contacts(int contactsNo, String contactsName, int userCount) {
 		super();
 		this.contactsNo = contactsNo;
@@ -57,6 +58,14 @@ public class Contacts {
 	public void setContactsType(String contactsType) {
 		this.contactsType = contactsType;
 	}
+	
+	public int getOwnerNo() {
+		return ownerNo;
+	}
+
+	public void setOwnerNo(int ownerNo) {
+		this.ownerNo = ownerNo;
+	}
 
 	public String getStatus() {
 		return status;
@@ -85,7 +94,8 @@ public class Contacts {
 	@Override
 	public String toString() {
 		return "Contacts [contactsNo=" + contactsNo + ", contactsName=" + contactsName + ", contactsType="
-				+ contactsType + ", status=" + status + ", categoryNo=" + categoryNo + ", userCount=" + userCount + "]";
+				+ contactsType + ", ownerNo=" + ownerNo + ", status=" + status + ", categoryNo=" + categoryNo
+				+ ", userCount=" + userCount + "]";
 	}
 
 }
