@@ -9,22 +9,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.kh.contacts.model.service.ContactsService;
 import com.kh.contacts.model.vo.Contacts;
-import com.kh.contacts.model.vo.ContactsCategory;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class ContactsController
+ * Servlet implementation class AjaxContactsListAllContactsController
  */
-@WebServlet("/contacts")
-public class ContactsController extends HttpServlet {
+@WebServlet("/contacts/list.allContacts")
+public class AjaxContactsListAllContactsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ContactsController() {
+    public AjaxContactsListAllContactsController() {
         super();
     }
 
@@ -32,19 +32,14 @@ public class ContactsController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 주소록 메인화면을 띄우기 위한 컨트롤러
+		// 모든주소록 목록조회용 컨트롤러 : OWNER_NO가 소유하고 있는 모든주소록 조회
 		
-		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		int currentUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+
+		ArrayList<Contacts> list = new ContactsService().selectContactsList(currentUserNo);
 		
-		ArrayList<ContactsCategory> categoryList = new ContactsService().selectCategoryList();
-		ArrayList<Contacts> pivateContactsList = new ContactsService().selectPrivateContactsList(ownerNo);
-	
-		request.setAttribute("categoryList", categoryList);
-		request.setAttribute("pivateContactsList", pivateContactsList);
-		
-		request.getSession().setAttribute("currentPage", "contacts"); // 메뉴바에서 해당 메뉴의 아이콘 선택을 위한 값
-		request.getRequestDispatcher("views/contacts/contacts.jsp").forward(request, response);
-		
+		response.setContentType("application/json; charset=utf-8");
+		new Gson().toJson(list, response.getWriter());
 	}
 
 	/**

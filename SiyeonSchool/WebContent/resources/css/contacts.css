@@ -3,10 +3,13 @@
 :root{
     /* 사이드바 가로 폭 */
     --sidebar-width: 300px;
+    --contact-content-width: calc(100vw - var(--sidebar-width));
 
     --contact-searchbar-height: calc(15px + 36px + 10px);
     --contact-list-header-height: 40px;
-
+    --content-list-content-height: calc(100vh - var(--menubar-height) - var(--contact-searchbar-height) - var(--contact-list-header-height));
+    
+    
     --contactsHover: #ffd27773;
 }
 
@@ -157,8 +160,9 @@ aside .sm-cate>div .material-icons{
 main{
     position: absolute;
     left: 300px;
-    width: calc(100vw - var(--sidebar-width)); /* 가로 화면크기 - 사이드바 크기*/
+    width: var(--contact-content-width); 
     height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
+    min-width: calc(1500px - var(--sidebar-width)); /* 화면을 더 줄일 수 없도록함. 화면 줄었을때 요소간 겹침 방지*/
 }
 
 /* ------- 메인 컨텐츠 - 공동속성 ------- */
@@ -193,10 +197,9 @@ main .section__serach-bar .btn-group{
     top: 15px;
     display: flex;
     height: 36px;
-
 }
 
-/* 버튼 */
+/* 버튼  */
 main .section__serach-bar .btn-group button{
     border: 1px solid var(--lightGrey);
     border-radius: 3px;
@@ -207,23 +210,33 @@ main .section__serach-bar .btn-group button{
     display: inline-block;
 }
 
-/* 버튼 - 후버시 */
+/* 버튼 - hover시 */
 main .section__serach-bar .btn-group button:hover{
     background-color: var(--lightOrange);
     font-weight: bold;
 }
 
 /* 버튼 - 이메일 버튼 */
-main .section__serach-bar .btn-group button:last-child{
+main .section__serach-bar .btn-group button.email{
     display: flex;
     align-items: center;
 }
 
 /* 버튼 - 이메일 버튼 안 아이콘 */
-main .section__serach-bar .btn-group button:last-child span.icon{
+main .section__serach-bar .btn-group button.email span.icon{
     font-size: 24px;
     margin-right: 5px;
 }
+
+/* 버튼 - "주소록에서삭제"버튼 */
+/* main .section__serach-bar .btn-group button.deleteBtn{
+    display: block;
+} */
+
+/* 버튼 - "주소록에서삭제"버튼 - 숨김 */
+/* main .section__serach-bar .btn-group button.deleteBtn.hidden{
+    display: none;
+} */
 
 /* 검색창 - 바로 바깥 div*/
 main .section__serach-bar .search-bar{
@@ -281,11 +294,11 @@ main section li div{
 /* 가로 길이 비율 */
 main section li div.checkbox{width: 5%;}
 main section li div.star{width: 5%;}
-main section li div.userName{width: 20%;}
-main section li div.userId{width: 20%;}
-main section li div.role{width: 15%;}
-main section li div.birthday{width: 15%;}
-main section li div.phone{width: 20%;}
+main section li div.userName{width: 18%;} /* 100% - 10% = 90%   => 90% / 5 = 18%*/
+main section li div.userId{width: 18%;}
+main section li div.role{width: 18%;}
+main section li div.birthday{width: 18%;}
+main section li div.phone{width: 18%;}
 
 main section li div span{
     cursor: pointer;
@@ -339,8 +352,8 @@ main .section__list-header li div span.icon.drop_down{
 
 /* ------- 목록 내용 섹션 (section__list-content) ------- */
 main .section__list-content{
-    height: calc(100vh - var(--menubar-height) - var(--contact-searchbar-height) - var(--contact-list-header-height));
-    max-height: calc(100vh - var(--menubar-height) - var(--contact-searchbar-height) - var(--contact-list-header-height));
+    height: var(--content-list-content-height);
+    max-height: var(--content-list-content-height);
     overflow: auto;
 }
 
@@ -353,7 +366,20 @@ main .section__list-content li{
 /* 목록 내용 섹션 (section__list-content) - 각각의 줄 후버시 배경색 */
 main .section__list-content li:hover{
     background-color: var(--contactsHover);
-    
+}
+
+/* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */
+main .section__list-content li.userInfo.noUsers{
+    height: var(--content-list-content-height);
+    padding: 100px 0 0 420px;
+    border-bottom: none;
+    cursor: default;
+    font-weight: bold;
+}
+
+/* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */
+main .section__list-content li.userInfo.noUsers:hover{
+    background-color: #fff;
 }
 
 /* 목록 내용 섹션 (section__list-content) - 프로필 사진 */
@@ -365,4 +391,91 @@ main .section__list-content li div span.profile-pic{
 /* 목록 내용 섹션 (section__list-content) - 별표 */
 main .section__list-content li div.star span.star{
     padding: 8px;
+}
+
+/* ==================== Modal ==================== */
+/* modal - 전체화면에 투명한 회색배경 깔아주기 */
+main .modal-background {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: calc(var(--menubar-height) + 10px); /* modal창 세로 위치*/
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* modal - ".show" 클래스 추가되면 modal창 보이게 */
+main .modal-background.show {
+    display: block;
+}
+
+/* modal - 실제 modal창 */
+main .modal-background .modal-addMember {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid var(--lightGrey);
+    border-radius: 10px;
+    width: 50%;
+    position: relative;
+    max-height: calc(100vh - var(--menubar-height) - 20px); /* model창 세로 최대크기 */;
+    overflow: auto;
+}
+
+/* modal - 닫기 아이콘 */
+main .modal-background .modal-addMember .closeBtn{
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+/* modal - 제목 h3 */
+main .modal-background .modal-addMember h3{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+/* modal - h4 */
+main .modal-background .modal-addMember h4{
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* modal - h5 */
+main .modal-background .modal-addMember h5{
+    font-size: 1.1rem;
+}
+
+/* modal - p */
+main .modal-background .modal-addMember p{
+    margin: 8px 0;
+}
+
+/* modal - h5 */
+main .modal-background .modal-addMember hr{
+    margin: 20px 0;
+}
+
+/* modal - submit 버튼 */
+main .modal-background .modal-addMember input[type="submit"]{
+    display: block;
+    width: 200px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-top: 10px;
+    padding: 10px 0;
+    cursor: pointer;
+    border: 1px solid var(--lightGrey);
+    border-radius: 10px;
+}
+
+/* modal - submit 버튼 - hover 효과 */
+main .modal-background .modal-addMember input[type="submit"]:hover{
+    background-color: var(--lightOrange);
+    font-weight: bold;
 }

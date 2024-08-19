@@ -1,29 +1,26 @@
 package com.kh.contacts.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
 import com.kh.contacts.model.service.ContactsService;
-import com.kh.contacts.model.vo.Contacts;
+import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class AjaxPublicContactsListContoller
+ * Servlet implementation class AjaxContactsStarInsertController
  */
-@WebServlet("/contacts/list.pc")
-public class AjaxPublicContactsListContoller extends HttpServlet {
+@WebServlet("/contacts/insert.star")
+public class AjaxContactsStarInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxPublicContactsListContoller() {
+    public AjaxContactsStarInsertController() {
         super();
     }
 
@@ -31,21 +28,20 @@ public class AjaxPublicContactsListContoller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		// 사이드바에서 클릭한 공유주소록 카테고리의 하위 주소록 목록조회
-		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
-		ArrayList<Contacts> list = new ContactsService().selectPublicContactsList(categoryNo);
+		// "별" 추가 컨트롤러
 		
-		response.setContentType("application/json; charset=utf-8");
-		new Gson().toJson(list, response.getWriter());
+		int currentUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		int otherUserNo = Integer.parseInt(request.getParameter("otherUserNo"));
 		
+		int result = new ContactsService().insertStar(currentUserNo, otherUserNo);
+		
+		response.getWriter().print(result);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

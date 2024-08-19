@@ -1,8 +1,6 @@
 package com.kh.contacts.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,21 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.contacts.model.service.ContactsService;
-import com.kh.contacts.model.vo.Contacts;
-import com.kh.contacts.model.vo.ContactsCategory;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class ContactsController
+ * Servlet implementation class AjaxContactsStarDeleteController
  */
-@WebServlet("/contacts")
-public class ContactsController extends HttpServlet {
+@WebServlet("/contacts/delete.star")
+public class AjaxContactsStarDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ContactsController() {
+    public AjaxContactsStarDeleteController() {
         super();
     }
 
@@ -32,19 +28,14 @@ public class ContactsController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 주소록 메인화면을 띄우기 위한 컨트롤러
+		// "별" 삭제 컨트롤러
 		
-		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		int currentUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		int otherUserNo = Integer.parseInt(request.getParameter("otherUserNo"));
 		
-		ArrayList<ContactsCategory> categoryList = new ContactsService().selectCategoryList();
-		ArrayList<Contacts> pivateContactsList = new ContactsService().selectPrivateContactsList(ownerNo);
-	
-		request.setAttribute("categoryList", categoryList);
-		request.setAttribute("pivateContactsList", pivateContactsList);
+		int result = new ContactsService().deleteStar(currentUserNo, otherUserNo);
 		
-		request.getSession().setAttribute("currentPage", "contacts"); // 메뉴바에서 해당 메뉴의 아이콘 선택을 위한 값
-		request.getRequestDispatcher("views/contacts/contacts.jsp").forward(request, response);
-		
+		response.getWriter().print(result);
 	}
 
 	/**

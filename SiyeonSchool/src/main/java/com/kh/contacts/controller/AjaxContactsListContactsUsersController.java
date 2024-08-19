@@ -9,22 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.kh.contacts.model.service.ContactsService;
-import com.kh.contacts.model.vo.Contacts;
-import com.kh.contacts.model.vo.ContactsCategory;
 import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class ContactsController
+ * Servlet implementation class AjaxContactsUsersListController
  */
-@WebServlet("/contacts")
-public class ContactsController extends HttpServlet {
+@WebServlet("/contacts/list.contactsUsers")
+public class AjaxContactsListContactsUsersController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ContactsController() {
+    public AjaxContactsListContactsUsersController() {
         super();
     }
 
@@ -32,18 +31,15 @@ public class ContactsController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 주소록 메인화면을 띄우기 위한 컨트롤러
+		// 주소록구성원 조회용 컨트롤러 - 주소록구성원 조회: ex) "세미 1조"의 구성원만
 		
-		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		int currentUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		int contactsNo = Integer.parseInt(request.getParameter("contactsNo"));	
 		
-		ArrayList<ContactsCategory> categoryList = new ContactsService().selectCategoryList();
-		ArrayList<Contacts> pivateContactsList = new ContactsService().selectPrivateContactsList(ownerNo);
-	
-		request.setAttribute("categoryList", categoryList);
-		request.setAttribute("pivateContactsList", pivateContactsList);
+		ArrayList<User> list = new ContactsService().selectContactsUsersList(currentUserNo, contactsNo);
 		
-		request.getSession().setAttribute("currentPage", "contacts"); // 메뉴바에서 해당 메뉴의 아이콘 선택을 위한 값
-		request.getRequestDispatcher("views/contacts/contacts.jsp").forward(request, response);
+		response.setContentType("application/json; charset=utf-8");
+		new Gson().toJson(list, response.getWriter());
 		
 	}
 
