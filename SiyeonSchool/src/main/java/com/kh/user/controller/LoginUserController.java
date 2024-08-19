@@ -36,12 +36,15 @@ public class LoginUserController extends HttpServlet {
 
 		User loginUser = new UserService().loginUser(userId, userPwd);
 
-		if(loginUser != null) {
+		if(loginUser != null) { // 로그인 성공
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", loginUser);
 
 			response.sendRedirect(request.getContextPath() + "/home");
-		}
+		}else { // 로그인 실패 
+	        request.setAttribute("loginFailed", true);
+	        response.sendRedirect(request.getContextPath());
+	    }
 
 	}
 
