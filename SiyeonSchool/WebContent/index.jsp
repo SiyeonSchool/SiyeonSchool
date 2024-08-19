@@ -74,7 +74,7 @@
 	 color: red; 
 	 font-size: 12px;
 	 margin-left: 45px;
-	 visibility: hidden;
+	 /* visibility: hidden; */
 }
 
 #right table{
@@ -196,10 +196,11 @@ li:first-child::before{display: none;}
 			var loginFailed = "<%= request.getAttribute("loginFailed") != null ? "true" : "false" %>";
 
 			// 로그인 실패 시 에러 메시지 표시
-			if (loginFailed === "true") {
+			if (loginFailed == "true") {
 				document.getElementById("error-message").style.visibility = 'visible';
 			}
 		}
+		
 		let mouse, originx, originy, cvs;
 		
 		 // Safari doesn't support EventTarget
