@@ -1,3 +1,6 @@
+// JSP에서 가져온 로그인유저정보
+const loginUser = JSON.parse(loginUserJson); // json string -> object 타입으로 형변환함.
+
 /* ==================== 사이드바 ==================== */
 
 // 주소록 카테고리 클릭시: 클릭된 카테고리 하이라이트 + 하위 주소록 숨기거나 보여주기
@@ -99,6 +102,14 @@ $(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로
     })
 
     selectCategoryUsersList(categoryNo); // 카테고리구성원 메인컨텐츠에 뿌려주기.
+
+    if (loginUser.userAuth == "A") { // 관리자일경우만
+        displayDeleteContactsUserBtn(); // "주소록에서 제외"버튼 보여주기
+    }else {
+        hideDeleteContactsUserBtn(); // "주소록에서 제외"버튼 숨기기
+    }
+
+    addContentsInfoHeader(); // 메인컨텐츠 헤더부분에 "주소록"칸 추가하기
 });
 
 
@@ -113,17 +124,27 @@ selectAllUsersList(); // 전체사용자조회 실행. 주소록 페이지 들�
 $("aside .mid-cate__contents").on("click", ".sm-cate", function(){ // 동적으로 생성된 객체에 효과를 주기 위해 이 방식을 사용함.
     const contactsNo = $(this).find("input").val(); // 클릭된 주소록 번호
     selectContactsMemberList(contactsNo);
+    
+    if (loginUser.userAuth == "A") { // 관리자일경우만
+        displayDeleteContactsUserBtn(); // "주소록에서 제외"버튼 보여주기
+    }else {
+        hideDeleteContactsUserBtn(); // "주소록에서 제외"버튼 숨기기
+    }
 })
 
 // 사이드바에서 개인주소록 클릭시, 해당하는 주소록구성원 화면에 뿌려주기.
 $("aside .big-cate.private-contacts .mid-cate").click(function(){
     const contactsNo = $(this).find("input").val(); // 클릭된 주소록 번호
     selectContactsMemberList(contactsNo);
+    displayDeleteContactsUserBtn(); // "주소록에서 제외"버튼 보여주기
+    removeContentsInfoHeader(); // 메인컨텐츠 헤더부분에 "주소록"칸 제거하기
 });
 
 // 사이드바에서 "모든사용자" 클릭시, 모든사용자를 메인화면에 뿌려줌.
 $("aside .public-contacts li.allUsers").click(function(){
     selectAllUsersList();
+    hideDeleteContactsUserBtn(); // "주소록에서 제외"버튼 숨기기
+    removeContentsInfoHeader(); // 메인컨텐츠 헤더부분에 "주소록"칸 제거하기
 });
 
 // 메인컨텐츠 공간: 사용자리스트를 표기하기 위한 공간
@@ -138,7 +159,6 @@ function selectAllUsersList() {
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result)); // 화면에 전체사용자 리스트 뿌려주기.
             $(".allUsers .userCount").text(`(${result.length})`); // 사이드바 카테고리 중, "모든사용자"의 인원수 채워넣기. ex) 모든사용자(31)
-            hideDeleteContactsUserBtn();
         },
         error:function(){
             console.log("ajax 통신 실패: 전체사용자 조회실패).");
@@ -154,7 +174,6 @@ function selectCategoryUsersList(categoryNo){
         data:{categoryNo:categoryNo},
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result));
-            displayDeleteContactsUserBtn();
         },
         error:function(){
             console.log("ajax 통신 실패: 카테고리 " + categoryNo +  "번 구성원 조회실패.");
@@ -170,18 +189,18 @@ function selectContactsMemberList(contactsNo){
         data:{contactsNo:contactsNo},
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result));
-            displayDeleteContactsUserBtn();
         },
         error:function(){
             console.log("ajax 통신 실패: 주소록 " + contactsNo +  "번 구성원 조회실패.");
         },
     })
+
+    removeContentsInfoHeader(); // 메인컨텐츠 헤더부분에 "주소록"칸 제거하기
 }
 
 // 리스트문자열변환 : 유저리스트를 화면에 뿌려줄수있는 문자열로 바꿔주기
 function convertUserListToStr(userList){
     let str = "";
-
     if(userList.length == 0) { // 유저가 없는 경우
         str =  `<li class="userInfo noUsers">해당 주소록에 속한 구성원이 없습니다.</li>`;
 
@@ -202,8 +221,17 @@ function convertUserListToStr(userList){
                         </div>
                         <div class="star">
                             <span class="${classValue}">star</span>
-                        </div>
-                        <div class="userName">
+                        </div>`;
+
+            // 카테고리주소록 유저리스트일경우
+            if((userList[i]).contactsNo != 0) {
+                str += `<div class="contactsInfo">
+                                <input type="hidden" name="contactsNo" value="${userList[i].contactsNo}">
+                                ${userList[i].contactsName}
+                        </div>`;
+            }
+
+            str +=      `<div class="userName">
                             <span class="material-symbols-rounded icon profile-pic">account_circle</span>
                             ${userList[i].userName}
                         </div>
@@ -217,14 +245,34 @@ function convertUserListToStr(userList){
     return str;
 }
 
+// 사이드바에서 카테고리주소록 클릭시, 메인컨텐츠 헤더부분에 "주소록"칸 추가하기
+function addContentsInfoHeader(){
+    const contactsInfoHeader = `<div class="contactsInfo">
+                                    <span class="text">주소록</span>
+                                    <span class="material-symbols-rounded icon drop_down">arrow_drop_down</span>
+                                </div>`;
+
+    if($(".section__list-header li").find("div.contactsInfo").length == 0) { // 기존에 "주소록"칸이 없었을 경우에만
+        $(contactsInfoHeader).insertAfter(".section__list-header div.star");
+    }
+}
+
+// 사이드바에서 카테고리주소록 유저리스트가 아닌 다른 주소록 클릭시, 메인컨텐츠 헤더부분에 "주소록"칸 제거하기
+function removeContentsInfoHeader(){
+    const contentsInfoHeader = $(".section__list-header li").find("div.contactsInfo"); //"주소록"칸
+   
+    if(contentsInfoHeader.length > 0) { // 기존에 "주소록"칸이 있었을 경우
+        $(contentsInfoHeader).remove();
+    }
+}
+
 // -------------- 메인 컨텐츠 - 정렬 --------------
 
 // 주소록구성원 정렬 : 클릭한 정렬기준으로 해당하는 주소록 구성원들을 정렬하여 화면에 뿌려주기.
-$("main .section__list-header li div span").click(function(){
-    
+$("main .section__list-header li").on("click", "div span", function(){
     // 정렬기준
-    const sortBy = $(this).parent().attr("class"); //star, userName, userId, role, birthday, phone
-    
+    const sortBy = $(this).parent().attr("class"); //star, contactsInfo, userName, userId, role, birthday, phone
+
     // 정렬순서 (내림차순/오름차순)
     const arrowSpan = $(this).parent().find("span.drop_down");
     let isDesc; // 내림차순? (true: 내림차순 / false: 오름차순)
@@ -455,7 +503,9 @@ function insertContactsMember(){
         success:function(result){
             if(result > 0) {
                 alert("성공적으로 주소록에 구성원을 추가하였습니다.");
-                clickSidebarContactsNo(contactsNo, checkedUsersNoList); // 선택한 주소록을 사이드바에서 클릭하기
+
+                let addedUsersCount = checkedUsersNoList.split(",").length; //ex)"18,24,27,2" -> ["18","24","27","2"] -> 4
+                clickSidebarContactsNo(contactsNo, true, addedUsersCount); // 선택한 주소록을 사이드바에서 클릭하기
                 modal.removeClass("show");
             }else if(result == -1){
                 alert("선택한 주소록에 이미 해당 구성원이 있습니다. 확인후 다시 시도해주세요.");
@@ -471,7 +521,7 @@ function insertContactsMember(){
 }
 
 // 사이드바에서 주소록번호에 해당하는 메뉴 클릭하기
-function clickSidebarContactsNo(contactsNo, checkedUsersNoListStr){
+function clickSidebarContactsNo(contactsNo, isAdded, userCountToUpdate){
     // 변경된 주소록 메뉴 찾기
     // 개인주소록에서 먼저 찾고, 없으면 공유주소록에서 찾음
     let updatedEl = $(`.mid-cate__title input[name="contactsNo"][value="${contactsNo}"]`).parent(); // 개인주소록 내
@@ -483,8 +533,14 @@ function clickSidebarContactsNo(contactsNo, checkedUsersNoListStr){
     const userCountEl = $(updatedEl).find("span.userCount");
     let prevUsersCount = userCountEl.text().replace(/[()]/g, ''); //ex) "(3)" -> "3"
     prevUsersCount = parseInt(prevUsersCount, 10); // 숫자로 형변환
-    let addedUsersCount = checkedUsersNoListStr.split(",").length; //ex)"18,24,27,2" -> ["18","24","27","2"] -> 4
-    let finalUsersCount = prevUsersCount + addedUsersCount;
+    
+    let finalUsersCount;
+    if(isAdded) {
+        finalUsersCount = prevUsersCount + userCountToUpdate;
+    }else {
+        finalUsersCount = prevUsersCount - userCountToUpdate;
+    }
+
     userCountEl.text(`(${finalUsersCount})`); // 최종 인원수로 업데이트
 
     updatedEl.click(); // 사이드바에서 클릭하면, 이미 정의된 이벤트 덕분에 메인컨텐츠영역에도 주소록구성원목록을 뿌려주게됨.
@@ -495,24 +551,64 @@ function clickSidebarContactsNo(contactsNo, checkedUsersNoListStr){
 // 유저를 주소록에서 제거할때 사용.
 
 const mainBtnGroupArea = $(".section__serach-bar .btn-group"); // 버튼을 넣을 공간
-const deleteContactsUserBtn = `<button class="deleteBtn">주소록에서 제외</button>`; // 실제 버튼
+const deleteContactsUserBtn = `<button class="deleteBtn" onclick="deleteContactsMember();">주소록에서 제외</button>`; // 실제 버튼
 
-// "주소록에서제외"버튼 - 보여주기
+// "주소록에서 제외"버튼 - 보여주기
 function displayDeleteContactsUserBtn() {
-
-    // ################ 본인의 주소록이 아닌경우에는 보여주면 안됨!! => 구현해야함! ##################
-    // 방법1) 주소록소유자와 본인이 일치한지 확인 -> 맞으면 보여주기, 아니면 무시
-    // 방법2) 공유주소록이면 관리자인지 확인 -> 맞으면 보여주기, 아니면 무시
-
     if($(mainBtnGroupArea).find(".deleteBtn").length == 0) { // 버튼이 없다면 -> 추가
         $(mainBtnGroupArea).append(deleteContactsUserBtn);
     }
 }
 
-// "주소록에서제외"버튼 - 제거
+// "주소록에서 제외"버튼 - 제거
 function hideDeleteContactsUserBtn() {
     const deleteBtn = $(mainBtnGroupArea).find(".deleteBtn");
     if(deleteBtn.length != 0){ // 버튼이 있다면 -> 제거
         $(deleteBtn).remove();
     }
+}
+
+// ############ 작업중 ##############
+// "주소록에서 제외"버튼 클릭시 실행되는 기능
+function deleteContactsMember(){
+    const activeEl = $("aside .active");
+    let contactsNo = $(activeEl).filter(".sm-cate").find(":hidden").val(); // 유저번호
+    const checkedUserElList = $(".section__list-content .userInfo div.checkbox :checkbox:checked"); // 체크박스로 선택된 유저 리스트
+    const checkedUsersObjList = []; // 최종적으로 전달할 객체 리스트
+
+    for(let i=0; i<checkedUserElList.length; i++) {
+        const userNo = $(checkedUserElList[i]).val(); // 유저번호
+
+        if(activeEl.length == 1) { // 카테고리주소록인경우, 주소록번호가 각각의 유저마다 다르므로 개별로 할당해줌.
+            contactsNo = $(checkedUserElList[i]).parent().parent().find(".contactsInfo :hidden").val();
+            if(contactsNo === undefined){
+                contactsNo = $(activeEl).find(":hidden").val();
+            }
+        }
+
+        checkedUsersObjList.push({
+            contactsNo: contactsNo,
+            userNo: userNo,
+        });
+    }
+
+    $.ajax({
+        url:"contacts/delete.member",
+        type:"post",
+        data:{
+            checkedUsersObjList: JSON.stringify(checkedUsersObjList),
+        },
+        success:function(result){
+            if(result > 0) {
+                alert("성공적으로 구성원을 해당 주소록에서 제외였습니다.");
+                clickSidebarContactsNo(contactsNo, false, checkedUsersObjList.length); // 선택한 주소록을 사이드바에서 클릭하기
+            }else {
+                alert("주소록에서 구성원 제외를 실패하였습니다.");
+            }
+        },
+        error:function(){
+            console.log(`ajax 통신 실패: 주소록에서 구성원 제외를 실패하였습니다. `);
+        },
+    })
+
 }

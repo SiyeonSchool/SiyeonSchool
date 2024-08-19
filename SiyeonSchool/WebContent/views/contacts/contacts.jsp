@@ -25,6 +25,12 @@
 
 	<%@ include file="../common/menubar.jsp" %>
 
+	<script>
+		// 별도 js 파일로 loginUser을 가져가기 위함. (json 형태로)
+		const loginUserJson = `<%= loginUserJson %>`;
+	</script>
+	
+
 	<!-- ==================== 사이드바 ==================== -->
 	<aside>
 
@@ -173,6 +179,8 @@
 						<span class="material-icons-round icon star fill">star</span>
 						<span class="material-symbols-rounded icon drop_down">arrow_drop_down</span>
 					</div>
+					
+					<!-- "주소록"칸 들어갈자리 (카테고리전체유저리스트 조회시에만 동적으로 추가됨.) -->
 		
 					<div class="userName">
 						<span class="text">이름</span>

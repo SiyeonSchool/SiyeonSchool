@@ -2,36 +2,36 @@ package com.kh.user.model.vo;
 
 public class User {
    
-   private int userNo;
-   private String userId;
-   private String userPwd;
-   private String userName;
-   private String phone;
-   private String phonePublic;
-   private String birthday; // sql에서 날짜양식을 지정하여 문자열로 가져옴
-   private String email;
-   private String address;
-   private String enrollDate; // sql에서 날짜양식을 지정하여 문자열로 가져옴
-   private String modifyDate; // sql에서 날짜양식을 지정하여 문자열로 가져옴
-   private int profileFileNo;
-   private int questionNo;
-   private String questionAnswer;
-   private String userAuth;
-   private String status;
-   private String githubUrl;
-   private String notionUrl;
-   private String role; // 주소록에서 유저조회시 필요한 '역할'을 담는 변수
-   private String star; // 주소록에서 유저조회시 필요한 '별'을 담는 변수
-   
-   public User() {}
-   
-   
+	private int userNo;
+	private String userId;
+	private String userPwd;
+	private String userName;
+	private String phone;
+	private String phonePublic;
+	private String birthday; // sql에서 날짜양식을 지정하여 문자열로 가져옴
+	private String email;
+	private String address;
+	private String enrollDate; // sql에서 날짜양식을 지정하여 문자열로 가져옴
+	private String modifyDate; // sql에서 날짜양식을 지정하여 문자열로 가져옴
+	private int profileFileNo;
+	private int questionNo;
+	private String questionAnswer;
+	private String userAuth;
+	private String status;
+	private String githubUrl;
+	private String notionUrl;
+	private String role; // 주소록에서 유저조회시 필요한 변수 - '역할'
+	private String star; // 주소록에서 유저조회시 필요한 변수 - '별'
+	private int contactsNo; // 주소록에서 유저조회시 필요한 변수 - '주소록번호'
+	private String contactsName; // 주소록에서 유저조회시 필요한 변수 - '주소록이름'
 
-    // 모든 필드용 생성자
+	public User() {}
+
+    // 모든 필드용 생성자 (USER DB 기본정보 전체 데이터 + 주소록에 사용될 추가 데이터(역할, 별)
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
 			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
 			int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl,
-			String role, String star) {
+			String role, String star, int contactsNo, String contactsName) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
@@ -53,9 +53,11 @@ public class User {
 		this.notionUrl = notionUrl;
 		this.role = role;
 		this.star = star;
+		this.contactsNo = contactsNo;
+		this.contactsName = contactsName;
 	}
 	
-	// role, star를 제외한 생성자
+	// USER DB 기본정보 전체 데이터 (주소록에 사용될 role, star를 제외한 생성자)
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
 			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
 			int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl) {
@@ -79,8 +81,8 @@ public class User {
 		this.githubUrl = githubUrl;
 		this.notionUrl = notionUrl;
 	}
-	
-	// 회원가입
+
+	// 회원가입에 사용될 생성자
 	public User(String userId, String userPwd, String userName, String phone, String birthday, String email, String address,
 		int questionNo, String questionAnswer) {
 		super();
@@ -95,7 +97,23 @@ public class User {
 		this.questionAnswer = questionAnswer;
 	}
 
-	// 주소록에 사용할 생성자
+	// 주소록에 사용할 생성자1 - 카테고리 전체구성원 조회시 사용
+	public User(int userNo, String userId, String userName, String phone, String birthday, int profileFileNo,
+			String role, String star, int contactsNo, String contactsName) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userName = userName;
+		this.phone = phone;
+		this.birthday = birthday;
+		this.profileFileNo = profileFileNo;
+		this.role = role;
+		this.star = star;
+		this.contactsNo = contactsNo;
+		this.contactsName = contactsName;
+	}
+	
+	// 주소록에 사용할 생성자2 - 일반 주소록구성원 조회시 사용
 	public User(int userNo, String userId, String userName, String phone, String birthday,
 			int profileFileNo, String role, String star) {
 		super();
@@ -108,6 +126,7 @@ public class User {
 		this.role = role;
 		this.star = star;
 	}
+
 
 	public int getUserNo() {
 		return userNo;

@@ -82,7 +82,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -101,22 +100,25 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
-		 ORDER BY CM.ROLE DESC, U.USER_NAME
+		 ORDER BY U.USER_NAME
 	</entry>
 	
 	<!-- ===================== 전체사용자 <정렬>조회 ============================= -->
@@ -404,7 +406,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -429,7 +430,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -454,7 +454,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -479,7 +478,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -504,7 +502,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -529,7 +526,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -554,7 +550,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -579,7 +574,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -604,7 +598,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -629,7 +622,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -654,7 +646,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -679,7 +670,6 @@
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
@@ -702,20 +692,23 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY CS.STAR ASC, U.USER_NAME ASC
 	</entry>
@@ -727,22 +720,81 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY CS.STAR DESC, U.USER_NAME ASC
+	</entry>
+	
+	<!-- 카테고리구성원 <정렬>조회: <주소록명> <오름차순> -->
+	<entry key="selectCategoryUsersListOrderByContactsNameAsc">
+		SELECT
+		       U.USER_NO
+		     , U.USER_ID
+		     , U.USER_NAME
+		     , CASE WHEN ? = '1' THEN U.PHONE
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            ELSE U.PHONE
+		       END AS "PHONE"
+		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
+		     , U.PROFILE_FILE_NO
+		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
+		            ELSE '-'
+		       END AS "ROLE"
+		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
+		  FROM USERS U
+		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
+		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
+		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
+		 ORDER BY C.CONTACTS_NAME ASC, U.USER_NAME ASC
+	</entry>
+	
+	<!-- 카테고리구성원 <정렬>조회: <주소록명> <내림차순> -->
+	<entry key="selectCategoryUsersListOrderByContactsNameDesc">
+		SELECT
+		       U.USER_NO
+		     , U.USER_ID
+		     , U.USER_NAME
+		     , CASE WHEN ? = '1' THEN U.PHONE
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            ELSE U.PHONE
+		       END AS "PHONE"
+		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
+		     , U.PROFILE_FILE_NO
+		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
+		            ELSE '-'
+		       END AS "ROLE"
+		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
+		  FROM USERS U
+		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
+		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
+		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
+		 ORDER BY C.CONTACTS_NAME DESC, U.USER_NAME ASC
 	</entry>
 	
 	<!-- 카테고리구성원 <정렬>조회: <이름> <오름차순> -->
@@ -752,20 +804,23 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY U.USER_NAME ASC
 	</entry>
@@ -777,20 +832,23 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY U.USER_NAME DESC
 	</entry>
@@ -802,20 +860,23 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY U.USER_ID ASC
 	</entry>
@@ -827,20 +888,23 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY U.USER_ID DESC
 	</entry>
@@ -852,22 +916,25 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
-		 ORDER BY CM.ROLE ASC, U.USER_NAME ASC
+		 ORDER BY CM.ROLE ASC, C.CONTACTS_NAME ASC, U.USER_NAME ASC
 	</entry>
 	
 	<!-- 카테고리구성원 <정렬>조회: <역할> <내림차순> -->
@@ -877,45 +944,51 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
-		 ORDER BY CM.ROLE DESC, U.USER_NAME ASC
+		 ORDER BY CM.ROLE DESC, C.CONTACTS_NAME ASC, U.USER_NAME ASC
 	</entry>
 	
 	<!-- 카테고리구성원 <정렬>조회: <생일> <오름차순> -->
 	<entry key="selectCategoryUsersListOrderByBirthdayAsc">
 		SELECT
-			   U.USER_NO
-			 , U.USER_ID
-			 , U.USER_NAME
+		       U.USER_NO
+		     , U.USER_ID
+		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
-		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') AS "BIRTHDAY"
+		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY EXTRACT(MONTH FROM U.BIRTHDAY) ASC, EXTRACT(DAY FROM U.BIRTHDAY) ASC, U.USER_NAME ASC
 	</entry>
@@ -923,24 +996,27 @@
 	<!-- 카테고리구성원 <정렬>조회: <생일> <내림차순> -->
 	<entry key="selectCategoryUsersListOrderByBirthdayDesc">
 		SELECT
-			   U.USER_NO
-			 , U.USER_ID
-			 , U.USER_NAME
+		       U.USER_NO
+		     , U.USER_ID
+		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
-		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') AS "BIRTHDAY"
+		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY EXTRACT(MONTH FROM U.BIRTHDAY) DESC, EXTRACT(DAY FROM U.BIRTHDAY) DESC, U.USER_NAME ASC
 	</entry>
@@ -952,20 +1028,23 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY PHONE ASC, U.USER_NAME ASC
 	</entry>
@@ -977,20 +1056,23 @@
 		     , U.USER_ID
 		     , U.USER_NAME
 		     , CASE WHEN ? = '1' THEN U.PHONE
-		     		WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
+		            WHEN U.PHONE_PUBLIC = 'N' THEN '비공개'
 		            ELSE U.PHONE
 		       END AS "PHONE"
 		     , TO_CHAR(U.BIRTHDAY, 'FMMM"월" DD"일"') "BIRTHDAY"
 		     , U.PROFILE_FILE_NO
 		     , CASE WHEN CM.ROLE = 'L' THEN '팀장'
-		            WHEN CM.ROLE = 'F' THEN '팀원'
 		            ELSE '-'
 		       END AS "ROLE"
 		     , CS.STAR
+		     , C.CONTACTS_NO
+		     , C.CONTACTS_NAME
 		  FROM USERS U
 		  JOIN CONTACTS_MEMBER CM ON U.USER_NO = CM.USER_NO
 		  LEFT JOIN CONTACTS_STAR CS ON U.USER_NO = CS.OTHER_USER_NO AND CS.CURRENT_USER_NO = ?
-		 WHERE U.STATUS = 'Y'
+		  JOIN CONTACTS C ON CM.CONTACTS_NO = C.CONTACTS_NO
+	     WHERE U.STATUS = 'Y'
+		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
 		 ORDER BY PHONE DESC, U.USER_NAME ASC
 	</entry>
@@ -1047,19 +1129,16 @@
 			 (
 			   ?
 			 , ?
-			 , ?
+			 , NULL
 			 )
 	</entry>
 	
-	<!-- 역할 조회: 주소록구성원 추가시 필요. -->
-	<!--          공유주소록이면 'F'(팀원) / 개인주소록이면 'NULL' 반환 -->
-	<entry key="selectRole">
-		SELECT 
-			   CASE WHEN CATEGORY_NO IS NOT NULL THEN 'F'
-			        ELSE NULL
-			   END AS ROLE 
-		  FROM CONTACTS
-	     WHERE CONTACTS_NO = ?
+	<!-- 주소록구성원 삭제: "특정주소록"에 "특정유저"를 삭제 -->
+	<entry key="deleteContactsMember">
+		DELETE
+		  FROM CONTACTS_MEMBER
+		 WHERE CONTACTS_NO = ?
+		   AND USER_NO = ?
 	</entry>
 	
 </properties>

@@ -12,8 +12,12 @@ import java.util.Properties;
 
 import static com.kh.common.JDBCTemplate.*;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.kh.contacts.model.vo.Contacts;
 import com.kh.contacts.model.vo.ContactsCategory;
+import com.kh.contacts.model.vo.ContactsMember;
 import com.kh.contacts.model.vo.ContactsUsersSortInfo;
 import com.kh.user.model.vo.User;
 
@@ -203,7 +207,9 @@ public class ContactsDao {
 						          rset.getString("BIRTHDAY"),
 						          rset.getInt("PROFILE_FILE_NO"),
 						          rset.getString("ROLE"),
-						          rset.getString("STAR")));
+						          rset.getString("STAR"),
+						          rset.getInt("CONTACTS_NO"),
+						          rset.getString("CONTACTS_NAME")));
 			}
 			
 		} catch (SQLException e) {
@@ -225,6 +231,7 @@ public class ContactsDao {
 		
 		switch(si.getOrderBy()) {
 		case "star": sb.append("Star"); break;
+		case "contactsInfo": sb.append("ContactsName"); break;
 		case "userName": sb.append("UserName"); break;
 		case "userId": sb.append("UserId"); break;
 		case "role": sb.append("Role"); break;
@@ -335,7 +342,9 @@ public class ContactsDao {
 						          rset.getString("BIRTHDAY"),
 						          rset.getInt("PROFILE_FILE_NO"),
 						          rset.getString("ROLE"),
-						          rset.getString("STAR")));
+						          rset.getString("STAR"),
+						          rset.getInt("CONTACTS_NO"),
+						          rset.getString("CONTACTS_NAME")));
 			}
 			
 		} catch (SQLException e) {
@@ -419,42 +428,48 @@ public class ContactsDao {
 
 	public int insertContactsMember(Connection conn, int contactsNo, ArrayList<Integer> checkedUsersNoList) {
 		int result = 0;
-		PreparedStatement selectPstmt = null;
-		PreparedStatement insertPstmt = null;
-		ResultSet rset = null;
-		String selectSql = prop.getProperty("selectRole");
-		String insertSql = prop.getProperty("insertContactsMember");
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertContactsMember");
 		
-		try {
-			// 역할 조회
-			selectPstmt = conn.prepareStatement(selectSql);
-			selectPstmt.setInt(1, contactsNo);
-			rset = selectPstmt.executeQuery();
-			
-			String role = null;
-			if(rset.next()) {
-				role = rset.getString("ROLE");
-			}
-			
-			// 구성원 추가
+		try {			
 			for(Integer userNo : checkedUsersNoList) {
-				insertPstmt = conn.prepareStatement(insertSql);
-				insertPstmt.setInt(1, contactsNo);
-				insertPstmt.setInt(2, userNo);
-				insertPstmt.setString(3, role);
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, contactsNo);
+				pstmt.setInt(2, userNo);
 				
-				result = insertPstmt.executeUpdate();
+				result = pstmt.executeUpdate();
 			}
 		} catch (SQLIntegrityConstraintViolationException e) {
 			return result -1; // 이미 DB에 해당 주소록에 선택한 userNo가 있음을 알리기 위함.
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(insertPstmt);
-			close(rset);
-			close(selectPstmt);
+			close(pstmt);
 		}
 		
+		return result;
+	}
+	
+	public int deleteContactsMember(Connection conn, ArrayList<ContactsMember> contactsMemberList) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteContactsMember");
+		
+		try {
+	        
+			for(ContactsMember cm : contactsMemberList) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cm.getContactsNo());
+				pstmt.setInt(2, cm.getUserNo());
+				
+				result = pstmt.executeUpdate();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
 		return result;
 	}
 

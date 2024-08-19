@@ -228,16 +228,6 @@ main .section__serach-bar .btn-group button.email span.icon{
     margin-right: 5px;
 }
 
-/* 버튼 - "주소록에서삭제"버튼 */
-/* main .section__serach-bar .btn-group button.deleteBtn{
-    display: block;
-} */
-
-/* 버튼 - "주소록에서삭제"버튼 - 숨김 */
-/* main .section__serach-bar .btn-group button.deleteBtn.hidden{
-    display: none;
-} */
-
 /* 검색창 - 바로 바깥 div*/
 main .section__serach-bar .search-bar{
     margin-right: 10px;
@@ -294,11 +284,12 @@ main section li div{
 /* 가로 길이 비율 */
 main section li div.checkbox{width: 5%;}
 main section li div.star{width: 5%;}
-main section li div.userName{width: 18%;} /* 100% - 10% = 90%   => 90% / 5 = 18%*/
-main section li div.userId{width: 18%;}
-main section li div.role{width: 18%;}
-main section li div.birthday{width: 18%;}
-main section li div.phone{width: 18%;}
+main section li div.contactsInfo{width: 15%;} /* 100% - 10% = 90%   => 90% / 6 = 15%*/
+main section li div.userName{width: 15%;}
+main section li div.userId{width: 15%;}
+main section li div.role{width: 15%;}
+main section li div.birthday{width: 15%;}
+main section li div.phone{width: 15%;}
 
 main section li div span{
     cursor: pointer;
@@ -357,6 +348,10 @@ main .section__list-content{
     overflow: auto;
 }
 
+main .section__list-content ul{
+    position: relative;
+}
+
 /* 목록 내용 섹션 (section__list-content) - 각각의 줄 */
 main .section__list-content li{
     padding: 5px 0;
@@ -371,7 +366,11 @@ main .section__list-content li:hover{
 /* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */
 main .section__list-content li.userInfo.noUsers{
     height: var(--content-list-content-height);
-    padding: 100px 0 0 420px;
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    top: 100px;
+    left: 40%;
     border-bottom: none;
     cursor: default;
     font-weight: bold;
