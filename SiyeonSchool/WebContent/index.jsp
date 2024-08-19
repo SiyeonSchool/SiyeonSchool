@@ -23,7 +23,7 @@
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	z-index: -1;
+	z-index: 0;
 }
 
 #login{
@@ -34,7 +34,7 @@
 	height: 600px;
 	margin: auto;
 	display: flex;
-	z-index: 10;
+	z-index: 1;
 }
 
 #left{
@@ -56,18 +56,25 @@
 #right img{
 	width: 45%;
 	margin: auto;
-	margin-top: 50px;
-	margin-bottom: 20px;
+	margin-top: 80px;
+	margin-bottom: 60px;
 }
 #left p{
 	text-align: center;
 	font-weight: bold;
 	margin: 20px 50px;
 }
-#right p{
+.p{
 	font-size: 24px;
 	font-weight: 800;
 	margin: 0 0 0 50px;
+}
+
+#error-message{
+	 color: red; 
+	 font-size: 12px;
+	 margin-left: 45px;
+	 /* visibility: hidden; */
 }
 
 #right table{
@@ -76,29 +83,16 @@
 	background-color: #C2F0FF;
 }
 
-.first{
-	background-color: #A98AFF;
-	width: 106px;
-	height: 1px;
-	opacity: 0.5;
-}
-.second{
-	height: 35px;
-	vertical-align:middle;
-	font-weight: 600;
-}
-.first:hover{
-	opacity: 1;
-}
-
 input{
 	width: 410px;
 	height: 40px;
 	border-radius: 5px;
 }
 form input{
-	margin: 10px 0 20px 45px
+	margin: 10px 0 20px 45px;
+	border: none;
 }
+
 
 input::placeholder{font-size: 11px; color:#a98affc9;}
 
@@ -117,7 +111,7 @@ button{
 	font-weight: 700;
 	border: none;
 	position: absolute;
-	top: 230px;
+	top: 260px;
 	left: 175px;
 }
 
@@ -130,7 +124,7 @@ ul{display: flex;}
 
 li{
 	position: relative;
-	top: 100px;
+	top: 130px;
 	left: 120px;
 	font-weight: 600;
 }
@@ -143,7 +137,11 @@ li::before{
 	height: 18px;
 	background-color: black;
 }
-li a{padding: 12px;}
+
+
+li a{
+	padding: 12px;
+}
 
 li:first-child::before{display: none;}
 
@@ -159,7 +157,7 @@ li:first-child::before{display: none;}
 	</p>
 	-->
 	<div id="background">
-		<a id="homeBtn" href="<%=contextPath%>/home">홈으로</a>
+		<!-- <a id="homeBtn" href="<%=contextPath%>/home">홈으로</a> -->
 		<canvas id="canvas" class="canvas"></canvas>
 		<div id="login">
 			<div id="left">
@@ -170,33 +168,40 @@ li:first-child::before{display: none;}
 			</div>
 			<div id="right">
 				<img src="resources/images/SiS_Logo.png" alt="">
-				<table border="1">
-					<tr>
-						<td class="first"></td>
-						<td rowspan="2" id="null">&nbsp;</td>
-						<td class="first"></td>
-					</tr>
-					<tr>
-						<th class="second">학 생</th>
-						<th class="second">관 리 자</th>
-					</tr>
-				</table>
-				<form action="<%=contextPath%>/login.user" method="post">
-					<p>아이디</p>
-					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) "><br>
-					<p>비밀번호</p>
-					<input type="password" name="userPwd" placeholder=" 영문, 숫자, 특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)"><br>
+				
+				<form action="<%=contextPath %>/login.user" id="login-form" method="post">
+					<p class="p">아이디</p>
+					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) " requried><br>
+					<p class="p">비밀번호</p>
+					<input type="password" name="userPwd" placeholder=" 영문, 숫자, 특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)" requried><br>
+					 <p id="error-message">
+				        아이디 또는 비밀번호가 잘못 되었습니다. 아이디와 비밀번호를 정확히 입력해 주세요.
+				    </p>
 					<button type="submit">로 그 인</button>
 				</form>
 				<ul>
-					<li><a href="http://localhost:8222/SiS/UserIdPwdFind">아이디 / 비밀번호 찾기 </a></li>
-					<li><a href="http://localhost:8222/SiS/singIn">회원가입</a></li>
+					<li><a href="<%=contextPath%>/UserIdPwdFind">아이디 / 비밀번호 찾기 </a></li>
+					<li><a href="<%=contextPath%>/signIn">회원가입</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
+	
+
+	
 	<script>
-	    let mouse, originx, originy, cvs;
+
+		window.onload = function() {
+			// 서버에서 전달된 loginFailed 속성의 값을 가져옴
+			var loginFailed = "<%= request.getAttribute("loginFailed") != null ? "true" : "false" %>";
+
+			// 로그인 실패 시 에러 메시지 표시
+			if (loginFailed == "true") {
+				document.getElementById("error-message").style.visibility = 'visible';
+			}
+		}
+		
+		let mouse, originx, originy, cvs;
 		
 		 // Safari doesn't support EventTarget
 		 var EventTarget = EventTarget || false;
@@ -471,10 +476,10 @@ li:first-child::before{display: none;}
 		     originx = canvas.width / 2;
 		     originy = canvas.height / 2;
 		 }
-
-
 		
 		 init();
+		 
+		 
 		 
 
     </script>

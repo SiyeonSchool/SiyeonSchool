@@ -24,6 +24,8 @@ public class User {
    private String star; // 주소록에서 유저조회시 필요한 '별'을 담는 변수
    
    public User() {}
+   
+   
 
     // 모든 필드용 생성자
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
@@ -78,6 +80,21 @@ public class User {
 		this.notionUrl = notionUrl;
 	}
 	
+	// 회원가입
+	public User(String userId, String userPwd, String userName, String phone, String birthday, String email, String address,
+		int questionNo, String questionAnswer) {
+		super();
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.phone = phone;
+		this.birthday = birthday;
+		this.email = email;
+		this.address = address;
+		this.questionNo = questionNo;
+		this.questionAnswer = questionAnswer;
+	}
+
 	// 주소록에 사용할 생성자
 	public User(int userNo, String userId, String userName, String phone, String birthday,
 			int profileFileNo, String role, String star) {

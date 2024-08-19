@@ -21,4 +21,28 @@ public class UserService {
 
     }
 
+    public int checkId(String checkId) {
+    	
+		Connection conn = getConnection();
+		
+		int count = new UserDao().checkId(conn, checkId);
+		
+		close(conn);
+		
+		return count;
+	}
+    
+    public int insertUser(User u) {
+		Connection conn = getConnection();
+		int result = new UserDao().insertUser(conn, u);
+
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+
+		close(conn);
+		return result;
+	}
 }

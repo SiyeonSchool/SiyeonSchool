@@ -1,25 +1,25 @@
 package com.kh.home.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.user.model.service.UserService;
+
 /**
- * Servlet implementation class SignInController
+ * Servlet implementation class CheckIdController
  */
-@WebServlet("/signIn")
-public class SignInController extends HttpServlet {
+@WebServlet("/checkId")
+public class CheckIdController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SignInController() {
+    public CheckIdController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,9 +28,17 @@ public class SignInController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.getRequestDispatcher("views/home/signIn.jsp").forward(request, response);
-		
+
+		String checkId = request.getParameter("checkId");
+
+		int count = new UserService().checkId(checkId);
+
+		if (count > 0) {
+			response.getWriter().print("NNNNN");
+		} else {
+			response.getWriter().print("NNNNY");
+		}
+
 	}
 
 	/**

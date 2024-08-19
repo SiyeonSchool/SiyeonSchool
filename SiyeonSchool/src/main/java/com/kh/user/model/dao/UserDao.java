@@ -66,5 +66,62 @@ public class UserDao {
 
         return u;
     }
+    
+    public int checkId(Connection conn, String checkId) {
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("checkId");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, checkId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return count;
+		
+	}
+    
+    public int insertUser(Connection conn, User u) {
+		// insert문 => 처리된 행수 => 트랜젝션 처리
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertUser");
+
+		try {
+			pstmt = conn.prepareStatement(sql); // 미완성된 쿼리
+
+			pstmt.setString(1, u.getUserId());
+			pstmt.setString(2, u.getUserPwd());
+			pstmt.setString(3, u.getUserName());
+			pstmt.setString(4, u.getPhone());
+			pstmt.setString(5, u.getBirthday());
+			pstmt.setString(6, u.getEmail());
+			pstmt.setString(7, u.getAddress());
+			pstmt.setInt(8, u.getQuestionNo());
+			pstmt.setString(9, u.getQuestionAnswer());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
 
 }
