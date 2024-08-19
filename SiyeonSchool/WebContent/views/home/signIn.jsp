@@ -168,7 +168,7 @@ select:invalid{
 				<table>
 					<tr>
 						<th><span>*</span> 아이디</th>
-						<td><input type="text" class="s" name="userId" id="userId" placeholder="영문, 숫자 조합으로 입력해주세요.(6~18자)" required><button type="button" id="checkId" onclick="idCheck();">중복확인</button></td>
+						<td><input type="text" class="s" name="userId" id="userId" placeholder="영문, 숫자 조합으로 입력해주세요.(6~18자)(변경 불가)" required><button type="button" id="checkId" onclick="idCheck();">중복확인</button></td>
 					</tr>
 					<tr>
 						<th><span>*</span> 비밀번호</th>
@@ -184,7 +184,7 @@ select:invalid{
 					</tr>
 					<tr>
 						<th><span>*</span> 생년월일</th>
-						<td><input type="text" class="l" name="Birthday" placeholder="6자리 입력해주세요. ex) 00-10-20" required></td>
+						<td><input type="text" class="l" name="Birthday" placeholder="6자리 형식으로 입력해주세요. ex) 00-10-20" required></td>
 					</tr>
 					<tr>
 						<th>주소</th>

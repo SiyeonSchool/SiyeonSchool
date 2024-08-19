@@ -43,7 +43,7 @@ public class LoginUserController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/home");
 		}else { // 로그인 실패 
 	        request.setAttribute("loginFailed", true);
-	        response.sendRedirect(request.getContextPath());
+	        request.getRequestDispatcher("index.jsp").forward(request, response);
 	    }
 
 	}
