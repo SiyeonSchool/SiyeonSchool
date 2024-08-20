@@ -1,0 +1,11 @@
+#studentList-area{
+    width: 500px;
+    height: 100%;
+    margin: auto;
+}
+
+#studentList-area li{
+    display: flex;  
+    border-bottom: 1px solid var(--lightGrey);
+    font-size: 24px;
+}
