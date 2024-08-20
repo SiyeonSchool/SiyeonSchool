@@ -23,7 +23,13 @@ public class User {
    
    public User() {}
 
-   public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
+   public User(String userName, String phone) {
+	super();
+	this.userName = userName;
+	this.phone = phone;
+}
+
+public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
          String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
          int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl) {
       super();
