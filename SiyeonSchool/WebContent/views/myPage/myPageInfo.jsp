@@ -15,6 +15,13 @@
     
     <%
     	String userName = loginUser.getUserName();
+        String phone = loginUser.getPhone();
+        String birthday = loginUser.getBirthday();
+        String address = loginUser.getAddress();
+        String email = loginUser.getEmail();
+        String githubUrl = loginUser.getGithubUrl();
+        String notionUrl = loginUser.getNotionUrl();
+        String userId = loginUser.getUserId();
     %>
 
     <div id="myInfo-area">
@@ -23,35 +30,41 @@
            <table>
             <tr>
                 <th>이름</th>
-                <td></td>
+                <td><%= userName %></td>
             </tr>
             <tr>
                 <th>전화번호</th>
-                <td></td>
+                <td><%= phone %></td>
             </tr>
             <tr>
                 <th>생년월일</th>
-                <td></td>
+                <td><%= birthday %></td>
             </tr>
             <tr>
                 <th>주소</th>
-                <td></td>
+                <td><%= address %></td>
             </tr>
             <tr>
                 <th>이메일</th>
-                <td></td>
+                <td><%= email %></td>
             </tr>
             <tr>
                 <th>나의 깃허브</th>
-                <td></td>
+                <td>
+                <% if(githubUrl==null){ %>
+                등록된 깃허브주소가 없습니다.
+                <% }else{ %>                
+                <%= githubUrl %>
+                <% } %>
+                </td>
             </tr>
             <tr>
             	<th>나의 노션</th>
-            	<td></td>
+            	<td><%= notionUrl %></td>
             </tr>
             <tr>
             	<th>나의 아이디</th>
-            	<td></td>
+            	<td><%= userId %></td>
             </tr>
            </table>
         </div>
