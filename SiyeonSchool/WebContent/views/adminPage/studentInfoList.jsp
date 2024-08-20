@@ -22,6 +22,7 @@
                 <li>
                     <div><%= u.getUserName() %></div>
                     <div><%= u.getPhone() %></div>
+                    <div><a href="<%= contextPath %>/studentInfo.dt" class="btn">자세히</a></div>
                 </li>
             <% } %>
         </ul>

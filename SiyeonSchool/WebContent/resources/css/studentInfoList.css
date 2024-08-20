@@ -1,11 +1,29 @@
 #studentList-area{
-    width: 500px;
+    width: 1000px;
     height: 100%;
-    margin: auto;
+    position: absolute;
+    left: 485px;
+    display: flex;
 }
 
 #studentList-area li{
     display: flex;  
     border-bottom: 1px solid var(--lightGrey);
     font-size: 24px;
+}
+
+.btn{
+    width: 80px;
+    height: 30px;
+    padding: 10px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: block;
+    transition: .4s;
 }
