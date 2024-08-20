@@ -435,21 +435,18 @@ main .modal-bg .modal .closeBtn{
     top: 20px;
     right: 20px;
 }
+
 /* modal - 제목 h3 */
 main .modal-bg .modal h3{
     font-size: 1.3rem;
     font-weight: bold;
 }
 
-/* modal - h4 */
+/* modal - 제목 h4 */
 main .modal-bg .modal h4{
     font-size: 1.1rem;
     font-weight: bold;
-}
-
-/* modal - h5 */
-main .modal-bg .modal h5{
-    font-size: 1.1rem;
+    margin: 6px 0;
 }
 
 /* modal - p */
@@ -460,6 +457,11 @@ main .modal-bg .modal p{
 /* modal - hr */
 main .modal-bg .modal hr{
     margin: 20px 0;
+}
+
+/* modal - text input */
+main .modal-bg .modal input[type="text"]{
+    width: 250px;
 }
 
 /* modal - submit 버튼 */
@@ -482,5 +484,21 @@ main .modal-bg .modal input[type="submit"]:hover{
     font-weight: bold;
 }
 
+main .modal-bg .modal select{
+    width: 250px;
+    height: 27px;
+    font-family: "MinSans-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    cursor: pointer;
+}
 
-/* ---------- modal - 개인주소록 추가 ---------- */
+main .modal-bg .modal select option{
+    font-family: "MinSans-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+main .modal-bg .modal div.hidden{
+    display: none;
+}

@@ -7,6 +7,11 @@
 
 <%@ include file="../common/common.jsp" %>
 <%
+	int currentContactsNo = 0;
+	if(request.getAttribute("contactsNo") != null) {
+		currentContactsNo = (int)request.getAttribute("contactsNo");
+	}
+
 	ArrayList<ContactsCategory> categoryList = (ArrayList<ContactsCategory>)request.getAttribute("categoryList");
 	// 사이드바에 사용될 정보 (공유주소록) - 카테고리번호, 카테고리명 
 
@@ -26,8 +31,10 @@
 	<%@ include file="../common/menubar.jsp" %>
 
 	<script>
-		// 별도 js 파일로 loginUser을 가져가기 위함. (json 형태로)
-		const loginUserJson = `<%= loginUserJson %>`;
+		// 별도 js 파일로 값을 가져가기 위함. 
+		const loginUserJson = `<%= loginUserJson %>`; // json 형태
+		const contextPath = `<%= contextPath2 %>`;
+		const currentContactsNo = `<%= currentContactsNo %>`;
 	</script>
 	
 
@@ -40,7 +47,7 @@
 			<h2 class="big-cate__title">
 				공유 주소록
 				<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
-					<div class="addContactsBtn">
+					<div class="addContactsBtn" onclick="showModal_AddPublicContacts();">
 						<span class="material-symbols-rounded icon">add</span>
 					</div>
 				<% } %>
@@ -213,10 +220,54 @@
 			</div>
 		</div>
 
+		<!-- modal창 - 공유주소록 추가 -->
+		<div class="modal-bg modal-addPublicContact-bg">
+			<div class="modal modal-addPublicContact">
+				<span class="material-symbols-rounded icon closeBtn" onclick="closeModalByBtn(this);">close</span>
+
+				<h3>공유주소록 추가</h3>
+				<p>공유주소록을 추가합니다. 카테고리를 선택후, 주소록의 이름을 입력해주세요.</p>
+				<hr>
+
+				<h4>카테고리 선택</h4>
+
+				<input type="radio" id="existingCategory" name="isNewCategory" value="N" checked>
+				<label for="existingCategory">기존 카테고리</label>
+
+				<input type="radio" id="newCategory" name="isNewCategory" value="Y">
+				<label for="newCategory">새로운 카테고리</label>
+
+				<br><br>
+
+				<div class="categorySelectDiv">
+					<p>카테고리를 선택해주세요.</p>
+					<select name="categorySelect" id="categorySelect">
+						<!-- AJAX로 동적으로 카테고리 리스트(option) 들어올 공간 -->
+					</select>
+				</div>
+
+				<div class="categoryNameInputDiv">
+					<p>카테고리명을 입력해주세요.</p>
+					<input type="text" name="newCategoryName" id="newCategoryName">
+				</div>
+
+				<br><br>
+
+				<h4>주소록명</h4>
+
+				
+				<p>새로운 주소명 이름을 입력해주세요.</p>
+				<input type="text" name="newPublicContactsName" id="newPublicContactsName">
+
+				<hr>
+				<input type="submit" value="추가" onclick="addPublicContacts();">
+			</div>
+		</div>
+
 		<!-- modal창 - 개인주소록 추가 -->
 		<div class="modal-bg modal-addPrivateContact-bg">
 			<div class="modal modal-addPrivateContact">
-				<span class="material-symbols-rounded icon closeBtn" onclick="closeModal(this);">close</span>
+				<span class="material-symbols-rounded icon closeBtn" onclick="closeModalByBtn(this);">close</span>
 
 				<h3>개인주소록 추가</h3>
 				<p>개인주소록을 추가합니다. 새로운 주소록의 이름을 입력해주세요.</p>

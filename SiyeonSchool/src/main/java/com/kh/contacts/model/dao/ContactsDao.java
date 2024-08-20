@@ -470,7 +470,7 @@ public class ContactsDao {
 		return result;
 	}
 
-	public int insertContacts(Connection conn, String contactsName, int ownerNo) {
+	public int insertPrivateContacts(Connection conn, String contactsName, int ownerNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertPrivateContacts");
@@ -482,6 +482,102 @@ public class ContactsDao {
 			
 			result = pstmt.executeUpdate();
 
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 해당유저의 주소록 중, 중복된 주소록이름이 있는경우 -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int selectContactNo(Connection conn, String contactsName, int ownerNo) {
+		int contactsNo = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectContactsNo");
+
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contactsName);
+			pstmt.setInt(2, ownerNo);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				contactsNo = rset.getInt("CONTACTS_NO");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return contactsNo;
+	}
+
+	public int insertPublicContacts(Connection conn, int categoryNo, String contactsName) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertPublicContacts");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contactsName);
+			pstmt.setInt(2, categoryNo);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 관리자의 주소록 중, 중복된 주소록이름이 있는경우 -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int selectCategoryNo(Connection conn, int contactsNo) {
+		int categoryNo = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCategoryNo");
+
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, contactsNo);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				categoryNo = rset.getInt("CATEGORY_NO");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return categoryNo;
+	}
+
+	public int insertCategory(Connection conn, String newCategoryName) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertCategory");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newCategoryName);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 중복된 카테고리가 있는경우, -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

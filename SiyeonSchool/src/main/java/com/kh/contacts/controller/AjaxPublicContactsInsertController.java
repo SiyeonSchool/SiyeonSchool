@@ -8,19 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.contacts.model.service.ContactsService;
-import com.kh.user.model.vo.User;
 
 /**
- * Servlet implementation class AjaxPrivateContactsInsertController
+ * Servlet implementation class AjaxPublicContactsInsertController
  */
-@WebServlet("/contacts/insert.privateContacts")
-public class AjaxPrivateContactsInsertController extends HttpServlet {
+@WebServlet("/contacts/insert.publicContacts")
+public class AjaxPublicContactsInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxPrivateContactsInsertController() {
+    public AjaxPublicContactsInsertController() {
         super();
     }
 
@@ -28,13 +27,14 @@ public class AjaxPrivateContactsInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 새로운 주소록 추가용 컨트롤러
+		// 공유주소록을 추가하는 컨트롤러 (관리자만 가능)
 		
-		String contactsName = request.getParameter("contactsName");
-		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
-		
-		int result = new ContactsService().insertPrivateContacts(contactsName, ownerNo);
-		
+		request.setCharacterEncoding("utf-8");
+        int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
+        String contactsName = request.getParameter("contactsName");
+
+        int result = new ContactsService().insertPublicContacts(categoryNo, contactsName);
+		System.out.println("categoryNo:" + categoryNo + ", contactsName:" + contactsName + ", result:" + result);
 		response.getWriter().print(result);
 	}
 

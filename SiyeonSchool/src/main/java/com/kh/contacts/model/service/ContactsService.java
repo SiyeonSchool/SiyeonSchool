@@ -136,9 +136,49 @@ public class ContactsService {
 		return result;
 	}
 
-	public int insertContacts(String contactsName, int ownerNo) {
+	public int insertPrivateContacts(String contactsName, int ownerNo) {
 		Connection conn = getConnection();
-		int result = new ContactsDao().insertContacts(conn, contactsName, ownerNo);
+		int result = new ContactsDao().insertPrivateContacts(conn, contactsName, ownerNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int selectContactNo(String contactsName, int ownerNo) {
+		Connection conn = getConnection();
+		int contactsNo = new ContactsDao().selectContactNo(conn, contactsName, ownerNo);
+		close(conn);
+		return contactsNo;
+	}
+
+	public int insertPublicContacts(int categoryNo, String contactsName) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().insertPublicContacts(conn, categoryNo, contactsName);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int selectCategoryNo(int contactsNo) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().selectCategoryNo(conn, contactsNo);
+		close(conn);
+		return result;
+	}
+
+	public int insertCategory(String newCategoryName) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().insertCategory(conn, newCategoryName);
 		
 		if(result > 0) {
 			commit(conn);

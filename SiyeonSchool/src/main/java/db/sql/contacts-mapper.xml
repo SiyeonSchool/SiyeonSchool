@@ -2,6 +2,8 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 
+	<!-- ===================== 주소록 초기실행시 필요 ============================= -->
+
 	<!-- 전체카테고리 조회 (공유주소록) -->
 	<entry key="selectCategoryList">
 	   SELECT
@@ -46,6 +48,8 @@
          ORDER
             BY C.CONTACTS_NO
 	</entry>
+	
+	<!-- ===================== 주소록 구성원 조회 ============================= -->
 	
 	<!-- 전체사용자 조회 -->
 	<entry key="selectAllUsersList">
@@ -118,7 +122,7 @@
 	     WHERE U.STATUS = 'Y'
 		   AND C.STATUS = 'Y'
 		   AND CM.CONTACTS_NO IN (SELECT CONTACTS_NO FROM CONTACTS WHERE CATEGORY_NO = ?)
-		 ORDER BY U.USER_NAME
+		 ORDER BY C.CONTACTS_NAME, U.USER_NAME
 	</entry>
 	
 	<!-- ===================== 전체사용자 <정렬>조회 ============================= -->
@@ -1119,6 +1123,38 @@
 		   AND STATUS = 'Y'
 	</entry>
 	
+	<!-- 주소록번호 조회: 주소록이름 + 소유자번호로 주소록번호 검색 -->
+	<entry key="selectContactsNo">
+		SELECT CONTACTS_NO
+		  FROM CONTACTS
+		 WHERE CONTACTS_NAME = ?
+		   AND OWNER_NO = ?
+		   AND STATUS = 'Y'
+	</entry>
+	
+	<!-- 공유주소록 추가 : 관리자만 추가가능 -->
+	<entry key="insertPublicContacts">
+		INSERT
+		  INTO CONTACTS
+		  (
+		    CONTACTS_NO
+		  , CONTACTS_NAME
+		  , CONTACTS_TYPE
+		  , OWNER_NO
+		  , STATUS
+		  , CATEGORY_NO
+		  )
+		  VALUES
+		  (
+		    SEQ_CONTACTSNO.NEXTVAL
+		  , ?
+		  , 'S'
+		  , 1
+		  , 'Y'
+		  , ?
+		  )
+	</entry>
+	
 	<!-- 개인주소록 추가 : 주소록이름 & 소유자번호로 추가함. -->
 	<entry key="insertPrivateContacts">
 		INSERT
@@ -1141,7 +1177,7 @@
 		  , NULL
 		  )
 	</entry>
-	
+
 	<!-- 주소록 삭제 -->
 	<!-- (참고) 처음엔 주소록상태(STATUS)를 'N'으로 바꿔서 관리하려했으나, UNIQUE 제약조건때문에 삭제하는게 나을듯. (주소록소유자 & 주소록명) -->
 	<entry key="deleteContacts">
@@ -1151,7 +1187,7 @@
 	</entry>
 	
 	
-	<!-- ===================== 주소록구성원 ============================= -->
+	<!-- ===================== 주소록 구성원 ============================= -->
 	
 	<!-- 주소록구성원 추가: "특정주소록"에 "특정유저"를 추가 -->
 	<entry key="insertContactsMember">
@@ -1177,5 +1213,31 @@
 		 WHERE CONTACTS_NO = ?
 		   AND USER_NO = ?
 	</entry>
+	
+	<!-- ===================== 주소록 카테고리 ============================= -->
+	
+	<!-- 주소록카테고리번호 조회: "주소록번호"로 해당 "카테고리번호"를 조회 -->
+	<entry key="selectCategoryNo">
+		SELECT CATEGORY_NO
+		  FROM CONTACTS
+		 WHERE CONTACTS_NO = ?
+	</entry>
+	
+	<!-- 주소록카테고리 추가: -->
+	<entry key="insertCategory">
+		INSERT
+		  INTO CONTACTS_CATEGORY
+		     (
+		       CATEGORY_NO
+		     , CATEGORY_NAME
+		     , STATUS
+		     )
+		     VALUES
+		     (
+		       SEQ_CONTACTS_CATENO.NEXTVAL
+		     , ?
+		     , 'Y'
+		     )
+     </entry>
 	
 </properties>
