@@ -27,10 +27,20 @@ public class AjaxContactsCategoryNoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 주소록카테고리번호 조회 컨트롤러 : "주소록번호"로 해당 "카테고리번호"를 조회
+        // 주소록카테고리번호 조회 컨트롤러 : "주소록번호" 혹은 "카레고리명"으로 "카테고리번호" 조회
 		
 		int contactsNo = Integer.parseInt(request.getParameter("contactsNo"));
-        int result = new ContactsService().selectCategoryNo(contactsNo);
+		int result = -1;
+		
+		if(contactsNo != 0) { // "주소록번호"가 있는경우
+			result = new ContactsService().selectCategoryNoByContactsNo(contactsNo);
+			
+		}else { // 주소록 번호가 0인 경우 => "주소록번호"가 아닌, "카테고리명" 사용
+			request.setCharacterEncoding("utf-8");
+			String categoryName = request.getParameter("categoryName");
+			result = new ContactsService().selectCategoryNoByCategoryName(categoryName);
+		}
+        
 		response.getWriter().print(result);
 	}
 

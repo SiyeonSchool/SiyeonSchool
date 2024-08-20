@@ -205,6 +205,8 @@
 			</ul>
 		</section>
 
+		<!-- ==================== 처음엔 안보였다가, 필요시 동적으로 보여질 내용들 ==================== -->
+
 		<!-- modal창 - "주소록에추가"  -->
 		<div class="modal-bg modal-addMember-bg">
 			<div class="modal modal-addMember">
@@ -247,7 +249,7 @@
 				</div>
 
 				<div class="categoryNameInputDiv">
-					<p>카테고리명을 입력해주세요.</p>
+					<p>새로운 카테고리명을 입력해주세요.</p>
 					<input type="text" name="newCategoryName" id="newCategoryName">
 				</div>
 
@@ -256,7 +258,7 @@
 				<h4>주소록명</h4>
 
 				
-				<p>새로운 주소명 이름을 입력해주세요.</p>
+				<p>새로운 주소록명을 입력해주세요.</p>
 				<input type="text" name="newPublicContactsName" id="newPublicContactsName">
 
 				<hr>
@@ -278,6 +280,25 @@
 
 				<hr>
 				<input type="submit" value="추가" onclick="insertPrivateContacts();">
+			</div>
+		</div>
+
+		<!-- modal창 - 공유주소록 수정 -->
+		<div class="modal-bg modal-editPublicContact-bg">
+			<div class="modal modal-editPublicContact">
+				<span class="material-symbols-rounded icon closeBtn" onclick="closeModalByBtn(this);">close</span>
+
+				<h3>공유주소록 수정</h3>
+				<p>공유주소록을 수정합니다. 원하시는 항목을 선택해주세요.</p>
+				<hr>
+
+				<br>
+				<input type="submit" value="카테고리명 변경" onclick="confirmEditCategory();">
+				<input type="submit" value="카테고리 삭제" onclick="confirmDeleteCategory();">
+				<input type="submit" value="카테고리에 속한 주소록 변경" onclick="">
+
+				<br>
+				<hr>
 			</div>
 		</div>
 		

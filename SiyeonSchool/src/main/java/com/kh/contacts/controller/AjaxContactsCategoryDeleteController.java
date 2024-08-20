@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.kh.contacts.model.service.ContactsService;
 
 /**
- * Servlet implementation class AjaxPublicContactsInsertController
+ * Servlet implementation class AjaxContactsCategoryDeleteController
  */
-@WebServlet("/contacts/insert.publicContacts")
-public class AjaxPublicContactsInsertController extends HttpServlet {
+@WebServlet("/contacts/delete.category")
+public class AjaxContactsCategoryDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxPublicContactsInsertController() {
+    public AjaxContactsCategoryDeleteController() {
         super();
     }
 
@@ -27,13 +27,10 @@ public class AjaxPublicContactsInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 공유주소록을 추가하는 컨트롤러 (관리자만 가능)
+		// 주소록카테고리 삭제 컨트롤러 - "카테고리번호"로 "카테고리"삭제
 		
-		request.setCharacterEncoding("utf-8");
-        int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
-        String contactsName = request.getParameter("contactsName");
-
-        int result = new ContactsService().insertPublicContacts(categoryNo, contactsName);
+		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
+        int result = new ContactsService().deleteCategory(categoryNo);
 		response.getWriter().print(result);
 	}
 

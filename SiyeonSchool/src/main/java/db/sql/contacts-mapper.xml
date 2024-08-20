@@ -1132,7 +1132,7 @@
 		   AND STATUS = 'Y'
 	</entry>
 	
-	<!-- 공유주소록 추가 : 관리자만 추가가능 -->
+	<!-- 공유주소록 추가 : 주소록이름 & 카테고리번호로 추가함. -->
 	<entry key="insertPublicContacts">
 		INSERT
 		  INTO CONTACTS
@@ -1216,14 +1216,22 @@
 	
 	<!-- ===================== 주소록 카테고리 ============================= -->
 	
-	<!-- 주소록카테고리번호 조회: "주소록번호"로 해당 "카테고리번호"를 조회 -->
-	<entry key="selectCategoryNo">
+	<!-- 주소록카테고리번호 조회 case1 : "주소록번호"로 해당 "카테고리번호"를 조회 -->
+	<entry key="selectCategoryNoByContactsNo">
 		SELECT CATEGORY_NO
 		  FROM CONTACTS
 		 WHERE CONTACTS_NO = ?
 	</entry>
 	
-	<!-- 주소록카테고리 추가: -->
+	<!-- 주소록카테고리번호 조회 case2 : "카테고리이름"로 해당 "카테고리번호"를 조회 -->
+	<entry key="selectCategoryNoByCategoryName">
+		SELECT CATEGORY_NO
+		  FROM CONTACTS_CATEGORY
+		 WHERE CATEGORY_NAME = ?
+	</entry>
+	
+	
+	<!-- 주소록카테고리 추가 -->
 	<entry key="insertCategory">
 		INSERT
 		  INTO CONTACTS_CATEGORY
@@ -1238,6 +1246,13 @@
 		     , ?
 		     , 'Y'
 		     )
+     </entry>
+     
+   	<!-- 주소록카테고리 삭제 : "카테고리번호"로 "카테고리"삭제 -->
+	<entry key="deleteCategory">
+		DELETE
+		  FROM CONTACTS_CATEGORY
+		 WHERE CATEGORY_NO = ?
      </entry>
 	
 </properties>

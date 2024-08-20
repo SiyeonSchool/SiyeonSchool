@@ -169,16 +169,36 @@ public class ContactsService {
 		return result;
 	}
 
-	public int selectCategoryNo(int contactsNo) {
+	public int selectCategoryNoByContactsNo(int contactsNo) {
 		Connection conn = getConnection();
-		int result = new ContactsDao().selectCategoryNo(conn, contactsNo);
+		int result = new ContactsDao().selectCategoryNoByContactsNo(conn, contactsNo);
 		close(conn);
 		return result;
 	}
 
+	public int selectCategoryNoByCategoryName(String categoryName) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().selectCategoryNoByCategoryName(conn, categoryName);
+		close(conn);
+		return result;
+	}
+	
 	public int insertCategory(String newCategoryName) {
 		Connection conn = getConnection();
 		int result = new ContactsDao().insertCategory(conn, newCategoryName);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int deleteCategory(int categoryNo) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().deleteCategory(conn, categoryNo);
 		
 		if(result > 0) {
 			commit(conn);

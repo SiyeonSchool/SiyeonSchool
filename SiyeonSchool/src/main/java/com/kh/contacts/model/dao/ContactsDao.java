@@ -540,16 +540,41 @@ public class ContactsDao {
 		return result;
 	}
 
-	public int selectCategoryNo(Connection conn, int contactsNo) {
+	public int selectCategoryNoByContactsNo(Connection conn, int contactsNo) {
 		int categoryNo = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectCategoryNo");
+		String sql = prop.getProperty("selectCategoryNoByContactsNo");
 
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, contactsNo);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				categoryNo = rset.getInt("CATEGORY_NO");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return categoryNo;
+	}
+	
+	public int selectCategoryNoByCategoryName(Connection conn, String categoryName) {
+		int categoryNo = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCategoryNoByCategoryName");
+
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, categoryName);
 			
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
@@ -578,6 +603,25 @@ public class ContactsDao {
 
 		} catch (SQLIntegrityConstraintViolationException e) {
 			return -1; // 중복된 카테고리가 있는경우, -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int deleteCategory(Connection conn, int categoryNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteCategory");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, categoryNo);
+			
+			result = pstmt.executeUpdate();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

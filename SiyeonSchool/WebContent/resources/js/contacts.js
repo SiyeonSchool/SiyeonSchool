@@ -642,6 +642,11 @@ function closeModalByBtn(closeBtn){
     hideModal(modalBg);
 }
 
+// 주소록메인화면으로 이동
+function moveToContactsMain(){
+    location.href = `${contextPath}/contacts`;
+}
+
 // 주소록메인화면으로 이동하되, contactsNo를 parameter로 넘겨줌. => 해당 주소록을 사이드바에서 클릭 => 메인컨텐츠에 리스트뿌려줌.
 function moveToContactsPage(contactsNo){
     location.href = `${contextPath}/contacts?contactsNo=${contactsNo}`;
@@ -656,10 +661,10 @@ if(currentContactsNo != 0) {
 async function clickContactsElOnSidebar(contactsNo){
 
     // 공유주소록인경우 카테고리를 한번 클릭하고 난 후에 주소록을 클릭해야함.
-    const categoryNo = await selectCategoryNo(contactsNo);
+    const categoryNo = await selectCategoryNo(contactsNo, null);
     let milliSeconds = 0;
     if(categoryNo !=0) {
-        milliSeconds = 300;
+        milliSeconds = 400;
         $(`aside input[type="hidden"][name="categoryNo"][value="${categoryNo}"]`).parent().click();
     }
 
@@ -671,21 +676,21 @@ async function clickContactsElOnSidebar(contactsNo){
     }, milliSeconds);
 }
 
-// 주소록번호로 카테고리번호 조회
-function selectCategoryNo(contactsNo) {
+// "주소록번호" 혹은 "카레고리명"으로 "카테고리번호" 조회
+function selectCategoryNo(contactsNo, categoryName) {
     return new Promise((resolve, reject) => {
         $.ajax({
             url: "contacts/categoryNo",
             type: "get",
             data: {
                 contactsNo: contactsNo,
+                categoryName: categoryName,
             },
             success: function(result) {
                 resolve(result);
             },
             error: function() {
-                console.error('AJAX 통신실패: selectCategoryNo()');
-                reject(new Error('Failed to load categoryNo'));
+                reject(new Error('AJAX 통신실패: selectCategoryNo()'));
             }
         });
     });
@@ -718,19 +723,17 @@ $(window).on('click', function(event) {
 });
 
 // select option에 카테고리리스트를 넣어줌.
-let isCategoryListAddedOnModal = false;
+let isCategoryListAddedOnModal = false; // 이미 추가됐었는지 확인하기 위한 변수
 async function displayCategoryListOnModal() {
 
     if(isCategoryListAddedOnModal == false) { // 이전에 이미 추가한적이 없는 경우에만.
-        // db 조회
-        const list = await selectCategoryList();
+        const list = await selectCategoryList(); // db 조회
 
-        // 화면에 뿌려주기
         let str = "";
         for(let i=0; i<list.length; i++) {
             str += `<option value="${list[i].categoryNo}">${list[i].categoryName}</option>\n`;
         }
-        $("#categorySelect").append(str);
+        $("#categorySelect").append(str); // 화면에 뿌려주기
 
         isCategoryListAddedOnModal = true;
     }
@@ -771,34 +774,53 @@ $('input[name="isNewCategory"]').change(function() {
 });
 
 // modal창에서 "추가" 버튼 클릭시 수행할 기능.
-async function addPublicContacts() {
+function addPublicContacts() {
     const contactsName = $("#newPublicContactsName").val(); 
     if(isEmptyValue(contactsName)) { // 주소록명 입력되어있는지 검증
         return false;
     }
 
     // 기존카테고리/새로운카테고리 에 따라 다른 기능 수행함.
-    if ($('#existingCategory').is(':checked')) { // 기존카테고리 선택시 -> 선택한 "카테고리번호" 가져옴
-        const existingCategoryNo = Number($(".categorySelectDiv").find("option:selected").val());
-        insertPublicContacts(existingCategoryNo, contactsName); // 주소록에 추가
-
-    } else { // 새로운 카테고리 선택시 -> 새로운 "카테고리명" 가져옴
-        const newCategoryName = $("#newCategoryName").val(); 
-        if(isEmptyValue(newCategoryName)) { // 카테고리명이 입력되어있는지 검증
-            return false;
-        }
-
-        await insertCategory(newCategoryName); // 카테고리만들기
-
-        // 주소록에 해당 카테고리로 추가
-        const contactsNo = await selectContactNo(contactsName); // "주소록이름"으로 "주소록번호"조회
-        const categoryNo = await selectCategoryNo(contactsNo); // "주소록번호"로 "카테고리번호"조회
-        // ############ contactsNo 확인하기 여기서!!!! ###############
-        insertPublicContacts(categoryNo, contactsName); // 주소록에 추가
+    if ($('#existingCategory').is(':checked')) { 
+        addPublicContacts_UsingExistingCategoryNo(contactsName);
+    } else {
+        addPublicContacts_UsingNewCategoryNo(contactsName)
     }
 }
 
-// 주소록 추가 
+// 공유주소록추가 - case 1) 기존카테고리를 사용한경우
+function addPublicContacts_UsingExistingCategoryNo(contactsName){ 
+    const existingCategoryNo = Number($(".categorySelectDiv").find("option:selected").val()); //선택한 "카테고리번호" 가져옴
+    insertPublicContacts(existingCategoryNo, contactsName); // 주소록에 추가
+}
+
+// 공유주소록추가 - case 2) 새로운 카테고리를 사용한경우
+async function addPublicContacts_UsingNewCategoryNo(contactsName){
+    // 새로운 카테고리명
+    const newCategoryName = $("#newCategoryName").val(); 
+    if(isEmptyValue(newCategoryName)) { // 카테고리명이 입력되어있는지 검증
+        return false;
+    }
+
+    // 카테고리 추가 & 검증
+    const insertCategoryResult = await insertCategory(newCategoryName); 
+    if(insertCategoryResult == -1) {
+        alert("이미 동일한 카테고리명이 있습니다. 다른 이름으로 다시 시도해주세요.");
+        return;
+    } else if (insertCategoryResult <= 0) {
+        alert("카테고리 추가에 실패하였습니다.");
+        return;
+    }
+
+    // 카테고리 번호 찾고, 주소록에 추가
+    const categoryNo = await selectCategoryNo(0, newCategoryName); // selectCategoryNo(contactsNo, categoryName)
+    const insertPublicContactsResult = await insertPublicContacts(categoryNo, contactsName);
+    if(insertPublicContactsResult <= 0){ // 주소록이 제대로 추가가 안된경우, 기존에 추가했던 새로운 카테고리도 삭제
+        deleteCategory(categoryNo);
+    }
+}
+
+// 주소록카테고리 추가 
 function insertCategory(newCategoryName){
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -808,53 +830,60 @@ function insertCategory(newCategoryName){
                 newCategoryName:newCategoryName,
             },
             success: function(result) {
-                if (result > 0) {
-                    alert("성공적으로 카테고리를 추가하였습니다.");
-                } else if (result == -1) {
-                    alert("이미 동일한 카테고리명이 있습니다. 다른 이름으로 다시 시도해주세요.");
-                } else {
-                    alert("카테고리 추가에 실패하였습니다.");
-                }
                 resolve(result);
             },
             error: function() {
-                console.error('AJAX 통신실패: insertCategory()');
-                reject(new Error('Failed to insert category'));
+                reject(new Error('AJAX 통신실패: insertCategory()'));
             }
         });
     });
 }
 
-// 공유주소록 DB에 추가 => 새 페이지 로딩 후 해당 주소록 클릭
-function insertPublicContacts(categoryNo, contactsName){
-    console.log("---- insertPublicContacts() ---- categoryNo:" + categoryNo + ", contactsName:"+contactsName);
+// 주소록카테고리 삭제 
+function deleteCategory(categoryNo){
     $.ajax({
-        url: "contacts/insert.publicContacts",
+        url: "contacts/delete.category",
         type: "post",
         data: {
-            categoryNo: categoryNo,
-            contactsName: contactsName,
+            categoryNo:categoryNo,
         },
         success: function(result) {
-            if (result > 0) {
-                alert("성공적으로 공유주소록을 추가하였습니다.");
-
-                // selectContactNo()가 완료된 후, moveToContactsPage()를 실행함. (contactsNo를 넘겨줌)
-                // 이렇게 안하면, selectContactNo에서 contactsNO를 구하는 과정이 완료되기 전에 moveToContactsPage()를 실행해서 contactsNo에 undefined가 들어감.
-                selectContactNo(contactsName).then(contactsNo => {
-                    moveToContactsPage(contactsNo);
-                }).catch(error => {
-                    console.error(error);
-                });
-            } else if (result == -1) {
-                alert("이미 동일한 주소록명이 있습니다. 다른 이름으로 다시 시도해주세요.");
-            } else {
-                alert("공유주소록 추가에 실패하였습니다.");
-            }
+            // console.log("deleteCategory 결과:" + result);
         },
         error: function() {
-            console.log(`ajax 통신 실패 : insertPublicContacts()`);
-        },
+            console.log('AJAX 통신실패: deleteCategory()');
+        }
+    });
+}
+
+// 공유주소록 DB에 추가 => 새 페이지 로딩 후 해당 주소록 클릭
+function insertPublicContacts(categoryNo, contactsName){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "contacts/insert.publicContacts",
+            type: "post",
+            data: {
+                categoryNo: categoryNo,
+                contactsName: contactsName,
+            },
+            success: function(result) {
+                if (result > 0) {
+                    alert("성공적으로 공유주소록을 추가하였습니다.");
+                    
+                    selectContactNo(contactsName).then(contactsNo => {
+                        moveToContactsPage(contactsNo);
+                    })
+                } else if (result == -1) {
+                    alert("이미 동일한 주소록명이 있습니다. 다른 이름으로 다시 시도해주세요.");
+                } else {
+                    alert("공유주소록 추가에 실패하였습니다.");
+                }
+                resolve(result);
+            },
+            error: function() {
+               reject(`ajax 통신 실패 : insertPublicContacts()`);
+            },
+        });
     });
 }
 
@@ -871,8 +900,7 @@ function selectContactNo(contactsName) {
                 resolve(result);
             },
             error: function() {
-                console.log(`ajax 통신 실패 : selectContactNo()`);
-                reject('Error fetching contact number');  // Reject the promise on error
+                reject('ajax 통신 실패 : selectContactNo()');
             },
         });
     });
@@ -912,12 +940,12 @@ function insertPrivateContacts() {
         success: function(result) {
             if (result > 0) {
                 alert("성공적으로 개인주소록을 추가하였습니다.");
-                
+
+                // selectContactNo()가 완료된 후, moveToContactsPage()를 실행함. (contactsNo를 넘겨줌)
+                // 이렇게 안하면, selectContactNo에서 contactsNO를 구하는 과정이 완료되기 전에 moveToContactsPage()를 실행해서 contactsNo에 undefined가 들어감.
                 selectContactNo(contactsName).then(contactsNo => {
                     moveToContactsPage(contactsNo);
-                }).catch(error => {
-                    console.error(error);
-                });
+                })
             } else if (result == -1) {
                 alert("이미 동일한 주소록명이 있습니다. 다른 이름으로 다시 시도해주세요.");
             } else {
@@ -930,5 +958,43 @@ function insertPrivateContacts() {
     });
 }
 
+/* -------------- modal창 - 공유주소록 수정 -------------- */
+const modalEditPublicContactBg = $(".modal-editPublicContact-bg");
+
+// 사이드바 "공유주소록"부분에서 - edit 아이콘 클릭시
+$("aside .public-contacts").on("click", "span.icon.edit", function(){
+    const categoryNo = $(this).parent().parent().find(`input[name="categoryNo"]`).val();
+    console.log("categoryNo:" + categoryNo);
+    showModal(modalEditPublicContactBg);
+})
+
+// modal창 바깥 클릭시, modal창 닫힘.
+$(window).on('click', function(event) {
+    if ($(event.target).is(modalEditPublicContactBg)) {
+        hideModal(modalEditPublicContactBg);
+    }
+});
 
 
+function confirmEditCategory() {
+    const newCategoryName = prompt("새로운 카테고리명을 입력하세요.");
+    if(newCategoryName != null) {
+        alert(`"${newCategoryName}"로 카테고리명을 변경합니다.`);
+    }
+}
+
+
+function confirmDeleteCategory() {
+    if(confirm("정말로 해당 카테고리를 삭제하시겠습니까?\n카테고리 삭제시, 카테고리에 속한 주소록들도 같이 삭제됩니다.")){
+        alert("삭제를 완료하였습니다.");
+        moveToContactsMain();
+    }
+}
+
+/* -------------- modal창 - 개인주소록 수정 -------------- */
+
+// 사이드바 "개인주소록"부분에서 - edit 아이콘 클릭시
+$("aside .private-contacts").on("click", "span.icon.edit", function(){
+    const contactsNo = $(this).parent().parent().find(`input[name="contactsNo"]`).val();
+    console.log("contactsNo:" + contactsNo);
+})
