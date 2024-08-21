@@ -229,9 +229,9 @@ function convertUserListToStr(userList){
             // 프로필 이미지: 이미지가 있으면 이미지로, 없으면 회색 아이콘으로 표기
             let profileImg;
             if(userList[i].profilePath){
-                profileImg = `<img src="${contextPath}/${userList[i].profilePath}">`;
+                profileImg = `<img src="${contextPath}/${userList[i].profilePath}" class="profile-img">`;
             }else {
-                profileImg = `<span class="material-symbols-rounded icon profile-pic">account_circle</span>`;
+                profileImg = `<span class="material-symbols-rounded icon profile-icon">account_circle</span>`;
             }
             // let tempFilePath = `resources/images/profile_img/user17.png`;
             // profileImg = `<img src="${contextPath}/${tempFilePath}">`;
@@ -351,6 +351,49 @@ function sortUsersList(categoryNo, contactsNo, sortBy, isDesc) {
     })
 }
 
+// -------------- "메일" 버튼 --------------
+$("main .section__serach-bar button.email").click(function(){
+    // 선택된 체크박스 요소들
+    const checkedUsersEls =  $("main .section__list-content li.userInfo div.checkbox input:checkbox:checked"); 
+
+    // 선택한 유저가 있는지 검증
+    if(checkedUsersEls.length == 0) {
+        alert("선택한 유저가 없습니다.\n메일을 보낼 유저를 선택 후 다시 시도해주세요.");
+        return;
+    };
+
+    /*
+    // "메일" 버튼 클릭한 시점에 체크박스에 선택된 유저들의 번호를 구하여 배열에 저장
+    const checkedUsersNoList = []; // 선택된 유저들의 실제 번호가 담기는 배열.
+    for(let i=0; i<checkedUsersEls.length; i++){
+        checkedUsersNoList.push(checkedUsersEls[i].value);
+    }
+    */
+
+    alert("메일을 보내고 싶으나, 아직 메일쪽 구현을 안해서...\n\n언젠가는 보낼 수 있겠죠? ^^;");
+});
+
+// ########### 작업중 ##############
+/* -------------- 검색  -------------- */
+/*
+$('#keyword').on('input', function() {
+    let keyword = $(this).val();
+    console.log('User typed:', keyword);
+   
+});
+$(document).ready(function() {
+    console.log("여기");
+    // Select all userName divs within userInfo li elements
+    $('.userInfo').each(function() {
+        // Find the userName div and get its text content
+        var userName = $(this).find('.userName').text().trim();
+        console.log(userName); // Output the username to the console
+    });
+    console.log("여기2");
+});
+*/
+
+
 // -------------- 체크박스 --------------
 // 헤더의 체크박스 클릭시, 리스트 전체의 체크박스 선택or해제
 $("main .section__list-header :checkbox").click(function(){
@@ -368,11 +411,13 @@ $("main .section__list-header :checkbox").click(function(){
 $("main .section__list-content").on("click", "li.userInfo", function(event){
 
     // 클릭한 요소가 "별"이거나 "사진"인 경우, 이벤트 실행안하고 빠져나감.
-    if ($(event.target).is('span.star')) {
+    if ($(event.target).is('span.star')) { // 별
         return;
-    }else if($(event.target).is('span.profile-pic')) {
+    }else if($(event.target).is('span.profile-icon')) { // 사진없을때 대신 들어올 회색프로필아이콘
         return;
-    }else if($(event.target).is(':checkbox')) {
+    }else if($(event.target).is('img.profile-img')) { // 프로필사진
+        return;
+    }else if($(event.target).is(':checkbox')) { // 체크박스
         return;
     }
 
@@ -446,6 +491,36 @@ function deleteStar(otherUserNo, star){
         },
     })
 }
+
+
+/* -------------- 프로필 이미지 -------------- */
+// 프로필 이미지 크게 확대
+function showProfileImgBigger(imgElement) {
+    var imgSrc = $(imgElement).attr('src');
+    $('#modalImg').attr('src', imgSrc);
+    $('#imageModal').fadeIn();
+}
+
+// Attach click event to images with a specific class
+$('.section__list-content').on('click', 'img.profile-img', function(event) {
+    event.stopPropagation(); // Stop the event from bubbling up
+    showProfileImgBigger(this);
+});
+
+
+// Function to close the modal
+$('#closeModal').click(function() {
+    $('#imageModal').fadeOut();
+});
+
+// Optional: close the modal when clicking outside the image
+$('#imageModal').click(function(event) {
+    if (event.target.id === 'imageModal') {
+        $('#imageModal').fadeOut();
+    }
+});
+
+
 
 /* -------------- modal창 - "주소록에추가"-------------- */
 

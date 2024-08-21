@@ -113,7 +113,11 @@
 
 			<!-- 프로필 -->
 			<div class="profile">
-				<div class="material-icons">account_circle</div>
+				<% if(loginUser.getProfilePath() == null) { %>
+					<div class="material-icons">account_circle</div>
+				<% } else { %>
+					<img src="<%= contextPath2 %>/<%= loginUser.getProfilePath() %>">
+				<% }%>
 				<div class="profile-name"><%= loginUser.getUserName() %></div>
 				<div class="material-symbols-rounded">keyboard_arrow_down</div>
 			</div>

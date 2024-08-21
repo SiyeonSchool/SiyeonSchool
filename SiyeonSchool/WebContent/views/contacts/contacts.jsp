@@ -150,22 +150,20 @@
 				</button>
 				<button class="addBtn">주소록에 추가</button>
 			</div>
-
+			
 			<div class="search-bar">
-				<input type="text" name="keyword" placeholder="검색어를 입력해주세요.">
+				<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력해주세요." maxlength="20">
 				<span class="material-symbols-outlined icon">search</span>
 			</div>
 
 			<div class="search-options">
-				<input type="checkbox" id="search-by-userName" name="search-option">
+				<input type="radio" id="search-by-userName" name="search-option" checked>
 				<label for="search-by-userName">이름</label>
 
-				<input type="checkbox" id="search-by-userId" name="search-option">
+				<input type="radio" id="search-by-userId" name="search-option">
 				<label for="search-by-userId">아이디</label>
-
-				<input type="checkbox" id="search-all-students" name="search-option">
-				<label for="search-all-students">학생</label>
 			</div>
+
 		</section>
 
 		<!-- 목록 헤더 섹션 (section__list-header) -->
@@ -218,7 +216,13 @@
 
 
 
-		<!-- ==================== modal창 - 처음엔 안보였다가, 필요시 동적으로 보여질 내용들 ==================== -->
+		<!-- ==================== 처음엔 안보였다가, 필요시 동적으로 보여질 내용들 ==================== -->
+
+		<!-- modal창 - 프로필사진 확대  -->
+		<div id="imageModal" style="display: none;">
+			<span id="closeModal">&times;</span>
+			<img id="modalImg" src="" alt="Larger Image">
+		</div>
 
 		<!-- modal창 - "주소록에추가"  -->
 		<div class="modal-bg modal-addMember-bg">

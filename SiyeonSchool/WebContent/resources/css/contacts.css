@@ -266,7 +266,7 @@ main .section__serach-bar .search-options{
     align-items: center;
 }
 
-main .section__serach-bar .search-options input[type="checkbox"]{
+main .section__serach-bar .search-options input[type="radio"]{
     margin-bottom: 5px;
 }
 
@@ -371,6 +371,7 @@ main .section__list-content li.userInfo img{
     height: 50px;
     border-radius: 50%;
     margin-right: 15px;
+    object-fit: cover;
 }
 
 /* 목록 내용 섹션 (section__list-content) - 프로필 이미지 후버시*/
@@ -397,7 +398,7 @@ main .section__list-content li.userInfo.noUsers:hover{
 }
 
 /* 목록 내용 섹션 (section__list-content) - 프로필 사진 */
-main .section__list-content li div span.profile-pic{
+main .section__list-content li div span.profile-icon{
     font-size: 40px;
     margin-right: 10px;
 }
@@ -524,4 +525,36 @@ main .modal-bg .modal div.hidden{
 main .modal-bg .modal .modal-addMember__contactsList{
     text-align: left;
     padding-left: 45%;
+}
+
+
+/* ---------- modal - 프로필사진 ---------- */
+/* 배경 */
+main #imageModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* 실제 프로필사진 */
+main #imageModal #modalImg {
+    max-width: 50%;
+    max-height: 50%;
+}
+
+/* 닫기 버튼 */
+main #imageModal #closeModal {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
 }

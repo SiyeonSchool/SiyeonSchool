@@ -49,7 +49,7 @@ public class UserDao {
                              rset.getString("address"),
                              rset.getString("enroll_date"),
                              rset.getString("modify_date"),
-                             rset.getInt("profile_file_no"),
+                             rset.getString("profile_path"),
                              rset.getInt("question_no"),
                              rset.getString("question_answer"),
                              rset.getString("user_auth"),

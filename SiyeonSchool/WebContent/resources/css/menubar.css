@@ -68,7 +68,6 @@ header .right-menu{
     position: absolute;
     right: 20px;
     color: var(--lightGrey);
-    opacity: .7;
     display: flex;
 }
 
@@ -92,12 +91,18 @@ header .right-menu .profile{
 }
 
 header .right-menu .profile:hover{
-    opacity: .5;
+    opacity: .7;
 }
 
-/* 프로필 아이콘 */
+/* 프로필 아이콘 <- (사진이 없을경우) */
 header .right-menu .profile .material-icons{
     font-size: 55px;
+}
+
+/* 프로필 사진 <- (사진이 있는경우)*/
+header .right-menu .profile img{
+    width: 60px;
+    border-radius: 50%;
 }
 
 /* 프로필 이름 & 접는 아이콘 */
@@ -193,8 +198,9 @@ header .hidden-right-menu .hidden-notification ul li .time-and-cross .material-i
 /* ------- 숨겨진 프로필메뉴  -------*/
 header .hidden-right-menu .hidden-profile{
     position: absolute;
+    top: 5px;
     right: 0;
-    width: 140px;
+    width: 150px;
     height: fit-content;
     color: var(--darkGrey);
 }

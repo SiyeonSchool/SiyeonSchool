@@ -61,7 +61,7 @@ public class User {
 	
 	// USER DB 기본정보 전체 데이터 (주소록에 사용될 role, star를 제외한 생성자)
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
-			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
+			String birthday, String email, String address, String enrollDate, String modifyDate, String profilePath,
 			int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl) {
 		super();
 		this.userNo = userNo;
@@ -75,7 +75,7 @@ public class User {
 		this.address = address;
 		this.enrollDate = enrollDate;
 		this.modifyDate = modifyDate;
-		this.profileFileNo = profileFileNo;
+		this.profilePath = profilePath;
 		this.questionNo = questionNo;
 		this.questionAnswer = questionAnswer;
 		this.userAuth = userAuth;
@@ -130,7 +130,6 @@ public class User {
 		this.role = role;
 		this.star = star;
 	}
-
 
 	public int getUserNo() {
 		return userNo;
