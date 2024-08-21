@@ -101,6 +101,7 @@ aside .mid-cate__title{
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+    align-items: center;
 }
 
 /* 중분류, 소분류 - 각 줄 클릭시 효과 */
@@ -118,7 +119,7 @@ aside .sm-cate:hover{           /* 소분류 - 후버시*/
 
 aside .mid-cate__title>div{
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 }
 
 /* 중분류 - 사람 아이콘 */
@@ -147,7 +148,7 @@ aside .sm-cate{
 
 aside .sm-cate>div{
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 }
 
 /* 소분류 - 화살표 아이콘 */
@@ -364,6 +365,19 @@ main .section__list-content li:hover{
     background-color: var(--contactsHover);
 }
 
+/* 목록 내용 섹션 (section__list-content) - 프로필 이미지 */
+main .section__list-content li.userInfo img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+/* 목록 내용 섹션 (section__list-content) - 프로필 이미지 후버시*/
+main .section__list-content li.userInfo img:hover{
+    opacity: .7;
+}
+
 /* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */
 main .section__list-content li.userInfo.noUsers{
     height: var(--content-list-content-height);
@@ -426,6 +440,7 @@ main .modal-bg .modal{
     position: relative;
     max-height: calc(100vh - var(--menubar-height) - 20px); /* model창 세로 최대크기 */;
     overflow: auto;
+    text-align: center;
 }
 
 /* modal - 닫기 아이콘 */
@@ -484,6 +499,7 @@ main .modal-bg .modal input[type="submit"]:hover{
     font-weight: bold;
 }
 
+/* modal - select */
 main .modal-bg .modal select{
     width: 250px;
     height: 27px;
@@ -493,6 +509,7 @@ main .modal-bg .modal select{
     cursor: pointer;
 }
 
+/* modal - select - option */
 main .modal-bg .modal select option{
     font-family: "MinSans-Regular", sans-serif;
     font-size: 16px;
@@ -501,4 +518,10 @@ main .modal-bg .modal select option{
 
 main .modal-bg .modal div.hidden{
     display: none;
+}
+
+/* modal - 주소록추가 내에 주소록 리스트를 담는 div - ex) 자바 1조, 자바 2조... */
+main .modal-bg .modal .modal-addMember__contactsList{
+    text-align: left;
+    padding-left: 45%;
 }

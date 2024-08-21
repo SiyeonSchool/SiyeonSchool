@@ -1,7 +1,14 @@
-// JSP에서 가져온 로그인유저정보
+/* ====================  JSP에서 가져온 정보 ==================== */
+// 로그인유저정보
 const loginUser = JSON.parse(loginUserJson); // json string -> object 타입으로 형변환함.
 
+console.log("currentCategoryNo:" + currentCategoryNo);
 console.log("currentContactsNo:" + currentContactsNo);
+
+/* ==================== DB BYTE 길이 제한 ==================== */
+const BYTE_LENGTH_LIMIT = 50; // "주소록명", "카테고리명"의 byte 제한길이 <-- VARCHAR2(50)
+
+
 /* ==================== 사이드바 ==================== */
 
 // 주소록 카테고리 클릭시: 클릭된 카테고리 하이라이트 + 하위 주소록 숨기거나 보여주기
@@ -90,9 +97,12 @@ $(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로
                                 <input type="hidden" name="contactsNo" value="${result[i].contactsNo}">
                                 <div>
                                     <span class="material-icons icon">subdirectory_arrow_right</span>
-                                    <span> ${result[i].contactsName}</span>
+                                    <span class="contactsName"> ${result[i].contactsName}</span>
                                     <span class="userCount">(${result[i].userCount})</span>
                                 </div>
+                                <div>
+								    <span class="material-symbols-rounded icon edit">edit</span>
+							    </div>
                             </li>\n`
             }
             contentsArea.html(value); // ul.mid-cate__contents 안에 li 추가
@@ -208,23 +218,34 @@ function convertUserListToStr(userList){
     }else { // 유저가 있는 경우
         for(let i=0; i<userList.length; i++) {
 
-            let classValue;
+            // 별: 중요표시가 되어있으면 노란색 별, 없으면 빈 회색 별
+            let starClassValue;
             if(userList[i].star === "Y"){
-                classValue = "material-icons-round icon star fill"; // 노랑색 색칠된 별
+                starClassValue = "material-icons-round icon star fill"; // 노랑색 색칠된 별
             }else {
-                classValue = "material-symbols-rounded icon star"; // 회색 테두리만 있는 별
+                starClassValue = "material-symbols-rounded icon star"; // 회색 테두리만 있는 별
             }
-    
+            
+            // 프로필 이미지: 이미지가 있으면 이미지로, 없으면 회색 아이콘으로 표기
+            let profileImg;
+            if(userList[i].profilePath){
+                profileImg = `<img src="${contextPath}/${userList[i].profilePath}">`;
+            }else {
+                profileImg = `<span class="material-symbols-rounded icon profile-pic">account_circle</span>`;
+            }
+            // let tempFilePath = `resources/images/profile_img/user17.png`;
+            // profileImg = `<img src="${contextPath}/${tempFilePath}">`;
+
             str += `<!-- 한 줄의 사용자 데이터 -->
                     <li class="userInfo">
                         <div class="checkbox">
                             <input type="checkbox" name="userNo" value="${userList[i].userNo}">
                         </div>
                         <div class="star">
-                            <span class="${classValue}">star</span>
+                            <span class="${starClassValue}">star</span>
                         </div>`;
 
-            // 카테고리주소록 유저리스트일경우
+            // 카테고리주소록 유저리스트일경우 : 소속 "카테고리명"도 표기
             if((userList[i]).contactsNo != 0) {
                 str += `<div class="contactsInfo">
                                 <input type="hidden" name="contactsNo" value="${userList[i].contactsNo}">
@@ -233,7 +254,7 @@ function convertUserListToStr(userList){
             }
 
             str +=      `<div class="userName">
-                            <span class="material-symbols-rounded icon profile-pic">account_circle</span>
+                            ${profileImg}
                             ${userList[i].userName}
                         </div>
                         <div class="userId">${userList[i].userId}</div>
@@ -461,9 +482,7 @@ $("main .section__serach-bar .btn-group .addBtn").click(function(){
                 resultStr +=   `<input type="radio" name="contactsNo" value="${result[i].contactsNo}" id="${result[i].contactsNo}">
                                 <label for="${result[i].contactsNo}">${result[i].contactsName}</label> <br>\n`
             }
-            resultStr +=   `<hr>
-                            <input type="hidden" name="checkedUsersNoList" value=${checkedUsersNoList}>
-                            <input type="submit" value="추가" onclick="insertContactsMember();">\n`
+            resultStr +=   `<input type="hidden" name="checkedUsersNoList" value=${checkedUsersNoList}>\n`;
 
             // 전체주소록목록 화면에 뿌리기
             $("main .modal-addMember__contactsList").html(resultStr); 
@@ -543,8 +562,7 @@ function clickSidebarContactsNo(contactsNo, isAdded, userCountToUpdate){
     }
 
     userCountEl.text(`(${finalUsersCount})`); // 최종 인원수로 업데이트
-
-    updatedEl.click(); // 사이드바에서 클릭하면, 이미 정의된 이벤트 덕분에 메인컨텐츠영역에도 주소록구성원목록을 뿌려주게됨.
+    clickContactsElOnSidebar(contactsNo); // 사이드바에서 클릭하면, 이미 정의된 이벤트 덕분에 메인컨텐츠영역에도 주소록구성원목록을 뿌려주게됨.
 }
 
 
@@ -647,14 +665,26 @@ function moveToContactsMain(){
     location.href = `${contextPath}/contacts`;
 }
 
+// 주소록메인화면으로 이동하되, categoryNo를 parameter로 넘겨줌. => 해당 카테고리를 사이드바에서 클릭 => 메인컨텐츠에 리스트뿌려줌.
+function moveToCategoryPage(categoryNo){
+    location.href = `${contextPath}/contacts?categoryNo=${categoryNo}`;
+}
+
 // 주소록메인화면으로 이동하되, contactsNo를 parameter로 넘겨줌. => 해당 주소록을 사이드바에서 클릭 => 메인컨텐츠에 리스트뿌려줌.
 function moveToContactsPage(contactsNo){
     location.href = `${contextPath}/contacts?contactsNo=${contactsNo}`;
 }
 
-// 페이지 재로딩시 주소록번호를 넘겨받은 경우, 해당 주소록을 사이드바에서 클릭
-if(currentContactsNo != 0) {
+// 페이지 재로딩시, 넘겨받은 카테고리번호 혹은 주소록번호로 해당 요소 클릭하기.
+if(currentCategoryNo != 0) { // 카테고리번호를 넘겨받은 경우
+    clickCategoryElOnSidebar(currentCategoryNo);
+} else if(currentContactsNo != 0) { // 주소록번호를 넘겨받은 경우
     clickContactsElOnSidebar(currentContactsNo);
+}
+
+// 사이드바에서 카테고리번호로 해당 요소 클릭하기
+function clickCategoryElOnSidebar(categoryNo){
+    $(`aside input[type="hidden"][name="categoryNo"][value="${categoryNo}"]`).parent().click();
 }
 
 // 사이드바에서 주소록번호로 해당 요소 클릭하기
@@ -665,7 +695,7 @@ async function clickContactsElOnSidebar(contactsNo){
     let milliSeconds = 0;
     if(categoryNo !=0) {
         milliSeconds = 400;
-        $(`aside input[type="hidden"][name="categoryNo"][value="${categoryNo}"]`).parent().click();
+        clickCategoryElOnSidebar(categoryNo);
     }
 
     // 주소록 클릭하기
@@ -777,7 +807,7 @@ $('input[name="isNewCategory"]').change(function() {
 function addPublicContacts() {
     const contactsName = $("#newPublicContactsName").val(); 
     if(isEmptyValue(contactsName)) { // 주소록명 입력되어있는지 검증
-        return false;
+        return;
     }
 
     // 기존카테고리/새로운카테고리 에 따라 다른 기능 수행함.
@@ -841,18 +871,20 @@ function insertCategory(newCategoryName){
 
 // 주소록카테고리 삭제 
 function deleteCategory(categoryNo){
-    $.ajax({
-        url: "contacts/delete.category",
-        type: "post",
-        data: {
-            categoryNo:categoryNo,
-        },
-        success: function(result) {
-            // console.log("deleteCategory 결과:" + result);
-        },
-        error: function() {
-            console.log('AJAX 통신실패: deleteCategory()');
-        }
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "contacts/delete.category",
+            type: "post",
+            data: {
+                categoryNo:categoryNo,
+            },
+            success: function(result) {
+                resolve(result);
+            },
+            error: function() {
+                reject('AJAX 통신실패: deleteCategory()');
+            }
+        });
     });
 }
 
@@ -958,43 +990,235 @@ function insertPrivateContacts() {
     });
 }
 
-/* -------------- modal창 - 공유주소록 수정 -------------- */
-const modalEditPublicContactBg = $(".modal-editPublicContact-bg");
+/* -------------- modal창 - 카테고리 수정 -------------- */
+const modalEditCategoryBg = $(".modal-editCategory-bg");
 
-// 사이드바 "공유주소록"부분에서 - edit 아이콘 클릭시
-$("aside .public-contacts").on("click", "span.icon.edit", function(){
-    const categoryNo = $(this).parent().parent().find(`input[name="categoryNo"]`).val();
-    console.log("categoryNo:" + categoryNo);
-    showModal(modalEditPublicContactBg);
+// 사이드바 "공유주소록"부분에서 - 카테고리 edit 아이콘 클릭시
+$("aside .public-contacts").on("click", ".mid-cate__title span.icon.edit", function(){
+    $(modalEditCategoryBg).find(".categoryName").text(getActiveCategoryNameFromSidebar()); // modal창에 선택한 카테고리명 명시해주기.
+    showModal(modalEditCategoryBg); // modal창 열기
 })
 
 // modal창 바깥 클릭시, modal창 닫힘.
 $(window).on('click', function(event) {
-    if ($(event.target).is(modalEditPublicContactBg)) {
-        hideModal(modalEditPublicContactBg);
+    if ($(event.target).is(modalEditCategoryBg)) {
+        hideModal(modalEditCategoryBg);
     }
 });
 
+// 사이드바에 클릭된 카테고리명 조회 
+function getActiveCategoryNameFromSidebar(){
+    return $("aside").find(".active span.title").text();
+}
 
+// 사이드바에 클릭된 카테고리번호 조회 
+function getCategoryNoFromSidebar(){
+    return $("aside").find(`.active input[name="categoryNo"]`).val();
+}
+
+// "카테고리명 변경" 버튼 클릭시
 function confirmEditCategory() {
-    const newCategoryName = prompt("새로운 카테고리명을 입력하세요.");
-    if(newCategoryName != null) {
-        alert(`"${newCategoryName}"로 카테고리명을 변경합니다.`);
+    const existingCategoryName = getActiveCategoryNameFromSidebar();
+    const newCategoryName = prompt("새로운 카테고리명을 입력하세요.", existingCategoryName); // 기존 카테고리명을 prompt에 입력해둠
+
+    // 검증로직
+    if(newCategoryName == existingCategoryName) {
+        alert("기존 카테고리명과 동일합니다.\n변경하고자하는 카테고리명을 입력하고 다시 시도해주세요.");
+        return;
+    }else if(newCategoryName.length == 0) {
+        alert("값이 비어있습니다.\n카테고리명을 입력하고 다시 시도해주세요.");
+        return;
+    }else if(!isValidInputTextLength(newCategoryName)) {
+        alert(`글자수를 초과하였습니다. 다시 시도하여주세요.`);
+        return;
+    }
+
+    // 모든 검증을 거치고 통과하면 변경로직 실행
+    updateCategoryName(getCategoryNoFromSidebar(), newCategoryName);
+}
+
+// Byte 길이 검증
+function isValidInputTextLength(text) {
+    if (getByteLength(text) > BYTE_LENGTH_LIMIT) { 
+        return false; // 글자수 초과
+    }
+    return true; 
+}
+
+// Byte 길이 구하기
+function getByteLength(str) {
+    const encoder = new TextEncoder(); // Create a new TextEncoder instance
+    const encoded = encoder.encode(str); // Encode the string as a Uint8Array (UTF-8)
+    return encoded.length; // Return the length of the encoded byte array
+}
+
+// DB에서 카테고리명 변경
+function updateCategoryName(categoryNo, newCategoryName){
+    $.ajax({
+        url: "contacts/update.categoryName",
+        type: "post",
+        data: {
+            categoryNo: categoryNo,
+            newCategoryName: newCategoryName,
+        },
+        success: function(result) {
+            if(result > 0) {
+                alert(`성공적으로 카테고리명을 변경하였습니다.`);
+                moveToCategoryPage(categoryNo);
+            }else if(result == -1) {
+                alert(`중복되는 카테고리명이 있습니다. 다른 카테고리명으로 다시 시도해주세요.`);
+            }else {
+                alert(`카테고리명 변경에 실패하였습니다.`);
+            }
+        },
+        error: function() {
+            console.selectCategoryUsersList(`ajax 통신 실패 : updateCategoryName()`);
+        },
+    });
+}
+
+// "카테고리 삭제" 버튼 클릭시
+async function confirmDeleteCategory() {
+    if(confirm("정말로 해당 카테고리를 삭제하시겠습니까?\n\n카테고리 삭제시, 카테고리에 속한 주소록들도 같이 삭제됩니다.")){
+        
+        const existingCategoryName = getActiveCategoryNameFromSidebar();
+        const checkCategoryName = prompt(`실수로 삭제하는 것을 방지하기 위한 확인작업니다.\n기존의 카테고리명을 동일하게 입력하여 주세요.\n\n기존카테고리명:\n${existingCategoryName}`);
+        
+        if(checkCategoryName != existingCategoryName) { // 실수방지 텍스트가 다른경우, 밖으로 돌려보냄.
+            alert("입력하신 카테고리명이 기존의 카테고리명과 다릅니다.\n 다시 시도해주세요.");
+            return;
+        }
+
+        const result = await deleteCategory(getCategoryNoFromSidebar()); // db에서 삭제
+        if (result > 0) {
+            alert("성공적으로 카테고리를 삭제하였습니다.");
+            moveToContactsMain(); // 주소록 메인페이지로 이동!
+        } else {
+            alert("카테고리 삭제에 실패하였습니다.");
+        }
     }
 }
 
+/* -------------- modal창 - 주소록 수정 -------------- */
+const modalEditContactsBg = $(".modal-editContacts-bg");
 
-function confirmDeleteCategory() {
-    if(confirm("정말로 해당 카테고리를 삭제하시겠습니까?\n카테고리 삭제시, 카테고리에 속한 주소록들도 같이 삭제됩니다.")){
-        alert("삭제를 완료하였습니다.");
-        moveToContactsMain();
-    }
-}
-
-/* -------------- modal창 - 개인주소록 수정 -------------- */
-
-// 사이드바 "개인주소록"부분에서 - edit 아이콘 클릭시
-$("aside .private-contacts").on("click", "span.icon.edit", function(){
-    const contactsNo = $(this).parent().parent().find(`input[name="contactsNo"]`).val();
-    console.log("contactsNo:" + contactsNo);
+// 사이드바 "공유주소록"에서  - 주소록 edit 아이콘 클릭시
+$("aside").on("click", ".public-contacts .sm-cate span.icon.edit", function(){
+    displayModal_EditContacts();
 })
+
+// 사이드바 "공유주소록"에서  - 주소록 edit 아이콘 클릭시
+$("aside").on("click", ".private-contacts span.icon.edit", function(){
+    displayModal_EditContacts();
+})
+
+// modal창 띄우기 - "주소록 수정"
+function displayModal_EditContacts(){
+    $(modalEditContactsBg).find(".contactsName").text(getActiveContactsNameFromSidebar()); // modal창에 선택한 주소록명 명시해주기.
+    showModal(modalEditContactsBg); // modal창 열기
+}
+
+// modal창 바깥 클릭시, modal창 닫힘.
+$(window).on('click', function(event) {
+    if ($(event.target).is(modalEditContactsBg)) {
+        hideModal(modalEditContactsBg);
+    }
+});
+
+// 사이드바에 클릭된 카테고리명 조회 
+function getActiveContactsNameFromSidebar(){
+    return $("aside").find(".active span.contactsName").text();
+}
+
+// 사이드바에 클릭된 카테고리번호 조회 
+function getContactsNoFromSidebar(){
+    const contactsNo = $("aside").find(`.active input[name="contactsNo"]`).val();
+    return contactsNo;
+}
+
+// "주소록명 변경" 버튼 클릭시
+function confirmEditContacts() {
+    const existingContactsName = getActiveContactsNameFromSidebar();
+    const newContactsName = prompt("새로운 주소록명을 입력하세요.", existingContactsName);
+
+    if(newContactsName == existingContactsName) {
+        alert("기존 주소록명과 동일합니다.\n변경하고자하는 주소록명을 입력하고 다시 시도해주세요.");
+        return;
+    }else if(newContactsName.length == 0) {
+        alert("값이 비어있습니다.\n주소록명을 입력하고 다시 시도해주세요.");
+        return;
+    }else if(!isValidInputTextLength(newContactsName)) {
+        alert(`글자수를 초과하였습니다. 다시 시도하여주세요.`);
+        return;
+    }
+
+    // 모든 검증을 거치고 통과하면 변경로직 실행
+    updateContactsName(getContactsNoFromSidebar(), newContactsName); // 기존 주소록명을 prompt에 입력해둠
+}
+
+// DB에서 주소록명 변경
+function updateContactsName(contactsNo, newContactsName){
+    $.ajax({
+        url: "contacts/update.contactsName",
+        type: "post",
+        data: {
+            contactsNo: contactsNo,
+            newContactsName: newContactsName,
+        },
+        success: function(result) {
+            if(result > 0) {
+                alert(`성공적으로 주소록명을 변경하였습니다.`);
+                moveToContactsPage(contactsNo);
+            }else if(result == -1) {
+                alert(`중복되는 주소록명이 있습니다. 다른 주소록명으로 다시 시도해주세요.`);
+            }else {
+                alert(`주소록명 변경에 실패하였습니다.`);
+            }
+        },
+        error: function() {
+            console.selectCategoryUsersList(`ajax 통신 실패 : updateContactsName()`);
+        },
+    });
+}
+
+// ######### 작업해야함!!!!!!!!!! ########## 복사해놓고 수정아직 안함
+// "카테고리 삭제" 버튼 클릭시
+async function confirmDeleteContacts() {
+    if(confirm("정말로 해당 주소록을 삭제하시겠습니까?")){
+        
+        const existingContactsName = getActiveContactsNameFromSidebar();
+        const checkContactsName = prompt(`실수로 삭제하는 것을 방지하기 위한 확인작업니다.\n기존의 주소록명을 동일하게 입력하여 주세요.\n\n기존주소록명:\n${existingContactsName}`);
+        
+        if(checkContactsName != existingContactsName) { // 실수방지 텍스트가 다른경우, 밖으로 돌려보냄.
+            alert("입력하신 주소록명이 기존의 주소록명과 다릅니다.\n 다시 시도해주세요.");
+            return;
+        }
+
+        const result = await deleteContacts(getContactsNoFromSidebar()); // db에서 삭제
+        if (result > 0) {
+            alert("성공적으로 주소록을 삭제하였습니다.");
+            moveToContactsMain(); // 주소록 메인페이지로 이동!
+        } else {
+            alert("주소록 삭제에 실패하였습니다.");
+        }
+    }
+}
+
+// 주소록 삭제 
+function deleteContacts(contactsNo){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "contacts/delete.contacts",
+            type: "post",
+            data: {
+                contactsNo:contactsNo,
+            },
+            success: function(result) {
+                resolve(result);
+            },
+            error: function() {
+                reject('AJAX 통신실패: deleteContacts()');
+            }
+        });
+    });
+}

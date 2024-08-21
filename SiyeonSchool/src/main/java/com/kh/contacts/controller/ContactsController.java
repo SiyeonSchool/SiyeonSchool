@@ -34,6 +34,13 @@ public class ContactsController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 주소록 메인화면을 띄우기 위한 컨트롤러
 		
+		// 현재 카테고리번호 -> JS에서 사용
+		if(request.getParameter("categoryNo") != null) {
+			int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
+			request.setAttribute("categoryNo", categoryNo);
+		}
+		
+		// 현재 주소록번호 -> JS에서 사용
 		if(request.getParameter("contactsNo") != null) {
 			int contactsNo = Integer.parseInt(request.getParameter("contactsNo"));
 			request.setAttribute("contactsNo", contactsNo);

@@ -132,7 +132,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR")));
 			}
@@ -167,7 +167,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR")));
 			}
@@ -202,7 +202,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR"),
 						          rset.getInt("CONTACTS_NO"),
@@ -265,7 +265,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR")));
 			}
@@ -301,7 +301,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR")));
 			}
@@ -337,7 +337,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR"),
 						          rset.getInt("CONTACTS_NO"),
@@ -619,6 +619,70 @@ public class ContactsDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, categoryNo);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateCategoryName(Connection conn, int categoryNo, String newCategoryName) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateCategoryName");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newCategoryName);
+			pstmt.setInt(2, categoryNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 중복된 카테고리명이 있는경우, -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateContactsName(Connection conn, int contactsNo, String newContactsName) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateContactsName");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newContactsName);
+			pstmt.setInt(2, contactsNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 중복된 카테고리명이 있는경우, -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteContacts(Connection conn, int contactsNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteContacts");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, contactsNo);
 			
 			result = pstmt.executeUpdate();
 

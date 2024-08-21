@@ -7,6 +7,14 @@
 
 <%@ include file="../common/common.jsp" %>
 <%
+	
+	// 현재 카테고리번호 -> JS에서 사용
+	int currentCategoryNo = 0;
+	if(request.getAttribute("categoryNo") != null) {
+		currentCategoryNo = (int)request.getAttribute("categoryNo");
+	}
+
+	// 현재 주소록번호 -> JS에서 사용
 	int currentContactsNo = 0;
 	if(request.getAttribute("contactsNo") != null) {
 		currentContactsNo = (int)request.getAttribute("contactsNo");
@@ -34,6 +42,7 @@
 		// 별도 js 파일로 값을 가져가기 위함. 
 		const loginUserJson = `<%= loginUserJson %>`; // json 형태
 		const contextPath = `<%= contextPath2 %>`;
+		const currentCategoryNo = `<%= currentCategoryNo %>`;
 		const currentContactsNo = `<%= currentContactsNo %>`;
 	</script>
 	
@@ -114,7 +123,7 @@
 							<input type="hidden" name="contactsNo" value="<%= c.getContactsNo() %>">
 							<div>
 								<span class="material-icons-round icon people">people</span>
-								<span><%= c.getContactsName() %></span>
+								<span class="contactsName"><%= c.getContactsName() %></span>
 								<span class="userCount">(<%= c.getUserCount() %>)</span>
 							</div>
 							<div>
@@ -205,7 +214,11 @@
 			</ul>
 		</section>
 
-		<!-- ==================== 처음엔 안보였다가, 필요시 동적으로 보여질 내용들 ==================== -->
+
+
+
+
+		<!-- ==================== modal창 - 처음엔 안보였다가, 필요시 동적으로 보여질 내용들 ==================== -->
 
 		<!-- modal창 - "주소록에추가"  -->
 		<div class="modal-bg modal-addMember-bg">
@@ -219,6 +232,9 @@
 				<div class="modal-addMember__contactsList">
 					<!-- ajax로 데이터가 동적으로 들어갈 공간 - 현재 유저가 소유한 주소록명 한줄씩 -->
 				</div>
+
+				<hr>
+				<input type="submit" value="추가" onclick="insertContactsMember();">
 			</div>
 		</div>
 
@@ -250,7 +266,7 @@
 
 				<div class="categoryNameInputDiv">
 					<p>새로운 카테고리명을 입력해주세요.</p>
-					<input type="text" name="newCategoryName" id="newCategoryName">
+					<input type="text" name="newCategoryName" id="newCategoryName" maxlength="16">
 				</div>
 
 				<br><br>
@@ -259,7 +275,7 @@
 
 				
 				<p>새로운 주소록명을 입력해주세요.</p>
-				<input type="text" name="newPublicContactsName" id="newPublicContactsName">
+				<input type="text" name="newPublicContactsName" id="newPublicContactsName" maxlength="16">
 
 				<hr>
 				<input type="submit" value="추가" onclick="addPublicContacts();">
@@ -274,30 +290,47 @@
 				<h3>개인주소록 추가</h3>
 				<p>개인주소록을 추가합니다. 새로운 주소록의 이름을 입력해주세요.</p>
 				<hr>
-
 				<label for="newPrivateContactsName">새 주소록 이름 :</label>
-				<input type="text" name="newPrivateContactsName" id="newPrivateContactsName">
-
+				<input type="text" name="newPrivateContactsName" id="newPrivateContactsName" maxlength="16">
 				<hr>
 				<input type="submit" value="추가" onclick="insertPrivateContacts();">
 			</div>
 		</div>
 
-		<!-- modal창 - 공유주소록 수정 -->
-		<div class="modal-bg modal-editPublicContact-bg">
-			<div class="modal modal-editPublicContact">
+		<!-- modal창 - 카레고리 수정 -->
+		<div class="modal-bg modal-editCategory-bg">
+			<div class="modal modal-editCategory">
 				<span class="material-symbols-rounded icon closeBtn" onclick="closeModalByBtn(this);">close</span>
 
-				<h3>공유주소록 수정</h3>
-				<p>공유주소록을 수정합니다. 원하시는 항목을 선택해주세요.</p>
+				<h3>카테고리 수정</h3>
+				<p>카테고리를 수정합니다. 원하시는 항목을 선택해주세요.</p>
+				<hr>
+				
+				<p>선택하신 카테고리명:</p>
+				<h4 class="categoryName"></h4> <!-- 동적으로 카테고리명이 들어감 -->
 				<hr>
 
-				<br>
 				<input type="submit" value="카테고리명 변경" onclick="confirmEditCategory();">
 				<input type="submit" value="카테고리 삭제" onclick="confirmDeleteCategory();">
-				<input type="submit" value="카테고리에 속한 주소록 변경" onclick="">
+				<hr>
+			</div>
+		</div>
 
-				<br>
+		<!-- modal창 - 주소록 수정 -->
+		<div class="modal-bg modal-editContacts-bg">
+			<div class="modal modal-editContacts">
+				<span class="material-symbols-rounded icon closeBtn" onclick="closeModalByBtn(this);">close</span>
+
+				<h3>주소록 수정</h3>
+				<p>주소록을 수정합니다. 원하시는 항목을 선택해주세요.</p>
+				<hr>
+				
+				<p>선택하신 주소록명:</p>
+				<h4 class="contactsName"></h4> <!-- 동적으로 주소록명이 들어감 -->
+				<hr>
+
+				<input type="submit" value="주소록명 변경" onclick="confirmEditContacts()">
+				<input type="submit" value="주소록 삭제" onclick="confirmDeleteContacts()">
 				<hr>
 			</div>
 		</div>

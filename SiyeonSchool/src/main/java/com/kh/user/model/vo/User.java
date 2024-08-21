@@ -14,6 +14,7 @@ public class User {
 	private String enrollDate; // sql에서 날짜양식을 지정하여 문자열로 가져옴
 	private String modifyDate; // sql에서 날짜양식을 지정하여 문자열로 가져옴
 	private int profileFileNo;
+	private String profilePath; // sql에서 프로필파일의 경로+파일명으로 합쳐서 문자열 형태로 가져옴 ex) /resources/images/profile_img/user17.jpg
 	private int questionNo;
 	private String questionAnswer;
 	private String userAuth;
@@ -30,8 +31,8 @@ public class User {
     // 모든 필드용 생성자 (USER DB 기본정보 전체 데이터 + 주소록에 사용될 추가 데이터(역할, 별)
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
 			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
-			int questionNo, String questionAnswer, String userAuth, String status, String githubUrl, String notionUrl,
-			String role, String star, int contactsNo, String contactsName) {
+			String profilePath, int questionNo, String questionAnswer, String userAuth, String status, String githubUrl,
+			String notionUrl, String role, String star, int contactsNo, String contactsName) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
@@ -45,6 +46,7 @@ public class User {
 		this.enrollDate = enrollDate;
 		this.modifyDate = modifyDate;
 		this.profileFileNo = profileFileNo;
+		this.profilePath = profilePath;
 		this.questionNo = questionNo;
 		this.questionAnswer = questionAnswer;
 		this.userAuth = userAuth;
@@ -82,6 +84,8 @@ public class User {
 		this.notionUrl = notionUrl;
 	}
 
+	
+
 	// 회원가입에 사용될 생성자
 	public User(String userId, String userPwd, String userName, String phone, String birthday, String email, String address,
 		int questionNo, String questionAnswer) {
@@ -98,7 +102,7 @@ public class User {
 	}
 
 	// 주소록에 사용할 생성자1 - 카테고리 전체구성원 조회시 사용
-	public User(int userNo, String userId, String userName, String phone, String birthday, int profileFileNo,
+	public User(int userNo, String userId, String userName, String phone, String birthday, String profilePath,
 			String role, String star, int contactsNo, String contactsName) {
 		super();
 		this.userNo = userNo;
@@ -106,7 +110,7 @@ public class User {
 		this.userName = userName;
 		this.phone = phone;
 		this.birthday = birthday;
-		this.profileFileNo = profileFileNo;
+		this.profilePath = profilePath;
 		this.role = role;
 		this.star = star;
 		this.contactsNo = contactsNo;
@@ -115,14 +119,14 @@ public class User {
 	
 	// 주소록에 사용할 생성자2 - 일반 주소록구성원 조회시 사용
 	public User(int userNo, String userId, String userName, String phone, String birthday,
-			int profileFileNo, String role, String star) {
+			String profilePath, String role, String star) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
 		this.userName = userName;
 		this.phone = phone;
 		this.birthday = birthday;
-		this.profileFileNo = profileFileNo;
+		this.profilePath = profilePath;
 		this.role = role;
 		this.star = star;
 	}
@@ -219,11 +223,19 @@ public class User {
 	public int getProfileFileNo() {
 		return profileFileNo;
 	}
-	
+
 	public void setProfileFileNo(int profileFileNo) {
 		this.profileFileNo = profileFileNo;
 	}
-	
+
+	public String getProfilePath() {
+		return profilePath;
+	}
+
+	public void setProfilePath(String profilePath) {
+		this.profilePath = profilePath;
+	}
+
 	public int getQuestionNo() {
 		return questionNo;
 	}
@@ -293,9 +305,10 @@ public class User {
 		return "User [userNo=" + userNo + ", userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName
 				+ ", phone=" + phone + ", phonePublic=" + phonePublic + ", birthday=" + birthday + ", email=" + email
 				+ ", address=" + address + ", enrollDate=" + enrollDate + ", modifyDate=" + modifyDate
-				+ ", profileFileNo=" + profileFileNo + ", questionNo=" + questionNo + ", questionAnswer="
-				+ questionAnswer + ", userAuth=" + userAuth + ", status=" + status + ", githubUrl=" + githubUrl
-				+ ", notionUrl=" + notionUrl + ", role=" + role + ", star=" + star + "]";
+				+ ", profileFileNo=" + profileFileNo + ", profilePath=" + profilePath + ", questionNo=" + questionNo
+				+ ", questionAnswer=" + questionAnswer + ", userAuth=" + userAuth + ", status=" + status
+				+ ", githubUrl=" + githubUrl + ", notionUrl=" + notionUrl + ", role=" + role + ", star=" + star
+				+ ", contactsNo=" + contactsNo + ", contactsName=" + contactsName + "]";
 	}
-
+	
 }

@@ -209,4 +209,43 @@ public class ContactsService {
 		return result;
 	}
 
+	public int updateCategoryName(int categoryNo, String newCategoryName) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().updateCategoryName(conn, categoryNo, newCategoryName);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int updateContactsName(int contactsNo, String newContactsName) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().updateContactsName(conn, contactsNo, newContactsName);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int deleteContacts(int contactsNo) {
+		Connection conn = getConnection();
+		int result = new ContactsDao().deleteContacts(conn, contactsNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
 }
