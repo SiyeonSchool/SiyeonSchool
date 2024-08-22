@@ -131,6 +131,12 @@ public class User {
 		this.star = star;
 	}
 
+	public User(String userName, String phone) {
+		super();
+		this.userName = userName;
+		this.phone = phone;
+	}
+	
 	public int getUserNo() {
 		return userNo;
 	}

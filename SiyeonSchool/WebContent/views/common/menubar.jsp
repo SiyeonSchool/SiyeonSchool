@@ -160,13 +160,20 @@
 			<!-- 숨겨진 프로필메뉴 -->
 			<div class="hidden-profile hidden">
 				<ul>
-					<li>
-						<span class="material-icons">account_circle</span>
-						<span><a href="<%= contextPath2 %>/mypage">마이페이지</a></span>
-					</li>
+					
+						<li>
+							<% if(loginUser.getUserAuth().equals("U")) { %>
+								<span class="material-icons">account_circle</span>
+								<span><a href="<%= contextPath2 %>/mypage">마이페이지</a></span>
+							<% } else{ %>
+								<span class="material-icons">account_circle</span>
+								<span><a href="<%= contextPath2 %>/adminpage">관리자페이지</a></span>
+							<% } %>		
+						</li>
+					
 					<li>
 						<span class="material-icons">logout</span>
-						<span><a href="<%= contextPath2 %>">로그아웃</a></span>
+						<span><a href="<%= contextPath2 %>/logout.user">로그아웃</a></span>
 					</li>
 				</ul>
 			</div>
