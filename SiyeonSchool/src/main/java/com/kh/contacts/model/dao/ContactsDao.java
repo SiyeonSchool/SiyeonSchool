@@ -423,28 +423,21 @@ public class ContactsDao {
 		return list;
 	}
 
-	public int insertContactsMember(Connection conn, int contactsNo, ArrayList<Integer> checkedUsersNoList) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertContactsMember");
-		
-		try {			
-			for(Integer userNo : checkedUsersNoList) {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, contactsNo);
-				pstmt.setInt(2, userNo);
-				
-				result = pstmt.executeUpdate();
-			}
-		} catch (SQLIntegrityConstraintViolationException e) {
-			return result -1; // 이미 DB에 해당 주소록에 선택한 userNo가 있음을 알리기 위함.
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		
-		return result;
+	public void insertContactsMember(Connection conn, int contactsNo, ArrayList<Integer> checkedUsersNoList) throws SQLException {
+	    String sql = prop.getProperty("insertContactsMember");
+
+	    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        for (Integer userNo : checkedUsersNoList) {
+	            pstmt.setInt(1, contactsNo);
+	            pstmt.setInt(2, userNo);
+	            
+	            try {
+	                pstmt.executeUpdate();
+	            } catch (SQLIntegrityConstraintViolationException e) {
+	                throw new SQLException("중복되는 유저가 있음.", e); // 중복되는 유저가 있는경우 에러를 밖으로 던지면서 for문을 중단하게됨.
+	            }
+	        }
+	    }
 	}
 	
 	public int deleteContactsMember(Connection conn, ArrayList<ContactsMember> contactsMemberList) {

@@ -233,8 +233,6 @@ function convertUserListToStr(userList){
             }else {
                 profileImg = `<span class="material-symbols-rounded icon profile-icon">account_circle</span>`;
             }
-            // let tempFilePath = `resources/images/profile_img/user17.png`;
-            // profileImg = `<img src="${contextPath}/${tempFilePath}">`;
 
             str += `<!-- 한 줄의 사용자 데이터 -->
                     <li class="userInfo">
@@ -602,10 +600,8 @@ function insertContactsMember(){
                 let addedUsersCount = checkedUsersNoList.split(",").length; //ex)"18,24,27,2" -> ["18","24","27","2"] -> 4
                 clickSidebarContactsNo(contactsNo, true, addedUsersCount); // 선택한 주소록을 사이드바에서 클릭하기
                 modalAddMember.removeClass("show");
-            }else if(result == -1){
-                alert("선택한 주소록에 이미 해당 구성원이 있습니다. 확인후 다시 시도해주세요.");
             }else {
-                alert("주소록에 구성원 추가를 실패하였습니다.");
+                alert("선택한 주소록에 이미 해당(일부) 구성원이 있습니다.\n확인후 다시 시도해주세요.");
             }
         },
         error:function(){

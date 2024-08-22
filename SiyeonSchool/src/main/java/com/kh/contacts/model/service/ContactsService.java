@@ -1,6 +1,7 @@
 package com.kh.contacts.model.service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static com.kh.common.JDBCTemplate.*;
@@ -110,17 +111,38 @@ public class ContactsService {
 		return list;
 	}
 
+
 	public int insertContactsMember(int contactsNo, ArrayList<Integer> checkedUsersNoList) {
 		Connection conn = getConnection();
-		int result = new ContactsDao().insertContactsMember(conn, contactsNo, checkedUsersNoList);
+		int result = 0;
 		
-		if(result > 0) {
-			commit(conn);
-		}else {
-			rollback(conn);
-		}
+		try {
+			conn.setAutoCommit(false); // 트랜잭션 시작 포인트. 기본적으로 auto-commit이 true인데, fale로 바꿔줌. 여러개의 쿼리를 한번에 반영하거나 취소할때 사용.
+			
+			new ContactsDao().insertContactsMember(conn, contactsNo, checkedUsersNoList); // 실행하다가 중복된 유저가 있으면 에러를 catct문에서 잡게됨.
+			
+			conn.commit();  // 에러가 안나면 커밋.
+			result = 1; // 성공하면 result에 1이 담김.
+			
+		} catch (SQLException e) {
+	        // e.printStackTrace();
+	        
+            try {
+                conn.rollback(); // 에러가 낳었으면 rollback.
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            
+	    } finally {
+            try {
+                conn.setAutoCommit(true); // 다시 auto-commit을 true로 변경
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+	    }
+		
 		close(conn);
-		return result;
+	    return result;
 	}
 	
 	public int deleteContactsMember(ArrayList<ContactsMember> contactsMemberList) {
