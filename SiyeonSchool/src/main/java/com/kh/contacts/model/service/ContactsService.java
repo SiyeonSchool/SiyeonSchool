@@ -270,4 +270,21 @@ public class ContactsService {
 		return result;
 	}
 
+	public int updateContactsMember(int contactsNo, int userNo) {
+		Connection conn = getConnection();
+		ContactsDao dao = new ContactsDao();
+		
+		int result1 = dao.updateContactsMemberAllToF(conn, contactsNo);
+		int result2 = dao.updateContactsMemberLeader(conn, contactsNo, userNo);
+		int result = result1 * result2;
+				
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
 }
