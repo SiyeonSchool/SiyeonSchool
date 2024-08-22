@@ -69,18 +69,20 @@ header .right-menu{
     right: 20px;
     color: var(--lightGrey);
     display: flex;
+    align-items: center;
 }
 
 /* ------- 알림 ------- */
-header .right-menu .material-icons-outlined{
-    font-size: 42px;
+header .right-menu #notification{
+    font-size: 35px;
     padding: 5px 0;
-    margin-right: 10px;
+    margin-right: 15px;
     cursor: pointer;
+    opacity: .7;
 }
 
-header .right-menu .material-icons-outlined:hover{
-    opacity: .5;
+header .right-menu #notification:hover{
+    opacity: 1;
 }
 
 /* ------- 프로필  -------*/
@@ -96,7 +98,7 @@ header .right-menu .profile:hover{
 
 /* 프로필 아이콘 <- (사진이 없을경우) */
 header .right-menu .profile .material-icons{
-    font-size: 55px;
+    font-size: 60px;
 }
 
 /* 프로필 사진 <- (사진이 있는경우)*/
@@ -110,7 +112,7 @@ header .right-menu .profile img{
 /* 프로필 이름 & 접는 아이콘 */
 header .right-menu .profile .profile-name,
 header .right-menu .profile .material-symbols-rounded{
-    line-height: 55px;
+    line-height: 60px;
 }
 
 /* 프로필 이름 */
@@ -123,8 +125,8 @@ header .right-menu .profile .profile-name{
 
 /* 접는 아이콘 */
 header .right-menu .profile .material-symbols-rounded{
-    font-size: 45px;
-    opacity: .6;
+    font-size: 35px;
+    opacity: .5;
 }
 
 /* ==================== 숨겨진 오른쪽 메뉴 ==================== */

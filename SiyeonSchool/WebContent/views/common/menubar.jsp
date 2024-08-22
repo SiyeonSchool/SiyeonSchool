@@ -28,7 +28,9 @@
 
 		<!-- ==================== 왼쪽 로고 ==================== -->
         <div class="logo">
-            <img src="resources/images/sis_logo.png" alt="" height="50px;"> <!-- 로고 넣기-->
+			<a href="<%= contextPath2 %>/home">
+            	<img src="resources/images/sis_logo.png" alt="logo" height="50px;"> <!-- 로고 -->
+			</a>
         </div>
 
 		<!-- ==================== 가운데 메인메뉴  ==================== -->
@@ -76,8 +78,8 @@
             </a>
 
 			<!-- 수업 -->
-            <a href="<%= contextPath2 %>/class">
-                <% if(currentPage.equals("class")) { %>
+            <a href="<%= contextPath2 %>/classroom">
+                <% if(currentPage.equals("classroom")) { %>
 	                <!-- <img src="resources/images/menubar/class_sel.png" alt="수업자료버튼" style="height:49px; padding: 3px;"> -->
 	                <div class="menu-icon material-symbols-outlined" style="color: var(--darkRed);">book_2</div>
             	<% } else { %>
@@ -109,7 +111,8 @@
 		<!-- ==================== 오른쪽 프로필쪽 메뉴 ==================== -->
         <div class="right-menu">
 			<!-- 알림 -->
-            <div id="notification" class="material-icons-outlined">notifications</div>
+            <!-- <div id="notification" class="material-icons-outlined">notifications</div> -->
+			<div id="notification" class="material-symbols-outlined">notifications</div>
 
 			<!-- 프로필 -->
 			<div class="profile">
