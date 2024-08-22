@@ -14,6 +14,7 @@
 	width: 100%;
 	padding-right: 110px;
     position: absolute;
+    z-index : -1;
 }
 
 .curriculum .progress-container {
@@ -25,7 +26,7 @@
 .curriculum .progress-bar{
 	width: 0%;
 	height: 20px;
-	background-color: #D0BFFF;
+	background-color: #46D3FF;
 	transition: .4s;
 }
 
@@ -35,7 +36,6 @@
 	padding-left: 100px;
     display: flex;
 	justify-content: space-between;
-	z-index: 10;
 }
 
 .curriculum .cir{
@@ -50,20 +50,16 @@
 }
 
 .cir:hover{
-	background-color: #46D3FF;
+	background-color: #e6f9ff;
 	color: #000;
 	cursor: pointer;
 }
 
-/* 게시펜 테이블 공통 CSS */
-.boards table, .boards th, .boards td{
-    border-bottom: 1px solid #46D3FF;
-}
-
+/* 게시판 테이블 공통 CSS */
 .boards table {
     width: 100%;
     height: 350px;
-    font-size: 20px;
+    font-size: 13px;
 }
 
 .boards td, .boards th{
@@ -83,7 +79,7 @@
 }
 
 .boards .material-icons{
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 100;
     color: #333;
 }
@@ -94,6 +90,10 @@
     height: auto;
     margin-top: 50px;
     margin-left: 50px;
+}
+
+.classDatum table, .classDatum th, .classDatum td{
+    border-bottom: 1px solid #C2F0FF;
 }
 
 /* 과제 게시판 테이블 CSS */
@@ -108,5 +108,151 @@
 .homework table {
     width: 100%;
     height: 250px;
-    font-size: 20px;
+    font-size: 16px;
+}
+
+.homework table, .homework th, .homework td{
+    border-bottom: 1px solid #C2F0FF;
+}
+
+.boards{
+	width: auto;
+	height: auto;
+	justify-content: center;
+	flex-direction: column;
+	float: left;
+	margin-right: 80px;
+}
+
+/* 달력/일정 CSS */
+.todo{
+	width: 600px;
+	height: 600px;
+	margin-top: 80px;
+	margin-right: 80px;
+	background-color: #C2F0FF;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	float: left;
+}
+
+.calendar-area{
+	width: 550px;
+	height: 380px;
+	background-color: rgba(255, 255, 255, 0.5);
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	margin-top: 20px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#calendar table{
+	width: 500px;
+	height: 300px;
+	background-color: rgba(255,255,255,0.7);
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+}
+
+#calendar *{
+	/* border: 1px solid #000; */
+	text-align: center;
+	vertical-align: middle;
+}
+
+.header{
+	margin: 10px 0px;
+	padding : 0px 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24px;
+}
+
+.header span:hover{
+	cursor: pointer;
+}
+
+#calendar th{
+	height: 49px;
+	font-size: 24px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.todo-area {
+	width: 550px;
+	height: 160px;
+	background-color: rgba(255,255,255,0.8);
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.todo-header{
+	width: 500px;
+	height: 30px;
+	margin-top: 10px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.486);
+}
+
+
+/* 종강일 D-Day CSS */
+.D-day{
+	width: 300px;
+	height: 600px;
+	margin-top: 80px;
+	display: flex;
+	flex-direction: column;
+	margin-right: 80px;
+}
+
+.D-day .text-area{
+	margin-top: 30px;
+	background-color: #C2F0FF;
+	border-radius: 10px;
+}
+.end-day, #D-day{
+	height: 50px;
+}
+.end-day p{
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+}
+
+.D-day p{
+	text-align: center;
+	font-size: 24px;
+}
+.D-day .progress-area2{
+	margin-top: 30px;
+}
+#D-day p{
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+}
+.progress-circle {
+	width: 300px;
+	height: 300px;
+	border-radius: 50%;
+	background: conic-gradient(#A98AFF 0% 0%, #46D3FF 0% 100%);
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.progress-text {
+	font-size: 24px;
+	font-weight: bold;
+	position: absolute;
+}
+
+.comment-area{
+	margin-top: 50px;
 }

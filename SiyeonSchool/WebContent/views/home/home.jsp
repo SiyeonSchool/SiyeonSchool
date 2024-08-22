@@ -10,50 +10,7 @@
 	<link rel="stylesheet" href="resources/css/home.css">
 	<script src="resources/js/home.js"></script>
 <style>
-	.boards{
-		width: auto;
-		height: auto;
-		justify-content: center;
-		flex-direction: column;
-		float: left;
-		margin-right: 100px;
-	}
-	.calendar{
-		width: 500px;
-		height: auto;
-		display: flex;
-		flex-direction: column;
-		margin-top: 80px;
-	}
 
-	#calendar table{
-		width: 500px;
-		height: 300px;
-	}
-
-	#calendar *{
-		border: 1px solid #000;
-	}
-
-	.header{
-		margin-bottom: 20px;
-		padding : 0px 100px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 24px;
-	}
-
-	.header span:hover{
-		cursor: pointer;
-	}
-
-	#calendar th{
-		height: 49px;
-		font-size: 24px;
-		text-align: center;
-		vertical-align: middle;
-	}
 </style>
 </head>
 <body>
@@ -150,10 +107,36 @@
 			</table>
 		</section>
 	</section>
-	<!-- 달력 -->
-	<section class="calendar">
-		<div class="wrapper"></div>
-		<div id="calendar"></div>
+	<!-- 달력/일정 -->
+	<section class="todo">
+		<div class="calendar-area">
+			<div class="wrapper"></div>
+			<div id="calendar"></div>
+		</div>
+		
+		<div class="todo-area">
+			<div class="todo-header">
+				
+			</div>
+		</div>
+	</section>
+
+	<!-- 종강 D-Day -->
+	<section class="D-day">
+		<div class="text-area">
+			<div class="end-day">
+				<p>종강일 : 2024년 10월 25일</p>
+			</div>
+			<div id="D-day"></div>
+		</div>
+		<div class="progress-area2">
+			<div class="progress-circle">
+				<span class="progress-text">0%</span>
+			</div>
+		</div>
+		<div class="comment-area">
+
+		</div>
 	</section>
 
 	<script>
