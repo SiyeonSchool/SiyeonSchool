@@ -102,7 +102,9 @@ header .right-menu .profile .material-icons{
 /* 프로필 사진 <- (사진이 있는경우)*/
 header .right-menu .profile img{
     width: 60px;
+    height: 60px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 /* 프로필 이름 & 접는 아이콘 */

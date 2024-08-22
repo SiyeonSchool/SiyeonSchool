@@ -1262,6 +1262,25 @@
 		   AND USER_NO = ?
 	</entry>
 	
+	<!-- 주소록구성원 변경순서("팀장으로 지정"기능) -->
+	<!-- 1) 해당주소록 모든 유저를 F로 변경후, -->
+	<!-- 2) 전달받은 userNo만 L로 변경. -->
+	
+	<!-- 주소록구성원 변경1) 해당주소록 모든 유저를 'F'로 변경-->
+	<entry key="updateContactsMemberAllToF">
+		UPDATE CONTACTS_MEMBER
+	   	   SET ROLE = 'F'
+	     WHERE CONTACTS_NO = ?
+	</entry>
+	
+	<!-- 주소록구성원 변경2) 전달받은 userNo만 'L'로 변경-->
+	<entry key="updateContactsMemberLeader">
+		UPDATE CONTACTS_MEMBER
+	       SET ROLE = 'L'
+	     WHERE CONTACTS_NO = ?
+	       AND USER_NO = ?
+	</entry>
+	
 	<!-- ===================== 주소록 카테고리 ============================= -->
 	
 	<!-- 주소록카테고리번호 조회 case1 : "주소록번호"로 해당 "카테고리번호"를 조회 -->
