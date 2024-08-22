@@ -27,6 +27,9 @@ public class User {
    
    
 
+
+
+
     // 모든 필드용 생성자
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
 			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
@@ -54,7 +57,7 @@ public class User {
 		this.role = role;
 		this.star = star;
 	}
-	
+
 	// role, star를 제외한 생성자
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,
 			String birthday, String email, String address, String enrollDate, String modifyDate, int profileFileNo,
@@ -109,6 +112,12 @@ public class User {
 		this.star = star;
 	}
 
+	public User(String userName, String phone) {
+		super();
+		this.userName = userName;
+		this.phone = phone;
+	}
+	
 	public int getUserNo() {
 		return userNo;
 	}

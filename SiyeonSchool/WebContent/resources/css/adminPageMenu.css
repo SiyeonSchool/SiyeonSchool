@@ -1,0 +1,79 @@
+#side-area {
+    float: left;
+    width: 485px;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    position: absolute;
+}
+
+.adminPage-title {
+    text-align: center;
+}
+
+header p{
+    color: #000;
+    font-size: 32px;
+}
+
+#img-area{
+    width: 100%;
+    height: 150px;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#profile-img{
+    width: 150px;
+    height: 150px;
+    display: inline;
+}
+
+#menu-area{
+    display: flex;
+    margin-top: 50px;
+    flex-direction: column;
+    align-items: center;	
+}
+
+a:hover{
+    background-color: #C2F0FF;
+    cursor: pointer;
+}
+
+.adminPage-menu{
+    width: 255px;
+    height: 50px;
+    background-color: #DFCCFB;  
+    display: flex;
+    margin-top: 50px;
+    border-radius: 15px;
+    border: none;
+    font-size: 32px;
+    justify-content: center;
+}
+
+.selected {
+    width: 255px;
+    height: 50px;
+    background-color: #C2F0FF;
+    border: 1px solid #46D3FF;
+    display: flex;
+    margin-top: 50px;
+    border-radius: 15px;
+    border: none;
+    font-size: 32px;
+    justify-content: center;
+}
+
+#adminPage-area p{
+    font-size: 32px;
+    color: #000;
+}

@@ -1,13 +1,112 @@
-/* #myPageBtn은 헤더에 마이페이지로 갈 수있는게 생길때까지 남겨주세요! */
-#myPageBtn{ 
-    color: red;
-    position: absolute;
-    display: block;
-    top: 10px;
-    left: 10px;
-    border: 1px solid red;
-    padding: 10px;
+/* 커리큘럼 바 관련 CSS */
+.curriculum{
+	width: 100%;
+    height: auto;
+	margin-top: 30px;
+	display: flex;
+    flex-direction: column;
+	justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-#myPageBtn{background-color: rgb(236, 236, 236)}
+.curriculum .progress-area{
+	width: 100%;
+	padding-right: 110px;
+    position: absolute;
+}
 
+.curriculum .progress-container {
+	height: 20px;
+	width: 100%;
+	background-color: #5F5F5F;
+}
+
+.curriculum .progress-bar{
+	width: 0%;
+	height: 20px;
+	background-color: #D0BFFF;
+	transition: .4s;
+}
+
+.curriculum .curriculum-bnt{
+	width: 100%;
+	padding-right: 100px;
+	padding-left: 100px;
+    display: flex;
+	justify-content: space-between;
+	z-index: 10;
+}
+
+.curriculum .cir{
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	background-color: #979797;
+	color: #ffffff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.cir:hover{
+	background-color: #46D3FF;
+	color: #000;
+	cursor: pointer;
+}
+
+/* 게시펜 테이블 공통 CSS */
+.boards table, .boards th, .boards td{
+    border-bottom: 1px solid #46D3FF;
+}
+
+.boards table {
+    width: 100%;
+    height: 350px;
+    font-size: 20px;
+}
+
+.boards td, .boards th{
+    vertical-align: middle;
+}
+
+.boards .navi{
+    height: 30px;
+}
+
+.title{
+    width: 50%;
+}
+
+.enroll-date, .comments{
+    text-align: center;
+}
+
+.boards .material-icons{
+    font-size: 20px;
+    font-weight: 100;
+    color: #333;
+}
+
+/* 수업자료 게시판 테이블 CSS */
+.classDatum {
+    width: 450px;
+    height: auto;
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+/* 과제 게시판 테이블 CSS */
+
+.homework {
+    width: 450px;
+    height: auto;
+    margin-top: 30px;
+    margin-left: 50px;
+}
+
+.homework table {
+    width: 100%;
+    height: 250px;
+    font-size: 20px;
+}
