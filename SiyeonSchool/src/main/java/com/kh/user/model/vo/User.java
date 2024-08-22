@@ -25,7 +25,10 @@ public class User {
    
    public User() {}
    
-   
+   // 질문 번호만을 위한 생성자
+   public User(int questionNo) {
+       this.questionNo = questionNo;
+   }
 
     // 모든 필드용 생성자
 	public User(int userNo, String userId, String userPwd, String userName, String phone, String phonePublic,

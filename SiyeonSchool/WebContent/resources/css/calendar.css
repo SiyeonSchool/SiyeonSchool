@@ -47,11 +47,14 @@ button:hover {
 }
 
 .toggle-btn:hover{
-    background-color: #abff67;
+    background-color: #ddffc1;
+}
+.toggle-btn.selected {
+    background-color: #ddffc1; 
 }
 
 .material-symbols-rounded.icon.fold {
-    margin-left: auto; /* Ensures the icon is pushed to the right */
+    margin-left: auto; 
 }
 
 button span {
@@ -143,6 +146,7 @@ main {
     display: flex;
     flex-direction: column;
 }
+.prev, .next:hover{cursor: pointer;}
 
 .month {
     display: flex;
@@ -342,3 +346,4 @@ h2 {
 #btn-today:hover {
     background-color: #84ff00;
 }
+
