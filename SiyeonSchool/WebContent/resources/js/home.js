@@ -68,10 +68,7 @@ let currentMonth = new Date().getMonth();
 //달력을 생성하고 표시하는 함수
 function generateCalendar() {
     // 달력의 헤더 생성
-    let headerHTML = 
-    '<span class="material-icons before">navigate_before</span>' + 
-    '<span style="color:#000; text-align:center; position:relative;">' + currentYear + '년' + (currentMonth + 1) + '월</span>'
-    + '<span class="material-icons after">navigate_next</span>';
+    let headerHTML = '<span style="color:#000; text-align:center; position:relative;">' + currentYear + '년' + (currentMonth + 1) + '월</span>'
 
     // 달력 영역에 헤더 추가
     let headerContainer = document.createElement("div");
@@ -91,7 +88,13 @@ function generateCalendar() {
     calendarHTML += '<tr>';
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
     for (let day of daysOfWeek) {
-        calendarHTML += '<th>' + day + '</th>';
+        if(day == '일'){
+            calendarHTML += '<th style="color:red">' + day + '</th>'
+        }else if(day == '토'){
+            calendarHTML += '<th style="color:blue">' + day + '</th>'
+        }else{
+            calendarHTML += '<th>' + day + '</th>';
+        }
     }
     calendarHTML += '</tr>';
 
@@ -122,7 +125,7 @@ function generateCalendar() {
                     // 토요일은 파란색
                     cellStyle = 'color: blue;';
                 }
-                calendarHTML += '<td>' + dayCounter + '</td>';
+                calendarHTML += '<td style="' + cellStyle +'">' + dayCounter + '</td>';
                 dayCounter++;
             }
         }
@@ -145,29 +148,4 @@ function generateCalendar() {
 window.onload = function () {
     generateCalendar();
     // 현재 날짜에 스타일 추가
-    
 };
-// 좌우 화살표 아이콘에 클릭 이벤트 추가
-let prevMonthIcon = document.querySelector('.before');
-let nextMonthIcon = document.querySelector('.after');
-
-prevMonthIcon.addEventListener('click', function () {
-    changeMonth(-1); // 이전 월로 이동
-});
-
-nextMonthIcon.addEventListener('click', function () {
-    changeMonth(1); // 다음 월로 이동
-});
-
-// 이전 월 또는 다음 월로 이동하는 함수
-function changeMonth(direction) {
-    currentMonth += direction;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    } else if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-    generateCalendar();
-}

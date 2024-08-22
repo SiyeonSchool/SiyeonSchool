@@ -31,21 +31,28 @@
 		height: 300px;
 	}
 
-		#calendar *{
-			border: 1px solid #000;
-		}
+	#calendar *{
+		border: 1px solid #000;
+	}
 
 	.header{
-		margin-bottom: 50px;
+		margin-bottom: 20px;
 		padding : 0px 100px;
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
 		font-size: 24px;
 	}
 
 	.header span:hover{
 		cursor: pointer;
+	}
+
+	#calendar th{
+		height: 49px;
+		font-size: 24px;
+		text-align: center;
+		vertical-align: middle;
 	}
 </style>
 </head>
