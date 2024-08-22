@@ -126,28 +126,28 @@ INSERT INTO QUESTION VALUES(SEQ_QUESTIONNO.NEXTVAL, '추억하고 싶은 날짜�
 --############### 유저 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE USERS(
-USER_NO NUMBER PRIMARY KEY,
-USER_ID VARCHAR2(20) NOT NULL UNIQUE,
-USER_PWD VARCHAR2(20) NOT NULL,
-USER_NAME VARCHAR2(20) NOT NULL,
-PHONE VARCHAR2(13) NOT NULL, -- UNIQUE 조건 제외함. 테스트로 유저 추가시 연락처가 우연히 겹치면 없는
-PHONE_PUBLIC CHAR(1) DEFAULT 'N' NOT NULL,
-BIRTHDAY DATE NOT NULL,
-EMAIL VARCHAR2(30),
-ADDRESS VARCHAR2(100),
-ENROLL_DATE DATE DEFAULT SYSDATE NOT NULL,
-MODIFY_DATE DATE DEFAULT SYSDATE NOT NULL,
-PROFILE_FILE_NO NUMBER,
-QUESTION_NO NUMBER NOT NULL,
-QUESTION_ANSWER VARCHAR2(50) NOT NULL,
-USER_AUTH CHAR(1) DEFAULT 'U' NOT NULL,
-STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-GITHUB_URL VARCHAR2(100),
-NOTION_URL VARCHAR2(100),
-FOREIGN KEY(PROFILE_FILE_NO) REFERENCES ATTACHMENT(FILE_NO),
-FOREIGN KEY(QUESTION_NO) REFERENCES QUESTION(QUESTION_NO),
-CHECK(USER_AUTH IN ('U', 'A')),
-CHECK(STATUS IN ('W', 'Y', 'N'))
+    USER_NO NUMBER PRIMARY KEY,
+    USER_ID VARCHAR2(20) NOT NULL UNIQUE,
+    USER_PWD VARCHAR2(20) NOT NULL,
+    USER_NAME VARCHAR2(20) NOT NULL,
+    PHONE VARCHAR2(13) NOT NULL, -- UNIQUE 조건 제외함. 테스트로 유저 추가시 연락처가 우연히 겹치면 없는 전화번호를 찾아야 하는 번거로움이 발생하므로 일부러 제외함.
+    PHONE_PUBLIC CHAR(1) DEFAULT 'N' NOT NULL,
+    BIRTHDAY DATE NOT NULL,
+    EMAIL VARCHAR2(30),
+    ADDRESS VARCHAR2(100),
+    ENROLL_DATE DATE DEFAULT SYSDATE NOT NULL,
+    MODIFY_DATE DATE DEFAULT SYSDATE NOT NULL,
+    PROFILE_FILE_NO NUMBER,
+    QUESTION_NO NUMBER NOT NULL,
+    QUESTION_ANSWER VARCHAR2(50)  NOT NULL, 
+    USER_AUTH CHAR(1) DEFAULT 'U' NOT NULL,
+    STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    GITHUB_URL VARCHAR2(100),
+    NOTION_URL VARCHAR2(100),
+    FOREIGN KEY(PROFILE_FILE_NO) REFERENCES ATTACHMENT(FILE_NO),
+    FOREIGN KEY(QUESTION_NO) REFERENCES QUESTION(QUESTION_NO),
+    CHECK(USER_AUTH IN ('U', 'A')),
+    CHECK(STATUS IN ('W', 'Y', 'N'))
 );
 COMMENT ON COLUMN USERS.USER_NO IS '유저번호';
 COMMENT ON COLUMN USERS.USER_ID IS '유저아이디';
@@ -169,99 +169,40 @@ COMMENT ON COLUMN USERS.GITHUB_URL IS '깃허브주소';
 COMMENT ON COLUMN USERS.NOTION_URL IS '노션주소';
 CREATE SEQUENCE SEQ_USERNO
 NOCACHE;
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'admin', 'pass00', '나관리', '010-7777-7771', 'Y',
-TO_DATE('1995-12-25', 'YYYY-MM-DD'), 'manager@kh.or.kr', '서울시 강남구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '내가제일잘나가', 'A', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user01', 'pass01', '김태희', '010-8888-9990', 'N',
-TO_DATE('1985-07-05', 'YYYY-MM-DD'), 'kimtaehee@kh.or.kr', '서울시 중구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '첫사랑', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user02', 'pass02', '이민호', '010-1234-5679', 'N',
-TO_DATE('1990-12-12', 'YYYY-MM-DD'), 'leeminho@kh.or.kr', '서울시 서초구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의꿈', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user03', 'pass03', '박보검', '010-2345-6790', 'N',
-TO_DATE('1989-09-09', 'YYYY-MM-DD'), 'parkbogum@kh.or.kr', '서울시 강북구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '내일의희망', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user04', 'pass04', '정해인', '010-3456-7891', 'N',
-TO_DATE('1992-03-20', 'YYYY-MM-DD'), 'junghaein@kh.or.kr', '서울시 송파구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '즐거운여행', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user05', 'pass05', '이준기', '010-4567-8902', 'N',
-TO_DATE('1988-04-21', 'YYYY-MM-DD'), 'leejoongi@kh.or.kr', '서울시 도봉구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '매일의행복', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user06', 'pass06', '유인나', '010-5678-9013', 'N',
-TO_DATE('1993-01-15', 'YYYY-MM-DD'), 'yoonina@kh.or.kr', '서울시 용산구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '내가최고', 'U', 'W', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user07', 'pass07', '한지민', '010-6789-0124', 'N',
-TO_DATE('1994-10-01', 'YYYY-MM-DD'), 'hanjimin@kh.or.kr', '서울시 강동구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '소중한기억', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user08', 'pass08', '최민호', '010-7890-1235', 'N',
-TO_DATE('1995-07-14', 'YYYY-MM-DD'), 'choiminho@kh.or.kr', '서울시 금천구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '희망의날', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user09', 'pass09', '김소현', '010-8901-2346', 'N',
-TO_DATE('1996-02-25', 'YYYY-MM-DD'), 'kimsohyun@kh.or.kr', '서울시 은평구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복한하루', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user10', 'pass10', '이서진', '010-9012-3457', 'N',
-TO_DATE('1989-12-31', 'YYYY-MM-DD'), 'leesojin@kh.or.kr', '서울시 강서구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '꿈꾸는날', 'U', 'W', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user11', 'pass11', '오지호', '010-0123-4568', 'N',
-TO_DATE('1991-03-14', 'YYYY-MM-DD'), 'ohjiho@kh.or.kr', '서울시 관악구', TO_DATE('2024-05-09', 'YYYY-MM-DD'),
-TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '자유로운시간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user12', 'pass12', '신세경', '010-0134-5670', 'N',
-TO_DATE('1992-08-15', 'YYYY-MM-DD'), 'shinsekyung@kh.or.kr', '서울시 강남구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '사랑의날', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user13', 'pass13', '정수정', '010-2345-6791', 'N',
-TO_DATE('1988-05-16', 'YYYY-MM-DD'), 'jeongsujung@kh.or.kr', '서울시 양천구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '아름다운세상', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user14', 'pass14', '박서준', '010-3456-7892', 'N',
-TO_DATE('1993-11-22', 'YYYY-MM-DD'), 'parkseojun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '빛나는밤', 'U', 'W', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user15', 'pass15', '김영광', '010-4567-8903', 'N',
-TO_DATE('1995-05-17', 'YYYY-MM-DD'), 'kimyoungkwang@kh.or.kr', '서울시 노원구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복한시간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user16', 'pass16', '이보영', '010-5678-9014', 'N',
-TO_DATE('1992-04-12', 'YYYY-MM-DD'), 'leeboyeong@kh.or.kr', '서울시 동대문구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '기쁨의하루', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user17', 'pass17', '공유', '010-6789-0125', 'N',
-TO_DATE('1991-07-28', 'YYYY-MM-DD'), 'gongyoo@kh.or.kr', '서울시 마포구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '편안한시간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user18', 'pass18', '윤두준', '010-7890-1236', 'N',
-TO_DATE('1989-10-08', 'YYYY-MM-DD'), 'yundoojun@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의시간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user19', 'pass19', '이종석', '010-8901-2347', 'N',
-TO_DATE('1994-06-03', 'YYYY-MM-DD'), 'leejongsuk@kh.or.kr', '서울시 성북구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '즐거운하루', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user20', 'pass20', '신동엽', '010-9012-3458', 'N',
-TO_DATE('1991-02-26', 'YYYY-MM-DD'), 'shindongyeob@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복한날', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user21', 'pass21', '송중기', '010-0123-4569', 'N',
-TO_DATE('1985-09-19', 'YYYY-MM-DD'), 'songjoongki@kh.or.kr', '서울시 강북구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '기쁨의순간', 'U', 'W', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user22', 'pass22', '유승호', '010-1234-5680', 'N',
-TO_DATE('1990-11-18', 'YYYY-MM-DD'), 'yoseungho@kh.or.kr', '서울시 동작구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복의순간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user23', 'pass23', '김우빈', '010-2345-6792', 'N',
-TO_DATE('1991-07-22', 'YYYY-MM-DD'), 'kimwoobin@kh.or.kr', '서울시 광진구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '사랑의순간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user24', 'pass24', '박신혜', '010-3456-7893', 'N',
-TO_DATE('1993-06-29', 'YYYY-MM-DD'), 'parkshinhye@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의소원', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user25', 'pass25', '이하늬', '010-4567-8904', 'N',
-TO_DATE('1986-09-02', 'YYYY-MM-DD'), 'leehanee@kh.or.kr', '서울시 마포구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행운의순간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user26', 'pass26', '김지원', '010-5678-9015', 'N',
-TO_DATE('1992-10-19', 'YYYY-MM-DD'), 'kimjiwon@kh.or.kr', '서울시 은평구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '기쁨의시간', 'U', 'W', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user27', 'pass27', '배수지', '010-6789-0126', 'N',
-TO_DATE('1994-11-09', 'YYYY-MM-DD'), 'baesooji@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '사랑의기억', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user28', 'pass28', '임윤아', '010-7890-1237', 'N',
-TO_DATE('1990-06-13', 'YYYY-MM-DD'), 'imyoona@kh.or.kr', '서울시 종로구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복의기억', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user29', 'pass29', '박보영', '010-8901-2348', 'N',
-TO_DATE('1992-02-12', 'YYYY-MM-DD'), 'parkboyoung@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '즐거운기억', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user30', 'pass30', '장동건', '010-9012-3459', 'N',
-TO_DATE('1985-08-07', 'YYYY-MM-DD'), 'jangdonggun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09',
-'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의행운', 'U', 'W', NULL, NULL);
+
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'admin', 'pass00', '나관리', '010-7777-7771', 'Y', TO_DATE('1995-12-25', 'YYYY-MM-DD'), 'manager@kh.or.kr', '서울시 강남구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '내가제일잘나가', 'A', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user01', 'pass01', '김태희', '010-8888-9990', 'N', TO_DATE('1985-07-05', 'YYYY-MM-DD'), 'kimtaehee@kh.or.kr', '서울시 중구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '첫사랑', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user02', 'pass02', '이민호', '010-1234-5679', 'N', TO_DATE('1990-12-12', 'YYYY-MM-DD'), 'leeminho@kh.or.kr', '서울시 서초구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의꿈', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user03', 'pass03', '박보검', '010-2345-6790', 'N', TO_DATE('1989-09-09', 'YYYY-MM-DD'), 'parkbogum@kh.or.kr', '서울시 강북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '내일의희망', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user04', 'pass04', '정해인', '010-3456-7891', 'N', TO_DATE('1992-03-20', 'YYYY-MM-DD'), 'junghaein@kh.or.kr', '서울시 송파구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '즐거운여행', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user05', 'pass05', '이준기', '010-4567-8902', 'N', TO_DATE('1988-04-21', 'YYYY-MM-DD'), 'leejoongi@kh.or.kr', '서울시 도봉구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '매일의행복', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user06', 'pass06', '유인나', '010-5678-9013', 'N', TO_DATE('1993-01-15', 'YYYY-MM-DD'), 'yoonina@kh.or.kr', '서울시 용산구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '내가최고', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user07', 'pass07', '한지민', '010-6789-0124', 'N', TO_DATE('1994-10-01', 'YYYY-MM-DD'), 'hanjimin@kh.or.kr', '서울시 강동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '소중한기억', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user08', 'pass08', '최민호', '010-7890-1235', 'N', TO_DATE('1995-07-14', 'YYYY-MM-DD'), 'choiminho@kh.or.kr', '서울시 금천구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '희망의날', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user09', 'pass09', '김소현', '010-8901-2346', 'N', TO_DATE('1996-02-25', 'YYYY-MM-DD'), 'kimsohyun@kh.or.kr', '서울시 은평구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복한하루', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user10', 'pass10', '이서진', '010-9012-3457', 'N', TO_DATE('1989-12-31', 'YYYY-MM-DD'), 'leesojin@kh.or.kr', '서울시 강서구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '꿈꾸는날', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user11', 'pass11', '오지호', '010-0123-4568', 'N', TO_DATE('1991-03-14', 'YYYY-MM-DD'), 'ohjiho@kh.or.kr', '서울시 관악구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '자유로운시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user12', 'pass12', '신세경', '010-0134-5670', 'N', TO_DATE('1992-08-15', 'YYYY-MM-DD'), 'shinsekyung@kh.or.kr', '서울시 강남구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '사랑의날', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user13', 'pass13', '정수정', '010-2345-6791', 'N', TO_DATE('1988-05-16', 'YYYY-MM-DD'), 'jeongsujung@kh.or.kr', '서울시 양천구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '아름다운세상', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user14', 'pass14', '박서준', '010-3456-7892', 'N', TO_DATE('1993-11-22', 'YYYY-MM-DD'), 'parkseojun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '빛나는밤', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user15', 'pass15', '김영광', '010-4567-8903', 'N', TO_DATE('1995-05-17', 'YYYY-MM-DD'), 'kimyoungkwang@kh.or.kr', '서울시 노원구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복한시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user16', 'pass16', '이보영', '010-5678-9014', 'N', TO_DATE('1992-04-12', 'YYYY-MM-DD'), 'leeboyeong@kh.or.kr', '서울시 동대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '기쁨의하루', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user17', 'pass17', '공유', '010-6789-0125', 'N', TO_DATE('1991-07-28', 'YYYY-MM-DD'), 'gongyoo@kh.or.kr', '서울시 마포구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '편안한시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user18', 'pass18', '윤두준', '010-7890-1236', 'N', TO_DATE('1989-10-08', 'YYYY-MM-DD'), 'yundoojun@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user19', 'pass19', '이종석', '010-8901-2347', 'N', TO_DATE('1994-06-03', 'YYYY-MM-DD'), 'leejongsuk@kh.or.kr', '서울시 성북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '즐거운하루', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user20', 'pass20', '신동엽', '010-9012-3458', 'N', TO_DATE('1991-02-26', 'YYYY-MM-DD'), 'shindongyeob@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복한날', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user21', 'pass21', '송중기', '010-0123-4569', 'N', TO_DATE('1985-09-19', 'YYYY-MM-DD'), 'songjoongki@kh.or.kr', '서울시 강북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '기쁨의순간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user22', 'pass22', '유승호', '010-1234-5680', 'N', TO_DATE('1990-11-18', 'YYYY-MM-DD'), 'yoseungho@kh.or.kr', '서울시 동작구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복의순간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user23', 'pass23', '김우빈', '010-2345-6792', 'N', TO_DATE('1991-07-22', 'YYYY-MM-DD'), 'kimwoobin@kh.or.kr', '서울시 광진구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '사랑의순간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user24', 'pass24', '박신혜', '010-3456-7893', 'N', TO_DATE('1993-06-29', 'YYYY-MM-DD'), 'parkshinhye@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의소원', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user25', 'pass25', '이하늬', '010-4567-8904', 'N', TO_DATE('1986-09-02', 'YYYY-MM-DD'), 'leehanee@kh.or.kr', '서울시 마포구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행운의순간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user26', 'pass26', '김지원', '010-5678-9015', 'N', TO_DATE('1992-10-19', 'YYYY-MM-DD'), 'kimjiwon@kh.or.kr', '서울시 은평구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '기쁨의시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user27', 'pass27', '배수지', '010-6789-0126', 'N', TO_DATE('1994-11-09', 'YYYY-MM-DD'), 'baesooji@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '사랑의기억', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user28', 'pass28', '임윤아', '010-7890-1237', 'N', TO_DATE('1990-06-13', 'YYYY-MM-DD'), 'imyoona@kh.or.kr', '서울시 종로구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '행복의기억', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user29', 'pass29', '박보영', '010-8901-2348', 'N', TO_DATE('1992-02-12', 'YYYY-MM-DD'), 'parkboyoung@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '즐거운기억', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user30', 'pass30', '장동건', '010-9012-3459', 'N', TO_DATE('1985-08-07', 'YYYY-MM-DD'), 'jangdonggun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의행운', 'U', 'Y', NULL, NULL);
+
+
 --------------------------------------------------------------------------------
 --############### 댓글 ###############
 --------------------------------------------------------------------------------
@@ -628,6 +569,7 @@ INSERT INTO CONTACTS_MEMBER VALUES(31, 25, NULL);
 INSERT INTO CONTACTS_MEMBER VALUES(31, 30, NULL);
 INSERT INTO CONTACTS_MEMBER VALUES(31, 27, NULL);
 INSERT INTO CONTACTS_MEMBER VALUES(31, 14, NULL);
+
 -- SQLD
 INSERT INTO CONTACTS_MEMBER VALUES(32, 14, NULL);
 INSERT INTO CONTACTS_MEMBER VALUES(32, 8, NULL);
@@ -641,8 +583,9 @@ INSERT INTO CONTACTS_MEMBER VALUES(32, 31, NULL);
 INSERT INTO CONTACTS_MEMBER VALUES(32, 10, NULL);
 INSERT INTO CONTACTS_MEMBER VALUES(32, 22, NULL);
 INSERT INTO CONTACTS_MEMBER VALUES(32, 27, NULL);
+
 --------------------------------------------------------------------------------
---############### 주소록_중요표시(별) ###############
+--###############  주소록_중요표시(별)  ###############
 --------------------------------------------------------------------------------
 CREATE TABLE CONTACTS_STAR(
 STAR_NO NUMBER PRIMARY KEY,
@@ -659,11 +602,13 @@ COMMENT ON COLUMN CONTACTS_STAR.OTHER_USER_NO IS '타유저번호';
 COMMENT ON COLUMN CONTACTS_STAR.STAR IS '중요표시(중요:Y/안중요:N)';
 CREATE SEQUENCE SEQ_CONTACTS_STARNO
 NOCACHE;
+
 INSERT INTO CONTACTS_STAR VALUES(SEQ_CONTACTS_STARNO.NEXTVAL, 1, 2, 'Y');
 INSERT INTO CONTACTS_STAR VALUES(SEQ_CONTACTS_STARNO.NEXTVAL, 1, 3, 'Y');
 INSERT INTO CONTACTS_STAR VALUES(SEQ_CONTACTS_STARNO.NEXTVAL, 1, 5, 'Y');
 INSERT INTO CONTACTS_STAR VALUES(SEQ_CONTACTS_STARNO.NEXTVAL, 1, 15, 'Y');
 INSERT INTO CONTACTS_STAR VALUES(SEQ_CONTACTS_STARNO.NEXTVAL, 1, 28, 'Y');
+
 --------------------------------------------------------------------------------
 --############### 메일 ###############
 --------------------------------------------------------------------------------

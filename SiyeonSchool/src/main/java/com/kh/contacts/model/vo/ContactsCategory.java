@@ -15,6 +15,12 @@ public class ContactsCategory {
 		this.status = status;
 	}
 
+	public ContactsCategory(int categoryNo, String categoryName) {
+		super();
+		this.categoryNo = categoryNo;
+		this.categoryName = categoryName;
+	}
+
 	public int getCategoryNo() {
 		return categoryNo;
 	}

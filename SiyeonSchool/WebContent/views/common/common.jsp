@@ -30,7 +30,7 @@
 	<title>시연스쿨</title>
 
     <!-- favicon -->
-    <link rel="icon" href="./favicon.png"> <!-- 테스트로 스타벅스 이미지로 우선 넣어둠.. 우리걸로 바꿀 예정 -->
+    <link rel="icon" href="./favicon.png">
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css"> <!-- CSS 초기화 CDN -->
