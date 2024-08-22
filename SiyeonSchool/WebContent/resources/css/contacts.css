@@ -86,8 +86,9 @@ aside .big-cate__title{
 }
 
 /* 대분류 - 추가(+)버튼(을 감싸고있는 a태그) */
-aside .big-cate__title a{
+aside .big-cate__title div.addContactsBtn{
     height: 24px;
+    cursor: pointer;
 }
 
 /* ------- 중분류: ex) 세미프로젝트 ------- */
@@ -100,6 +101,7 @@ aside .mid-cate__title{
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+    align-items: center;
 }
 
 /* 중분류, 소분류 - 각 줄 클릭시 효과 */
@@ -117,7 +119,7 @@ aside .sm-cate:hover{           /* 소분류 - 후버시*/
 
 aside .mid-cate__title>div{
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 }
 
 /* 중분류 - 사람 아이콘 */
@@ -146,7 +148,7 @@ aside .sm-cate{
 
 aside .sm-cate>div{
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 }
 
 /* 소분류 - 화살표 아이콘 */
@@ -228,16 +230,6 @@ main .section__serach-bar .btn-group button.email span.icon{
     margin-right: 5px;
 }
 
-/* 버튼 - "주소록에서삭제"버튼 */
-/* main .section__serach-bar .btn-group button.deleteBtn{
-    display: block;
-} */
-
-/* 버튼 - "주소록에서삭제"버튼 - 숨김 */
-/* main .section__serach-bar .btn-group button.deleteBtn.hidden{
-    display: none;
-} */
-
 /* 검색창 - 바로 바깥 div*/
 main .section__serach-bar .search-bar{
     margin-right: 10px;
@@ -274,7 +266,7 @@ main .section__serach-bar .search-options{
     align-items: center;
 }
 
-main .section__serach-bar .search-options input[type="checkbox"]{
+main .section__serach-bar .search-options input[type="radio"]{
     margin-bottom: 5px;
 }
 
@@ -294,11 +286,12 @@ main section li div{
 /* 가로 길이 비율 */
 main section li div.checkbox{width: 5%;}
 main section li div.star{width: 5%;}
-main section li div.userName{width: 18%;} /* 100% - 10% = 90%   => 90% / 5 = 18%*/
-main section li div.userId{width: 18%;}
-main section li div.role{width: 18%;}
-main section li div.birthday{width: 18%;}
-main section li div.phone{width: 18%;}
+main section li div.contactsInfo{width: 15%;} /* 100% - 10% = 90%   => 90% / 6 = 15%*/
+main section li div.userName{width: 15%;}
+main section li div.userId{width: 15%;}
+main section li div.role{width: 15%;}
+main section li div.birthday{width: 15%;}
+main section li div.phone{width: 15%;}
 
 main section li div span{
     cursor: pointer;
@@ -357,6 +350,10 @@ main .section__list-content{
     overflow: auto;
 }
 
+main .section__list-content ul{
+    position: relative;
+}
+
 /* 목록 내용 섹션 (section__list-content) - 각각의 줄 */
 main .section__list-content li{
     padding: 5px 0;
@@ -368,10 +365,28 @@ main .section__list-content li:hover{
     background-color: var(--contactsHover);
 }
 
+/* 목록 내용 섹션 (section__list-content) - 프로필 이미지 */
+main .section__list-content li.userInfo img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+/* 목록 내용 섹션 (section__list-content) - 프로필 이미지 후버시*/
+main .section__list-content li.userInfo img:hover{
+    opacity: .7;
+}
+
 /* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */
 main .section__list-content li.userInfo.noUsers{
     height: var(--content-list-content-height);
-    padding: 100px 0 0 420px;
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    top: 100px;
+    left: 40%;
     border-bottom: none;
     cursor: default;
     font-weight: bold;
@@ -383,7 +398,7 @@ main .section__list-content li.userInfo.noUsers:hover{
 }
 
 /* 목록 내용 섹션 (section__list-content) - 프로필 사진 */
-main .section__list-content li div span.profile-pic{
+main .section__list-content li div span.profile-icon{
     font-size: 40px;
     margin-right: 10px;
 }
@@ -394,8 +409,11 @@ main .section__list-content li div.star span.star{
 }
 
 /* ==================== Modal ==================== */
+
+/* ---------- modal - 공통 ---------- */
+
 /* modal - 전체화면에 투명한 회색배경 깔아주기 */
-main .modal-background {
+main .modal-bg{
     display: none;
     position: fixed;
     z-index: 1;
@@ -408,12 +426,12 @@ main .modal-background {
 }
 
 /* modal - ".show" 클래스 추가되면 modal창 보이게 */
-main .modal-background.show {
+main .modal-bg.show{
     display: block;
 }
 
 /* modal - 실제 modal창 */
-main .modal-background .modal-addMember {
+main .modal-bg .modal{
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -423,10 +441,11 @@ main .modal-background .modal-addMember {
     position: relative;
     max-height: calc(100vh - var(--menubar-height) - 20px); /* model창 세로 최대크기 */;
     overflow: auto;
+    text-align: center;
 }
 
 /* modal - 닫기 아이콘 */
-main .modal-background .modal-addMember .closeBtn{
+main .modal-bg .modal .closeBtn{
     cursor: pointer;
     position: absolute;
     top: 20px;
@@ -434,34 +453,35 @@ main .modal-background .modal-addMember .closeBtn{
 }
 
 /* modal - 제목 h3 */
-main .modal-background .modal-addMember h3{
+main .modal-bg .modal h3{
     font-size: 1.3rem;
     font-weight: bold;
 }
 
-/* modal - h4 */
-main .modal-background .modal-addMember h4{
+/* modal - 제목 h4 */
+main .modal-bg .modal h4{
     font-size: 1.1rem;
     font-weight: bold;
-}
-
-/* modal - h5 */
-main .modal-background .modal-addMember h5{
-    font-size: 1.1rem;
+    margin: 6px 0;
 }
 
 /* modal - p */
-main .modal-background .modal-addMember p{
+main .modal-bg .modal p{
     margin: 8px 0;
 }
 
-/* modal - h5 */
-main .modal-background .modal-addMember hr{
+/* modal - hr */
+main .modal-bg .modal hr{
     margin: 20px 0;
 }
 
+/* modal - text input */
+main .modal-bg .modal input[type="text"]{
+    width: 250px;
+}
+
 /* modal - submit 버튼 */
-main .modal-background .modal-addMember input[type="submit"]{
+main .modal-bg .modal input[type="submit"]{
     display: block;
     width: 200px;
     margin: auto;
@@ -475,7 +495,66 @@ main .modal-background .modal-addMember input[type="submit"]{
 }
 
 /* modal - submit 버튼 - hover 효과 */
-main .modal-background .modal-addMember input[type="submit"]:hover{
+main .modal-bg .modal input[type="submit"]:hover{
     background-color: var(--lightOrange);
     font-weight: bold;
+}
+
+/* modal - select */
+main .modal-bg .modal select{
+    width: 250px;
+    height: 27px;
+    font-family: "MinSans-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+/* modal - select - option */
+main .modal-bg .modal select option{
+    font-family: "MinSans-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+main .modal-bg .modal div.hidden{
+    display: none;
+}
+
+/* modal - 주소록추가 내에 주소록 리스트를 담는 div - ex) 자바 1조, 자바 2조... */
+main .modal-bg .modal .modal-addMember__contactsList{
+    text-align: left;
+    padding-left: 45%;
+}
+
+
+/* ---------- modal - 프로필사진 ---------- */
+/* 배경 */
+main #imageModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* 실제 프로필사진 */
+main #imageModal #modalImg {
+    max-width: 50%;
+    max-height: 50%;
+}
+
+/* 닫기 버튼 */
+main #imageModal #closeModal {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
 }

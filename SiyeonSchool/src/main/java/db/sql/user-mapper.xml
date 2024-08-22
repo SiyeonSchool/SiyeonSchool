@@ -4,28 +4,29 @@
 
 	<entry key="loginUser">
 		SELECT 
-		       USER_NO
-		     , USER_ID
-		     , USER_PWD
-		     , USER_NAME
-		     , PHONE
-		     , PHONE_PUBLIC
-		     , BIRTHDAY
-		     , EMAIL
-		     , ADDRESS
-		     , ENROLL_DATE
-		     , MODIFY_DATE
-		     , PROFILE_FILE_NO
-		     , QUESTION_NO
-		     , QUESTION_ANSWER
-		     , USER_AUTH
-		     , STATUS
-		     , GITHUB_URL
-		     , NOTION_URL
-		  FROM USERS
-		 WHERE USER_ID = ?
-		   AND USER_PWD = ?
-		   AND STATUS = 'Y'
+		       U.USER_NO
+		     , U.USER_ID
+		     , U.USER_PWD
+		     , U.USER_NAME
+		     , U.PHONE
+		     , U.PHONE_PUBLIC
+		     , U.BIRTHDAY
+		     , U.EMAIL
+		     , U.ADDRESS
+		     , U.ENROLL_DATE
+		     , U.MODIFY_DATE
+             , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+		     , U.QUESTION_NO
+		     , U.QUESTION_ANSWER
+		     , U.USER_AUTH
+		     , U.STATUS
+		     , U.GITHUB_URL
+		     , U.NOTION_URL
+		  FROM USERS U
+          LEFT JOIN ATTACHMENT A ON U.PROFILE_FILE_NO = A.FILE_NO
+		 WHERE U.USER_ID = ?
+		   AND U.USER_PWD = ?
+		   AND U.STATUS = 'Y'
 	</entry>
 	
 	<entry key="checkId">

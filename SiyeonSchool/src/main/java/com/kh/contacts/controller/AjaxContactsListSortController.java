@@ -35,7 +35,7 @@ public class AjaxContactsListSortController extends HttpServlet {
 		// 주소록구성원 "정렬"조회용 컨트롤러
 		
 		int currentUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
-		String orderBy = request.getParameter("sortBy"); // star, userName, userId, role, birthday, phone
+		String orderBy = request.getParameter("sortBy"); // star, contactsInfo, userName, userId, role, birthday, phone
 		boolean isDesc = Boolean.parseBoolean(request.getParameter("isDesc"));
 		
 		ArrayList<User> list = null;
