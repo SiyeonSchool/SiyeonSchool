@@ -140,8 +140,8 @@
 
 	<!-- ==================== 메인 컨텐츠 ==================== -->
 	<main>
-		<!-- ------- 검색창 섹션 (section__serach-bar) ------- -->
-		<section class="section__serach-bar">
+		<!-- ------- 검색창 섹션 (section__search-bar) ------- -->
+		<section class="section__search-bar">
 
 			<div class="btn-group">
 				<button class="email">
@@ -150,18 +150,21 @@
 				</button>
 				<button class="addBtn">주소록에 추가</button>
 			</div>
-			
+
 			<div class="search-bar">
-				<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력해주세요." maxlength="20">
+				<select class="search-option" name="search-option">
+					<option value="userName">이름</option>
+					<option value="userId">아이디</option>
+					<option value="role">역할</option>
+					<option value="birthday">생일</option>
+					<option value="phone">연락처</option>
+				</select>
+				<input type="text" name="keyword" placeholder="검색어를 입력해주세요." maxlength="20">
 				<span class="material-symbols-outlined icon">search</span>
 			</div>
-
-			<div class="search-options">
-				<input type="radio" id="search-by-userName" name="search-option" checked>
-				<label for="search-by-userName">이름</label>
-
-				<input type="radio" id="search-by-userId" name="search-option">
-				<label for="search-by-userId">아이디</label>
+			
+			<div class="set-leader">
+				<button class="set-leader-btn hidden" onclick="validateSetLeader();">팀장으로 지정</button>
 			</div>
 
 		</section>

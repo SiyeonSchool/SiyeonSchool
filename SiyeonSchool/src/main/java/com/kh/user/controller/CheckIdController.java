@@ -1,4 +1,4 @@
-package com.kh.classs.controller;
+package com.kh.user.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,32 +7,45 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.user.model.service.UserService;
+
 /**
- * Servlet implementation class ClassController
+ * Servlet implementation class CheckIdController
  */
-@WebServlet("/class")
-public class ClassController extends HttpServlet {
+@WebServlet("/checkId")
+public class CheckIdController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClassController() {
+    public CheckIdController() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getSession().setAttribute("currentPage", "class");
-		request.getRequestDispatcher("views/class/class.jsp").forward(request, response);
+
+		String checkId = request.getParameter("checkId");
+
+		int count = new UserService().checkId(checkId);
+
+		if (count > 0) {
+			response.getWriter().print("NNNNN");
+		} else {
+			response.getWriter().print("NNNNY");
+		}
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

@@ -1,4 +1,4 @@
-package com.kh.home.controller;
+package com.kh.classroom.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,34 +8,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class UserIdPwdFindController
+ * Servlet implementation class ClassController
  */
-@WebServlet("/UserIdPwdFind")
-public class UserIdPwdFindController extends HttpServlet {
+@WebServlet("/classroom")
+public class ClassroomController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserIdPwdFindController() {
+    public ClassroomController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		request.getRequestDispatcher("views/home/userIdPwdFind.jsp").forward(request, response);
-			
+		request.getSession().setAttribute("currentPage", "classroom");
+		request.getRequestDispatcher("views/classroom/classroom.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

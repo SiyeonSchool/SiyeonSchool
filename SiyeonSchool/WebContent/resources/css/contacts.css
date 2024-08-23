@@ -1,14 +1,12 @@
 /* ==================== 주소록 ==================== */
 
 :root{
-    /* 사이드바 가로 폭 */
     --sidebar-width: 300px;
     --contact-content-width: calc(100vw - var(--sidebar-width));
 
     --contact-searchbar-height: calc(15px + 36px + 10px);
     --contact-list-header-height: 40px;
     --content-list-content-height: calc(100vh - var(--menubar-height) - var(--contact-searchbar-height) - var(--contact-list-header-height));
-    
     
     --contactsHover: #ffd27773;
 }
@@ -183,8 +181,8 @@ main section{
     width: 100%;
 }
 
-/* ------- 검색창 섹션 (section__serach-bar) ------- */
-main .section__serach-bar{
+/* ------- 검색창 섹션 (section__search-bar) ------- */
+main .section__search-bar{
     position: relative;
     display: flex;
     justify-content: center;
@@ -193,7 +191,7 @@ main .section__serach-bar{
 }
 
 /* 버튼 - 그룹 */
-main .section__serach-bar .btn-group{
+main .section__search-bar .btn-group{
     position:absolute;
     left: 10px;
     top: 15px;
@@ -202,7 +200,7 @@ main .section__serach-bar .btn-group{
 }
 
 /* 버튼  */
-main .section__serach-bar .btn-group button{
+main .section__search-bar .btn-group button{
     border: 1px solid var(--lightGrey);
     border-radius: 3px;
     background-color: #fff;
@@ -213,61 +211,101 @@ main .section__serach-bar .btn-group button{
 }
 
 /* 버튼 - hover시 */
-main .section__serach-bar .btn-group button:hover{
+main .section__search-bar .btn-group button:hover{
     background-color: var(--lightOrange);
     font-weight: bold;
 }
 
 /* 버튼 - 이메일 버튼 */
-main .section__serach-bar .btn-group button.email{
+main .section__search-bar .btn-group button.email{
     display: flex;
     align-items: center;
 }
 
 /* 버튼 - 이메일 버튼 안 아이콘 */
-main .section__serach-bar .btn-group button.email span.icon{
+main .section__search-bar .btn-group button.email span.icon{
     font-size: 24px;
     margin-right: 5px;
 }
 
 /* 검색창 - 바로 바깥 div*/
-main .section__serach-bar .search-bar{
-    margin-right: 10px;
+main .section__search-bar .search-bar{
     position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* 검색옵션 */
+main .section__search-bar .search-bar .search-option{
+    height: 36px;
+    font-family: "MinSans-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    cursor: pointer;
+    margin-right: 5px;
+    border: 1px solid var(--lightGrey);
+    border-radius: 3px;
 }
 
 /* 검색창 */
-main .section__serach-bar .search-bar input{
+main .section__search-bar .search-bar input{
     height: 36px;
     background-color: #d1d1d14d;
     border: 1px solid var(--lightGrey);
     border-radius: 3px;
     width: 230px;
+    padding-left: 10px;
 }
 
 /* 검색창 - focus시 테두리 강조 안되게 */
-main .section__serach-bar .search-bar input:focus{
+main .section__search-bar .search-bar select:focus,
+main .section__search-bar .search-bar input:focus{
     outline: none;
 }
 
-main .section__serach-bar .search-bar span.icon{
+/* 검색창 - 돋보기 아이콘 */
+main .section__search-bar .search-bar span.icon{
     height: 24px;
     position: absolute;
     right: 5px;
     top: 0;
     bottom: 0;
     margin: auto;
+    /* cursor: pointer; */
+}
+
+/* 검색창 - 돋보기 아이콘 - 후버효과없애기! 색상변경없음 */
+main .section__search-bar .search-bar span.icon:hover{
+    color: var(--lightGrey);
+}
+
+/* 팀장으로 지정 - 버튼을 감싸고 있는 div */
+main .section__search-bar .set-leader{
+    position: absolute;
+    right: 15px;
+    top:15px;
+    height: 36px;
+}
+
+/* 팀장으로 지정 - 버튼 */
+main .section__search-bar .set-leader .set-leader-btn{
+    height: 100%;
+    border: 1px solid var(--lightGrey);
+    border-radius: 3px;
+    background-color: #fff;
+    padding: 8px;
     cursor: pointer;
 }
 
-/* 검색옵션 - div */
-main .section__serach-bar .search-options{
-    display: flex;
-    align-items: center;
+/* 팀장으로 지정 - 버튼 - 숨기기*/
+main .section__search-bar .set-leader .set-leader-btn.hidden{
+    display: none;
 }
 
-main .section__serach-bar .search-options input[type="radio"]{
-    margin-bottom: 5px;
+/* 팀장으로 지정 - 버튼 - hover */
+main .section__search-bar .set-leader .set-leader-btn:hover{
+    background-color: var(--lightOrange);
+    font-weight: bold;
 }
 
 /* ------- 목록 헤더 섹션 (section__list-header), 목록 섹션 (section__list) - 공통속성 ------- */
@@ -309,13 +347,12 @@ main section li div span.icon.star.fill{
 }
 
 /* ------- 목록 헤더 섹션 (section__list-header) ------- */
-main .section__list-header li div{
-    height: 40px;
+main .section__list-header{
+    background-color: rgba(243, 243, 243, 0.7);
 }
 
-/* 목록 헤더 섹션 (section__list-header) - 체크박스 */
-main .section__list-header li div.checkbox{
-    padding-left: 0;
+main .section__list-header li div{
+    height: 40px;
 }
 
 /* 목록 헤더 섹션 (section__list-header) - 별표 div */
@@ -365,8 +402,14 @@ main .section__list-content li:hover{
     background-color: var(--contactsHover);
 }
 
+/* 목록 내용 섹션 (section__list-content) - 이름 */
+main .section__list-content li.userInfo div.userName{
+    justify-content: flex-start;
+    padding-left: 50px;
+}
+
 /* 목록 내용 섹션 (section__list-content) - 프로필 이미지 */
-main .section__list-content li.userInfo img{
+main .section__list-content li.userInfo div.userName img{
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -375,12 +418,12 @@ main .section__list-content li.userInfo img{
 }
 
 /* 목록 내용 섹션 (section__list-content) - 프로필 이미지 후버시*/
-main .section__list-content li.userInfo img:hover{
+main .section__list-content li.userInfo div.userName img:hover{
     opacity: .7;
 }
 
 /* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */
-main .section__list-content li.userInfo.noUsers{
+main .section__list-content li.noUsers{
     height: var(--content-list-content-height);
     position: absolute;
     width: 300px;
@@ -390,10 +433,15 @@ main .section__list-content li.userInfo.noUsers{
     border-bottom: none;
     cursor: default;
     font-weight: bold;
+    display: block;
+}
+
+main .section__list-content li.noUsers.hidden{
+    display: none;
 }
 
 /* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */
-main .section__list-content li.userInfo.noUsers:hover{
+main .section__list-content li.noUsers:hover{
     background-color: #fff;
 }
 

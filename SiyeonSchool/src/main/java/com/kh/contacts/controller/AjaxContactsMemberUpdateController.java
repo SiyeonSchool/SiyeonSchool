@@ -1,43 +1,45 @@
-package com.kh.home.controller;
+package com.kh.contacts.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.contacts.model.service.ContactsService;
+
 /**
- * Servlet implementation class SignInController
+ * Servlet implementation class AjaxContactsMemberUpdateController
  */
-@WebServlet("/signIn")
-public class SignInController extends HttpServlet {
+@WebServlet("/contacts/update.member")
+public class AjaxContactsMemberUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SignInController() {
+    public AjaxContactsMemberUpdateController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 주소록구성원 변경 컨트롤러 : "팀장으로 지정"기능. (해당주소록 모든 유저를 F로 변경후, 전달받은 userNo만 L로 변경)
 		
-		request.getRequestDispatcher("views/home/signIn.jsp").forward(request, response);
+		int contactsNo = Integer.parseInt(request.getParameter("contactsNo"));
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		
+		int result = new ContactsService().updateContactsMember(contactsNo, userNo);
+		response.getWriter().print(result);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

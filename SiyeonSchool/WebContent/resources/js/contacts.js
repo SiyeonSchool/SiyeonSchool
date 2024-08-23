@@ -2,8 +2,8 @@
 // 로그인유저정보
 const loginUser = JSON.parse(loginUserJson); // json string -> object 타입으로 형변환함.
 
-console.log("currentCategoryNo:" + currentCategoryNo);
-console.log("currentContactsNo:" + currentContactsNo);
+// console.log("currentCategoryNo:" + currentCategoryNo);
+// console.log("currentContactsNo:" + currentContactsNo);
 
 /* ==================== DB BYTE 길이 제한 ==================== */
 const BYTE_LENGTH_LIMIT = 50; // "주소록명", "카테고리명"의 byte 제한길이 <-- VARCHAR2(50)
@@ -200,6 +200,7 @@ function selectContactsMemberList(contactsNo){
         data:{contactsNo:contactsNo},
         success:function(result){
             mainContentsUserListArea.html(convertUserListToStr(result));
+            handleSetLeaderBtn();
         },
         error:function(){
             console.log("ajax 통신 실패: 주소록 " + contactsNo +  "번 구성원 조회실패.");
@@ -253,7 +254,7 @@ function convertUserListToStr(userList){
 
             str +=      `<div class="userName">
                             ${profileImg}
-                            ${userList[i].userName}
+                            <span class="userNameText">${userList[i].userName}</span>
                         </div>
                         <div class="userId">${userList[i].userId}</div>
                         <div class="role">${userList[i].role}</div>
@@ -261,6 +262,7 @@ function convertUserListToStr(userList){
                         <div class="phone">${userList[i].phone}</div>
                     </li>\n`;
         }
+        str += '<li class="noUsers hidden" id="noUsersText">일치하는 검색결과가 없습니다.</li>';
     }
     return str;
 }
@@ -284,6 +286,83 @@ function removeContentsInfoHeader(){
     if(contentsInfoHeader.length > 0) { // 기존에 "주소록"칸이 있었을 경우
         $(contentsInfoHeader).remove();
     }
+}
+
+
+// -------------- 팀장으로 지정 --------------
+
+// "팀장으로 지정" 버튼 보여주거나 숨기기 (관리자한테만)
+function handleSetLeaderBtn() {
+    const setLeaderBtn = $(".set-leader-btn");
+
+    const isPublicContacts = $(".active").hasClass("sm-cate"); // true:공유주소록, false:개인주소록
+
+    if (loginUser.userAuth == "A" && isPublicContacts) { // 관리자일경우만
+        $(setLeaderBtn).removeClass("hidden");
+    }else {
+        $(setLeaderBtn).addClass("hidden");
+    }
+}
+
+// "팀장으로 지정" 버튼 클릭시,
+function validateSetLeader(){
+
+    // 이미 팀장이 있는지 검증
+    if(isThereAlreadyTeamLeader()){
+        if(!confirm("이미 팀장이 있습니다. 변경하시겠습니까?")){ // 변경안하겠다면
+            return; // 내보내기
+        }
+    };
+
+    // 체크박스 유저선택 검증
+    const checkedUsersEls = getCheckedUsersEl();  // 선택된 체크박스 요소들
+    if(checkedUsersEls.length == 0) { 
+        alert("선택한 유저가 없습니다.\n팀장으로 지정할 유저를 선택 후 다시 시도해주세요.");
+        return;
+    } else if(checkedUsersEls.length > 1) {
+        alert("너무 많은 유저를 선택하였습니다.\n한명만 선택 후 다시 시도해주세요.");
+        return;
+    };
+
+    setLeader(checkedUsersEls); //모든 검증을 통과하면 "팀장으로 지정" 기능 실행
+}
+
+// 이미 팀장으로 지정된 사람이 있는지 확인 => 있으면 true, 없으면 false 반환
+function isThereAlreadyTeamLeader() {
+    const isLeaderPresent = $(".section__list-content .userInfo").toArray().some(function(element) {
+        const contentsToFind = $(element).find(".role").text().toLowerCase();
+        return contentsToFind.includes("팀장");
+    });
+    return isLeaderPresent;
+}
+
+// "팀장으로 지정" 기능
+function setLeader(checkedUsersEls){
+    const selectedContactsNo = getContactsNoFromSidebar(); // 선택된 주소록번호
+    const selectedUserNo = $(checkedUsersEls).val(); // 선택된 유저번호
+    updateContactsMember(selectedContactsNo, selectedUserNo); // db에 반영
+}
+
+// "팀장으로 지정" - DB에 반영
+function updateContactsMember(contactsNo, userNo) {
+    // 주소록 구성원 테이블에서
+    // 1) 해당주소록 모든 유저를 F로 변경후,
+    // 2) 전달받은 userNo만 L로 변경.
+    $.ajax({
+        url:"contacts/update.member",
+        type:"post",
+        data:{
+            contactsNo:contactsNo,
+            userNo:userNo,
+        },
+        success:function(result){
+            alert("성공적으로 팀장으로 지정하였습니다.");
+            moveToContactsPage(contactsNo);
+        },
+        error:function(){
+            console.log(`ajax 통신 실패: updateContactsMember()`);
+        },
+    })
 }
 
 // -------------- 메인 컨텐츠 - 정렬 --------------
@@ -350,9 +429,9 @@ function sortUsersList(categoryNo, contactsNo, sortBy, isDesc) {
 }
 
 // -------------- "메일" 버튼 --------------
-$("main .section__serach-bar button.email").click(function(){
+$("main .section__search-bar button.email").click(function(){
     // 선택된 체크박스 요소들
-    const checkedUsersEls =  $("main .section__list-content li.userInfo div.checkbox input:checkbox:checked"); 
+    const checkedUsersEls = getCheckedUsersEl(); 
 
     // 선택한 유저가 있는지 검증
     if(checkedUsersEls.length == 0) {
@@ -371,26 +450,66 @@ $("main .section__serach-bar button.email").click(function(){
     alert("메일을 보내고 싶으나, 아직 메일쪽 구현을 안해서...\n\n언젠가는 보낼 수 있겠죠? ^^;");
 });
 
-// ########### 작업중 ##############
-/* -------------- 검색  -------------- */
-/*
-$('#keyword').on('input', function() {
-    let keyword = $(this).val();
-    console.log('User typed:', keyword);
-   
-});
-$(document).ready(function() {
-    console.log("여기");
-    // Select all userName divs within userInfo li elements
-    $('.userInfo').each(function() {
-        // Find the userName div and get its text content
-        var userName = $(this).find('.userName').text().trim();
-        console.log(userName); // Output the username to the console
-    });
-    console.log("여기2");
-});
-*/
+// 체크박스로 체크된 유저들의 요소를 반환함.
+function getCheckedUsersEl(){
+    return $("main .section__list-content li.userInfo div.checkbox input:checkbox:checked");
+}
 
+
+/* -------------- 검색  -------------- */
+// 검색창에 키워드 입력시 모든 사용자를 숨기고, 매칭되는 사용자만 화면에 보이도록함.
+$('main .section__search-bar .search-bar input[name="keyword"]').keyup(function(){
+    const keyword = $(this).val().toLowerCase(); // 사용자가 입력한 키워드
+    hideAllUsers(); // 모든 유저 숨기기
+    const searchOption = $(`select[name="search-option"]`).val(); // 검색창 옆에서 선택한 검색옵션 ex) 이름, 아이디, 역할...
+    const matchCount = showOnlyMatchingUserName(searchOption, keyword); // 매칭되는유저만 화면에 보여주고 매칭되는 카운트 반환
+    handleNoUsersTextEl(matchCount); // 매칭되는게 없는경우 -> 검색결과가 없다고 화면에 표시
+});
+
+// 검색 - 모든 유저 숨기기
+function hideAllUsers(){
+    $(".section__list-content .userInfo").hide();
+}
+
+// 검색 - 검색어를 매칭(포함)되는 유저만 보여주기 + 매칭 카운트 반환
+function showOnlyMatchingUserName(searchOption, keyword){
+    let contentsToFind;
+    let matchCount = 0;
+
+    $(".section__list-content .userInfo").each(function() {
+
+        switch(searchOption){
+            case "userName": contentsToFind = $(this).find(".userNameText").text().toLowerCase(); break;
+            case "userId": contentsToFind = $(this).find(".userId").text().toLowerCase(); break;
+            case "role": contentsToFind = $(this).find(".role").text().toLowerCase(); break;
+            case "birthday": contentsToFind = $(this).find(".birthday").text().toLowerCase(); break;
+            case "phone": contentsToFind = $(this).find(".phone").text().toLowerCase(); break;
+        };
+
+        if (contentsToFind.includes(keyword)) {
+            $(this).show();
+            matchCount ++;
+        } else {
+            $(this).hide();
+        };
+    });
+
+    return matchCount ;
+};
+
+// 검색결과에 따라 "일치하는 검색결과가 없습니다." 텍스트를 보여주거나 숨기기
+function handleNoUsersTextEl(matchCount){
+    const noUsersTextEl = $("#noUsersText"); // "검색결과가 없습니다" 글자
+    if (matchCount === 0) { // 매칭되는게 없는경우
+        if($(noUsersTextEl).hasClass("hidden")){
+            $(noUsersTextEl).removeClass("hidden");
+        }
+    }else { // 매칭되는게 있는경우
+        if(!$(noUsersTextEl).hasClass("hidden")){
+            $(noUsersTextEl).addClass("hidden");
+        }
+    }
+}
 
 // -------------- 체크박스 --------------
 // 헤더의 체크박스 클릭시, 리스트 전체의 체크박스 선택or해제
@@ -526,7 +645,7 @@ $('#imageModal').click(function(event) {
 const modalAddMember = $("main .modal-addMember-bg");
 
 // "주소록에추가" 버튼 클릭시, modal창 보여줌.
-$("main .section__serach-bar .btn-group .addBtn").click(function(){
+$("main .section__search-bar .btn-group .addBtn").click(function(){
 
     // 선택된 체크박스 요소들
     const checkedUsersEls =  $("main .section__list-content li.userInfo div.checkbox input:checkbox:checked"); 
@@ -640,7 +759,7 @@ function clickSidebarContactsNo(contactsNo, isAdded, userCountToUpdate){
 // -------------- "주소록에서 제거" 버튼 --------------
 // 유저를 주소록에서 제거할때 사용.
 
-const mainBtnGroupArea = $(".section__serach-bar .btn-group"); // 버튼을 넣을 공간
+const mainBtnGroupArea = $(".section__search-bar .btn-group"); // 버튼을 넣을 공간
 const deleteContactsUserBtn = `<button class="deleteBtn" onclick="deleteContactsMember();">주소록에서 제외</button>`; // 실제 버튼
 
 // "주소록에서 제외"버튼 - 보여주기
@@ -1252,7 +1371,6 @@ function updateContactsName(contactsNo, newContactsName){
     });
 }
 
-// ######### 작업해야함!!!!!!!!!! ########## 복사해놓고 수정아직 안함
 // "카테고리 삭제" 버튼 클릭시
 async function confirmDeleteContacts() {
     if(confirm("정말로 해당 주소록을 삭제하시겠습니까?")){

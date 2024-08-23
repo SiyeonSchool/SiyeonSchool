@@ -1,4 +1,4 @@
-package com.kh.home.controller;
+package com.kh.user.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,19 +7,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.user.model.service.UserService;
-
 /**
- * Servlet implementation class CheckIdController
+ * Servlet implementation class UserIdPwdFindController
  */
-@WebServlet("/checkId")
-public class CheckIdController extends HttpServlet {
+@WebServlet("/UserIdPwdFind")
+public class UserIdPwdFindController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CheckIdController() {
+    public UserIdPwdFindController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,16 +27,8 @@ public class CheckIdController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String checkId = request.getParameter("checkId");
-
-		int count = new UserService().checkId(checkId);
-
-		if (count > 0) {
-			response.getWriter().print("NNNNN");
-		} else {
-			response.getWriter().print("NNNNY");
-		}
-
+		request.getRequestDispatcher("views/home/userIdPwdFind.jsp").forward(request, response);
+			
 	}
 
 	/**
