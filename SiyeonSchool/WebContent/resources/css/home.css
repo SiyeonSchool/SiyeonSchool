@@ -214,15 +214,20 @@
 }
 
 .D-day .text-area{
-	margin-top: 30px;
-	background-color: #C2F0FF;
 	border-radius: 10px;
 }
 .end-day, #D-day{
 	height: 50px;
-}
-.end-day p{
 	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	background-color: #C2F0FF;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#D-day{
+	margin-top: 20px;
 }
 
 .D-day p{
@@ -232,9 +237,7 @@
 .D-day .progress-area2{
 	margin-top: 30px;
 }
-#D-day p{
-	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
-}
+
 .progress-circle {
 	width: 300px;
 	height: 300px;
