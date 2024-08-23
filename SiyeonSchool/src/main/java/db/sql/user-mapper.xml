@@ -29,9 +29,13 @@
 		   AND U.STATUS = 'Y'
 	</entry>
 	
+	<entry key="selectQuestions">
+		SELECT QUESTION_NO, QUESTION_CONTENT
+   		  FROM QUESTION
+	</entry>
+	
 	<entry key="checkId">
-		SELECT 
-		        COUNT(*) "COUNT"
+		SELECT COUNT(*) "COUNT"
 		  FROM USERS
 		 WHERE USER_ID = ?
 	</entry>

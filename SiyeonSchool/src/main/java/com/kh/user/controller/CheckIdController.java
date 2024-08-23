@@ -1,4 +1,4 @@
-package com.kh.home.controller;
+package com.kh.user.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

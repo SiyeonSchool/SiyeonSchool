@@ -1,10 +1,12 @@
 package com.kh.user.model.service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.user.model.dao.UserDao;
+import com.kh.user.model.vo.Question;
 import com.kh.user.model.vo.User;
 
 public class UserService {
@@ -45,4 +47,11 @@ public class UserService {
 		close(conn);
 		return result;
 	}
+    
+    public ArrayList<Question> selectQuestions() {
+        Connection conn = getConnection();
+        ArrayList<Question> list = new UserDao().selectQuestions(conn);
+        close(conn);
+        return list;
+    }
 }

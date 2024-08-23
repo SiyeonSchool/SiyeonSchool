@@ -51,6 +51,44 @@ select:invalid, input::placeholder{
 	font-size: 13px;
 	color: #a98affe8;
 }
+
+input{
+	width: 395px;
+	height: 32px;
+	border-radius: 5px;
+	border: none;
+}
+
+button{
+	width: 152px;
+	height: 47px;
+	border-radius: 5px;
+	border: none;
+	background-color: #77ddff;
+	font-weight: 700;
+	font-size: 20px;
+	letter-spacing: 2px; 
+}
+
+button:hover{
+	background-color: #00c3ff;
+	cursor: pointer;
+}
+
+#back,#change{
+	margin: 0 10px;
+}
+
+select{
+	width: 395px;
+	height: 32px;
+	border: none;
+}
+
+select option[value=""][disabled] {
+	display: none;
+}
+
 </style>
 </head>
 <body>
@@ -87,12 +125,12 @@ select:invalid, input::placeholder{
 					<td><input type="text" placeholder="회원가입시 입력한 답변" required></td>
 				</tr>
 				<tr>
-					<th><button id="btn-find">찾기</button></th>
+					<th colspan="2"><button id="btn-find">찾기</button></th>
 				</tr>
 			</form>
 			<tr>
 				<th>아이디</th>
-				<td><input type="text"></td>
+				<td><input type="text" placeholder="아이디는 변경할 수 없습니다." readonly></td>
 			</tr>
 			<tr>
 				<th>변경 비밀번호</th>
@@ -104,8 +142,8 @@ select:invalid, input::placeholder{
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-					<button>이전</button>
-					<button>변경</button>
+					<button id="back" onclick="history.back()">이전</button>
+					<button id="change">변경</button>
 				</td>
 			</tr>
 
