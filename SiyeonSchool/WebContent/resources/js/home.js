@@ -68,7 +68,7 @@ let currentMonth = new Date().getMonth();
 //달력을 생성하고 표시하는 함수
 function generateCalendar() {
     // 달력의 헤더 생성
-    let headerHTML = '<span style="color:#000; text-align:center; position:relative;">' + currentYear + '년' + (currentMonth + 1) + '월</span>'
+    let headerHTML = '<span style="color:#000; text-align:center; position:relative;">' + currentYear + '년 ' + (currentMonth + 1) + '월</span>'
 
     // 달력 영역에 헤더 추가
     let headerContainer = document.createElement("div");
@@ -144,8 +144,104 @@ function generateCalendar() {
     calendarContainer.innerHTML = calendarHTML;
 }
 
-// 페이지 로드 시 현재 월에 해당하는 달력 표시
+// 페이지 로드 시 실행할 함수들
 window.onload = function () {
     generateCalendar();
     // 현재 날짜에 스타일 추가
+    highlightCurrentDate();
+
+    todoHeader();
+    dDay();
 };
+
+// 현재 날짜 스타일 추가 함수
+function highlightCurrentDate(){
+    let currentDate = new Date();
+    let currentDay = currentDate.getDate();
+
+    let calendarCells = document.querySelectorAll('td');
+    calendarCells.forEach(function (cell) {
+        let cellDay = parseInt(cell.innerText);
+
+        if(cellDay === currentDay){
+            cell.style.color = '#000000';
+            cell.style.borderRadius = '10px';
+            cell.style.backgroundColor = '#C2F0FF';
+        }
+    })
+}
+
+// 현재 날짜 요일 todo 헤더에 넣는 함수
+
+function todoHeader(){
+    let currentDate = new Date();
+    let currentDay = currentDate.getDay();
+    
+    switch(currentDay){
+        case 0:
+            currentDay = '일';
+            break;
+        case 1:
+            currentDay = '월';
+            break;
+        case 2:
+            currentDay = '화';
+            break;
+        case 3:
+            currentDay = '수';
+            break;
+        case 4:
+            currentDay = '목';
+            break;
+        case 5:
+            currentDay = '금';
+            break;
+        case 6:
+            currentDay = '토';
+            break;
+        default:
+            currentDay = 'undefined';
+            break;
+    }
+    
+    document.querySelector('.todo-header').innerHTML = '<span style="color:#000"> <' + currentDay + '요일> </span><span>오늘의 일정</span>';
+}
+
+function setProgress(percentage) {
+    const progressCircle = document.querySelector('.progress-circle');
+    const progressText = document.querySelector('.progress-text');
+  
+    // 각도 계산 (percentage * 3.6 = 각도)
+    const angle = percentage * 3.6;
+  
+    // 배경을 업데이트 (conic-gradient)
+    progressCircle.style.background = `conic-gradient(#C2F0FF 0% ${angle}deg, #e6f9ff ${angle}deg 360deg)`;
+    // 텍스트 업데이트
+    progressText.textContent = percentage + '%';
+  
+}
+
+// 종강일까지 남은 일 수 계산하는 함수
+function dDay(){
+    // Thu Aug 22 2024 12:36:18 GMT+0900 (한국 표준시) => Date 객체의 기본값
+    let startDate = new Date('Thu May 9 2024 09:00:00 GMT+0900 (한국 표준시)')
+    let nowDate = new Date();
+    let endDate = new Date('Fri Oct 25 2024 17:50:00 GMT+0900 (한국 표준시)')
+
+    // 총 기간
+    let totalDate = endDate - startDate;
+    // 경과된 기간
+    let elapseDate = nowDate - startDate;
+    // 진행도 퍼센드
+    let perDate =  Math.floor((elapseDate / totalDate) * 100);
+
+    // 종강까지 남은 일 수
+    let dDay = Math.ceil((endDate - nowDate) / (1000 * 60 * 60 * 24));
+
+    document.querySelector('#D-day').innerHTML = '<p>D-Day : '+ dDay +'</p>';
+    document.querySelector('.comment-area').innerHTML = '<p style="color:#C2F0FF"> 종강까지 '+ dDay +'일 남았다잉~</p><br><p style="color:#C2F0FF">힘내자!!!</p>';
+
+    setProgress(perDate)
+
+}
+  
