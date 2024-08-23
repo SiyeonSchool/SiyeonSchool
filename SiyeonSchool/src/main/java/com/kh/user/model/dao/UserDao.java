@@ -41,20 +41,32 @@ public class UserDao {
 
 			rset = pstmt.executeQuery();
 
-			if (rset.next()) {
-				u = new User(rset.getInt("user_no"), rset.getString("user_id"), rset.getString("user_pwd"),
-						rset.getString("user_name"), rset.getString("phone"), rset.getString("phone_public"),
-						rset.getString("birthday"), rset.getString("email"), rset.getString("address"),
-						rset.getString("enroll_date"), rset.getString("modify_date"), rset.getInt("profile_file_no"),
-						rset.getInt("question_no"), rset.getString("question_answer"), rset.getString("user_auth"),
-						rset.getString("status"), rset.getString("github_url"), rset.getString("notion_url"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
+            if(rset.next()){
+                u = new User(rset.getInt("user_no"),
+                             rset.getString("user_id"),
+                             rset.getString("user_pwd"),
+                             rset.getString("user_name"),
+                             rset.getString("phone"),
+                             rset.getString("phone_public"),
+                             rset.getString("birthday"),
+                             rset.getString("email"),
+                             rset.getString("address"),
+                             rset.getString("enroll_date"),
+                             rset.getString("modify_date"),
+                             rset.getString("profile_path"),
+                             rset.getInt("question_no"),
+                             rset.getString("question_answer"),
+                             rset.getString("user_auth"),
+                             rset.getString("status"),
+                             rset.getString("github_url"),
+                             rset.getString("notion_url"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            close(rset);
+            close(pstmt);
+        }
 
 		return u;
 	}

@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kh.myPage.model.service.MyPageService;
 import com.kh.user.model.vo.User;
@@ -29,16 +30,13 @@ public class MyPageInfoListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = "user01";
-		int result = new MyPageService().selectUser(userId);
-
-		if(result > 0){
-			User user = new MyPageService().selectUserInfo(userId);
-            request.setAttribute("user", user);	
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("loginUser") != null){
+			request.getSession().setAttribute("currentPage", "mypageInfo");
+			request.getRequestDispatcher("views/myPage/myPageInfo.jsp").forward(request, response);
 		}
 
-		request.getSession().setAttribute("currentPage", "mypageInfo");
-		request.getRequestDispatcher("views/myPage/myPageInfo.jsp").forward(request, response);
 	}
 
 	/**

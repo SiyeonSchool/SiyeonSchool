@@ -14,6 +14,7 @@ import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.contacts.model.vo.Contacts;
 import com.kh.contacts.model.vo.ContactsCategory;
+import com.kh.contacts.model.vo.ContactsMember;
 import com.kh.contacts.model.vo.ContactsUsersSortInfo;
 import com.kh.user.model.vo.User;
 
@@ -131,7 +132,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR")));
 			}
@@ -166,7 +167,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR")));
 			}
@@ -201,9 +202,11 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
-						          rset.getString("STAR")));
+						          rset.getString("STAR"),
+						          rset.getInt("CONTACTS_NO"),
+						          rset.getString("CONTACTS_NAME")));
 			}
 			
 		} catch (SQLException e) {
@@ -225,6 +228,7 @@ public class ContactsDao {
 		
 		switch(si.getOrderBy()) {
 		case "star": sb.append("Star"); break;
+		case "contactsInfo": sb.append("ContactsName"); break;
 		case "userName": sb.append("UserName"); break;
 		case "userId": sb.append("UserId"); break;
 		case "role": sb.append("Role"); break;
@@ -261,7 +265,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR")));
 			}
@@ -297,7 +301,7 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
 						          rset.getString("STAR")));
 			}
@@ -333,9 +337,11 @@ public class ContactsDao {
 						          rset.getString("USER_NAME"),
 						          rset.getString("PHONE"),
 						          rset.getString("BIRTHDAY"),
-						          rset.getInt("PROFILE_FILE_NO"),
+						          rset.getString("PROFILE_PATH"),
 						          rset.getString("ROLE"),
-						          rset.getString("STAR")));
+						          rset.getString("STAR"),
+						          rset.getInt("CONTACTS_NO"),
+						          rset.getString("CONTACTS_NAME")));
 			}
 			
 		} catch (SQLException e) {
@@ -417,44 +423,306 @@ public class ContactsDao {
 		return list;
 	}
 
-	public int insertContactsMember(Connection conn, int contactsNo, ArrayList<Integer> checkedUsersNoList) {
+	public void insertContactsMember(Connection conn, int contactsNo, ArrayList<Integer> checkedUsersNoList) throws SQLException {
+	    String sql = prop.getProperty("insertContactsMember");
+
+	    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        for (Integer userNo : checkedUsersNoList) {
+	            pstmt.setInt(1, contactsNo);
+	            pstmt.setInt(2, userNo);
+	            
+	            try {
+	                pstmt.executeUpdate();
+	            } catch (SQLIntegrityConstraintViolationException e) {
+	                throw new SQLException("중복되는 유저가 있음.", e); // 중복되는 유저가 있는경우 에러를 밖으로 던지면서 for문을 중단하게됨.
+	            }
+	        }
+	    }
+	}
+	
+	public int deleteContactsMember(Connection conn, ArrayList<ContactsMember> contactsMemberList) {
 		int result = 0;
-		PreparedStatement selectPstmt = null;
-		PreparedStatement insertPstmt = null;
-		ResultSet rset = null;
-		String selectSql = prop.getProperty("selectRole");
-		String insertSql = prop.getProperty("insertContactsMember");
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteContactsMember");
 		
 		try {
-			// 역할 조회
-			selectPstmt = conn.prepareStatement(selectSql);
-			selectPstmt.setInt(1, contactsNo);
-			rset = selectPstmt.executeQuery();
-			
-			String role = null;
-			if(rset.next()) {
-				role = rset.getString("ROLE");
-			}
-			
-			// 구성원 추가
-			for(Integer userNo : checkedUsersNoList) {
-				insertPstmt = conn.prepareStatement(insertSql);
-				insertPstmt.setInt(1, contactsNo);
-				insertPstmt.setInt(2, userNo);
-				insertPstmt.setString(3, role);
+	        
+			for(ContactsMember cm : contactsMemberList) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cm.getContactsNo());
+				pstmt.setInt(2, cm.getUserNo());
 				
-				result = insertPstmt.executeUpdate();
+				result = pstmt.executeUpdate();
 			}
-		} catch (SQLIntegrityConstraintViolationException e) {
-			return result -1; // 이미 DB에 해당 주소록에 선택한 userNo가 있음을 알리기 위함.
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(insertPstmt);
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int insertPrivateContacts(Connection conn, String contactsName, int ownerNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertPrivateContacts");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contactsName);
+			pstmt.setInt(2, ownerNo);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 해당유저의 주소록 중, 중복된 주소록이름이 있는경우 -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int selectContactNo(Connection conn, String contactsName, int ownerNo) {
+		int contactsNo = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectContactsNo");
+
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contactsName);
+			pstmt.setInt(2, ownerNo);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				contactsNo = rset.getInt("CONTACTS_NO");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
 			close(rset);
-			close(selectPstmt);
+			close(pstmt);
+		}
+		return contactsNo;
+	}
+
+	public int insertPublicContacts(Connection conn, int categoryNo, String contactsName) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertPublicContacts");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contactsName);
+			pstmt.setInt(2, categoryNo);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 관리자의 주소록 중, 중복된 주소록이름이 있는경우 -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int selectCategoryNoByContactsNo(Connection conn, int contactsNo) {
+		int categoryNo = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCategoryNoByContactsNo");
+
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, contactsNo);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				categoryNo = rset.getInt("CATEGORY_NO");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return categoryNo;
+	}
+	
+	public int selectCategoryNoByCategoryName(Connection conn, String categoryName) {
+		int categoryNo = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCategoryNoByCategoryName");
+
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, categoryName);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				categoryNo = rset.getInt("CATEGORY_NO");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return categoryNo;
+	}
+
+	public int insertCategory(Connection conn, String newCategoryName) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertCategory");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newCategoryName);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 중복된 카테고리가 있는경우, -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int deleteCategory(Connection conn, int categoryNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteCategory");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, categoryNo);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateCategoryName(Connection conn, int categoryNo, String newCategoryName) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateCategoryName");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newCategoryName);
+			pstmt.setInt(2, categoryNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 중복된 카테고리명이 있는경우, -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateContactsName(Connection conn, int contactsNo, String newContactsName) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateContactsName");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newContactsName);
+			pstmt.setInt(2, contactsNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLIntegrityConstraintViolationException e) {
+			return -1; // 중복된 카테고리명이 있는경우, -1을 반환함으로서 명시적으로 중복된다는 걸 알려줌.
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
 		}
 		
+		return result;
+	}
+
+	public int deleteContacts(Connection conn, int contactsNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteContacts");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, contactsNo);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateContactsMemberAllToF(Connection conn, int contactsNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateContactsMemberAllToF");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, contactsNo);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateContactsMemberLeader(Connection conn, int contactsNo, int userNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateContactsMemberLeader");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, contactsNo);
+			pstmt.setInt(2, userNo);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
 		return result;
 	}
 
