@@ -1,4 +1,4 @@
-package com.kh.classs.controller;
+package com.kh.classroom.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ClassController
  */
-@WebServlet("/class")
-public class ClassController extends HttpServlet {
+@WebServlet("/classroom")
+public class ClassroomController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClassController() {
+    public ClassroomController() {
         super();
     }
 
@@ -25,8 +25,8 @@ public class ClassController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getSession().setAttribute("currentPage", "class");
-		request.getRequestDispatcher("views/class/class.jsp").forward(request, response);
+		request.getSession().setAttribute("currentPage", "classroom");
+		request.getRequestDispatcher("views/classroom/classroom.jsp").forward(request, response);
 	}
 
 	/**
