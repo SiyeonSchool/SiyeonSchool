@@ -1,65 +1,9 @@
-// 커리큘럼 바 관련 jQuery
-$(function(){
-    $(".java-cir").click(function(){
-        $(".progress-bar").css("width","8%");
-        $(".java-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".oracle-cir").click(function(){
-        $(".progress-bar").css("width","16%");
-        $(".oracle-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".jdbc-cir").click(function(){
-        $(".progress-bar").css("width","24%");
-        $(".jdbc-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".html-cir").click(function(){
-        $(".progress-bar").css("width","32%");
-        $(".html-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".css-cir").click(function(){
-        $(".progress-bar").css("width","40%");
-        $(".css-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".js-cir").click(function(){
-        $(".progress-bar").css("width","48%");
-        $(".js-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".jQuery-cir").click(function(){
-        $(".progress-bar").css("width","56%");
-        $(".jQuery-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".servlet-cir").click(function(){
-        $(".progress-bar").css("width","64%");
-        $(".servlet-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".jsp-cir").click(function(){
-        $(".progress-bar").css("width","72%");
-        $(".jsp-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".ajax-cir").click(function(){
-        $(".progress-bar").css("width","82%");
-        $(".ajax-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".myBatis-cir").click(function(){
-        $(".progress-bar").css("width","90%");
-        $(".myBatis-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-
-    $(".spring-cir").click(function(){
-        $(".progress-bar").css("width","100%");
-        $(".spring-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
-    })
-})
+// 커리큘럼 바 관련 
+function updateState(subject) {
+    let form = document.getElementById('updateForm');
+    form.subject.value = subject;  // 선택한 과목명을 폼에 설정
+    form.submit();  // 폼 제출
+}
 
 //현재 년도 및 월 변수 추가
 let currentYear = new Date().getFullYear();

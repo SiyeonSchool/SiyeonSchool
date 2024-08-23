@@ -13,41 +13,38 @@ import com.kh.home.model.service.HomeService;
 import com.kh.home.model.vo.Curriculum;
 
 /**
- * Servlet implementation class HomeController
+ * Servlet implementation class UpdateCurriculumBtnController
  */
-@WebServlet("/home")
-public class HomeController extends HttpServlet {
+@WebServlet("/update.cb")
+public class UpdateCurriculumBtnController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HomeController() {
+    public UpdateCurriculumBtnController() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String subject = request.getParameter("subject");
 		
-		ArrayList<Curriculum> list = new HomeService().selectCurriculum();
+		ArrayList<Curriculum> list = new HomeService().updateCbState(subject);
 
-		int completedCount = new HomeService().getCompletedCount();
-		int totalCount = new HomeService().getTotalCount();
-		int progressValue = (int)((completedCount / (double)totalCount) * 100);
-		
-		request.getSession().setAttribute("currentPage", "home");
-		request.setAttribute("list", list);
-		request.setAttribute("progressValue", progressValue);
-		request.getRequestDispatcher("views/home/home.jsp").forward(request, response);
-		
+		if(list.size() > 0){
+			response.sendRedirect(request.getContextPath() + "/home");
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
