@@ -58,6 +58,7 @@
 			<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
 			<li>
 				<div class="board-div">
+					<input type="hidden" name="boardNo" value="1">
 					<span class="icon folder-icon material-icons-outlined">note</span>
 					<span class="boardName">임시 게시글</span>
 						<span class="icon edit-icon material-symbols-rounded">edit</span>
@@ -68,6 +69,7 @@
 			<!-- ------- 하나의 게시판 ------- -->
 			<li>
 				<div class="board-div">
+					<input type="hidden" name="boardNo" value="">
 					<span class="icon folder-icon material-icons-round">folder</span>
 					<span class="boardName">게시판이름</span>
 					<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
@@ -79,6 +81,7 @@
 			<!-- ------- 하나의 게시판 ------- -->
 			<li>
 				<div class="board-div">
+					<input type="hidden" name="boardNo" value="">
 					<span class="icon folder-icon material-icons-round">folder</span>
 					<span class="boardName">게시판이름</span>
 					<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
@@ -90,6 +93,7 @@
 			<!-- ------- 하나의 게시판 ------- -->
 			<li>
 				<div class="board-div">
+					<input type="hidden" name="boardNo" value="">
 					<span class="icon folder-icon material-icons-round">folder</span>
 					<span class="boardName">게시판이름</span>
 					<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
@@ -98,27 +102,6 @@
 				</div>
 			</li>
 
-			<!-- ------- 하나의 게시판 ------- -->
-			<li>
-				<div class="board-div">
-					<span class="icon folder-icon material-icons-round">folder</span>
-					<span class="boardName">게시판이름</span>
-					<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
-						<span class="icon edit-icon material-symbols-rounded">edit</span>
-					<% } %>
-				</div>
-			</li>
-
-			<!-- ------- 하나의 게시판 ------- -->
-			<li>
-				<div class="board-div">
-					<span class="icon folder-icon material-icons-round">folder</span>
-					<span class="boardName">게시판이름</span>
-					<% if(loginUser.getUserAuth().equals("A")) { // 관리자인경우 %>
-						<span class="icon edit-icon material-symbols-rounded">edit</span>
-					<% } %>
-				</div>
-			</li>
 
 
 
@@ -147,12 +130,12 @@
 		<!-- --------------------- 두번째 헤더 --------------------- -->
 		<section class="second-header">
 			<ul>
-				<li class="sameWidth boardName">게시판</li>
-				<li class="sameWidth postTitle">게시글 제목</li>
-				<li class="sameWidth attachment">첨부파일</li>
-				<li class="sameWidth comment">댓글</li>
-				<li class="sameWidth writer">작성자</li>
-				<li class="sameWidth createDate">작성일시</li>
+				<li class="post-column boardName">게시판</li>
+				<li class="post-column postTitle">게시글 제목</li>
+				<li class="post-column attachment">첨부파일</li>
+				<li class="post-column comment">댓글</li>
+				<li class="post-column writer">작성자</li>
+				<li class="post-column createDate">작성일시</li>
 			</ul>
 		</section>
 		
@@ -162,434 +145,629 @@
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 				<!-- ------- 하나의 게시글 ------- -->
 				<li class="post">
-					<div class="sameWidth boardName text-left">
+					<div class="post-column boardName text-left">
 						<span>Front-end</span>
 					</div>
 
-					<div class="sameWidth postTitle text-left">제목이 들어올 자리입니다.</div>
-
-					<div class="sameWidth attachment">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.jpg</span>
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
 					</div>
 
-					<div class="sameWidth comment">
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
 						<span class="icon comment-icon material-symbols-outlined">comment</span>
 						<span class="comment-count">3</span>
 					</div>
 
-					<div class="sameWidth writer">
+					<div class="post-column writer">
 						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
 						<span class="userNameText">공유유</span>
 						<span class="userId">(gdhong)</span>
 					</div>
 
-					<div class="sameWidth createDate text-center">2024-05-09  00:00</div>
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
+				</li>
+
+				<!-- ------- 하나의 게시글 ------- -->
+				<li class="post">
+					<div class="post-column boardName text-left">
+						<span>Front-end</span>
+					</div>
+
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
+					</div>
+
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
+						<span class="icon comment-icon material-symbols-outlined">comment</span>
+						<span class="comment-count">3</span>
+					</div>
+
+					<div class="post-column writer">
+						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
+						<span class="userNameText">공유유</span>
+						<span class="userId">(gdhong)</span>
+					</div>
+
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
+				</li>
+
+				<!-- ------- 하나의 게시글 ------- -->
+				<li class="post">
+					<div class="post-column boardName text-left">
+						<span>Front-end</span>
+					</div>
+
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
+					</div>
+
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
+						<span class="icon comment-icon material-symbols-outlined">comment</span>
+						<span class="comment-count">3</span>
+					</div>
+
+					<div class="post-column writer">
+						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
+						<span class="userNameText">공유유</span>
+						<span class="userId">(gdhong)</span>
+					</div>
+
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
+				</li>
+
+				<!-- ------- 하나의 게시글 ------- -->
+				<li class="post">
+					<div class="post-column boardName text-left">
+						<span>Front-end</span>
+					</div>
+
+					<div class="post-column postTitle text-left">
+						<span>제목이 들어올 자리입니다.</span>
+					</div>
+
+					<div class="post-column attachment jc-center">
+						<span class="icon attach-icon material-symbols-outlined">attachment</span>
+						<span class="fileName">첨부파일명1234.pdf</span>
+						<span class="moreFile">(+1)</span>
+						</div>
+					</div>
+
+					<div class="post-column comment jc-center">
+						<span class="icon comment-icon material-symbols-outlined">comment</span>
+						<span class="comment-count">3</span>
+					</div>
+
+					<div class="post-column writer">
+						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
+						<span class="userNameText">공유유</span>
+						<span class="userId">(gdhong)</span>
+					</div>
+
+					<div class="post-column createDate jc-center">
+						<span>2024-05-09  00:00</span>
+					</div>
 				</li>
 
 			</ul>
@@ -600,7 +778,7 @@
 			<span class="icon material-icons-outlined">first_page</span>
 			<span class="icon material-icons-outlined">navigate_before</span>
 
-			<span class="page">1</span>
+			<span class="page currentPage">1</span>
 			<span class="page">2</span>
 			<span class="page">3</span>
 			<span class="page">4</span>

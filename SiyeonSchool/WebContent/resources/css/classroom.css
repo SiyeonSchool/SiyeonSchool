@@ -214,12 +214,12 @@ main .first-header .search-bar-div .search-icon:hover{
 
 /* ------------------- 공통속성 - 두번째 헤더, 게시글 목록 ------------------- */
 /* 가로길이 비율 통일 */
-main .sameWidth.boardName{width: 15%;}
-main .sameWidth.postTitle{width: 35%;}
-main .sameWidth.attachment{width: 15%;}
-main .sameWidth.comment{width: 7%;}
-main .sameWidth.writer{width: 15%;}
-main .sameWidth.createDate{width: 13%;}
+main .post-column.boardName{width: 15%;}
+main .post-column.postTitle{width: 35%;}
+main .post-column.attachment{width: 15%;}
+main .post-column.comment{width: 7%;}
+main .post-column.writer{width: 15%;}
+main .post-column.createDate{width: 13%;}
 
 
 
@@ -228,7 +228,7 @@ main .second-header{
     height: 40px;
     border-bottom: 1px solid var(--lightGrey);
     background-color: rgba(243, 243, 243, 0.7);
-    padding-right: 15px;
+    /* padding-right: 15px; */
 }
 
 /* 리스트 항목 이름을 감싸고 있는 ul*/
@@ -250,7 +250,8 @@ main .post-list{
     overflow: auto;
 }
 
-/* ------------- 하나의 게시글 ------------- */
+/* ----------------------------- 하나의 게시글 ----------------------------- */
+/* 게시글 - 한줄*/
 main .post-list ul .post{
     display: flex;
     height: 50px;
@@ -259,57 +260,58 @@ main .post-list ul .post{
     cursor: pointer;
 }
 
-/* 게시글 - 후버시 */
+/* 게시글 - 한줄 - 후버시 */
 main .post-list ul .post:hover{
     background-color: var(--classroom-hover-color);
 }
 
-/* 게시글 - 가로로 나열된 각 항목 div */
-main .post-list ul .post .sameWidth{
-    line-height: 40px;
+/* 게시글 - 열 div */
+main .post-list ul .post .post-column{
     display: flex;
     align-items: center;
+    position: relative;
 }
 
-/* 게시글 - 가로로 나열된 각 항목 - 글씨 좌측정렬 */
-main .post-list ul .post .sameWidth.text-left{
-    padding-left: 10px;
+/* 게시글 - 열 - 글씨 좌측정렬 */
+main .post-list ul .post .post-column.text-left{
+    padding-left: 30px;
 }
 
-/* 게시글 - 가로로 나열된 각 항목 - 글씨 중앙정렬 */
-main .post-list ul .post .sameWidth.text-center{
-    text-align: center;
-}
-
-/* 게시글 - 제목 */
-main .post-list ul .post .sameWidth.postTitle{
-    font-weight: bold;
+/* 게시글 - 열 - 글씨 중앙정렬 */
+main .post-list ul .post .post-column.jc-center{
+    justify-content: center;
 }
 
 /* 게시글 - 아이콘 */
-main .post-list ul .post .icon{
+main .post-list ul .post .post-column .icon{
     font-size: 18px;
     margin-right: 5px;
 }
 
 
-/* ------------- 댓글 ------------- */
+/* ------------- 제목 ------------- */
+main .post-list ul .post .post-column.postTitle{
+    font-weight: bold;
+}
 
-/* 댓글을 감싸고 있는 div */
-main .post-list ul .post .comment{
-    justify-content: center;
+
+/* ------------- 첨부파일 ------------- */
+/* 첨부파일 - 추가 첨부파일 개수 */
+main .post-list ul .post .post-column.attachment .moreFile{
+    margin-left: 10px;
+    color: var(--lightGrey);
 }
 
 
 /* ------------- 작성자 ------------- */
 
 /* 작성자를 감싸고있는 div */
-main .post-list ul .post .writer{
-    padding-left: 15px;
+main .post-list ul .post .post-column.writer{
+    padding-left: 50px;
 }
 
 /* 프로필 이미지 */
-main .post-list ul .post .writer img{
+main .post-list ul .post .post-column.writer img{
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -317,26 +319,26 @@ main .post-list ul .post .writer img{
 }
 
 /* 프로필 이미지 후버시*/
-main .post-list ul .post .writer img:hover{
+main .post-list ul .post .post-column.writer img:hover{
     opacity: .7;
 }
 
 /* 작성자 이름 */
-main .post-list ul .post .writer .userNameText{
+main .post-list ul .post .post-column.writer .userNameText{
     margin: 0 3px 0 5px;
 }
 
 /* 작성자 아이디 */
-main .post-list ul .post .writer .userId{
+main .post-list ul .post .post-column.writer .userId{
     color: var(--lightGrey);
     font-size: 12px;
 }
 
 /* ------------- 작성일시 ------------- */
-main .post-list ul .post .createDate{
-    justify-content: center;
-    font-size: 12px;
+main .post-list ul .post .post-column.createDate{
+    font-size: 13px;
 }
+
 
 
 /* ----------------------------- 페이징 ----------------------------- */
@@ -350,20 +352,28 @@ main .paging-area{
     justify-content: center;
 }
 
-/* 페이지 숫자, 화살표 */
+/* 페이지 - 숫자, 화살표 */
 main .paging-area span {
     line-height: var(--classroom-paging-height);
     cursor: pointer;
 }
 
-/* 페이지 숫자 */
+/* 페이지 - 숫자 */
 main .paging-area .page{
     padding: 0 10px;
     color: var(--lightGrey);
 }
 
-/* 페이지 숫자 - 후버시 */
+/* 페이지 - 숫자 - 후버시 */
 main .paging-area .page:hover{
     color: var(--darkGrey);
     font-weight: bold;
+}
+
+/* 페이지 - 숫자 */
+main .paging-area .page.currentPage{
+    font-weight: bold;
+    color: var(--darkGrey);
+    cursor: default;
+    text-decoration: underline;
 }
