@@ -24,7 +24,7 @@
         String userId = loginUser.getUserId();
     %>
 
-    <div id="myInfo-area">
+    <section id="myInfo-area">
         <div class="header">내정보</div>
         <div class="body">
            <table>

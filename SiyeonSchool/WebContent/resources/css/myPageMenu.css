@@ -1,5 +1,4 @@
 #side-area {
-    float: left;
     width: 485px;
     height: 919px;
     background-color: #ffffff;
@@ -8,7 +7,7 @@
     align-items: center;
     flex-direction: column;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    position: fixed;
+    position: relative;
     z-index: 1;
 }
 
