@@ -74,7 +74,7 @@
 	 color: red; 
 	 font-size: 12px;
 	 margin-left: 45px;
-	 /* visibility: hidden; */
+	 visibility: hidden;
 }
 
 #right table{
@@ -167,7 +167,7 @@ li:first-child::before{display: none;}
 				</p>
 			</div>
 			<div id="right">
-				<img src="resources/images/SiS_Logo.png" alt="">
+				<img src="resources/images/sis_logo.png" alt="">
 				
 				<form action="<%=contextPath %>/login.user" id="login-form" method="post">
 					<p class="p">아이디</p>
@@ -192,13 +192,13 @@ li:first-child::before{display: none;}
 	<script>
 
 		window.onload = function() {
-			// 서버에서 전달된 loginFailed 속성의 값을 가져옴
-			var loginFailed = "<%= request.getAttribute("loginFailed") != null ? "true" : "false" %>";
-
-			// 로그인 실패 시 에러 메시지 표시
-			if (loginFailed == "true") {
-				document.getElementById("error-message").style.visibility = 'visible';
-			}
+		    // 서버에서 전달된 loginFailed 속성의 값을 가져옴
+		    var loginFailed = "<%= request.getAttribute("loginFailed") != null ? "true" : "false" %>";
+		    
+		    // 로그인 실패 시 에러 메시지 표시
+		    if (loginFailed === "true") {
+		        document.getElementById("error-message").style.visibility = 'visible';
+		    }
 		}
 		
 		let mouse, originx, originy, cvs;
