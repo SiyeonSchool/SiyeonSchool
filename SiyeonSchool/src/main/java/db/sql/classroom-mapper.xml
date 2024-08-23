@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectAllListCount">
+		SELECT
+		       COUNT(*) "COUNT"
+		  FROM CLASS_POST
+		 WHERE STATUS = 'Y'
+	</entry>
+
+	<entry key="selectAllList">
+		SELECT *
+		  FROM (
+		        SELECT ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT
+		                       P.POST_NO
+		                     , P.BOARD_NO
+		                     , B.BOARD_NAME
+		                     , P.USER_NO
+		                     , U.USER_NAME
+		                     , U.USER_ID
+		                     , P.POST_TITLE
+		                     , P.CREATE_DATE
+		                     , COUNT(C.POST_NO) AS "COMMENT_COUNT"
+		                     , COUNT(A.FILE_NO) AS "FILE_COUNT"
+		                  FROM CLASS_POST P
+		                  JOIN CLASS_BOARD B ON P.BOARD_NO = B.BOARD_NO
+		                  JOIN USERS U ON P.USER_NO = U.USER_NO
+		                  LEFT JOIN CLASS_COMMENT C ON C.POST_NO = P.POST_NO
+		                  LEFT JOIN CLASS_ATTACHMENT A ON A.POST_NO = P.POST_NO
+		                 WHERE P.STATUS = 'Y'
+		                 GROUP
+		                    BY
+		                       P.POST_NO
+		                     , P.BOARD_NO
+		                     , B.BOARD_NAME
+		                     , P.USER_NO
+		                     , U.USER_NAME
+		                     , U.USER_ID
+		                     , P.POST_TITLE
+		                     , P.CREATE_DATE
+		                 ORDER
+		                    BY CREATE_DATE DESC
+		               ) A
+		       )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+
+</properties>

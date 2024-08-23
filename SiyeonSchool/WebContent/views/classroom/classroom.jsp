@@ -1,15 +1,21 @@
+<%@page import="com.kh.classroom.model.vo.ClassPost"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.kh.common.model.vo.PageInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <%@ include file="../common/common.jsp" %>
 
 <%
-	// 현재 게시판 번호 -> JS에서 사용
-	int currentBoardNo = 0;
-	if(request.getAttribute("boardNo") != null) {
-		currentBoardNo = (int)request.getAttribute("boardNo");
-	}
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	ArrayList<ClassPost> list = (ArrayList<ClassPost>)request.getAttribute("list");
+	
+	int cPage = pi.getcPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+	int maxPage = pi.getMaxPage();
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,13 +26,6 @@
 <body>
 
 	<%@ include file="../common/menubar.jsp" %>
-
-	<script>
-		// 별도 js 파일로 값을 가져가기 위함. 
-		const loginUserJson = `<%= loginUserJson %>`; // json 형태
-		const contextPath = `<%= contextPath %>`;
-		const currentBoardNo = `<%= currentBoardNo %>`;
-	</script>
 
 	<!-- ======================================== 사이드바 ======================================== -->
 	<aside>
@@ -43,7 +42,7 @@
 		<ul>
 
 			<!-- ------- 모든게시글 ------- -->
-			<li>
+			<li class="active">
 				<div class="board-div">
 					<input type="hidden" name="boardNo" value="0">
 					<span class="icon folder-icon material-icons-outlined">source</span>
@@ -101,10 +100,7 @@
 					<% } %>
 				</div>
 			</li>
-
-
-
-
+			
 		</ul>
 	</aside>
 
@@ -142,651 +138,76 @@
 		<!-- --------------------- 게시글 목록 --------------------- -->
 		<section class="post-list">
 			<ul>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
-
-				<!-- ------- 하나의 게시글 ------- -->
-				<li class="post">
-					<div class="post-column boardName text-left">
-						<span>Front-end</span>
-					</div>
-
-					<div class="post-column postTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="post-column attachment jc-center">
-						<span class="icon attach-icon material-symbols-outlined">attachment</span>
-						<span class="fileName">첨부파일명1234.pdf</span>
-						<span class="moreFile">(+1)</span>
-						</div>
-					</div>
-
-					<div class="post-column comment jc-center">
-						<span class="icon comment-icon material-symbols-outlined">comment</span>
-						<span class="comment-count">3</span>
-					</div>
-
-					<div class="post-column writer">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유유</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-
-					<div class="post-column createDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
+				<% if(list.isEmpty()) { %>
+					<li>조회된 게시글이 없습니다.</li>
+				<% }else { %>
+					<% for(ClassPost p : list) { %>
+						<!-- ------- 하나의 게시글 ------- -->
+						<li class="post">
+							<div class="post-column boardName jc-center">
+								<span><%= p.getBoardName() %></span>
+							</div>
+		
+							<div class="post-column postTitle text-left">
+								<span><%= p.getPostTitle() %></span>
+							</div>
+		
+							<div class="post-column attachment jc-center">
+								<span class="icon attach-icon material-symbols-outlined">attachment</span>
+								<span class="file-count"><%= p.getFileCount() %></span>
+							</div>
+		
+							<div class="post-column comment jc-center">
+								<span class="icon comment-icon material-symbols-outlined">comment</span>
+								<span class="comment-count"><%= p.getCommentCount() %></span>
+							</div>
+		
+							<div class="post-column writer">
+								<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
+								<span class="userNameText"><%= p.getUserName() %></span>
+								<span class="userId"><%= p.getUserId() %>)</span>
+							</div>
+		
+							<div class="post-column createDate jc-center">
+								<span><%= p.getCreateDate() %></span>
+							</div>
+						</li>
+					<% } %>
+				<% } %>
 
 			</ul>
 		</section>
 
 		<!-- --------------------- 페이징 --------------------- -->
 		<section class="paging-area">
-			<span class="icon material-icons-outlined">first_page</span>
-			<span class="icon material-icons-outlined">navigate_before</span>
-
-			<span class="page currentPage">1</span>
-			<span class="page">2</span>
-			<span class="page">3</span>
-			<span class="page">4</span>
-
-			<span class="icon material-icons-outlined">navigate_next</span>
-			<span class="icon material-icons-outlined">last_page</span>
+			<% if(cPage != 1) { %>
+				<% if(cPage == startPage) { %>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= startPage - 1 %>'">first_page</span>
+				<% } else { %>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= startPage %>'">first_page</span>
+				<% } %>
+				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= cPage -1 %>'">navigate_before</span>
+			<% } %>
+			
+			<% for(int p=startPage; p<=endPage; p++) { %>
+				<% if(p == cPage) { %>
+					<span class="page currentPage"><%= p %></span>
+				<% } else { %>
+					<span class="page" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= p %>'"><%= p %></span>
+				<% } %>
+			<% } %>
+			
+			<% if(cPage != maxPage) { %>
+				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= cPage + 1 %>'">navigate_next</span>
+				<% if(cPage == endPage) { %>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= endPage + 1 %>'">last_page</span>
+				<% } else { %>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= endPage %>'">last_page</span>
+				<% } %>
+			<% } %>
 		</section>
 
 	</main>
+	
 </body>
 </html>

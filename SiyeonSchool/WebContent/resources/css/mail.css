@@ -1,5 +1,492 @@
-/* 아래는 지우셔도 됩니다! */
-h1 {
-    font-size: 50px;
+/* ================================ 메일 ================================ */
+
+:root{
+    --sidebar-width: 300px;
+    --mail-content-width: calc(100vw - var(--sidebar-width));
+
+    --mail-firstHeader-height: calc(15px + 36px + 10px); /* 검색창 부분*/
+    --mail-secondHeader-height: 40px; /* 리스트 항목이름 부분*/
+    --mail-postList-height: calc(100vh - var(--menubar-height) - var(--mail-firstHeader-height)  - var(--mail-secondHeader-height) - var(--mail-paging-height));
+    --mail-paging-height: 40px; /* 하단 페이징부분 */
+
+    --mail-active-color: var(--lightPurple);
+    --mail-hover-color: rgba(206, 188, 255, 0.4);
+}
+
+
+
+/* ================================ 공통속성 ================================ */
+
+/* 모든 아이콘 */
+.icon{
+    color: var(--lightGrey);
+    cursor: pointer;
+}
+
+/* 모든 아이콘 - 후버시*/
+.icon:hover{
+    color: var(--darkGrey);
+}
+
+/* 수정(edit) 아이콘 */
+.icon.edit-icon{
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.icon.yellow-star{
+    color: var(--lightOrange);
+}
+
+/* input, button, label 글자체 */
+input,
+button,
+label,
+select{
+    font-family: "MinSans-Regular", sans-serif;
+    font-weight: 400;
+    line-height: 16px;
+    font-size: 14px;
+}
+
+/* 체크박스 - 사이즈 좀 더 크게 */
+input[type="checkbox"]{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+
+/* ================================ 사이드바 ================================ */
+aside{
+    position: absolute;
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
+    border-right: 1px solid var(--lightGrey);
+    box-shadow: 0 3px 5px var(--lightGrey);
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+/* 카테고리 */
+aside section{
+    border-bottom: 1px solid var(--lightGrey);
+}
+
+/* 카테고리 - 마지막요소 (내 메일함)*/
+aside section:last-child{
+    border-bottom: none;
+}
+
+/* ----------------------------- 사이드바 버튼그룹 ----------------------------- */
+aside section.aside-btn-group{
+    padding: 20px 20px 15px;
+}
+
+/* --------------- 메일쓰기, 내게쓰기 버튼 --------------- */
+
+/* 메일쓰기, 내게쓰기 버튼 - 밖에서 감싸고 있는 div */
+aside section.aside-btn-group .write-btn-group{
+    height: 45px;
+    border: 1px solid var(--darkPurple);
+    display: flex;
+    border-radius: 10px;
+    background-color: var(--lightPurple);
+    overflow: hidden;
+}
+
+/* 메일쓰기, 내게쓰기 버튼 */
+aside section.aside-btn-group .write-btn-group .btn{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
     font-weight: bold;
+    font-size: 18px;
+}
+
+/* 메일쓰기, 내게쓰기 버튼 - 후버시 */
+aside section.aside-btn-group .write-btn-group .btn:hover{
+    background-color: #b79efc;
+}
+
+/* 메일쓰기, 내게쓰기 버튼 - 가운데 경계선 */
+aside section.aside-btn-group .write-btn-group .btn:first-child{
+    border-right: 1px solid var(--darkPurple);
+}
+
+
+/* --------------- 안읽음, 중요 --------------- */
+/* 안읽음, 중요 - 전체 div */
+aside section.aside-btn-group .remind-btn-group{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* 안읽음, 중요 - 각각의 div */
+aside section.aside-btn-group .remind-btn-group .remind-btn{
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* 안읽음, 중요 - 각각의 div - 후버시*/
+aside section.aside-btn-group .remind-btn-group .remind-btn:hover{
+    font-weight: bold;
+}
+
+/* 안읽음, 중요 - 아이콘 */
+aside section.aside-btn-group .remind-btn-group .remind-btn .icon{
+    font-size: 30px;
+}
+
+/* 중요 - 아이콘 - 후버시*/
+aside section.aside-btn-group .remind-btn-group .remind-btn .icon.yellow-star:hover{
+    color: rgb(255, 174, 0);
+}
+
+
+/* ----------------------------- 카테고리 - ex) 기본 메일함, 내 메일함 ----------------------------- */
+
+/* "카테고리" 글자를 감싸고 있는 div */
+aside section .category-div{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 7px 5px 10px;
+}
+
+/* "카테고리" 글자 - ex) 기본 메일함, 내 메일함 */
+aside section .category-div .category-title{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+/* "내 메일함" - 옆 추가(+) 아이콘 */
+aside section .category-div .add-icon{
+    height: 24px;
+    cursor: pointer;
+}
+
+
+/* ----------------------------- 메일함 목록 ----------------------------- */
+/* 각각의 줄 */
+aside section ul li{
+    cursor: pointer;
+    padding: 10px 10px 10px 15px;
+    margin: 3px 0;
+}
+
+/* 각각의 줄 - 후버시 */
+aside section ul li:hover{
+    background-color: var(--mail-hover-color);
+    font-weight: bold;
+}
+
+aside section ul li.active{
+    background-color: var(--mail-active-color);
+}
+
+/* 각각의 줄 - 내부 div*/
+aside section ul li .mailbox-div{
+    width: 100%;
+    height: 24px;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+
+/* 폴더 아이콘 */
+aside section ul li .mailbox-div .mailboxNo-icon{
+    margin-right: 10px;
+}
+
+/* 수정 아이콘 */
+aside section ul li .mailbox-div .edit-icon{
+    position: absolute;
+    right: 0;
+}
+
+/* 메일수 */
+aside section ul li .mailbox-div .mailCount{
+    margin-left: 5px;
+    font-size: 14px;
+    color: var(--lightGrey);
+}
+
+/* 휴지통 비우기 */
+aside section ul li .mailbox-div .emptyBtn{
+    position: absolute;
+    right: 0;
+    border: 1px solid var(--lightGrey);
+    border-radius: 3px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 5px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+/* 휴지통 비우기 */
+aside section ul li .mailbox-div .emptyBtn:hover{
+    background-color: var(--mail-active-color);
+}
+
+
+/* ================================ 메인 ================================ */
+main{
+    position: absolute;
+    left: 300px;
+    width: var(--mail-content-width); 
+    height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
+    min-width: calc(1500px - var(--sidebar-width)); /* 화면을 더 줄일 수 없도록함. 화면 줄었을때 요소간 겹침 방지*/
+    font-size: 15px;
+}
+
+
+/* ----------------------------- 첫번째 헤더 ----------------------------- */
+main .first-header{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 15px 0 10px;
+    border-bottom: 1px solid var(--lightGrey);
+}
+
+
+/* ------------- 이동, 삭제 버튼 ------------- */
+
+/* 이동, 삭제 버튼 - 버튼을 감싸고 있는 div */
+main .first-header .first-header-btns{
+    position:absolute;
+    left: 10px;
+    top: 15px;
+    display: flex;
+    height: 36px;
+}
+
+/* 이동, 삭제 버튼  */
+main .first-header .first-header-btns .btn{
+    border: 1px solid var(--lightGrey);
+    border-radius: 3px;
+    background-color: #fff;
+    padding: 8px;
+    cursor: pointer;
+    display: inline-block;
+    width: 50px;
+    margin-right: 10px;
+}
+
+/* 이동, 삭제 버튼 - hover시 */
+main .first-header .first-header-btns .btn:hover{
+    background-color: var(--mail-active-color);
+    font-weight: bold;
+}
+
+
+/* ------------- 검색창 ------------- */
+
+/* 검색창을 감싸고 있는 div*/
+main .first-header .search-bar-div{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* 검색옵션 */
+main .first-header .search-bar-div .search-option{
+    height: 36px;
+    font-family: "MinSans-Regular", sans-serif;
+    line-height: 1.4;
+    cursor: pointer;
+    margin-right: 5px;
+    border: 1px solid var(--lightGrey);
+    border-radius: 3px;
+}
+
+/* 검색창 */
+main .first-header .search-bar-div .search-bar{
+    height: 36px;
+    background-color: #d1d1d14d;
+    border: 1px solid var(--lightGrey);
+    border-radius: 3px;
+    width: 230px;
+    padding-left: 10px;
+}
+
+/* 검색옵션, 검색창 - focus시 테두리 강조 안되게 */
+main .first-header .search-bar-div .search-option:focus,
+main .first-header .search-bar-div .search-bar:focus{
+    outline: none;
+}
+
+/* 검색창 - 돋보기 아이콘 */
+main .first-header .search-bar-div .search-icon{
+    height: 24px;
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+/* 검색창 - 돋보기 아이콘 - 후버효과없애기! 색상변경없음 */
+main .first-header .search-bar-div .search-icon:hover{
+    color: var(--lightGrey);
+}
+
+
+/* ------------------- 공통속성 - 두번째 헤더, 메일 목록 ------------------- */
+/* 가로길이 비율 통일 */
+main .mail-column.checkbox{width: 5%;}
+main .mail-column.star{width: 5%;}
+main .mail-column.read{width: 5%;}
+main .mail-column.sender{width: 15%;}
+main .mail-column.mailboxTitle{width:15%;}
+main .mail-column.mailTitle{width: 43%;}
+main .mail-column.sentDate{width: 10%;}
+
+
+
+/* ----------------------------- 두번째 헤더 ----------------------------- */
+main .second-header{
+    height: 40px;
+    border-bottom: 1px solid var(--lightGrey);
+    background-color: rgba(243, 243, 243, 0.7);
+    /* padding-right: 15px; */
+}
+
+/* 리스트 항목 이름을 감싸고 있는 ul*/
+main .second-header ul{
+    display: flex;
+}
+
+/* 리스트 항목 이름 - ex)게시판, 메일 제목, 첨부파일... */
+main .second-header ul li{
+    line-height: 40px;
+    text-align: center;
+}
+
+
+/* ----------------------------- 메일 목록 ----------------------------- */
+main .mail-list{
+    height: var(--mail-postList-height);
+    max-height: var(--mail-postList-height);
+    overflow: auto;
+}
+
+/* ----------------------------- 하나의 메일 ----------------------------- */
+/* 메일 - 한줄*/
+main .mail-list ul .mail{
+    display: flex;
+    height: 50px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--lightGrey);
+    cursor: pointer;
+}
+
+/* 메일 - 한줄 - 후버시 */
+main .mail-list ul .mail:hover{
+    background-color: var(--mail-hover-color);
+}
+
+/* 메일 - 한줄 - 마지막줄 */
+/* main .mail-list ul .mail:last-child{
+    border-bottom: none;
+} */
+
+/* 메일 - 열 div */
+main .mail-list ul .mail .mail-column{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* 메일 - 열 - 글씨 좌측정렬 */
+main .mail-list ul .mail .mail-column.text-left{
+    padding-left: 30px;
+}
+
+/* 메일 - 열 - 글씨 중앙정렬 */
+main .mail-list ul .mail .mail-column.jc-center{
+    justify-content: center;
+}
+
+/* ------------- 작성자 ------------- */
+
+/* 작성자를 감싸고있는 div */
+main .mail-list ul .mail .mail-column.sender{
+    padding-left: 50px;
+}
+
+/* 프로필 이미지 */
+main .mail-list ul .mail .mail-column.sender img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* 프로필 이미지 후버시*/
+main .mail-list ul .mail .mail-column.sender img:hover{
+    opacity: .7;
+}
+
+/* 작성자 이름 */
+main .mail-list ul .mail .mail-column.sender .userNameText{
+    margin: 0 3px 0 5px;
+}
+
+/* 작성자 아이디 */
+main .mail-list ul .mail .mail-column.sender .userId{
+    color: var(--lightGrey);
+    font-size: 12px;
+}
+
+/* ------------- 작성일시 ------------- */
+main .mail-list ul .mail .mail-column.sentDate{
+    font-size: 14px;
+}
+
+
+
+/* ----------------------------- 페이징 ----------------------------- */
+main .paging-area{
+    width: 100%;
+    height: var(--mail-paging-height);
+    border-top: 1px solid var(--lightGrey);
+    background-color: rgba(243, 243, 243, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 페이지 - 숫자, 화살표 */
+main .paging-area span {
+    line-height: var(--mail-paging-height);
+    cursor: pointer;
+}
+
+/* 페이지 - 숫자 */
+main .paging-area .page{
+    padding: 0 10px;
+    color: var(--lightGrey);
+}
+
+/* 페이지 - 숫자 - 후버시 */
+main .paging-area .page:hover{
+    color: var(--darkGrey);
+    font-weight: bold;
+}
+
+/* 페이지 - 숫자 */
+main .paging-area .page.currentPage{
+    font-weight: bold;
+    color: var(--darkGrey);
+    cursor: default;
+    text-decoration: underline;
 }

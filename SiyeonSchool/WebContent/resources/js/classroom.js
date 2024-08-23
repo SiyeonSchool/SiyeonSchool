@@ -5,11 +5,3 @@ const loginUser = JSON.parse(loginUserJson); // json string -> object 타입으�
 console.log(loginUser);
 console.log("currentBoardNo:" + currentBoardNo);
 
-
-clickBoardElOnSidebar(currentBoardNo);
-
-// 사이드바에서 "게시판번호"로 해당 요소 클릭하기
-function clickBoardElOnSidebar(boardNo){
-    $(`aside input[type="hidden"][name="board"][value="${boardNo}"]`).parent().click();
-}
-
