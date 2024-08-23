@@ -1,11 +1,15 @@
+<%@page import="com.kh.user.model.vo.Question"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../common/common.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/login.css">
+<script defer src="resources/js/userIdPwdFind.js"></script>
 <style>
 .canvas {
 	top: 0;
@@ -75,7 +79,7 @@ button:hover{
 	cursor: pointer;
 }
 
-#back,#change{
+#back,#btn-update{
 	margin: 0 10px;
 }
 
@@ -91,67 +95,93 @@ select option[value=""][disabled] {
 
 </style>
 </head>
+
+
+<% if (request.getAttribute("message") != null) { %>
+    <script>
+        alert("<%=request.getAttribute("message")%>");
+    </script>
+<% } %>
+
+
 <body>
-    <canvas id="canvas" class="canvas"></canvas>
-    <div id="find">
-       <table>
-			<form action="">
+	<script>
+		const contextPath = `<%= contextPath %>`;
+		console.log("diadasdsadasd:" + contextPath);
+	</script>
+	<canvas id="canvas" class="canvas"></canvas>
+	<div id="find">
+		<table>
+			<form id="userForm" action="<%=contextPath%>/userIdPwdFind.user" method="post">
 				<tr>
 					<th colspan="2" id="header">아이디/비밀번호 찾기</th>
 				</tr>
 				<tr>
-						<th>이름</th>		
-						<td><input type="text" placeholder="이름" required></td>
+					<th>이름</th>
+					<td><input type="text" name="userName" placeholder="이름" required></td>
 				</tr>
 				<tr>
-						<th>생년월일</th>		
-						<td><input type="text" placeholder="생년월일 6자리" required></td>
+					<th>생년월일</th>
+					<td><input type="text" name="birthday" placeholder="생년월일 6자리" required></td>
 				</tr>
 				<tr>
-					<th>질문</th>		
+					<th>질문</th>
 					<td colspan="2">
-						<select name="question" id="" required>
+						<select name="questionNo" id="questionNo" required>
 							<option value="" disabled selected>회원가입시 선택한 질문</option>
-							<option value=""></option>
-							<option value=""></option>
-							<option value=""></option>
-							<option value=""></option>
-							<option value=""></option>
+							<% ArrayList<Question> questionList = (ArrayList<Question>)request.getAttribute("questionList");
+						        if (questionList != null && !questionList.isEmpty()) {
+						            for (Question question : questionList) {
+						    %>
+						        <option value="<%= question.getQuestionNo() %>"><%= question.getQuestionContent() %></option>
+						    <%     }
+						        } else {
+						    %> <option value="">질문이 없습니다</option>
+						    <% } %>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<th>답변</th>		
-					<td><input type="text" placeholder="회원가입시 입력한 답변" required></td>
+					<th>답변</th>
+					<td><input type="text" name="questionAnswer" placeholder="회원가입시 입력한 답변" required></td>
 				</tr>
 				<tr>
-					<th colspan="2"><button id="btn-find">찾기</button></th>
+					<th colspan="2"><button id="btn-find" onclick="findUser();">찾기</button></th>
+				</tr>
+	
+				<tr>
+					<th>아이디</th>
+					<td><input type="text" name="userId" id="userId"
+						placeholder="아이디는 변경할 수 없습니다." readonly></td>
+				</tr>
+				<tr id="passwordFields" style="display:none;">
+					<th>변경 비밀번호</th>
+					<td><input type="password" name="userPwd" id="userPwd"
+						placeholder="변경 비밀번호 입력(영문, 숫자,특수문자(!,@,#,$,%,^,&,* 만 사용) 조합 6~18자)" required></td>
+				</tr>
+				<tr id="passwordConfirmFields" style="display:none;">
+					<th>비밀번호 확인</th>
+					<td><input type="password" name="confirmPwd"
+						placeholder="비밀번호 확인" required></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<button id="back" onclick="history.back()">이전</button>
+						<button type="submit" id="btn-update">변경</button>
+					</td>
 				</tr>
 			</form>
-			<tr>
-				<th>아이디</th>
-				<td><input type="text" placeholder="아이디는 변경할 수 없습니다." readonly></td>
-			</tr>
-			<tr>
-				<th>변경 비밀번호</th>
-				<td><input type="password" placeholder="변경 비밀번호 입력" required></td>
-			</tr>
-			<tr>
-				<th>비밀번호 확인</th>
-				<td><input type="password" placeholder="비밀번호 확인" required></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<button id="back" onclick="history.back()">이전</button>
-					<button id="change">변경</button>
-				</td>
-			</tr>
+		</table>
 
-	   </table>
-		
-    </div>
+	</div>
 
-    <script>
+	<% if (request.getAttribute("foundUserId") != null) { %>
+	    <script>
+	        document.getElementById('userId').value = '<%=request.getAttribute("foundUserId")%>';
+	        showPasswordFields();
+	    </script>
+	<% } %>
+	<script>
 	    let mouse, originx, originy, cvs;
 		
 		 // Safari doesn't support EventTarget

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ include file="views/common/common.jsp"%>
+<%String alertMsg = (String)session.getAttribute("alertMsg"); %>
 
 <!DOCTYPE html>
 <html>
@@ -148,16 +149,19 @@ li:first-child::before{display: none;}
 </style>
 </head>
 <body>
-	<!-- 이 "홈으로" a태그는 로그인 페이지 구현 끝날때까지 남겨주세요! -->
-	
-	<!-- <p>
-		위 "홈으로" 태그만 남겨주시고, 다 지우셔도 됩니다!<br> 화면구현하시는데 방해가 안되도록 absolute
-		포지션으로 잡아놓았습니다. <br> <br> 나중에 로그인 화면이 구현이 다 되면, 홈으로 이동할 수 있게
-		부탁드려요.<br> 그땐 당연히 저 위에 "홈으로" 태그도 지우셔도 됩니다. <br> 감사합니다!! - 동규
-	</p>
-	-->
+	<%
+	if (alertMsg != null) {
+	%>
+		<script>
+			alert("<%=alertMsg%>");
+		</script>
+	<%
+		session.removeAttribute("alertMsg");
+	%>
+	<%
+	}
+	%>
 	<div id="background">
-		<!-- <a id="homeBtn" href="<%=contextPath%>/home">홈으로</a> -->
 		<canvas id="canvas" class="canvas"></canvas>
 		<div id="login">
 			<div id="left">
@@ -180,8 +184,8 @@ li:first-child::before{display: none;}
 					<button type="submit">로 그 인</button>
 				</form>
 				<ul>
-					<li><a href="<%=contextPath%>/UserIdPwdFind">아이디 / 비밀번호 찾기 </a></li>
-					<li><a href="<%=contextPath%>/signIn">회원가입</a></li>
+					<li><a href="<%=contextPath%>/userIdPwdFind.user">아이디 / 비밀번호 찾기 </a></li>
+					<li><a href="<%=contextPath%>/signIn.user">회원가입</a></li>
 				</ul>
 			</div>
 		</div>

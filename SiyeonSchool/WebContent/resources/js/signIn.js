@@ -29,10 +29,10 @@ function validateForm() {
         return false;
     }
 
-    const birthday = document.forms["signIn-form"]["Birthday"].value;
-    const birthdayRegex = /^\d{2}-\d{2}-\d{2}$/;
+    const birthday = document.forms["signIn-form"]["birthday"].value;
+    const birthdayRegex = /^\d{6}$/;
     if (!birthdayRegex.test(birthday)) {
-        alert("생년월일은 00-10-20 형식으로 입력해주세요.");
+        alert("생년월일은 6자리 형식으로 입력해주세요.");
         return false;
     }
 
@@ -52,13 +52,13 @@ function validateForm() {
         return false;
     }
 
-    const question = document.forms["signIn-form"]["question"].value;
+    const question = document.forms["signIn-form"]["questionNo"].value;
     if (question === "") {
         alert("질문을 선택해주세요.");
         return false;
     }
 
-    const answer = document.forms["signIn-form"]["answer"].value;
+    const answer = document.forms["signIn-form"]["questionanswer"].value;
     if (answer.length < 1) {
         alert("질문에 대한 답변을 작성해주세요.");
         return false;
