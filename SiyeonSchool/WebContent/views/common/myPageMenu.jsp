@@ -14,16 +14,27 @@
 </head>
 <body>
     <div id="side-area">
+        <!-- 로고 -->
+        <div class="logo">
+            <a href="<%= contextPath2 %>/home">
+                <img src="resources/images/sis_logo.png" alt="logo" height="50px;">
+            </a>
+        </div>
+        <!-- 마이페이지 헤더 -->
 		<header>
             <div class="myPage-title"><p>마이페이지</p></div>
         </header>
-
-		<div id="img-area"> <!-- 마이페이지 메뉴 프로필 -->
-			<img src="resources/images/myPage/account_circle_24dp_B7B7B7.png" id="profile-img">
-			<p align="center"><%= loginUser.getUserName() %></p>
+        <!-- 마이페이지 메뉴 프로필 -->
+		<div id="img-area"> 
+			<% if(loginUser.getProfilePath() == null) { %>
+					<div class="material-icons">account_circle</div>
+			<% } else { %>
+				<img src="<%= contextPath2 %>/<%= loginUser.getProfilePath() %>" id="profile-img">
+			<% } %>
+            <div class="profile-name"><p><%= loginUser.getUserName() %></p></div>
 		</div>
-
-		<div id="menu-area"> <!-- 마이페이지 메뉴바 영역 -->
+        <!-- 마이페이지 메뉴바 영역 -->
+		<div id="menu-area"> 
             <% if(currentPage.equals("mypageInfo")) { %>
             <a href="<%= contextPath2 %>/myInfo.list"  class="myPage-menu selected">
                 <p>내정보</p>
