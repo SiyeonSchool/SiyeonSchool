@@ -2,62 +2,62 @@
 $(function(){
     $(".java-cir").click(function(){
         $(".progress-bar").css("width","8%");
-        $(".java-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".java-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".oracle-cir").click(function(){
         $(".progress-bar").css("width","16%");
-        $(".oracle-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".oracle-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".jdbc-cir").click(function(){
         $(".progress-bar").css("width","24%");
-        $(".jdbc-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".jdbc-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".html-cir").click(function(){
         $(".progress-bar").css("width","32%");
-        $(".html-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".html-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".css-cir").click(function(){
         $(".progress-bar").css("width","40%");
-        $(".css-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".css-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".js-cir").click(function(){
         $(".progress-bar").css("width","48%");
-        $(".js-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".js-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".jQuery-cir").click(function(){
         $(".progress-bar").css("width","56%");
-        $(".jQuery-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".jQuery-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".servlet-cir").click(function(){
         $(".progress-bar").css("width","64%");
-        $(".servlet-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".servlet-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".jsp-cir").click(function(){
         $(".progress-bar").css("width","72%");
-        $(".jsp-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".jsp-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".ajax-cir").click(function(){
         $(".progress-bar").css("width","82%");
-        $(".ajax-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".ajax-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".myBatis-cir").click(function(){
         $(".progress-bar").css("width","90%");
-        $(".myBatis-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".myBatis-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 
     $(".spring-cir").click(function(){
         $(".progress-bar").css("width","100%");
-        $(".spring-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
+        $(".spring-cir").css({backgroundColor:"#C2F0FF", color:"#333"});
     })
 })
 
@@ -238,8 +238,8 @@ function dDay(){
     // 종강까지 남은 일 수
     let dDay = Math.ceil((endDate - nowDate) / (1000 * 60 * 60 * 24));
 
-    document.querySelector('#D-day').innerHTML = '<p>D-Day : '+ dDay +'</p>';
-    document.querySelector('.comment-area').innerHTML = '<p style="color:#C2F0FF"> 종강까지 '+ dDay +'일 남았다잉~</p><br><p style="color:#C2F0FF">힘내자!!!</p>';
+    document.querySelector('#D-day').innerHTML = '<p>D - '+ dDay +'</p>';
+    document.querySelector('.comment-area').innerHTML = '<p> 종강까지 '+ dDay +'일 남았다잉~</p><br><p>힘내자!!!</p>';
 
     setProgress(perDate)
 

@@ -10,7 +10,46 @@
 	<link rel="stylesheet" href="resources/css/home.css">
 	<script src="resources/js/home.js"></script>
 <style>
+	.mail-tome{
+		width: 230px;
+		height: 460px;
+		margin-top: 80px;
+		display: flex;	
+	}
 
+	.total-area{
+		width: 230px;
+		height: 460px;
+		border: 1px solid #C2F0FF;
+		border-radius: 10px;
+	}
+
+	.mail-header{
+		width: 230px;
+		height: 60px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 24px;
+		color: #46D3FF;
+		border-bottom: 1px solid #C2F0FF;
+	}
+
+	.mail-box{
+		width: 190px;
+		height: 380px;
+		margin-top: 20px;
+	}
+
+    .mail-box table{
+        width: 230px;
+        height: 380px;
+    }
+
+	.mail-box .nothing{
+		text-align: center;
+		vertical-align: middle;
+	}
 </style>
 </head>
 <body>
@@ -104,6 +143,16 @@
 					<td class="enroll-date">2024-01-01</td>
 					<td class="comments"><span class="material-icons">comment</span></td>
 				</tr>
+				<tr>
+					<td class="title">Java</td>
+					<td class="enroll-date">2024-01-01</td>
+					<td class="comments"><span class="material-icons">comment</span></td>
+				</tr>
+				<tr>
+					<td class="title">Java</td>
+					<td class="enroll-date">2024-01-01</td>
+					<td class="comments"><span class="material-icons">comment</span></td>
+				</tr>
 			</table>
 		</section>
 	</section>
@@ -136,6 +185,29 @@
 		</div>
 		<div class="comment-area">
 
+		</div>
+	</section>
+
+	<!-- 출석 버튼 -->
+	<section class="attendance-btn">
+		<div class="atd-btn">
+			<p>출석하기</p>
+		</div>
+	</section>
+
+	<!-- 메일 -->
+	<section class="mail-tome">
+		<div class="total-area">
+			<div class="mail-header">
+				<p>메일</p>
+			</div>
+			<div class="mail-box">
+				<table>
+					<tr class="nothing">
+						<td colspan="2">받은 메일함이 비어있습니다</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</section>
 
