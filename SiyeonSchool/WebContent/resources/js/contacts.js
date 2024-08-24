@@ -17,22 +17,16 @@ $(".mid-cate__title").click(function(){
 
     // 모든 카테고리 하이라이트 제거 (기존 .active 제거)
     $(".mid-cate__title").each(function(){
-        if($(this).hasClass("active")){
-            $(this).removeClass("active");
-        }
+        $(this).removeClass("active");
     });
 
     // 모든 카테고리 하위 주소록 하이라이트 제거 (기존 .active 제거)
     $(".sm-cate").each(function(){
-        if($(this).hasClass("active")){
-            $(this).removeClass("active");
-        }
+        $(this).removeClass("active");
     });
 
     // 클릭된 카테고리 하이라이트 (.active 추가)
-    if(!$(this).hasClass("active")){
-        $(this).addClass("active");
-    };
+    $(this).addClass("active");
 
     // 클릭된 카테고리 하위 주소록 숨기거나 보여주기
     if($(this).next()) { // .mid-cate__contents 가 있으면,
@@ -55,28 +49,19 @@ $(".mid-cate__contents").on("click", ".sm-cate", function(){ // 동적으로 생
 
     // 모든 카테고리 하이라이트 제거 (기존 .active 제거)
     $(".mid-cate__title").each(function(){
-        if($(this).hasClass("active")){
-            $(this).removeClass("active");
-        }
+        $(this).removeClass("active");
     });
 
     // 모든 주소록 하이라이트 제거 (기존 .active 제거)
     $(".sm-cate").each(function(){
-        if($(this).hasClass("active")){
-            $(this).removeClass("active");
-        }
+        $(this).removeClass("active");
     });
 
     // 클릭된 주소록의 상위 주소록 카테고리 하이라이트 (.active 추가)
-    if(!$(this).parent().prev().hasClass("active")){
-        $(this).parent().prev().addClass("active");
-    }
+    $(this).parent().prev().addClass("active");
 
     // 클릭된 주소록 하이라이트 (.active 추가)
-    if(!$(this).hasClass("active")){
-        $(this).addClass("active");
-    };
-
+    $(this).addClass("active");
 });
 
 // 카테고리 클릭시, 해당 카테고리에 속한 주소록 (이름 + 인원수) 사이드바에 뿌려주기
@@ -501,13 +486,9 @@ function showOnlyMatchingUserName(searchOption, keyword){
 function handleNoUsersTextEl(matchCount){
     const noUsersTextEl = $("#noUsersText"); // "검색결과가 없습니다" 글자
     if (matchCount === 0) { // 매칭되는게 없는경우
-        if($(noUsersTextEl).hasClass("hidden")){
-            $(noUsersTextEl).removeClass("hidden");
-        }
+        $(noUsersTextEl).removeClass("hidden");
     }else { // 매칭되는게 있는경우
-        if(!$(noUsersTextEl).hasClass("hidden")){
-            $(noUsersTextEl).addClass("hidden");
-        }
+        $(noUsersTextEl).addClass("hidden");
     }
 }
 

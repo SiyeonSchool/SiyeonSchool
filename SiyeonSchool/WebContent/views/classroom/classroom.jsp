@@ -128,7 +128,7 @@
 			<ul>
 				<li class="post-column boardName">게시판</li>
 				<li class="post-column postTitle">게시글 제목</li>
-				<li class="post-column attachment">첨부파일</li>
+				<li class="post-column attachment">첨부</li>
 				<li class="post-column comment">댓글</li>
 				<li class="post-column writer">작성자</li>
 				<li class="post-column createDate">작성일시</li>
@@ -162,10 +162,16 @@
 								<span class="comment-count"><%= p.getCommentCount() %></span>
 							</div>
 		
-							<div class="post-column writer">
-								<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
+							<div class="post-column writer jc-center">
+
+					            <% if(p.getProfilePath() != null){ %>
+					                <img src="<%= contextPath %>/<%= p.getProfilePath() %>" class="profile-img">
+					            <% }else { %>
+					                <span class="material-symbols-rounded icon profile-icon">account_circle</span>
+					            <% } %>
+								
 								<span class="userNameText"><%= p.getUserName() %></span>
-								<span class="userId"><%= p.getUserId() %>)</span>
+								<span class="userId">(<%= p.getUserId() %>)</span>
 							</div>
 		
 							<div class="post-column createDate jc-center">
@@ -180,15 +186,33 @@
 
 		<!-- --------------------- 페이징 --------------------- -->
 		<section class="paging-area">
+
+			<!-- ------- 이전 페이지로 ------- -->
 			<% if(cPage != 1) { %>
+				<!-- 왼쪽 끝 페이지로 -->
 				<% if(cPage == startPage) { %>
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= startPage - 1 %>'">first_page</span>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= startPage - 10 %>'">first_page</span>
 				<% } else { %>
 					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= startPage %>'">first_page</span>
 				<% } %>
+
+				<!-- 왼쪽 바로 이전 페이지로 -->
 				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= cPage -1 %>'">navigate_before</span>
+			
+			<% } else { %> <!-- 첫페이지면 버튼 숨기기-->
+				<!-- 왼쪽 끝 페이지로 -->
+				<% if(cPage == startPage) { %>
+					<span class="icon material-icons-outlined hidden">first_page</span>
+				<% } else { %>
+					<span class="icon material-icons-outlined hidden" >first_page</span>
+				<% } %>
+
+				<!-- 왼쪽 바로 이전 페이지로 -->
+				<span class="icon material-icons-outlined hidden">navigate_before</span>
 			<% } %>
 			
+
+			<!-- ------- 페이지 번호 처리 ------- -->
 			<% for(int p=startPage; p<=endPage; p++) { %>
 				<% if(p == cPage) { %>
 					<span class="page currentPage"><%= p %></span>
@@ -197,14 +221,35 @@
 				<% } %>
 			<% } %>
 			
+
+			<!-- ------- 다음 페이지로 ------- -->
 			<% if(cPage != maxPage) { %>
+				<!-- 오른쪽 바로 다음 페이지로 -->
 				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= cPage + 1 %>'">navigate_next</span>
+				
+				<!-- 오른쪽 끝 페이지로 -->
 				<% if(cPage == endPage) { %>
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= endPage + 1 %>'">last_page</span>
+					<% if(endPage + 10 < maxPage) { %>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= endPage + 10 %>'">last_page</span>
+					<% } else { %>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= maxPage %>'">last_page</span>
+					<% } %>
 				<% } else { %>
 					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= endPage %>'">last_page</span>
 				<% } %>
+
+			<% } else { %>  <!-- 마지막 페이지면 버튼 숨기기-->
+				<!-- 오른쪽 바로 다음 페이지로 -->
+				<span class="icon material-icons-outlined hidden">navigate_next</span>
+				
+				<!-- 오른쪽 끝 페이지로 -->
+				<% if(cPage == endPage) { %>
+					<span class="icon material-icons-outlined hidden">last_page</span>
+				<% } else { %>
+					<span class="icon material-icons-outlined hidden">last_page</span>
+				<% } %>
 			<% } %>
+
 		</section>
 
 	</main>

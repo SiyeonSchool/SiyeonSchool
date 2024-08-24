@@ -21,15 +21,17 @@
 		                     , P.USER_NO
 		                     , U.USER_NAME
 		                     , U.USER_ID
+                             , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
 		                     , P.POST_TITLE
-		                     , P.CREATE_DATE
+		                     , TO_CHAR(P.CREATE_DATE, 'YYYY-MM-DD DY HH24:MI') AS "CREATE_DATE"
 		                     , COUNT(C.POST_NO) AS "COMMENT_COUNT"
-		                     , COUNT(A.FILE_NO) AS "FILE_COUNT"
+		                     , COUNT(CA.FILE_NO) AS "FILE_COUNT"
 		                  FROM CLASS_POST P
 		                  JOIN CLASS_BOARD B ON P.BOARD_NO = B.BOARD_NO
 		                  JOIN USERS U ON P.USER_NO = U.USER_NO
 		                  LEFT JOIN CLASS_COMMENT C ON C.POST_NO = P.POST_NO
-		                  LEFT JOIN CLASS_ATTACHMENT A ON A.POST_NO = P.POST_NO
+		                  LEFT JOIN CLASS_ATTACHMENT CA ON CA.POST_NO = P.POST_NO
+                          LEFT JOIN ATTACHMENT A ON U.PROFILE_FILE_NO = A.FILE_NO
 		                 WHERE P.STATUS = 'Y'
 		                 GROUP
 		                    BY
@@ -39,6 +41,7 @@
 		                     , P.USER_NO
 		                     , U.USER_NAME
 		                     , U.USER_ID
+                             , A.FILE_PATH || A.CHANGE_NAME
 		                     , P.POST_TITLE
 		                     , P.CREATE_DATE
 		                 ORDER

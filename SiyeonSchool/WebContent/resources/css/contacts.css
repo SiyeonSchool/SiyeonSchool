@@ -409,7 +409,7 @@ main .section__list-content li.userInfo div.userName{
 }
 
 /* 목록 내용 섹션 (section__list-content) - 프로필 이미지 */
-main .section__list-content li.userInfo div.userName img{
+main .section__list-content li.userInfo div.userName .profile-img{
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -418,8 +418,14 @@ main .section__list-content li.userInfo div.userName img{
 }
 
 /* 목록 내용 섹션 (section__list-content) - 프로필 이미지 후버시*/
-main .section__list-content li.userInfo div.userName img:hover{
+main .section__list-content li.userInfo div.userName .profile-img:hover{
     opacity: .7;
+}
+
+/* 목록 내용 섹션 (section__list-content) - 프로필 아이콘 (사진 없을시) */
+main .section__list-content li.userInfo div.userName .profile-icon{
+    font-size: 50px;
+    margin-right: 15px;
 }
 
 /* 목록 내용 섹션 (section__list-content) - 해당 주소록에 사용자가 아무도 없는경우 */

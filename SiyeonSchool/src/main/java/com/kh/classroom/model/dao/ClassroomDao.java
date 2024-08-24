@@ -76,8 +76,9 @@ public class ClassroomDao {
 									   rset.getInt("USER_NO"),
 									   rset.getString("USER_NAME"),
 									   rset.getString("USER_ID"),
+									   rset.getString("PROFILE_PATH"),
 									   rset.getString("POST_TITLE"),
-									   rset.getDate("CREATE_DATE"),
+									   rset.getString("CREATE_DATE"),
 									   rset.getInt("COMMENT_COUNT"),
 									   rset.getInt("FILE_COUNT")
 									   ));
