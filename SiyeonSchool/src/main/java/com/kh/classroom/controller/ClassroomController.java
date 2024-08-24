@@ -45,7 +45,7 @@ public class ClassroomController extends HttpServlet {
 		listCount = new ClassroomService().selectAllListCount();
 		cPage = Integer.parseInt(request.getParameter("cpage"));
 		pageLimit = 10;
-		boardLimit = 10;
+		boardLimit = 30;
 		
 		maxPage = (int)Math.ceil((double)listCount/boardLimit);
 		startPage = (cPage - 1) / pageLimit * pageLimit + 1;

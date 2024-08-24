@@ -48,7 +48,7 @@
             </a>
 
 			<!-- 메일 -->
-            <a href="<%= contextPath2 %>/mail">
+            <a href="<%= contextPath2 %>/mail?cpage=1">
             	<% if(currentPage.equals("mail")) { %>
 	                <!-- <img src="resources/images/menubar/mail_sel.png" alt="메일버튼" style="height:48px; padding: 3px;"> -->
 	                <div class="menu-icon material-icons-round" style="color: var(--darkPurple);">email</div>

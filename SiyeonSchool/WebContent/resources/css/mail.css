@@ -347,9 +347,8 @@ main .mail-column.checkbox{width: 5%;}
 main .mail-column.star{width: 5%;}
 main .mail-column.read{width: 5%;}
 main .mail-column.sender{width: 15%;}
-main .mail-column.mailboxTitle{width:15%;}
-main .mail-column.mailTitle{width: 43%;}
-main .mail-column.sentDate{width: 10%;}
+main .mail-column.mailTitle{width: 55%;}
+main .mail-column.sentDate{width: 15%;}
 
 
 

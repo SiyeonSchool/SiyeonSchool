@@ -2,7 +2,7 @@ package com.kh.classroom.model.vo;
 
 public class ClassPost {
 	
-	private int postNo;
+	private String postNo;
 	private int boardNo;
 	private String boardName;	// 게시판이름
 	private int userNo;
@@ -19,7 +19,7 @@ public class ClassPost {
 	public ClassPost() {}
 
 	// 모든필드 생성자
-	public ClassPost(int postNo, int boardNo, String boardName, int userNo, String userName, String userId,
+	public ClassPost(String postNo, int boardNo, String boardName, int userNo, String userName, String userId,
 			String profilePath, String postTitle, String postContent, String createDate, int commentCount,
 			int fileCount, String status) {
 		super();
@@ -38,14 +38,12 @@ public class ClassPost {
 		this.status = status;
 	}
 
-	// 게시글 목록조회용 
-	public ClassPost(int postNo, int boardNo, String boardName, int userNo, String userName, String userId,
-			String profilePath, String postTitle, String createDate, int commentCount, int fileCount) {
+	// 모든게시글 목록조회용
+	public ClassPost(String postNo, String boardName, String userName, String userId, String profilePath,
+			String postTitle, String createDate, int commentCount, int fileCount) {
 		super();
 		this.postNo = postNo;
-		this.boardNo = boardNo;
 		this.boardName = boardName;
-		this.userNo = userNo;
 		this.userName = userName;
 		this.userId = userId;
 		this.profilePath = profilePath;
@@ -55,11 +53,11 @@ public class ClassPost {
 		this.fileCount = fileCount;
 	}
 
-	public int getPostNo() {
+	public String getPostNo() {
 		return postNo;
 	}
-
-	public void setPostNo(int postNo) {
+	
+	public void setPostNo(String postNo) {
 		this.postNo = postNo;
 	}
 

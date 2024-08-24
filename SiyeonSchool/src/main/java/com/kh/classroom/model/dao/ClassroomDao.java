@@ -70,10 +70,8 @@ public class ClassroomDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(new ClassPost(rset.getInt("POST_NO"),
-									   rset.getInt("BOARD_NO"),
+				list.add(new ClassPost(rset.getString("POST_NO"),
 									   rset.getString("BOARD_NAME"),
-									   rset.getInt("USER_NO"),
 									   rset.getString("USER_NAME"),
 									   rset.getString("USER_ID"),
 									   rset.getString("PROFILE_PATH"),
