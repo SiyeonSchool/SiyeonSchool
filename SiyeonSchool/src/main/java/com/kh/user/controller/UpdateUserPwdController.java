@@ -41,19 +41,20 @@ public class UpdateUserPwdController extends HttpServlet {
         String updatePwd = request.getParameter("userPwd");
         String confirmPwd = request.getParameter("confirmPwd");
 
-        if (updatePwd != null && updatePwd.equals(confirmPwd)) {
+        if (updatePwd != null && confirmPwd != null && updatePwd.equals(confirmPwd) && updatePwd.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{6,18}$")) {
             UserService us = new UserService();
             int result = us.updateUserPwd(userId, updatePwd);
 
             if (result > 0) {
-            	request.setAttribute("message", "비밀번호 변경 완료");
+                request.setAttribute("message", "비밀번호 변경 완료");
                 response.sendRedirect("index.jsp");
             } else {
                 request.setAttribute("message", "비밀번호 변경에 실패했습니다.");
                 request.getRequestDispatcher("views/home/userIdPwdFind.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("message", "비밀번호가 일치하지 않습니다.");
+            request.setAttribute("message", "비밀번호가 일치하지 않거나 조건에 맞지 않습니다.");
+            request.setAttribute("foundUserId", userId);
             request.getRequestDispatcher("views/home/userIdPwdFind.jsp").forward(request, response);
         }
     }

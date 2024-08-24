@@ -28,13 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const monthElement = document.querySelector('.month');
         if (seasonalColors.winter.includes(months[month])) {
-            monthElement.style.backgroundColor = "#e0f7fa"; // Winter color
+            monthElement.style.backgroundColor = "#E0FFFF";
+            monthElement.style.color = "#2F4F4F";
         } else if (seasonalColors.spring.includes(months[month])) {
-            monthElement.style.backgroundColor = "#c8e6c9"; // Spring color
+            monthElement.style.backgroundColor = "#98FF98";
+            monthElement.style.color = "#004d00";
         } else if (seasonalColors.summer.includes(months[month])) {
-            monthElement.style.backgroundColor = "#fff9c4"; // Summer color
+            monthElement.style.backgroundColor = "#00BFFF";
+            monthElement.style.color = "#FFFFFF";
         } else if (seasonalColors.fall.includes(months[month])) {
-            monthElement.style.backgroundColor = "#ffccbc"; // Fall color
+            monthElement.style.backgroundColor = "#FF7518";
+            monthElement.style.color = "#FFFFD0";
         }
 
         const firstDay = new Date(year, month, 1).getDay();

@@ -36,10 +36,10 @@
         #back {
             width: 210px;
             height: 47px;
-            border-radius: 10px;
+            border-radius: 25px;
             background-color: #46D3FF;
             color: white;
-            font-size: 26px;
+            font-size: 23px;
             font-weight: 700;
             border: none;
             position: absolute;
@@ -51,10 +51,10 @@
         #submit {
             width: 210px;
             height: 47px;
-            border-radius: 10px;
+            border-radius: 25px;
             background-color: #46D3FF;
             color: white;
-            font-size: 26px;
+            font-size: 23px;
             font-weight: 700;
             border: none;
             position: absolute;
@@ -68,23 +68,33 @@
             cursor: pointer;
         }
 
-        input, select {
+        input {
             font-size: 16px;
             font-weight: 500;
             border: none;
             border-radius: 7px;
+            padding: 0 8px;
+        }
+
+        select {
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 7px;
+            padding: 0 4px;
         }
 
         #checkId {
-            width: 100px;
+            width: 92px;
             height: 27px;
-            border-radius: 7px;
+            border-radius: 25px;
             background-color: #46D3FF;
             font-size: 16px;
             font-weight: 700;
             border: none;
             position: absolute;
-            letter-spacing: 3px;
+            letter-spacing: 1.5px;
+            color: rgb(255, 245, 232);
         }
 
         #checkId:hover {
@@ -201,11 +211,11 @@
             </tr>
             <tr>
                 <th><span>*</span> 생년월일</th>
-                <td><input type="text" class="l" name="birthday" placeholder="6자리 형식으로 입력해주세요. ex) 020202" required></td>
+                <td><input type="text" class="l" name="birthday" placeholder="6자리 형식으로 입력해주세요. ex) 020422" required></td>
             </tr>
             <tr>
                 <th>주소</th>
-                <td><input type="text" class="l" name="address" placeholder="상세주소는 필수 입력 항목이 아닙니다. ex) 서울 강남구"></td>
+                <td><input type="text" class="l" name="address" placeholder="상세주소는 필수 입력 항목이 아닙니다. ex) 서울 강남"></td>
             </tr>
             <tr>
                 <th>이메일</th>
@@ -227,7 +237,7 @@
 					        <option value="<%= question.getQuestionNo() %>"><%= question.getQuestionContent() %></option>
 					    <%     }
 					        } else {
-					    %> <option value="">질문이 없습니다</option>
+					    %> <option value=""></option>
 					    <% } %>
 					</select>
                 </td>

@@ -51,8 +51,9 @@
 
 #left img{
 	width: 250px;
+	height: 220px;
 	margin: auto;
-	margin-top: 50px;
+	margin-top: 60px;
 }
 #right img{
 	width: 45%;
@@ -63,7 +64,7 @@
 #left p{
 	text-align: center;
 	font-weight: bold;
-	margin: 20px 50px;
+	margin: 20px 30px;
 }
 .p{
 	font-size: 24px;
@@ -88,6 +89,7 @@ input{
 	width: 410px;
 	height: 40px;
 	border-radius: 5px;
+	padding: 0 8px;
 }
 form input{
 	margin: 10px 0 20px 45px;
@@ -105,7 +107,7 @@ form{position: relative;}
 button{
 	width: 152px;
 	height: 47px;
-	border-radius: 5px;
+	border-radius: 25px;
 	background-color: #46D3FF;
 	color: white;
 	font-size: 20px;
@@ -167,7 +169,14 @@ li:first-child::before{display: none;}
 			<div id="left">
 				<img src="resources/images/login_logo.png" alt=""> <br>
 				<p>
-					아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~ <br>
+					시연스쿨에 오신것을 환영합니다. 강사 김시연입니다. <br><br>
+					72:1의 법칙. <br>
+					72시간, 즉 3일 내에 결심한 것을 행동으로 옮기지 않는다면,<br>
+					단 1%도 성공할 가능성이 없다는 말입니다. <br>
+					이 글을 보고 있는 여러분, 도전하려는 마음을 먹었다면 <br>
+					반드시 3일 안에 결심을 행동으로 옮겨 성공에 한발짝 다가가 보세요. <br><br>	
+					해보고 후회하는 것은 많이 없습니다. <br>
+					고민하지 말고 우선 행동으로 나아가세요!
 				</p>
 			</div>
 			<div id="right">
@@ -175,9 +184,9 @@ li:first-child::before{display: none;}
 				
 				<form action="<%=contextPath %>/login.user" id="login-form" method="post">
 					<p class="p">아이디</p>
-					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) " requried><br>
+					<input type="text" name="userId" placeholder="아이디는 영문, 숫자 조합 6~12자 입니다. " requried><br>
 					<p class="p">비밀번호</p>
-					<input type="password" name="userPwd" placeholder=" 영문, 숫자, 특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)" requried><br>
+					<input type="password" name="userPwd" placeholder="비밀번호는 영문, 숫자, 특수문자(!,@,#,$,%,^,&,* 사용) 조합 6~18자 입니다." requried><br>
 					 <p id="error-message">
 				        아이디 또는 비밀번호가 잘못 되었습니다. 아이디와 비밀번호를 정확히 입력해 주세요.
 				    </p>

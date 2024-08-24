@@ -42,25 +42,32 @@ public class UserIdPwdFindController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		 
-		String userName = request.getParameter("userName");
-		String birthday = request.getParameter("birthday");
-		int questionNo = Integer.parseInt(request.getParameter("questionNo"));
-		String questionAnswer = request.getParameter("questionAnswer");
-		
-		UserService us = new UserService();
-		User u = us.findUser(userName, birthday, questionNo, questionAnswer);
-		
-		if (u != null) {
-			System.out.println("aa");
-            request.setAttribute("foundUserId", u.getUserId());
-            request.setAttribute("foundUserName", userName);
-            request.getRequestDispatcher("views/home/userIdPwdFind.jsp").forward(request, response);
-        } else {
-            request.setAttribute("message", "일치하는 회원이 없습니다.");
-            request.getRequestDispatcher("views/home/userIdPwdFind.jsp").forward(request, response);
-        }
+	    request.setCharacterEncoding("UTF-8");
+
+	    String userName = request.getParameter("userName");
+	    String birthday = request.getParameter("birthday");
+	    int questionNo = Integer.parseInt(request.getParameter("questionNo"));
+	    String questionAnswer = request.getParameter("questionAnswer");
+
+	    UserService us = new UserService();
+	    User u = us.findUser(userName, birthday, questionNo, questionAnswer);
+	    
+	    ArrayList<Question> questionList = us.selectQuestions();
+	    request.setAttribute("questionList", questionList);
+
+	    request.setAttribute("userName", userName);
+	    request.setAttribute("birthday", birthday);
+	    request.setAttribute("questionNo", questionNo);
+	    request.setAttribute("questionAnswer", questionAnswer);
+
+
+	    if (u != null) {
+	        request.setAttribute("userId", u.getUserId());
+	    } else {
+	        request.setAttribute("message", "회원가입시 입력한 질문과 답변으로 입력바랍니다.");
+	    }
+	    
+	    request.getRequestDispatcher("/views/home/userIdPwdFind.jsp").forward(request, response);
 	}
 
 }

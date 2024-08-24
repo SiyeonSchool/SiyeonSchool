@@ -138,7 +138,7 @@
 				</div>
 			</div>
             <div class="form-group">
-                <button type="submit">추가</button>
+                <button type="submit" id="add">추가</button>
             </div>
 		  </form>
 		</div>
