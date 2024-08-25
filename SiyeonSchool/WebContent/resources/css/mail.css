@@ -11,6 +11,7 @@
 
     --mail-active-color: var(--lightPurple);
     --mail-hover-color: rgba(206, 188, 255, 0.4);
+    --mail-header-n-paging-color: rgba(243, 243, 243, 0.7);
 }
 
 
@@ -347,7 +348,8 @@ main .mail-column.checkbox{width: 5%;}
 main .mail-column.star{width: 5%;}
 main .mail-column.read{width: 5%;}
 main .mail-column.sender{width: 15%;}
-main .mail-column.mailTitle{width: 55%;}
+main .mail-column.mailTitle{width: 50%;}
+main .mail-column.type{width: 5%;}
 main .mail-column.sentDate{width: 15%;}
 
 
@@ -394,6 +396,11 @@ main .mail-list ul .mail:hover{
     background-color: var(--mail-hover-color);
 }
 
+/* 메일 - 한줄 - 안읽은 메일인 경우 */
+main .mail-list ul .mail.unreadMail{
+    font-weight: bold;
+}
+
 /* 메일 - 열 div */
 main .mail-list ul .mail .mail-column{
     display: flex;
@@ -409,6 +416,13 @@ main .mail-list ul .mail .mail-column.text-left{
 /* 메일 - 열 - 글씨 중앙정렬 */
 main .mail-list ul .mail .mail-column.jc-center{
     justify-content: center;
+}
+
+/* ------------- 중요 (별) ------------- */
+
+/* 별 - 색상 채워진 별 */
+main .mail-list ul .mail .mail-column.star span.icon.star.fill{
+    color: var(--lightOrange);
 }
 
 /* ------------- 작성자 ------------- */
@@ -464,6 +478,54 @@ main .paging-area{
 main .paging-area span {
     line-height: var(--mail-paging-height);
     cursor: pointer;
+}
+
+/* 페이지 - 숫자 */
+main .paging-area .page{
+    padding: 0 10px;
+    color: var(--lightGrey);
+}
+
+/* 페이지 - 숫자 - 후버시 */
+main .paging-area .page:hover{
+    color: var(--darkGrey);
+    font-weight: bold;
+}
+
+/* 페이지 - 숫자 */
+main .paging-area .page.currentPage{
+    font-weight: bold;
+    color: var(--darkGrey);
+    cursor: default;
+    text-decoration: underline;
+}
+
+/* ----------------------------- 페이징 ----------------------------- */
+main .paging-area{
+    width: 100%;
+    height: var(--mail--paging-height);
+    border-top: 1px solid var(--lightGrey);
+    background-color: var(--mail-header-n-paging-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 페이지 - 숫자, 화살표 */
+main .paging-area span {
+    line-height: var(--mail--paging-height);
+    cursor: pointer;
+}
+
+/* 페이지 - 화살표 (비활성화) */
+main .paging-area span.hidden {
+    cursor: default;
+    color: var(--mail-header-n-paging-color); /* 배경과 같은 색으로 해서 안보이게 */
+}
+
+/* 페이지 - 화살표 (비활성화) */
+main .paging-area span.hidden:hover {
+    color: var(--mail-header-n-paging-color);  /* 배경과 같은 색으로 해서 안보이게 */
 }
 
 /* 페이지 - 숫자 */

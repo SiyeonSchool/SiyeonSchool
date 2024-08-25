@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.kh.classroom.model.service.ClassroomService;
 import com.kh.classroom.model.vo.ClassPost;
 import com.kh.common.model.vo.PageInfo;
+import com.kh.mail.model.service.MailService;
+import com.kh.mail.model.vo.Mail;
+import com.kh.user.model.vo.User;
 
 /**
  * Servlet implementation class ContactsController
@@ -31,7 +34,14 @@ public class MailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 메일 메뉴클릭시, 메인화면으로 "받은메일함"을 메인 페이지로 사용!
+		
 		/*
+		 * mb(mailBox) => a(all: 전체메일함), r(receive: 받은메일함), s(send: 보낸메일함), t(temp: 임시보관함), m(myself: 내게쓴메일함), b(bin:휴지통)
+		 */
+		
+		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		
 		// 페이징 처리
 		int listCount;  // 현재 총 게시글 개수
 		int cPage;      // 현재 페이지
@@ -42,7 +52,7 @@ public class MailController extends HttpServlet {
 		int startPage; // 페이징바 시작수
 		int endPage;   // 페이징바 끝수
 		
-		listCount = new MailService().selectAllListCount();
+		listCount = new MailService().selectInboxMailListCount(ownerNo);
 		cPage = Integer.parseInt(request.getParameter("cpage"));
 		pageLimit = 10;
 		boardLimit = 20;
@@ -56,14 +66,14 @@ public class MailController extends HttpServlet {
 		}
 		
 		PageInfo pi = new PageInfo(listCount, cPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-		ArrayList<ClassPost> list = new ClassroomService().selectAllList(pi);
+		
+		ArrayList<Mail> list = new MailService().selectInboxMailList(ownerNo, pi);
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
-		*/
+		
 		request.getSession().setAttribute("currentPage", "mail");
 		request.getRequestDispatcher("views/mail/mail.jsp").forward(request, response);
-		
 	}
 
 	/**

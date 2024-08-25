@@ -1,7 +1,20 @@
+<%@page import="com.kh.mail.model.vo.Mail"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.kh.common.model.vo.PageInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <%@ include file="../common/common.jsp" %>
+
+<%
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	ArrayList<Mail> list = (ArrayList<Mail>)request.getAttribute("list");
+	
+	int cPage = pi.getcPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+	int maxPage = pi.getMaxPage();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -151,8 +164,9 @@
 
 			<div class="search-bar-div">
 				<select class="search-option" name="search-option">
-					<option value="mailTitle">제목</option>
-					<option value="mailContent">내용</option>
+					<option value="title">제목</option>
+					<option value="content">내용</option>
+					<option value="titleAndContent">제목+내용</option>
 				</select>
 				<input type="text" class="search-bar" name="keyword" placeholder="검색어를 입력해주세요." maxlength="20">
 				<span class="icon search-icon material-symbols-outlined">search</span>
@@ -167,6 +181,7 @@
 				<li class="mail-column read">읽음</li>
 				<li class="mail-column sender">보낸사람</li>
 				<li class="mail-column mailTitle">메일 제목</li>
+				<li class="mail-column type">수신구분</li>
 				<li class="mail-column sentDate">보낸시간</li>
 			</ul>
 		</section>
@@ -174,51 +189,132 @@
 		<!-- --------------------- 메일 목록 --------------------- -->
 		<section class="mail-list">
 			<ul>
+				<% if(list.isEmpty()) { %>
+					<li>조회된 게시글이 없습니다.</li>
+				<% }else { %>
+					<% for(Mail m : list) { %>
 
-				<!-- 하나의 메일 -->
-				<li class="mail">
-					<div class="mail-column checkbox jc-center">
-						<input type="checkbox">
-					</div>
-					
-					<div class="mail-column star jc-center">
-						<span class="icon star material-symbols-rounded ">star</span>
-					</div>
+						<!-- 하나의 메일 -->
+						<% if(m.getIsRead().equals("N")){ %>
+							<li class="mail unreadMail">
+						<% }else { %>
+							<li class="mail">
+						<% } %>
+								<div class="mail-column checkbox jc-center">
+									<input type="checkbox">
+								</div>
+								
+								<div class="mail-column star jc-center">
+									<% if(m.getMailStar().equals("N")){ %>
+										<span class="icon star material-symbols-rounded">star</span>
+									<% }else { %>
+										<span class="icon star fill material-icons-round">star</span>
+									<% } %>
+								</div>
+			
+								<div class="mail-column read jc-center">
+									<% if(m.getIsRead().equals("N")){ %>
+										<span class="icon mail-icon material-icons-round">markunread</span>
+									<% }else { %>
+										<span class="icon mail-icon material-icons-outlined">drafts</span>
+									<% } %>
+								</div>
+			
+								<div class="mail-column sender">
+									<% if(m.getProfilePath() != null){ %>
+										<img src="<%= contextPath %>/<%= m.getProfilePath() %>" class="profile-img">
+									<% }else { %>
+										<span class="material-symbols-rounded icon profile-icon">account_circle</span>
+									<% } %>
+									<span class="userNameText"><%= m.getUserName() %></span>
+									<span class="userId">(<%= m.getUserId() %>)</span>
+								</div>
+								
+								<div class="mail-column mailTitle text-left">
+									<span><%= m.getMailTitle() %></span>
+								</div>
+			
+								<div class="mail-column type jc-center">
+									<span><%= m.getReceiverType() %></span>
+								</div>
+			
+								<div class="mail-column sentDate jc-center">
+									<span><%= m.getSendDate() %></span>
+								</div>
+							</li>
 
-					<div class="mail-column read jc-center">
-						<span class="icon mail-icon material-icons-round">mail_outline</span>
-					</div>
-
-					<div class="mail-column sender">
-						<img class="profile-img" src="/SiS/resources/images/profile_img/user17.jpg">
-						<span class="userNameText">공유다</span>
-						<span class="userId">(gdhong)</span>
-					</div>
-					
-					<div class="mail-column mailTitle text-left">
-						<span>제목이 들어올 자리입니다.</span>
-					</div>
-
-					<div class="mail-column sentDate jc-center">
-						<span>2024-05-09  00:00</span>
-					</div>
-				</li>
+					<% } %>
+				<% } %>
 
 			</ul>
 		</section>
 
 		<!-- --------------------- 페이징 --------------------- -->
 		<section class="paging-area">
-			<span class="icon material-icons-outlined">first_page</span>
-			<span class="icon material-icons-outlined">navigate_before</span>
 
-			<span class="page currentPage">1</span>
-			<span class="page">2</span>
-			<span class="page">3</span>
-			<span class="page">4</span>
+			<!-- ------- 이전 페이지로 ------- -->
+			<% if(cPage != 1) { %>
+				<!-- 왼쪽 끝 페이지로 -->
+				<% if(cPage == startPage) { %>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= startPage - 10 %>'">first_page</span>
+				<% } else { %>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= startPage %>'">first_page</span>
+				<% } %>
 
-			<span class="icon material-icons-outlined">navigate_next</span>
-			<span class="icon material-icons-outlined">last_page</span>
+				<!-- 왼쪽 바로 이전 페이지로 -->
+				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= cPage -1 %>'">navigate_before</span>
+			
+			<% } else { %> <!-- 첫페이지면 버튼 숨기기-->
+				<!-- 왼쪽 끝 페이지로 -->
+				<% if(cPage == startPage) { %>
+					<span class="icon material-icons-outlined hidden">first_page</span>
+				<% } else { %>
+					<span class="icon material-icons-outlined hidden" >first_page</span>
+				<% } %>
+
+				<!-- 왼쪽 바로 이전 페이지로 -->
+				<span class="icon material-icons-outlined hidden">navigate_before</span>
+			<% } %>
+			
+
+			<!-- ------- 페이지 번호 처리 ------- -->
+			<% for(int p=startPage; p<=endPage; p++) { %>
+				<% if(p == cPage) { %>
+					<span class="page currentPage"><%= p %></span>
+				<% } else { %>
+					<span class="page" onclick="location.href='<%= contextPath %>/mail?cpage=<%= p %>'"><%= p %></span>
+				<% } %>
+			<% } %>
+			
+
+			<!-- ------- 다음 페이지로 ------- -->
+			<% if(cPage != maxPage) { %>
+				<!-- 오른쪽 바로 다음 페이지로 -->
+				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= cPage + 1 %>'">navigate_next</span>
+				
+				<!-- 오른쪽 끝 페이지로 -->
+				<% if(cPage == endPage) { %>
+					<% if(endPage + 10 < maxPage) { %>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= endPage + 10 %>'">last_page</span>
+					<% } else { %>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= maxPage %>'">last_page</span>
+					<% } %>
+				<% } else { %>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= endPage %>'">last_page</span>
+				<% } %>
+
+			<% } else { %>  <!-- 마지막 페이지면 버튼 숨기기-->
+				<!-- 오른쪽 바로 다음 페이지로 -->
+				<span class="icon material-icons-outlined hidden">navigate_next</span>
+				
+				<!-- 오른쪽 끝 페이지로 -->
+				<% if(cPage == endPage) { %>
+					<span class="icon material-icons-outlined hidden">last_page</span>
+				<% } else { %>
+					<span class="icon material-icons-outlined hidden">last_page</span>
+				<% } %>
+			<% } %>
+
 		</section>
 
 	</main>
