@@ -28,13 +28,11 @@
 						<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
 					</button>
 					<ul class="sub" id="solo">
-						<li>
-							<button class="list"></button>
-							<span>일정표</span>
+						<li class="list">
+							<div><div class="circle"></div><span>일정표</span></div>
 						</li>
-						<li>
-							<button class="list"></button>
-							<span>할 일</span>
+						<li class="list">
+							<div><div class="circle"></div><span>할 일</span></div>
 						</li>
 					</ul>
 				</li>
@@ -45,13 +43,11 @@
 						<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
 					</button>
 					<ul class="sub" id="team">
-						<li>
-							<button class="list"></button>
-							<span>일정표</span>
+						<li class="list">
+							<div><div class="circle"></div><span>일정표</span></div>
 						</li>
-						<li>
-							<button class="list"></button>
-							<span>할 일</span>
+						<li class="list">
+							<div><div class="circle"></div><span>할 일</span></div>
 						</li>
 					</ul>
 				</li>
@@ -62,9 +58,8 @@
 						<span class="material-symbols-rounded icon fold">keyboard_arrow_down</span>
 					</button>
 					<ul class="sub" id="class">
-						<li>
-							<button class="list"></button>
-							<span>일정표</span>
+						<li class="list">
+							<div class="list"><div class="circle"></div><span>일정표</span></div>
 						</li>
 					</ul>
 				</li>
@@ -98,16 +93,24 @@
 					<span>To Do list</span>
 				</div>
 				<div class="todo">
-					<div class="todoList" id="leftToDo">
-						<input type="text">
-						<button id="toDo-add">
-							<span class="material-icons-outlined">add_circle</span>
-						</button>
-					</div>
-					<div class="todoList" id="rightToDo">
-
-					</div>
-				</div>
+                    <div class="todoList" id="leftToDo">
+                        <form id="todo-form">
+                            <input type="text" id="todo-input" placeholder="Add a new item">
+                            <button type="button" id="todo-add">
+                                <span class="material-icons-outlined">add_circle</span>
+                            </button>
+                        </form>
+                        <ul id="todo-list"></ul>
+                    </div>
+                    <div class="todoList" id="rightToDo">
+						<form id="todo-form">
+                            <input type="text" id="todo-input" placeholder="Add a new item">
+                            <button type="button" id="todo-add">
+                                <span class="material-icons-outlined">add_circle</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
 			</div>
 		</main>
 		

@@ -1,5 +1,14 @@
 $(document).ready(function() {
     init();
+
+    $("#userId").on('input', function() {
+        const userId = $(this).val().trim();
+        if (userId === "") {
+            $("#checkId").attr("disabled", true);
+        } else {
+            $("#checkId").attr("disabled", false);
+        }
+    });
 });
 
 function validateForm() {
@@ -58,7 +67,7 @@ function validateForm() {
         return false;
     }
 
-    const answer = document.forms["signIn-form"]["questionanswer"].value;
+    const answer = document.forms["signIn-form"]["questionAnswer"].value;
     if (answer.length < 1) {
         alert("질문에 대한 답변을 작성해주세요.");
         return false;
@@ -69,20 +78,30 @@ function validateForm() {
 
 function idCheck() {
     const $idInput = $("#signIn-form input[name=userId]");
+    const userId = $idInput.val().trim();
 
-    const userId = $idInput.val();
+    if (userId === "") {
+        alert("아이디를 입력해주세요.");
+        return;
+    }
+
+    const userIdRegex = /^[a-zA-Z0-9]{6,12}$/;
+    if (!userIdRegex.test(userId)) {
+        alert("아이디는 영문과 숫자 조합으로 6~12자여야 합니다.");
+        return; 
+    }
 
     $.ajax({
         url: "checkId",
         data: { checkId: userId },
         success: function(result) {
             console.log(result);
-            
-            if(result === 'NNNNN'){
+
+            if (result === 'NNNNN') {
                 alert("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
                 $idInput.focus();
             } else {
-                if(confirm("사용 가능한 아이디입니다.")) {
+                if (confirm("사용 가능한 아이디입니다.")) {
                     $("#signIn-form :submit").removeAttr("disabled");
                 }
             }

@@ -81,20 +81,19 @@ span {color: #333;}
     margin-left: 20px;
 }
 
-.sub li {
-    padding: 5px 10px;
-    text-align: left;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-
-/*서브메뉴 숨기기*/
 .sub {
     display: none;
 }
 
-#tode-view,
-#calendar-view {
+.sub li {
+    padding: 5px 10px 5px 40px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+#tode-view, #calendar-view {
     width: calc(100vw - 300px);
     height: 100vh;
 }
@@ -153,6 +152,18 @@ main {
     align-items: center;
     padding: 10px;
     color: black;
+    position: relative;
+    margin: auto;
+}
+
+.prev{
+    position: absolute;
+    left: -20px;
+}
+
+.next{
+    position: absolute;
+    right: -20px;
 }
 
 .weekdays {
@@ -161,8 +172,7 @@ main {
     width: 100%;
 }
 
-.weekdays div,
-.days div {
+.weekdays div {
     width: 14.28%;
     text-align: center;
     border-bottom: 1px solid #ddd;
@@ -191,8 +201,18 @@ main {
 }
 
 .days div {
+    position: relative;
     border-right: 1px solid #ddd;
-    padding: 10px 0 0 0;
+    border-bottom: 1px solid #ddd;
+    width: 14.28%;
+    height: 148px;
+    box-sizing: border-box;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    background-color: #fff;
 }
 
 .sunday {
@@ -208,12 +228,20 @@ main {
 }
 
 .event {
+    width: 100%;
     font-size: 0.8em;
     color: white;
     background-color: #4CAF50;
     border-radius: 3px;
     padding: 2px 4px;
-    margin-top: 2px;
+    box-sizing: border-box;
+    margin-bottom: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
 }
 
 .modal {
@@ -341,3 +369,103 @@ h2 {
     background-color: #84ff00;
 }
 
+.list *{
+    display: flex;
+    cursor: pointer;
+}
+
+.list:hover{
+    background-color: #ddffc1;;
+}
+
+.list.active {
+    background-color: #ddffc1;
+}
+
+.circle{
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: rgb(59, 59, 59);
+    margin: auto 10px auto 0;
+}
+
+#calendar-view {
+    display: block;
+}
+
+#todo-view {
+    display: none;
+}
+
+.todoList {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+#todo-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#todo-input {
+    flex: 1;
+    border-radius: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+#todo-add {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+#todo-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#todo-list li {
+    background: #eee;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    position: relative;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#todo-list li:hover {
+    background: #ddd;
+}
+
+#todo-list .close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#todo-list .checked {
+    text-decoration: line-through;
+    color: #888;
+    background: #d0d0d0;
+}
+
+#todo-list .checked::before {
+    content: "✔";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #4caf50;
+}

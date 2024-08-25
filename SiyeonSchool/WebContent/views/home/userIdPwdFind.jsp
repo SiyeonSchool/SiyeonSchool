@@ -115,18 +115,23 @@
 		background-color: #3cd2ffe1;
 		margin: 15% auto;
 		padding: 20px;
-		border: 1px solid #888;border-radius: 20px;
+		border: 1px solid #888;
+		border-radius: 20px;
 		width: 25%;
+		height: 100px;
 		font-weight: 600;
 		letter-spacing: 1.5px;
 		text-align: center;
+		position: relative;
 	}
 
 	.close {
-		color: #808080;
 		float: right;
 		font-size: 28px;
 		font-weight: bold;
+		position: absolute;
+		bottom: 10px;
+		left: 210px;
 	}
 
 	.close:hover, .close:focus {
@@ -243,7 +248,7 @@
 	
 	<div id="errorModal" class="modal">
 		<div class="modal-content">
-			<span class="close">&times;</span>
+			<span class="close">확인</span>
 			<p id="modal-message"></p>
 		</div>
 	</div>
