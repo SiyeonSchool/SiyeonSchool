@@ -7,6 +7,7 @@
 <%@ include file="../common/common.jsp" %>
 
 <%
+	// 페이징 관련
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	ArrayList<Mail> list = (ArrayList<Mail>)request.getAttribute("list");
 	
@@ -14,6 +15,10 @@
 	int startPage = pi.getStartPage();
 	int endPage = pi.getEndPage();
 	int maxPage = pi.getMaxPage();
+	
+	// 이외
+	String mailbox = (String)request.getAttribute("mb");
+	//a(all: 전체메일함), i(inbox: 받은메일함), s(sent: 보낸메일함), t(temp: 임시보관함), m(myself: 내게쓴메일함), b(bin:휴지통)
 %>
 
 <!DOCTYPE html>
@@ -45,7 +50,6 @@
 				<div class="remind-btn star">
 					<span class="icon material-icons-round yellow-star">star</span>
 					<p>중요<span>(20)</span></p>
-					
 				</div>
 			</div>
 
@@ -63,61 +67,85 @@
 			<ul>
 	
 				<!-- 전체메일함 -->
-				<li>
-					<div class="mailbox-div">
-						<input type="hidden" name="mailboxNo" value="0">
-						<span class="icon mailboxNo-icon material-symbols-rounded">stacked_email</span>
-						<span class="mailboxName">전체메일함</span>
-					</div>
-				</li>
-	
+				<% if(mailbox.equals("a")) { %>
+					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=a&cpage=1'">
+				<% } else { %>
+					<li onclick="location.href='<%= contextPath2 %>/mail?mb=a&cpage=1'">
+				<% } %>
+						<div class="mailbox-div">
+							<input type="hidden" name="mailboxNo" value="0">
+							<span class="icon mailboxNo-icon material-symbols-rounded">stacked_email</span>
+							<span class="mailboxName">전체메일함</span>
+						</div>
+					</li>
+		
 				<!-- 받은메일함 -->
-				<li class="active">
-					<div class="mailbox-div">
-						<input type="hidden" name="mailboxNo" value="">
-						<span class="icon mailboxNo-icon material-icons-round">mail_outline</span>
-						<span class="mailboxName">받은메일함</span>
-						<span class="mailCount">(5)</span>
-					</div>
-				</li>
+				<% if(mailbox.equals("i")) { %>
+					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=r&cpage=1'">
+				<% } else { %>
+					<li onclick="location.href='<%= contextPath2 %>/mail?mb=i&cpage=1'">
+				<% } %>
+						<div class="mailbox-div">
+							<input type="hidden" name="mailboxNo" value="">
+							<span class="icon mailboxNo-icon material-icons-round">mail_outline</span>
+							<span class="mailboxName">받은메일함</span>
+							<span class="mailCount">(5)</span>
+						</div>
+					</li>
 	
 				<!-- 보낸메일함 -->
-				<li>
-					<div class="mailbox-div">
-						<input type="hidden" name="mailboxNo" value="">
-						<span class="icon mailboxNo-icon material-icons-outlined">send</span>
-						<span class="mailboxName">보낸메일함</span>
-					</div>
-				</li>
+				<% if(mailbox.equals("s")) { %>
+					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=s&cpage=1'">
+				<% } else { %>
+					<li onclick="location.href='<%= contextPath2 %>/mail?mb=s&cpage=1'">
+				<% } %>
+						<div class="mailbox-div">
+							<input type="hidden" name="mailboxNo" value="">
+							<span class="icon mailboxNo-icon material-icons-outlined">send</span>
+							<span class="mailboxName">보낸메일함</span>
+						</div>
+					</li>
 	
 				<!-- 임시보관함 -->
-				<li>
-					<div class="mailbox-div">
-						<input type="hidden" name="mailboxNo" value="">
-						<span class="icon mailboxNo-icon material-icons-outlined">note</span>
-						<span class="mailboxName">임시보관함</span>
-						<span class="mailCount">(0)</span>
-					</div>
-				</li>
+				<% if(mailbox.equals("t")) { %>
+					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=t&cpage=1'">
+				<% } else { %>
+					<li onclick="location.href='<%= contextPath2 %>/mail?mb=t&cpage=1'">
+				<% } %>
+						<div class="mailbox-div">
+							<input type="hidden" name="mailboxNo" value="">
+							<span class="icon mailboxNo-icon material-icons-outlined">note</span>
+							<span class="mailboxName">임시보관함</span>
+							<span class="mailCount">(0)</span>
+						</div>
+					</li>
 	
 				<!-- 내게쓴메일함 -->
-				<li>
-					<div class="mailbox-div">
-						<input type="hidden" name="mailboxNo" value="">
-						<span class="icon mailboxNo-icon material-icons-outlined">article</span>
-						<span class="mailboxName">내게쓴메일함</span>
-					</div>
-				</li>
+				<% if(mailbox.equals("m")) { %>
+					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=m&cpage=1'">
+				<% } else { %>
+					<li onclick="location.href='<%= contextPath2 %>/mail?mb=m&cpage=1'">
+				<% } %>
+						<div class="mailbox-div">
+							<input type="hidden" name="mailboxNo" value="">
+							<span class="icon mailboxNo-icon material-icons-outlined">article</span>
+							<span class="mailboxName">내게쓴메일함</span>
+						</div>
+					</li>
 	
 				<!-- 휴지통 -->
-				<li>
-					<div class="mailbox-div">
-						<input type="hidden" name="mailboxNo" value="">
-						<span class="icon mailboxNo-icon material-symbols-outlined">delete</span>
-						<span class="mailboxName">휴지통</span>
-						<div class="emptyBtn">비우기</div>
-					</div>
-				</li>
+				<% if(mailbox.equals("b")) { %>
+					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=b&cpage=1'">
+				<% } else { %>
+					<li onclick="location.href='<%= contextPath2 %>/mail?mb=b&cpage=1'">
+				<% } %>
+						<div class="mailbox-div">
+							<input type="hidden" name="mailboxNo" value="">
+							<span class="icon mailboxNo-icon material-symbols-outlined">delete</span>
+							<span class="mailboxName">휴지통</span>
+							<div class="emptyBtn">비우기</div>
+						</div>
+					</li>
 	
 			</ul>
 		</section>
@@ -190,7 +218,7 @@
 		<section class="mail-list">
 			<ul>
 				<% if(list.isEmpty()) { %>
-					<li>조회된 게시글이 없습니다.</li>
+					<li class="mail noMail">조회된 메일이 없습니다.</li>
 				<% }else { %>
 					<% for(Mail m : list) { %>
 
@@ -250,72 +278,74 @@
 		</section>
 
 		<!-- --------------------- 페이징 --------------------- -->
-		<section class="paging-area">
+		<% if(!list.isEmpty()) { %>
+			<section class="paging-area">
 
-			<!-- ------- 이전 페이지로 ------- -->
-			<% if(cPage != 1) { %>
-				<!-- 왼쪽 끝 페이지로 -->
-				<% if(cPage == startPage) { %>
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= startPage - 10 %>'">first_page</span>
-				<% } else { %>
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= startPage %>'">first_page</span>
-				<% } %>
-
-				<!-- 왼쪽 바로 이전 페이지로 -->
-				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= cPage -1 %>'">navigate_before</span>
-			
-			<% } else { %> <!-- 첫페이지면 버튼 숨기기-->
-				<!-- 왼쪽 끝 페이지로 -->
-				<% if(cPage == startPage) { %>
-					<span class="icon material-icons-outlined hidden">first_page</span>
-				<% } else { %>
-					<span class="icon material-icons-outlined hidden" >first_page</span>
-				<% } %>
-
-				<!-- 왼쪽 바로 이전 페이지로 -->
-				<span class="icon material-icons-outlined hidden">navigate_before</span>
-			<% } %>
-			
-
-			<!-- ------- 페이지 번호 처리 ------- -->
-			<% for(int p=startPage; p<=endPage; p++) { %>
-				<% if(p == cPage) { %>
-					<span class="page currentPage"><%= p %></span>
-				<% } else { %>
-					<span class="page" onclick="location.href='<%= contextPath %>/mail?cpage=<%= p %>'"><%= p %></span>
-				<% } %>
-			<% } %>
-			
-
-			<!-- ------- 다음 페이지로 ------- -->
-			<% if(cPage != maxPage) { %>
-				<!-- 오른쪽 바로 다음 페이지로 -->
-				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= cPage + 1 %>'">navigate_next</span>
-				
-				<!-- 오른쪽 끝 페이지로 -->
-				<% if(cPage == endPage) { %>
-					<% if(endPage + 10 < maxPage) { %>
-						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= endPage + 10 %>'">last_page</span>
+				<!-- ------- 이전 페이지로 ------- -->
+				<% if(cPage != 1) { %>
+					<!-- 왼쪽 끝 페이지로 -->
+					<% if(cPage == startPage) { %>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= startPage - 10 %>'">first_page</span>
 					<% } else { %>
-						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= maxPage %>'">last_page</span>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= startPage %>'">first_page</span>
 					<% } %>
-				<% } else { %>
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= endPage %>'">last_page</span>
-				<% } %>
 
-			<% } else { %>  <!-- 마지막 페이지면 버튼 숨기기-->
-				<!-- 오른쪽 바로 다음 페이지로 -->
-				<span class="icon material-icons-outlined hidden">navigate_next</span>
+					<!-- 왼쪽 바로 이전 페이지로 -->
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= cPage -1 %>'">navigate_before</span>
 				
-				<!-- 오른쪽 끝 페이지로 -->
-				<% if(cPage == endPage) { %>
-					<span class="icon material-icons-outlined hidden">last_page</span>
-				<% } else { %>
-					<span class="icon material-icons-outlined hidden">last_page</span>
-				<% } %>
-			<% } %>
+				<% } else { %> <!-- 첫페이지면 버튼 숨기기-->
+					<!-- 왼쪽 끝 페이지로 -->
+					<% if(cPage == startPage) { %>
+						<span class="icon material-icons-outlined hidden">first_page</span>
+					<% } else { %>
+						<span class="icon material-icons-outlined hidden" >first_page</span>
+					<% } %>
 
-		</section>
+					<!-- 왼쪽 바로 이전 페이지로 -->
+					<span class="icon material-icons-outlined hidden">navigate_before</span>
+				<% } %>
+				
+
+				<!-- ------- 페이지 번호 처리 ------- -->
+				<% for(int p=startPage; p<=endPage; p++) { %>
+					<% if(p == cPage) { %>
+						<span class="page currentPage"><%= p %></span>
+					<% } else { %>
+						<span class="page" onclick="location.href='<%= contextPath %>/mail?cpage=<%= p %>'"><%= p %></span>
+					<% } %>
+				<% } %>
+				
+
+				<!-- ------- 다음 페이지로 ------- -->
+				<% if(cPage != maxPage) { %>
+					<!-- 오른쪽 바로 다음 페이지로 -->
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= cPage + 1 %>'">navigate_next</span>
+					
+					<!-- 오른쪽 끝 페이지로 -->
+					<% if(cPage == endPage) { %>
+						<% if(endPage + 10 < maxPage) { %>
+							<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= endPage + 10 %>'">last_page</span>
+						<% } else { %>
+							<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= maxPage %>'">last_page</span>
+						<% } %>
+					<% } else { %>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= endPage %>'">last_page</span>
+					<% } %>
+
+				<% } else { %>  <!-- 마지막 페이지면 버튼 숨기기-->
+					<!-- 오른쪽 바로 다음 페이지로 -->
+					<span class="icon material-icons-outlined hidden">navigate_next</span>
+					
+					<!-- 오른쪽 끝 페이지로 -->
+					<% if(cPage == endPage) { %>
+						<span class="icon material-icons-outlined hidden">last_page</span>
+					<% } else { %>
+						<span class="icon material-icons-outlined hidden">last_page</span>
+					<% } %>
+				<% } %>
+
+			</section>
+		<% } %>
 
 	</main>
 </body>

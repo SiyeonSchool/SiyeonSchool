@@ -121,7 +121,7 @@ aside ul li .board-div .edit-icon{
 /* ================================ 메인 ================================ */
 main{
     position: absolute;
-    left: 300px;
+    left: var(--sidebar-width);
     width: var(--classroom-content-width); 
     height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
     min-width: calc(1500px - var(--sidebar-width)); /* 화면을 더 줄일 수 없도록함. 화면 줄었을때 요소간 겹침 방지*/
@@ -251,10 +251,16 @@ main .second-header ul li{
 
 
 /* ----------------------------- 게시글 목록 ----------------------------- */
+/* 게시글 목록 - section */
 main .post-list{
     height: var(--classroom-postList-height);
     max-height: var(--classroom-postList-height);
     overflow: auto;
+}
+
+/* 게시글 목록 - section > ul */
+main .post-list ul{
+    position: relative;
 }
 
 /* ----------------------------- 하나의 게시글 ----------------------------- */
@@ -270,6 +276,25 @@ main .post-list ul .post{
 /* 게시글 - 한줄 - 후버시 */
 main .post-list ul .post:hover{
     background-color: var(--classroom-hover-color);
+}
+
+/* 게시글 - 게시글이 없는경우 */
+main .post-list ul .post.noPost{
+    height: var(--mail-postList-height);
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    top: 100px;
+    left: 40%;
+    border-bottom: none;
+    cursor: default;
+    font-weight: bold;
+    display: block;
+}
+
+/* 게시글 - 게시글이 없는경우 - 후버시 */
+main .post-list ul .post.noPost:hover{
+    background-color: #fff;
 }
 
 /* 게시글 - 열 div */

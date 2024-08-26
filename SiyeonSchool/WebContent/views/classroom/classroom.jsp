@@ -139,7 +139,7 @@
 		<section class="post-list">
 			<ul>
 				<% if(list.isEmpty()) { %>
-					<li>조회된 게시글이 없습니다.</li>
+					<li class="post noPost">조회된 게시글이 없습니다.</li>
 				<% }else { %>
 					<% for(ClassPost p : list) { %>
 						<!-- ------- 하나의 게시글 ------- -->
@@ -185,73 +185,74 @@
 		</section>
 
 		<!-- --------------------- 페이징 --------------------- -->
-		<section class="paging-area">
+		<% if(!list.isEmpty()) { %>
+			<section class="paging-area">
 
-			<!-- ------- 이전 페이지로 ------- -->
-			<% if(cPage != 1) { %>
-				<!-- 왼쪽 끝 페이지로 -->
-				<% if(cPage == startPage) { %>
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= startPage - 10 %>'">first_page</span>
-				<% } else { %>
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= startPage %>'">first_page</span>
-				<% } %>
-
-				<!-- 왼쪽 바로 이전 페이지로 -->
-				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= cPage -1 %>'">navigate_before</span>
-			
-			<% } else { %> <!-- 첫페이지면 버튼 숨기기-->
-				<!-- 왼쪽 끝 페이지로 -->
-				<% if(cPage == startPage) { %>
-					<span class="icon material-icons-outlined hidden">first_page</span>
-				<% } else { %>
-					<span class="icon material-icons-outlined hidden" >first_page</span>
-				<% } %>
-
-				<!-- 왼쪽 바로 이전 페이지로 -->
-				<span class="icon material-icons-outlined hidden">navigate_before</span>
-			<% } %>
-			
-
-			<!-- ------- 페이지 번호 처리 ------- -->
-			<% for(int p=startPage; p<=endPage; p++) { %>
-				<% if(p == cPage) { %>
-					<span class="page currentPage"><%= p %></span>
-				<% } else { %>
-					<span class="page" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= p %>'"><%= p %></span>
-				<% } %>
-			<% } %>
-			
-
-			<!-- ------- 다음 페이지로 ------- -->
-			<% if(cPage != maxPage) { %>
-				<!-- 오른쪽 바로 다음 페이지로 -->
-				<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= cPage + 1 %>'">navigate_next</span>
-				
-				<!-- 오른쪽 끝 페이지로 -->
-				<% if(cPage == endPage) { %>
-					<% if(endPage + 10 < maxPage) { %>
-						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= endPage + 10 %>'">last_page</span>
+				<!-- ------- 이전 페이지로 ------- -->
+				<% if(cPage != 1) { %>
+					<!-- 왼쪽 끝 페이지로 -->
+					<% if(cPage == startPage) { %>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= startPage - 10 %>'">first_page</span>
 					<% } else { %>
-						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= maxPage %>'">last_page</span>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= startPage %>'">first_page</span>
 					<% } %>
-				<% } else { %>
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= endPage %>'">last_page</span>
-				<% } %>
 
-			<% } else { %>  <!-- 마지막 페이지면 버튼 숨기기-->
-				<!-- 오른쪽 바로 다음 페이지로 -->
-				<span class="icon material-icons-outlined hidden">navigate_next</span>
+					<!-- 왼쪽 바로 이전 페이지로 -->
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= cPage -1 %>'">navigate_before</span>
 				
-				<!-- 오른쪽 끝 페이지로 -->
-				<% if(cPage == endPage) { %>
-					<span class="icon material-icons-outlined hidden">last_page</span>
-				<% } else { %>
-					<span class="icon material-icons-outlined hidden">last_page</span>
+				<% } else { %> <!-- 첫페이지면 버튼 숨기기-->
+					<!-- 왼쪽 끝 페이지로 -->
+					<% if(cPage == startPage) { %>
+						<span class="icon material-icons-outlined hidden">first_page</span>
+					<% } else { %>
+						<span class="icon material-icons-outlined hidden" >first_page</span>
+					<% } %>
+
+					<!-- 왼쪽 바로 이전 페이지로 -->
+					<span class="icon material-icons-outlined hidden">navigate_before</span>
 				<% } %>
-			<% } %>
+				
 
-		</section>
+				<!-- ------- 페이지 번호 처리 ------- -->
+				<% for(int p=startPage; p<=endPage; p++) { %>
+					<% if(p == cPage) { %>
+						<span class="page currentPage"><%= p %></span>
+					<% } else { %>
+						<span class="page" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= p %>'"><%= p %></span>
+					<% } %>
+				<% } %>
+				
 
+				<!-- ------- 다음 페이지로 ------- -->
+				<% if(cPage != maxPage) { %>
+					<!-- 오른쪽 바로 다음 페이지로 -->
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= cPage + 1 %>'">navigate_next</span>
+					
+					<!-- 오른쪽 끝 페이지로 -->
+					<% if(cPage == endPage) { %>
+						<% if(endPage + 10 < maxPage) { %>
+							<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= endPage + 10 %>'">last_page</span>
+						<% } else { %>
+							<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= maxPage %>'">last_page</span>
+						<% } %>
+					<% } else { %>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/classroom?cpage=<%= endPage %>'">last_page</span>
+					<% } %>
+
+				<% } else { %>  <!-- 마지막 페이지면 버튼 숨기기-->
+					<!-- 오른쪽 바로 다음 페이지로 -->
+					<span class="icon material-icons-outlined hidden">navigate_next</span>
+					
+					<!-- 오른쪽 끝 페이지로 -->
+					<% if(cPage == endPage) { %>
+						<span class="icon material-icons-outlined hidden">last_page</span>
+					<% } else { %>
+						<span class="icon material-icons-outlined hidden">last_page</span>
+					<% } %>
+				<% } %>
+
+			</section>
+		<% } %>
 	</main>
 	
 </body>

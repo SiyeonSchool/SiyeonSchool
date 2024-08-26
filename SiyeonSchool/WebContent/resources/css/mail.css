@@ -242,7 +242,7 @@ aside section ul li .mailbox-div .emptyBtn:hover{
 /* ================================ 메인 ================================ */
 main{
     position: absolute;
-    left: 300px;
+    left: var(--sidebar-width);
     width: var(--mail-content-width); 
     height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
     min-width: calc(1500px - var(--sidebar-width)); /* 화면을 더 줄일 수 없도록함. 화면 줄었을때 요소간 겹침 방지*/
@@ -375,10 +375,16 @@ main .second-header ul li{
 
 
 /* ----------------------------- 메일 목록 ----------------------------- */
+/* 메일 목록 - section */
 main .mail-list{
     height: var(--mail-postList-height);
     max-height: var(--mail-postList-height);
     overflow: auto;
+}
+
+/* 메일 목록 - section > ul */
+main .mail-list ul{
+    position: relative;
 }
 
 /* ----------------------------- 하나의 메일 ----------------------------- */
@@ -399,6 +405,25 @@ main .mail-list ul .mail:hover{
 /* 메일 - 한줄 - 안읽은 메일인 경우 */
 main .mail-list ul .mail.unreadMail{
     font-weight: bold;
+}
+
+/* 메일 - 메일이 없는경우 */
+main .mail-list ul .mail.noMail{
+    height: var(--mail-postList-height);
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    top: 100px;
+    left: 40%;
+    border-bottom: none;
+    cursor: default;
+    font-weight: bold;
+    display: block;
+}
+
+/* 메일 - 메일이 없는경우 - 후버시 */
+main .mail-list ul .mail.noMail:hover{
+    background-color: #fff;
 }
 
 /* 메일 - 열 div */
@@ -461,49 +486,10 @@ main .mail-list ul .mail .mail-column.sentDate{
     font-size: 14px;
 }
 
-
-
 /* ----------------------------- 페이징 ----------------------------- */
 main .paging-area{
     width: 100%;
     height: var(--mail-paging-height);
-    border-top: 1px solid var(--lightGrey);
-    background-color: rgba(243, 243, 243, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* 페이지 - 숫자, 화살표 */
-main .paging-area span {
-    line-height: var(--mail-paging-height);
-    cursor: pointer;
-}
-
-/* 페이지 - 숫자 */
-main .paging-area .page{
-    padding: 0 10px;
-    color: var(--lightGrey);
-}
-
-/* 페이지 - 숫자 - 후버시 */
-main .paging-area .page:hover{
-    color: var(--darkGrey);
-    font-weight: bold;
-}
-
-/* 페이지 - 숫자 */
-main .paging-area .page.currentPage{
-    font-weight: bold;
-    color: var(--darkGrey);
-    cursor: default;
-    text-decoration: underline;
-}
-
-/* ----------------------------- 페이징 ----------------------------- */
-main .paging-area{
-    width: 100%;
-    height: var(--mail--paging-height);
     border-top: 1px solid var(--lightGrey);
     background-color: var(--mail-header-n-paging-color);
     display: flex;
@@ -513,7 +499,7 @@ main .paging-area{
 
 /* 페이지 - 숫자, 화살표 */
 main .paging-area span {
-    line-height: var(--mail--paging-height);
+    line-height: var(--mail-paging-height);
     cursor: pointer;
 }
 

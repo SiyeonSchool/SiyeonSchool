@@ -1,3 +1,10 @@
+-- 더 이상 사용하지 않는 테이블 삭제.(한번만 실행하고 빼기. 안빼면 오류남)
+DROP TABLE CLASS_COMMENT CASCADE CONSTRAINTS;
+DROP TABLE CLASS_ATTACHMENT CASCADE CONSTRAINTS;
+DROP TABLE MAIL_ATTACHMENT CASCADE CONSTRAINTS;
+DROP TABLE HOMEWORK_COMMENT CASCADE CONSTRAINTS;
+DROP TABLE HOMEWORK_ATTACHMENT CASCADE CONSTRAINTS;
+
 --------------------------------------------------------------------------------
 --############### 기존 데이터 삭제 ###############
 --------------------------------------------------------------------------------
@@ -731,7 +738,10 @@ END;
 /
 
 -- 2번 유저가 보내는 메일 (메일번호: "M501")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '중요 / 읽음 표시 테스트', '중요 / 읽음 표시 테스트 - 메일 내용입니다.', 'S', TO_DATE('2024-07-01 09:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '중요 / 읽음 표시 테스트용 메일입니다.', '중요 / 읽음 표시 테스트 - 메일 내용입니다.', 'S', TO_DATE('2024-07-01 09:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+-- 3번 유저가 보내는 메일 (메일번호: "M502")
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 3, '중요 / 읽음 표시 테스트용 메일입니다.2', '중요 / 읽음 표시 테스트 - 메일 내용입니다.2', 'S', TO_DATE('2024-07-02 13:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 --------------------------------------------------------------------------------
 --############### 메일_수신인 ###############
@@ -784,6 +794,11 @@ END;
 INSERT INTO MAIL_RECEIVER VALUES('M501', 1, 'R', NULL); -- 수신인: 1번유저, 수신, 읽지않은상태
 INSERT INTO MAIL_RECEIVER VALUES('M501', 3, 'C', NULL); -- 수신인: 2번유저, 참조, 읽지않은상태
 INSERT INTO MAIL_RECEIVER VALUES('M501', 4, 'S', NULL); -- 수신인: 3번유저, 비밀, 읽지않은상태
+
+-- 3번 유저가 보내는 메일 (메일번호: "M502") 관련, 수신인 데이터
+INSERT INTO MAIL_RECEIVER VALUES('M502', 1, 'C', NULL); -- 수신인: 1번유저, 참조, 읽지않은상태
+INSERT INTO MAIL_RECEIVER VALUES('M502', 2, 'S', NULL); -- 수신인: 2번유저, 비밀, 읽지않은상태
+INSERT INTO MAIL_RECEIVER VALUES('M502', 4, 'R', NULL); -- 수신인: 3번유저, 수신, 읽지않은상태
 
 
 
@@ -853,13 +868,26 @@ END;
 /
 
 -- 2번 유저가 보내는 메일 (메일번호: "M501") 관련, 소유자(발신인,수신인) 각각의 데이터 
-
 -- 메일함
--- 2번 유저 (발신인) - 보낸메일함: 'MB8'
 -- 1번 유저 (수신인) - 받은메일함: 'MB1'
--- 3번 유저 (수신인) - 받은메일함: 'MB13'
--- 4번 유저 (수신인) - 받은메일함: 'MB19'
---INSERT INTO MAIL_OWNER VALUES (1, 'M1', 'MB2', 'N', 'Y');
+-- 2번 유저 (발신인) - 보낸메일함: 'MB5'
+-- 3번 유저 (수신인) - 받은메일함: 'MB7'
+-- 4번 유저 (수신인) - 받은메일함: 'MB10'
+INSERT INTO MAIL_OWNER VALUES (1, 'M501', 'MB1', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (2, 'M501', 'MB5', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (3, 'M501', 'MB7', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (4, 'M501', 'MB10', 'Y', 'Y');
+
+-- 3번 유저가 보내는 메일 (메일번호: "M502") 관련, 소유자(발신인,수신인) 각각의 데이터 
+-- 메일함
+-- 1번 유저 (수신인) - 받은메일함: 'MB1'
+-- 2번 유저 (수신인) - 보낸메일함: 'MB4'
+-- 3번 유저 (발신인) - 받은메일함: 'MB8'
+-- 4번 유저 (수신인) - 받은메일함: 'MB10'
+INSERT INTO MAIL_OWNER VALUES (1, 'M502', 'MB1', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (2, 'M502', 'MB4', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (3, 'M502', 'MB8', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (4, 'M502', 'MB10', 'Y', 'Y');
 
 --------------------------------------------------------------------------------
 --############### 수업_게시판 ###############
@@ -1311,7 +1339,7 @@ INSERT INTO TODO VALUES (5, 2, 5, '24/09/09 프로젝트 발표',DEFAULT);
 --############### 과제_선생님 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE HOMEWORK_TEACHER (
-    "HOMEWORK_NO" NUMBER PRIMARY KEY,
+    "HOMEWORK_NO" VARCHAR2(10) PRIMARY KEY,
     "FILE_NO" VARCHAR2(10) NOT NULL,
     "WRITER_NO" NUMBER NOT NULL,
     "SUBJECT" VARCHAR2(60) NOT NULL,
@@ -1335,18 +1363,18 @@ COMMENT ON COLUMN HOMEWORK_TEACHER.WRITE_DATE IS '작성날짜';
 CREATE SEQUENCE SEQ_HOMEWORK_NO
 NOCACHE;
 
-INSERT INTO HOMEWORK_TEACHER VALUES (1, 'A6', 1, 'Java', '자바 문제', '20240815', '자바 종합연습', SYSDATE);
-INSERT INTO HOMEWORK_TEACHER VALUES (2, 'A9', 1, 'Oracle', '춘대학', '20240822', null, SYSDATE);
-INSERT INTO HOMEWORK_TEACHER VALUES (3, 'A10', 1, 'Oracle', '춘출판사', '20240822', '10,11번 문제는 안풀어도 됩니다', SYSDATE);
-INSERT INTO HOMEWORK_TEACHER VALUES (4, 'A12', 1, 'front-end', '테이블만들기', '20240825', null, SYSDATE);
-INSERT INTO HOMEWORK_TEACHER VALUES (5, 'A13', 1, 'front-en', '스타일관련', '20240825', 'css 연습', SYSDATE);
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A6', 1, 'Java', '자바 문제', '20240815', '자바 종합연습', SYSDATE);
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A9', 1, 'Oracle', '춘대학', '20240822', null, SYSDATE);
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A10', 1, 'Oracle', '춘출판사', '20240822', '10,11번 문제는 안풀어도 됩니다', SYSDATE);
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A12', 1, 'front-end', '테이블만들기', '20240825', null, SYSDATE);
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A13', 1, 'front-en', '스타일관련', '20240825', 'css 연습', SYSDATE);
 
 --------------------------------------------------------------------------------
 --############### 과제_학생 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE HOMEWORK_STUDENT (
-    "HOMEWORK_SUBMIT_NO" NUMBER PRIMARY KEY,
-    HOMEWORK_NO NUMBER NOT NULL,
+    "HOMEWORK_SUBMIT_NO" VARCHAR2(10) PRIMARY KEY,
+    HOMEWORK_NO VARCHAR2(10) NOT NULL,
     "USER_NO" NUMBER NOT NULL,
     "FILE_NO" VARCHAR2(10) NOT NULL,
     "SUBMIT_DATE" DATE DEFAULT SYSDATE NOT NULL,
@@ -1366,11 +1394,11 @@ COMMENT ON COLUMN HOMEWORK_STUDENT.SUBMIT_STATUS IS '제출상태(제출:Y/미�
 CREATE SEQUENCE SEQ_HOMEWORK_SUBMIT_NO
 NOCACHE;
 
-INSERT INTO HOMEWORK_STUDENT VALUES (1, 1, 2, 'A7', SYSDATE, 'Y');
-INSERT INTO HOMEWORK_STUDENT VALUES (2, 2, 2, 'A11', SYSDATE, 'Y');
-INSERT INTO HOMEWORK_STUDENT VALUES (3, 1, 4, 'A8', SYSDATE, 'Y');
-INSERT INTO HOMEWORK_STUDENT VALUES (4, 3, 4, 'A12', SYSDATE, 'Y');
-INSERT INTO HOMEWORK_STUDENT VALUES (5, 4, 3, 'A14', SYSDATE, 'Y');
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT1', 2, 'A7', SYSDATE, 'Y');
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT2', 2, 'A11', SYSDATE, 'Y');
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT3', 4, 'A8', SYSDATE, 'Y');
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT4', 4, 'A12', SYSDATE, 'Y');
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT5', 3, 'A14', SYSDATE, 'Y');
 
 --------------------------------------------------------------------------------
 -- 커밋!!
