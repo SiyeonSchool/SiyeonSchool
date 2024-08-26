@@ -112,7 +112,6 @@
 			</div>
 		</div>
 	</section>
-	
 	<!-- Form 태그 -->
 	<form id="updateForm" method="POST" action="<%= contextPath2 %>/update.cb" style="display: none;">
 		<input type="hidden" name="subject" value="">

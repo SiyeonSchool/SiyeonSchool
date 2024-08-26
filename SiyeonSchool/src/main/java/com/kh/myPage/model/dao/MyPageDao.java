@@ -29,6 +29,7 @@ public class MyPageDao {
 
         try {
             pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userId);
 
             result = pstmt.executeUpdate();
         } catch (SQLException e) {
