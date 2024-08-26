@@ -48,18 +48,17 @@ public class MailController extends HttpServlet {
 		int startPage; // 페이징바 시작수
 		int endPage;   // 페이징바 끝수
 		
-		// 현재 메일함
-		String mailbox = request.getParameter("mb");
-		//mb(mailBox) => a(all: 전체메일함), i(inbox: 받은메일함), s(sent: 보낸메일함), t(temp: 임시보관함), m(myself: 내게쓴메일함), b(bin:휴지통)
-		
 		// 각 메일함에 맞는 메일 개수 db에서 가져오기
-		switch(mailbox) {
-		case "a": listCount = new MailService().selectInboxMailListCount(ownerNo); break;
-		case "i": listCount = new MailService().selectInboxMailListCount(ownerNo); break;
-		case "s": listCount = new MailService().selectInboxMailListCount(ownerNo); break;
-		case "t": listCount = new MailService().selectInboxMailListCount(ownerNo); break;
-		case "m": listCount = new MailService().selectInboxMailListCount(ownerNo); break;
-		case "b": listCount = new MailService().selectInboxMailListCount(ownerNo); break;
+		String currentMailbox = request.getParameter("mb"); // 현재 메일함
+		switch(currentMailbox) {
+			case "a": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // a(all: 전체메일함)       // ######### 업데이트 필요
+			case "i": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // i(inbox: 받은메일함)
+			case "s": listCount = new MailService().selectSentMailListCount(ownerNo); break; // s(sent: 보낸메일함)
+			case "t": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // t(temp: 임시보관함)    	// ######### 업데이트 필요
+			case "m": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // m(myself: 내게쓴메일함)   // ######### 업데이트 필요
+			case "b": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // b(bin:휴지통)   			// ######### 업데이트 필요
+			case "u": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // u(unread: 안읽은메일)    // ######### 업데이트 필요
+			case "im": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // im(important:중요메일)  // ######### 업데이트 필요
 		}
 
 		cPage = Integer.parseInt(request.getParameter("cpage"));
@@ -76,19 +75,34 @@ public class MailController extends HttpServlet {
 		
 		PageInfo pi = new PageInfo(listCount, cPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		ArrayList<Mail> list = new MailService().selectInboxMailList(ownerNo, pi);
+		// db에서 메일리스트 가져오기
+		ArrayList<Mail> list = null;
+		switch(currentMailbox) {
+			case "a": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
+			case "i": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;
+			case "s": ; list = new MailService().selectSentMailList(ownerNo, pi); break;
+			case "t": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
+			case "m": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
+			case "b": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
+			case "u": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
+			case "im": ; list = new MailService().selectInboxMailList(ownerNo, pi); break; // ######### 업데이트 필요
+		}
+		
+		 
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		
 		// 화면에 현재 메일함이 뭔지 전달해주기
-		switch(mailbox) {
-		case "a": request.setAttribute("mb", "a"); break;
-		case "i": request.setAttribute("mb", "i"); break;
-		case "s": request.setAttribute("mb", "s"); break;
-		case "t": request.setAttribute("mb", "t"); break;
-		case "m": request.setAttribute("mb", "m"); break;
-		case "b": request.setAttribute("mb", "b"); break;
+		switch(currentMailbox) {
+			case "a": request.setAttribute("currentMailbox", "a"); break;
+			case "i": request.setAttribute("currentMailbox", "i"); break;
+			case "s": request.setAttribute("currentMailbox", "s"); break;
+			case "t": request.setAttribute("currentMailbox", "t"); break;
+			case "m": request.setAttribute("currentMailbox", "m"); break;
+			case "b": request.setAttribute("currentMailbox", "b"); break;
+			case "u": request.setAttribute("currentMailbox", "u"); break;
+			case "im": request.setAttribute("currentMailbox", "im"); break;
 		}
 		
 		request.getSession().setAttribute("currentPage", "mail");

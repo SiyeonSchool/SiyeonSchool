@@ -17,13 +17,33 @@ public class MailService {
 		return result;
 		
 	}
-
+	
+	public int selectSentMailListCount(int ownerNo) {
+		Connection conn = getConnection();
+		int result = new MailDao().selectSentMailListCount(conn, ownerNo);
+		close(conn);
+		return result;
+	}
+	
 	public ArrayList<Mail> selectInboxMailList(int ownerNo, PageInfo pi) {
 		Connection conn = getConnection();
 		ArrayList<Mail> list = new MailDao().selectInboxMailList(conn, ownerNo, pi);
 		close(conn);
 		return list;
 	}
+
+	public ArrayList<Mail> selectSentMailList(int ownerNo, PageInfo pi) {
+		Connection conn = getConnection();
+		ArrayList<Mail> list = new MailDao().selectSentMailList(conn, ownerNo, pi);
+		close(conn);
+		return list;
+	}
+
+
+
+
+
+
 
 
 }

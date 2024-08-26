@@ -51,6 +51,32 @@ public class MailDao {
 		
 		return listCount;
 	}
+	
+	public int selectSentMailListCount(Connection conn, int ownerNo) {
+		int listCount = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectSentMailListCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				listCount = rset.getInt("count");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return listCount;
+	}
 
 	public ArrayList<Mail> selectInboxMailList(Connection conn, int ownerNo, PageInfo pi) {
 		ArrayList<Mail> list = new ArrayList<Mail>();
@@ -91,5 +117,45 @@ public class MailDao {
 		
 		return list;
 	}
+
+	public ArrayList<Mail> selectSentMailList(Connection conn, int ownerNo, PageInfo pi) {
+		ArrayList<Mail> list = new ArrayList<Mail>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectSentMailList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getcPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt.setInt(1, ownerNo);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Mail(rset.getString("MAIL_NO"),
+								  rset.getString("MAIL_STAR"),
+								  rset.getString("USER_NAME"),
+								  rset.getString("USER_ID"),
+								  rset.getString("PROFILE_PATH"),
+								  rset.getString("MAIL_TITLE"),
+								  rset.getString("SEND_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+
 	
 }
