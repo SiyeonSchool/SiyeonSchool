@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.kh.home.model.vo.Curriculum;
+import com.kh.mail.model.vo.Mail;
 
 import static com.kh.common.JDBCTemplate.*;
 
@@ -114,5 +115,40 @@ public class HomeDao {
         }
 
         return result;
+    }
+
+    public ArrayList<Mail> selectMailList(Connection conn, int userNo){
+        ArrayList<Mail> list = new ArrayList<Mail>();
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        String sql = prop.getProperty("selectInboxMailList");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, userNo);
+
+            rset = pstmt.executeQuery();
+
+            while(rset.next()){
+                list.add(new Mail(rset.getString("MAIL_NO"),
+								  rset.getString("MAIL_STAR"),
+								  rset.getString("IS_READ"),
+								  rset.getString("USER_NAME"),
+								  rset.getString("USER_ID"),
+								  rset.getString("PROFILE_PATH"),
+								  rset.getString("MAIL_TITLE"),
+								  rset.getString("RECEIVER_TYPE"),
+								  rset.getString("SEND_DATE")));
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally{
+            close(rset);
+            close(pstmt);
+        }
+
+        return list;
     }
 }

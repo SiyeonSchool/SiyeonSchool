@@ -9,12 +9,26 @@
 <link rel="stylesheet" href="resources/css/myPageATD.css">
 </head>
 <body>
-
-	<%@ include file="../common/myPageMenu.jsp" %>
-
-    <div id="myATD-area">
-        <div class="header">출결 / 휴가</div>
-        <div class="body"></div>
+    <%@ include file="../common/menubar.jsp" %>
+        
+        <%
+            String userName = loginUser.getUserName();
+            String phone = loginUser.getPhone();
+            String birthday = loginUser.getBirthday();
+            String address = loginUser.getAddress();
+            String email = loginUser.getEmail();
+            String githubUrl = loginUser.getGithubUrl();
+            String notionUrl = loginUser.getNotionUrl();
+            String userId = loginUser.getUserId();
+        %>
+    <div class="wrapper">
+        <section class="body__wrapper">
+            <%@ include file="../common/myPageSide.jsp" %>
+            <div id="myATD-area">
+                <div class="header">출결 / 휴가</div>
+                <div class="body"></div>
+            </div>
+        </section>
     </div>
 
 </body>

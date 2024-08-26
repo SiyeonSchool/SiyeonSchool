@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.home.model.service.HomeService;
 import com.kh.home.model.vo.Curriculum;
+import com.kh.mail.model.vo.Mail;
+import com.kh.user.model.vo.User;
 
 /**
  * Servlet implementation class HomeController
@@ -36,10 +38,14 @@ public class HomeController extends HttpServlet {
 		int completedCount = new HomeService().getCompletedCount();
 		int totalCount = new HomeService().getTotalCount();
 		int progressValue = (int)((completedCount / (double)totalCount) * 100);
+		int userNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		
+		ArrayList<Mail> mList = new HomeService().selectMailList(userNo);
 		
 		request.getSession().setAttribute("currentPage", "home");
 		request.setAttribute("list", list);
 		request.setAttribute("progressValue", progressValue);
+		request.setAttribute("mList", mList);
 		request.getRequestDispatcher("views/home/home.jsp").forward(request, response);
 		
 	}
