@@ -38,6 +38,7 @@
 	justify-content: space-between;
 }
 
+
 .curriculum .cir{
 	width: 70px;
 	height: 70px;
@@ -49,6 +50,10 @@
 	align-items: center;
 }
 
+.curriculum-bnt .selected{
+	background-color: #C2F0FF;
+	color: #333;
+}
 .cir:hover{
 	background-color: #e6f9ff;
 	color: #000;
@@ -57,13 +62,13 @@
 
 /* 게시판 테이블 공통 CSS */
 .boards table {
-    width: 100%;
-    height: 350px;
-    font-size: 13px;
+	width: 100%;
+    height: 300px;
+    font-size: 16px;
 }
 
 .boards td, .boards th{
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
 .boards .navi{
@@ -107,7 +112,7 @@
 
 .homework table {
     width: 100%;
-    height: 250px;
+    height: 300px;
     font-size: 16px;
 }
 
@@ -208,14 +213,26 @@
 	width: 300px;
 	height: 600px;
 	margin-top: 80px;
+	margin-right: 80px;
 	display: flex;
 	flex-direction: column;
-	margin-right: 80px;
+	align-items: center;
+	float : left;
 }
 
 .D-day .text-area{
 	border-radius: 10px;
 }
+
+.text-area {
+	width: 300px;
+	height: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 .end-day, #D-day{
 	height: 50px;
 	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
@@ -226,13 +243,18 @@
 	align-items: center;
 }
 
+.end-day{
+	width: 250px;
+}
+
 #D-day{
 	margin-top: 20px;
+	width: 100px;
 }
 
 .D-day p{
 	text-align: center;
-	font-size: 24px;
+	font-size: 16px;
 }
 .D-day .progress-area2{
 	margin-top: 30px;
@@ -258,4 +280,77 @@
 
 .comment-area{
 	margin-top: 50px;
+}
+
+/* 출석 버튼 CSS */
+.attendance-btn{
+	width: 230px;
+	height: auto;
+	margin-top: 80px;
+	padding: 0px 15px;
+	display: flex;
+}
+
+.atd-btn{
+	width: 230px;
+	height: 60px;
+	background-color: #C2F0FF;
+	border: 2px solid #46D3FF;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	border-radius: 20px;
+	display: flex;
+	justify-content: center;	
+	align-items: center;
+}
+
+.atd-btn p{
+	font-size: 24px;
+}
+
+.atd-btn:hover{
+	background-color: #46D3FF;
+	border : 2px solid #00c3ff;
+	cursor: pointer;
+}
+
+/* 메일함 CSS */
+.mail-tome{
+	width: 230px;
+	height: 460px;
+	margin-top: 80px;
+	display: flex;	
+}
+
+.total-area{
+	width: 230px;
+	height: 460px;
+	border: 1px solid #C2F0FF;
+	border-radius: 10px;
+}
+
+.mail-header{
+	width: 230px;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24px;
+	color: #46D3FF;
+	border-bottom: 1px solid #C2F0FF;
+}
+
+.mail-box{
+	width: 190px;
+	height: 380px;
+	margin-top: 20px;
+}
+
+.mail-box table{
+	width: 230px;
+	height: 380px;
+}
+
+.mail-box .nothing{
+	text-align: center;
+	vertical-align: middle;
 }

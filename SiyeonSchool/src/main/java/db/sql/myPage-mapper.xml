@@ -7,13 +7,13 @@
 	       USER_ID
 	     , USER_NAME
 	     , PHONE
-	     , BIRTHDAY
+	     , TO_CHAR(BIRTHDAY,'YYYY-MM-DD') AS "BIRTHDAY"
 	     , EMAIL
 	     , ADDRESS
 	     , GITHUB_URL
 	     , NOTION_URL
 	  FROM USERS
-	 WHERE USER_ID = 'user01'
+	 WHERE USER_ID = ?
 </entry>
 
 </properties>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+<entry key="selectCurriculum">
+	SELECT
+	       CB_NAME
+	     , CB_STATE
+	  FROM CURRICULUM_BTN
+</entry>
+
+<entry key="updateCbState">
+	UPDATE CURRICULUM_BTN
+	   SET CB_STATE = 'Y'
+	 WHERE CB_NAME = ?
+</entry>
+
+<entry key="getCompletedCount">
+	SELECT COUNT(CB_STATE)"COUNT"
+	  FROM CURRICULUM_BTN
+	 WHERE CB_STATE = 'Y'
+</entry>
+
+<entry key="getTotalCount">
+	SELECT COUNT(CB_STATE)"COUNT"
+	  FROM CURRICULUM_BTN
+</entry>
+
+</properties>

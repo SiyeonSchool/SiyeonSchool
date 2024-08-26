@@ -1,65 +1,9 @@
-// 커리큘럼 바 관련 jQuery
-$(function(){
-    $(".java-cir").click(function(){
-        $(".progress-bar").css("width","8%");
-        $(".java-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".oracle-cir").click(function(){
-        $(".progress-bar").css("width","16%");
-        $(".oracle-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".jdbc-cir").click(function(){
-        $(".progress-bar").css("width","24%");
-        $(".jdbc-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".html-cir").click(function(){
-        $(".progress-bar").css("width","32%");
-        $(".html-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".css-cir").click(function(){
-        $(".progress-bar").css("width","40%");
-        $(".css-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".js-cir").click(function(){
-        $(".progress-bar").css("width","48%");
-        $(".js-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".jQuery-cir").click(function(){
-        $(".progress-bar").css("width","56%");
-        $(".jQuery-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".servlet-cir").click(function(){
-        $(".progress-bar").css("width","64%");
-        $(".servlet-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".jsp-cir").click(function(){
-        $(".progress-bar").css("width","72%");
-        $(".jsp-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".ajax-cir").click(function(){
-        $(".progress-bar").css("width","82%");
-        $(".ajax-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".myBatis-cir").click(function(){
-        $(".progress-bar").css("width","90%");
-        $(".myBatis-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-
-    $(".spring-cir").click(function(){
-        $(".progress-bar").css("width","100%");
-        $(".spring-cir").css({backgroundColor:"#C2F0FF", color:"#A98AFF"});
-    })
-})
+// 커리큘럼 바 관련 
+function updateState(subject) {
+    let form = document.getElementById('updateForm');
+    form.subject.value = subject;  // 선택한 과목명을 폼에 설정
+    form.submit();  // 폼 제출
+}
 
 //현재 년도 및 월 변수 추가
 let currentYear = new Date().getFullYear();
@@ -238,8 +182,8 @@ function dDay(){
     // 종강까지 남은 일 수
     let dDay = Math.ceil((endDate - nowDate) / (1000 * 60 * 60 * 24));
 
-    document.querySelector('#D-day').innerHTML = '<p>D-Day : '+ dDay +'</p>';
-    document.querySelector('.comment-area').innerHTML = '<p style="color:#C2F0FF"> 종강까지 '+ dDay +'일 남았다잉~</p><br><p style="color:#C2F0FF">힘내자!!!</p>';
+    document.querySelector('#D-day').innerHTML = '<p>D - '+ dDay +'</p>';
+    document.querySelector('.comment-area').innerHTML = '<p> 종강까지 '+ dDay +'일 남았다잉~</p><br><p>힘내자!!!</p>';
 
     setProgress(perDate)
 

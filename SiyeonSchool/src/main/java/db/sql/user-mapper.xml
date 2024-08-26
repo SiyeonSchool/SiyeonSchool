@@ -10,7 +10,7 @@
 		     , U.USER_NAME
 		     , U.PHONE
 		     , U.PHONE_PUBLIC
-		     , U.BIRTHDAY
+		     , TO_CHAR(U.BIRTHDAY,'YYYY-MM-DD') AS "BIRTHDAY"
 		     , U.EMAIL
 		     , U.ADDRESS
 		     , U.ENROLL_DATE
