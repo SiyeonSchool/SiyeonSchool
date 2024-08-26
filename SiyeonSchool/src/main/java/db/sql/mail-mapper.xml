@@ -4,47 +4,76 @@
 
 	<!-- ===================== 메일 개수 조회 ============================= -->
 
-	<!-- "받은메일함 메일갯수" 조회 : "메일함 소유자번호"로 조회 -->
-	<entry key="selectInboxMailListCount">
-		SELECT COUNT(MAIL_NO) AS "COUNT"
+	<!-- 메일함별 메일 개수조회 -->
+	<entry key="selectMailboxCountList">
+		SELECT 
+			   MB.MAILBOX_NO
+			 , MB.MAILBOX_NAME
+			 , COUNT(MO.MAIL_NO) AS "COUNT"
 		  FROM MAIL_OWNER MO
-		  JOIN MAIL M USING(MAIL_NO)
-		 WHERE MO.MAILBOX_NO = ( SELECT MAILBOX_NO
-                                   FROM MAILBOX
-                                  WHERE OWNER_NO = ?
-                                    AND MAILBOX_NAME = '받은메일함' )
-		   AND MO.MAIL_STATUS = 'Y'
-		   AND M.IS_SENT = 'S'
+		 RIGHT JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
+		 WHERE MB.OWNER_NO = ?
+           AND MB.MAILBOX_STATUS = 'Y'
+		 GROUP BY (MB.MAILBOX_NO, MB.MAILBOX_NAME)
+         ORDER BY
+               REGEXP_SUBSTR(MB.MAILBOX_NO, '^[a-zA-Z]+'),
+               TO_NUMBER(REGEXP_SUBSTR(MB.MAILBOX_NO, '[0-9]+')) ASC
 	</entry>
 
-	<!-- "보낸메일함 메일갯수" 조회 : "메일함 소유자번호"로 조회 -->
-	<entry key="selectSentMailListCount">
-			SELECT COUNT(MAIL_NO) AS "COUNT"
-		  FROM MAIL_OWNER MO
-		  JOIN MAIL M USING(MAIL_NO)
-		 WHERE MO.MAILBOX_NO = ( SELECT MAILBOX_NO
-                                   FROM MAILBOX
-                                  WHERE OWNER_NO = ?
-                                    AND MAILBOX_NAME = '보낸메일함' )
-		   AND MO.MAIL_STATUS = 'Y'
-		   AND M.IS_SENT = 'S'
+	<!-- 않읽은메일 개수조회-->
+	<entry key="selectUnreadMailCount">
+		SELECT COUNT(MAIL_NO) AS "COUNT"
+		  FROM MAIL_RECEIVER
+		 WHERE RECEIVER_NO = ?
+		   AND MAIL_NO IN (SELECT MAIL_NO
+		                     FROM MAIL
+		                    WHERE IS_SENT = 'S')
+		   AND READ_TIME IS NULL
 	</entry>
 	
-	<!-- "읽지않은 메일갯수" 조회 : "사용자번호"로 조회 -->
-	<entry key="selectUnreadMailListCount">
-			SELECT COUNT(MAIL_NO) AS "COUNT"
-			  FROM MAIL_RECEIVER
-			 WHERE RECEIVER_NO = 1
-			   AND MAIL_NO IN (SELECT MAIL_NO
-			                     FROM MAIL
-			                    WHERE IS_SENT = 'S')
-			   AND READ_TIME IS NULL
+	<!-- 중요메일 개수조회 -->
+	<entry key="selectImportantMailCount">
+		SELECT COUNT(MAIL_NO) AS "COUNT"
+		  FROM MAIL_OWNER
+		 WHERE OWNER_NO = ?
+		   AND MAIL_STAR = 'Y'
+		   AND MAIL_STATUS = 'Y'
 	</entry>
 
 
 	<!-- ===================== 메일 목록 조회 ============================= -->
 
-	<!-- "받은메일함 메일목록" 조회 : "메일함 소유자번호"로 조회 -->
+	<!-- 전체메일함 메일목록 조회 -->
+	<entry key="selectAllMailList">
+		SELECT *
+		  FROM (
+			     SELECT ROWNUM RNUM, A.*
+			     FROM (
+						SELECT
+							   MO.MAIL_NO
+							 , MB.MAILBOX_NAME
+							 , MO.MAIL_STAR
+                             , U.USER_NAME
+                             , U.USER_ID
+							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+							 , M.MAIL_TITLE
+							 , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD DY HH24:MI') AS "SEND_DATE"
+						  FROM MAIL_OWNER MO
+						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
+						  JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
+                          JOIN USERS U ON (M.SENDER = U.USER_NO)
+						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+						 WHERE MO.OWNER_NO = ?
+						   AND MO.MAIL_STATUS = 'Y'
+						   AND M.IS_SENT = 'S'
+						 ORDER
+							BY SEND_DATE DESC
+			          ) A
+		  		)
+		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<!-- 받은메일함 메일목록 조회 -->
 	<entry key="selectInboxMailList">
 		SELECT *
 		  FROM (
@@ -70,14 +99,14 @@
 							   MB.MAILBOX_NAME = '받은메일함' 
 							   AND MB.OWNER_NO = ?
 							   AND M.IS_SENT = 'S'
-						 ORDER BY 
-							   M.SEND_DATE DESC
+						 ORDER
+						    BY M.SEND_DATE DESC
 			          ) A
 		  		)
 		  WHERE RNUM BETWEEN ? AND ?
 	</entry>
 
-	<!-- "보낸메일함 메일목록" 조회 : "메일함 소유자번호"로 조회 -->
+	<!-- 보낸메일함 메일목록 조회 -->
 	<entry key="selectSentMailList">
 		SELECT *
 		  FROM (
@@ -95,13 +124,167 @@
 						JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
 						JOIN USERS U ON (M.SENDER = U.USER_NO)
 						JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
-						WHERE MAILBOX_NO = ( SELECT MAILBOX_NO
+					   WHERE MAILBOX_NO = ( SELECT MAILBOX_NO
 											 FROM MAILBOX
 											 WHERE OWNER_NO = ?
 											 AND MAILBOX_NAME = '보낸메일함' )
-						AND MO.MAIL_STATUS = 'Y'
-						AND M.IS_SENT = 'S'
-						ORDER BY M.SEND_DATE DESC
+						 AND MO.MAIL_STATUS = 'Y'
+						 AND M.IS_SENT = 'S'OR  M.IS_SENT = 'C'
+					   ORDER
+					      BY M.SEND_DATE DESC
+			          ) A
+		  		)
+		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 임시보관함 메일목록 조회 -->
+	<entry key="selectTempMailList">
+		SELECT *
+		  FROM (
+			     SELECT ROWNUM RNUM, A.*
+			     FROM (
+						SELECT 
+						  	   MO.MAIL_NO
+						     , MO.MAIL_STAR
+						     , U.USER_NAME
+							 , U.USER_ID
+							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+						     , M.MAIL_TITLE
+						     , M.SEND_DATE
+						  FROM MAIL_OWNER MO
+						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
+						  JOIN USERS U ON (M.SENDER = U.USER_NO)
+						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+					     WHERE MO.MAILBOX_NO = (SELECT MAILBOX_NO
+							                      FROM MAILBOX
+							                     WHERE OWNER_NO = ?
+							                       AND MAILBOX_NAME = '임시보관함')
+						   AND MO.MAIL_STATUS = 'Y'
+						   AND M.IS_SENT = 'T'
+				         ORDER
+				            BY M.SEND_DATE DESC
+			          ) A
+		  		)
+		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 내게쓴메일함 메일목록 조회 -->
+	<entry key="selectToMyselfMailList">
+		SELECT *
+		  FROM (
+			     SELECT ROWNUM RNUM, A.*
+			     FROM (
+						SELECT 
+						  	   MO.MAIL_NO
+						     , MO.MAIL_STAR
+						     , U.USER_NAME
+							 , U.USER_ID
+							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+						     , M.MAIL_TITLE
+						     , M.SEND_DATE
+						  FROM MAIL_OWNER MO
+						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
+						  JOIN USERS U ON (M.SENDER = U.USER_NO)
+						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+					     WHERE MO.MAILBOX_NO = (SELECT MAILBOX_NO
+							                      FROM MAILBOX
+							                     WHERE OWNER_NO = ?
+							                       AND MAILBOX_NAME = '내게쓴메일함')
+						   AND MO.MAIL_STATUS = 'Y'
+						   AND M.IS_SENT = 'S'
+				         ORDER
+				            BY M.SEND_DATE DESC
+			          ) A
+		  		)
+		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 휴지통 메일목록 조회 -->
+	<entry key="selectBinMailList">
+		SELECT *
+		  FROM (
+			     SELECT ROWNUM RNUM, A.*
+			     FROM (
+						SELECT 
+						  	   MO.MAIL_NO
+						     , MO.MAIL_STAR
+						     , U.USER_NAME
+							 , U.USER_ID
+							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+						     , M.MAIL_TITLE
+						     , M.SEND_DATE
+						  FROM MAIL_OWNER MO
+						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
+						  JOIN USERS U ON (M.SENDER = U.USER_NO)
+						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+					     WHERE MO.MAILBOX_NO = (SELECT MAILBOX_NO
+							                      FROM MAILBOX
+							                     WHERE OWNER_NO = ?
+							                       AND MAILBOX_NAME = '휴지통')
+						   AND MO.MAIL_STATUS = 'N'
+				         ORDER
+				            BY M.SEND_DATE DESC
+			          ) A
+		  		)
+		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 안읽은메일 목록 조회 -->
+	<entry key="selectUnreadMailList">
+		SELECT *
+		  FROM (
+			     SELECT ROWNUM RNUM, A.*
+			     FROM (
+						SELECT 
+						       MR.MAIL_NO
+						     , MO.MAIL_STAR
+						     , NVL2(MR.READ_TIME, 'Y', 'N') AS "IS_READ"
+						     , U.USER_NAME
+							 , U.USER_ID
+							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+						     , M.MAIL_TITLE
+						     , DECODE(MR.RECEIVER_TYPE, 'R', '수신', 'C', '참조', 'S', '비밀') AS "RECEIVER_TYPE"
+						     , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD DY HH24:MI') AS "SEND_DATE"
+						  FROM MAIL_RECEIVER MR
+						  JOIN MAIL M ON (MR.MAIL_NO = M.MAIL_NO)
+						  JOIN MAIL_OWNER MO ON (MR.MAIL_NO = MO.MAIL_NO) AND (MR.RECEIVER_NO = MO.OWNER_NO)
+						  JOIN USERS U ON M.SENDER = U.USER_NO
+						  LEFT JOIN ATTACHMENT A ON U.PROFILE_FILE_NO = A.FILE_NO
+						 WHERE MR.RECEIVER_NO = ?
+						   AND MR.READ_TIME IS NULL
+   						 ORDER
+						    BY M.SEND_DATE DESC
+			          ) A
+		  		)
+		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 중요메일 목록 조회 -->  <!-- ##### 재확인 필요 ###### -->
+	<entry key="selectImportantMailList">
+		SELECT *
+		  FROM (
+			     SELECT ROWNUM RNUM, A.*
+			     FROM (
+						SELECT
+							   MO.MAIL_NO
+							 , MB.MAILBOX_NAME
+						     , MO.MAIL_STAR
+							 , U.USER_NAME
+						     , U.USER_ID
+							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+							 , M.MAIL_TITLE
+							 , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD DY HH24:MI') AS "SEND_DATE"
+						  FROM MAIL_OWNER MO
+						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
+						  JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
+						  JOIN USERS U ON (M.SENDER = U.USER_NO)
+						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+						 WHERE MO.OWNER_NO = ?
+						   AND MO.MAIL_STAR = 'Y'
+						   AND MO.MAIL_STATUS = 'Y'
+						   AND M.IS_SENT = 'S'
+						 ORDER
+						    BY SEND_DATE DESC
 			          ) A
 		  		)
 		  WHERE RNUM BETWEEN ? AND ?

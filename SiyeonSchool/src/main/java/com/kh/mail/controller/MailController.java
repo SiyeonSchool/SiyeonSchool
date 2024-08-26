@@ -9,11 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.classroom.model.service.ClassroomService;
-import com.kh.classroom.model.vo.ClassPost;
 import com.kh.common.model.vo.PageInfo;
 import com.kh.mail.model.service.MailService;
 import com.kh.mail.model.vo.Mail;
+import com.kh.mail.model.vo.Mailbox;
 import com.kh.user.model.vo.User;
 
 /**
@@ -34,11 +33,40 @@ public class MailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 메일 메뉴클릭시, 메인화면으로 "받은메일함"을 메인 페이지로 사용!
+		// "받은메일함"을 "메일" 메인화면으로 사용!
 
+		// 전달받는 "mb"(mailBox)의 parameter 값에 따라 화면에 해당하는 리스트를 보여줌.
+		String currentMailbox = request.getParameter("mb"); // 현재 메일함
+		// a(all: 전체메일함), i(inbox: 받은메일함), s(sent: 보낸메일함), t(temp: 임시보관함), m(myself: 내게쓴메일함), b(bin:휴지통)
+		// u(unread: 안읽은메일), im(important:중요메일)
+		
 		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		
-		// 페이징 처리
+		// 메일함별 메일개수 리스트
+		ArrayList<Mailbox> mailboxCountList = new MailService().selectMailboxCountList(ownerNo);
+		/*
+		 * mailboxCountList 예시)
+		 	Mailbox [mailboxNo=MB7, mailboxName=받은메일함, mailCount=501]
+		 	Mailbox [mailboxNo=MB8, mailboxName=보낸메일함, mailCount=1]
+	     	Mailbox [mailboxNo=MB9, mailboxName=임시보관함, mailCount=0]
+			Mailbox [mailboxNo=MB10, mailboxName=내게쓴메일함, mailCount=0]
+			Mailbox [mailboxNo=MB11, mailboxName=휴지통, mailCount=0]
+			Mailbox [mailboxNo=MB12, mailboxName=내 메일함, mailCount=0]
+		 */
+		
+		// 전체메일 개수: 임시보관함과 휴지통을 제외한 나머지를 더함.
+		int allMailCount = 0;
+		for(int i=0; i<mailboxCountList.size(); i++) {
+			if(i == 2 || i == 4) {
+				continue; // index2:임시보관함, index4:휴지통
+			}
+			allMailCount += mailboxCountList.get(i).getMailCount();
+		}
+		
+		int unreadMailCount = new MailService().selectUnreadMailCount(ownerNo); // 않읽은메일 개수
+		int importantMailCount = new MailService().selectImportantMailCount(ownerNo); // 중요메일 개수
+		
+		// 페이징처리 관련
 		int listCount = 0;  // 현재 총 게시글 개수
 		int cPage;      // 현재 페이지
 		int pageLimit;  // 페이징바 페이지 최대 개수
@@ -48,19 +76,17 @@ public class MailController extends HttpServlet {
 		int startPage; // 페이징바 시작수
 		int endPage;   // 페이징바 끝수
 		
-		// 각 메일함에 맞는 메일 개수 db에서 가져오기
-		String currentMailbox = request.getParameter("mb"); // 현재 메일함
 		switch(currentMailbox) {
-			case "a": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // a(all: 전체메일함)       // ######### 업데이트 필요
-			case "i": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // i(inbox: 받은메일함)
-			case "s": listCount = new MailService().selectSentMailListCount(ownerNo); break; // s(sent: 보낸메일함)
-			case "t": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // t(temp: 임시보관함)    	// ######### 업데이트 필요
-			case "m": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // m(myself: 내게쓴메일함)   // ######### 업데이트 필요
-			case "b": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // b(bin:휴지통)   			// ######### 업데이트 필요
-			case "u": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // u(unread: 안읽은메일)    // ######### 업데이트 필요
-			case "im": listCount = new MailService().selectInboxMailListCount(ownerNo); break; // im(important:중요메일)  // ######### 업데이트 필요
+			case "a": listCount = allMailCount; break; // 전체메일함
+			case "i": listCount = mailboxCountList.get(0).getMailCount(); break; // 받은메일함
+			case "s": listCount = mailboxCountList.get(1).getMailCount(); break; // 보낸메일함
+			case "t": listCount = mailboxCountList.get(2).getMailCount(); break; // 임시보관함
+			case "m": listCount = mailboxCountList.get(3).getMailCount(); break; // 내게쓴메일함
+			case "b": listCount = mailboxCountList.get(4).getMailCount(); break; // 휴지통
+			case "u": listCount = unreadMailCount; break;  // 안읽은메일
+			case "im": listCount = unreadMailCount; break; // 중요메일
 		}
-
+		
 		cPage = Integer.parseInt(request.getParameter("cpage"));
 		pageLimit = 10;
 		boardLimit = 20;
@@ -78,35 +104,31 @@ public class MailController extends HttpServlet {
 		// db에서 메일리스트 가져오기
 		ArrayList<Mail> list = null;
 		switch(currentMailbox) {
-			case "a": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
-			case "i": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;
-			case "s": ; list = new MailService().selectSentMailList(ownerNo, pi); break;
-			case "t": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
-			case "m": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
-			case "b": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
-			case "u": ; list = new MailService().selectInboxMailList(ownerNo, pi); break;  // ######### 업데이트 필요
-			case "im": ; list = new MailService().selectInboxMailList(ownerNo, pi); break; // ######### 업데이트 필요
+			case "a": ; list = new MailService().selectAllMailList(ownerNo, pi); break;        // 전체메일함
+			case "i": ; list = new MailService().selectInboxMailList(ownerNo, pi); break; 	   // 받은메일함
+			case "s": ; list = new MailService().selectSentMailList(ownerNo, pi); break; 	   // 보낸메일함
+			case "t": ; list = new MailService().selectTempMailList(ownerNo, pi); break;       // 임시보관함
+			case "m": ; list = new MailService().selectToMyselfMailList(ownerNo, pi); break;   // 내게쓴메일함
+			case "b": ; list = new MailService().selectBinMailList(ownerNo, pi); break;        // 휴지통
+			case "u": ; list = new MailService().selectUnreadMailList(ownerNo, pi); break;     // 안읽은메일
+			case "im": ; list = new MailService().selectImportantMailList(ownerNo, pi); break; // 중요메일
 		}
+
 		
-		 
+		// jsp로 값 전달
+		request.setAttribute("pi", pi);     // pageInfo - 페이징 처리관련 객체
+		request.setAttribute("list", list); // 화면에 보여줄 메일리스트
 		
-		request.setAttribute("pi", pi);
-		request.setAttribute("list", list);
+		request.setAttribute("currentMailbox", currentMailbox);     	// 현재메일함
 		
-		// 화면에 현재 메일함이 뭔지 전달해주기
-		switch(currentMailbox) {
-			case "a": request.setAttribute("currentMailbox", "a"); break;
-			case "i": request.setAttribute("currentMailbox", "i"); break;
-			case "s": request.setAttribute("currentMailbox", "s"); break;
-			case "t": request.setAttribute("currentMailbox", "t"); break;
-			case "m": request.setAttribute("currentMailbox", "m"); break;
-			case "b": request.setAttribute("currentMailbox", "b"); break;
-			case "u": request.setAttribute("currentMailbox", "u"); break;
-			case "im": request.setAttribute("currentMailbox", "im"); break;
-		}
+		request.setAttribute("mailboxCountList", mailboxCountList); 	// 메일함별 메일개수 리스트 
+		request.setAttribute("allMailCount", allMailCount);  		    // 전체메일개수
+		request.setAttribute("unreadMailCount", unreadMailCount);  		// 안읽은메일개수
+		request.setAttribute("importantMailCount", importantMailCount); // 중요메일개수
 		
 		request.getSession().setAttribute("currentPage", "mail");
 		request.getRequestDispatcher("views/mail/mail.jsp").forward(request, response);
+
 	}
 
 	/**

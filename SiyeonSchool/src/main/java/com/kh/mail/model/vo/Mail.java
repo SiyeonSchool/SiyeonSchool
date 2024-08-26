@@ -3,6 +3,7 @@ package com.kh.mail.model.vo;
 public class Mail {
 	
 	private String mailNo;
+	private String mailboxName; // 메일함 이름
 	private String mailStar;
 	private String isRead;
 	private String userName;
@@ -16,10 +17,13 @@ public class Mail {
 	
 	public Mail() {}
 
-	public Mail(String mailNo, String mailStar, String isRead, String userName, String userId, String profilePath,
-			String mailTitle, String mailContent, String receiverType, String isSent, String sendDate) {
+	// 전체필드
+	public Mail(String mailNo, String mailboxName, String mailStar, String isRead, String userName, String userId,
+			String profilePath, String mailTitle, String mailContent, String receiverType, String isSent,
+			String sendDate) {
 		super();
 		this.mailNo = mailNo;
+		this.mailboxName = mailboxName;
 		this.mailStar = mailStar;
 		this.isRead = isRead;
 		this.userName = userName;
@@ -29,6 +33,20 @@ public class Mail {
 		this.mailContent = mailContent;
 		this.receiverType = receiverType;
 		this.isSent = isSent;
+		this.sendDate = sendDate;
+	}
+
+	// "전체메일함 메일목록" 조회에 사용됨.
+	public Mail(String mailNo, String mailboxName, String mailStar, String userName, String userId, String profilePath,
+			String mailTitle, String sendDate) {
+		super();
+		this.mailNo = mailNo;
+		this.mailboxName = mailboxName;
+		this.mailStar = mailStar;
+		this.userName = userName;
+		this.userId = userId;
+		this.profilePath = profilePath;
+		this.mailTitle = mailTitle;
 		this.sendDate = sendDate;
 	}
 
@@ -66,6 +84,14 @@ public class Mail {
 
 	public void setMailNo(String mailNo) {
 		this.mailNo = mailNo;
+	}
+
+	public String getMailboxName() {
+		return mailboxName;
+	}
+
+	public void setMailboxName(String mailboxName) {
+		this.mailboxName = mailboxName;
 	}
 
 	public String getMailStar() {
@@ -150,10 +176,10 @@ public class Mail {
 
 	@Override
 	public String toString() {
-		return "Mail [mailNo=" + mailNo + ", mailStar=" + mailStar + ", isRead=" + isRead + ", userName=" + userName
-				+ ", userId=" + userId + ", profilePath=" + profilePath + ", mailTitle=" + mailTitle + ", mailContent="
-				+ mailContent + ", receiverType=" + receiverType + ", isSent=" + isSent + ", sendDate=" + sendDate
-				+ "]";
+		return "Mail [mailNo=" + mailNo + ", mailboxName=" + mailboxName + ", mailStar=" + mailStar + ", isRead="
+				+ isRead + ", userName=" + userName + ", userId=" + userId + ", profilePath=" + profilePath
+				+ ", mailTitle=" + mailTitle + ", mailContent=" + mailContent + ", receiverType=" + receiverType
+				+ ", isSent=" + isSent + ", sendDate=" + sendDate + "]";
 	}
 
 }

@@ -221,14 +221,15 @@ FOR EACH ROW
 BEGIN
     INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '받은메일함', 'B', 'Y');
     INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '보낸메일함', 'B', 'Y');
+    INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '임시보관함', 'B', 'Y');
     INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '내게쓴메일함', 'B', 'Y');
+    INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '휴지통', 'B', 'Y');
+    INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '내 메일함', 'P', 'Y');
 END;
 /
 
 -- 아래는 백업용. 나중에 필요하면 다시 넣기. 
--- INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '임시보관함', 'B', 'Y');
--- INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '휴지통', 'B', 'Y');
--- INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '내 메일함', 'P', 'Y');
+
 
 --------------------------------------------------------------------------------
 --############### 유저 - INSERT ###############
@@ -731,10 +732,26 @@ END;
 /
 
 -- 2번 유저가 보내는 메일 (메일번호: "M501")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '중요 / 읽음 표시 테스트용 메일입니다.', '중요 / 읽음 표시 테스트 - 메일 내용입니다.', 'S', TO_DATE('2024-07-01 09:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '안녕하세요 반갑습니다.', '잘 부탁드립니다..', 'S', TO_DATE('2024-07-01 09:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- 3번 유저가 보내는 메일 (메일번호: "M502")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 3, '중요 / 읽음 표시 테스트용 메일입니다.2', '중요 / 읽음 표시 테스트 - 메일 내용입니다.2', 'S', TO_DATE('2024-07-02 13:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 3, '오늘 하루도 좋은 하루되세요!', '파이팅!!', 'S', TO_DATE('2024-07-02 13:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+-- 2번 유저의 임시보관 메일 (메일번호: "M503")
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '이메일을 보낼까~ 말까~', '아직 수신인은 정하지 않았음. 수신인 없는게 정상', 'T', TO_DATE('2024-07-03 16:30:33', 'YYYY-MM-DD HH24:MI:SS'));
+
+-- 2번 유저의 임시보관 메일2 (메일번호: "M504")
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '이거 보낼지말지 고민이네요..', '우선 임시로 저장해놓을게요', 'T', TO_DATE('2024-07-04 09:25:03', 'YYYY-MM-DD HH24:MI:SS'));
+
+-- 2번 유저의 내게쓴메일 (메일번호: "M505")
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '나에게 보내는 편지', '테스트를 하려면 데이터를 넣어야합니다.', 'S', TO_DATE('2024-07-05 19:13:01', 'YYYY-MM-DD HH24:MI:SS'));
+
+-- 2번 유저의 내게쓴메일2 (메일번호: "M506")
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '혼잣말하는중', 'order by가 잘먹히는지 보려면 2개는 넣어봐야합니다.', 'S', TO_DATE('2024-07-06 01:14:21', 'YYYY-MM-DD HH24:MI:SS'));
+
+-- 2번 유저의 휴지통메일 (메일번호: "M507")
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '이승기가 부릅니다 - 삭제 ', '명곡입니다.  (보낸사람은 메일을 삭제했지만 받은 사람은 그대로 가지고 있는게 정상. (발신취소가 아님!))', 'S', TO_DATE('2024-07-07 03:20:45', 'YYYY-MM-DD HH24:MI:SS'));
+
 
 --------------------------------------------------------------------------------
 --############### 메일_수신인 ###############
@@ -793,7 +810,8 @@ INSERT INTO MAIL_RECEIVER VALUES('M502', 1, 'C', NULL); -- 수신인: 1번유저
 INSERT INTO MAIL_RECEIVER VALUES('M502', 2, 'S', NULL); -- 수신인: 2번유저, 비밀, 읽지않은상태
 INSERT INTO MAIL_RECEIVER VALUES('M502', 4, 'R', NULL); -- 수신인: 3번유저, 수신, 읽지않은상태
 
-
+-- 2번 유저의 휴지통메일 (메일번호: "M507")
+INSERT INTO MAIL_RECEIVER VALUES('M507', 1, 'S', NULL); -- 수신인: 1번유저, 수신, 읽지않은상태
 
 --------------------------------------------------------------------------------
 --############### 메일_소유자 ###############
@@ -820,29 +838,29 @@ COMMENT ON COLUMN MAIL_OWNER.MAIL_STATUS IS '메일상태(미삭제:Y/삭제:N)'
 
 -- 메일함
 -- 1번 유저 (발신인) - 보낸메일함: 'MB2'
--- 2번 유저 (수신인) - 받은메일함: 'MB4'
--- 3번 유저 (수신인) - 받은메일함: 'MB7'
--- 4번 유저 (수신인) - 받은메일함: 'MB10'
+-- 2번 유저 (수신인) - 받은메일함: 'MB7'
+-- 3번 유저 (수신인) - 받은메일함: 'MB13'
+-- 4번 유저 (수신인) - 받은메일함: 'MB19'
 
 -- INSERT INTO MAIL_OWNER VALUES (1, 'M1', 'MB2', 'N', 'Y');
--- INSERT INTO MAIL_OWNER VALUES (2, 'M1', 'MB4', 'N', 'Y');
--- INSERT INTO MAIL_OWNER VALUES (3, 'M1', 'MB7', 'N', 'Y');
--- INSERT INTO MAIL_OWNER VALUES (4, 'M1', 'MB10', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (2, 'M1', 'MB7', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (3, 'M1', 'MB13', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (4, 'M1', 'MB19', 'N', 'Y');
 
 -- INSERT INTO MAIL_OWNER VALUES (1, 'M2', 'MB2', 'N', 'Y');
--- INSERT INTO MAIL_OWNER VALUES (2, 'M2', 'MB4, 'N', 'Y');
--- INSERT INTO MAIL_OWNER VALUES (3, 'M2', 'MB7', 'N', 'Y');
--- INSERT INTO MAIL_OWNER VALUES (4, 'M2', 'MB10', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (2, 'M2', 'MB7, 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (3, 'M2', 'MB13', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (4, 'M2', 'MB19', 'N', 'Y');
 
 -- INSERT INTO MAIL_OWNER VALUES (1, 'M3', 'MB2', 'N', 'Y');
--- INSERT INTO MAIL_OWNER VALUES (2, 'M3', 'MB4', 'N', 'Y');
--- INSERT INTO MAIL_OWNER VALUES (3, 'M3', 'MB7', 'N', 'Y');
--- INSERT INTO MAIL_OWNER VALUES (4, 'M3', 'MB10', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (2, 'M3', 'MB7', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (3, 'M3', 'MB13', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (4, 'M3', 'MB19', 'N', 'Y');
 
 DECLARE
     mo_mail_count NUMBER := 500;
     mo_mail_index NUMBER;
-    mo_mailboxes SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST('MB2', 'MB4', 'MB7', 'MB10');
+    mo_mailboxes SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST('MB2', 'MB7', 'MB13', 'MB19');
     mo_mailboxes_count NUMBER := mo_mailboxes.COUNT;
 BEGIN
     FOR mo_mail_index IN 1..mo_mail_count LOOP
@@ -863,26 +881,42 @@ END;
 -- 2번 유저가 보내는 메일 (메일번호: "M501") 관련, 소유자(발신인,수신인) 각각의 데이터 
 -- 메일함
 -- 1번 유저 (수신인) - 받은메일함: 'MB1'
--- 2번 유저 (발신인) - 보낸메일함: 'MB5'
--- 3번 유저 (수신인) - 받은메일함: 'MB7'
--- 4번 유저 (수신인) - 받은메일함: 'MB10'
+-- 2번 유저 (발신인) - 보낸메일함: 'MB8'
+-- 3번 유저 (수신인) - 받은메일함: 'MB13'
+-- 4번 유저 (수신인) - 받은메일함: 'MB19'
 INSERT INTO MAIL_OWNER VALUES (1, 'M501', 'MB1', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (2, 'M501', 'MB5', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (3, 'M501', 'MB7', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (4, 'M501', 'MB10', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (2, 'M501', 'MB8', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (3, 'M501', 'MB13', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (4, 'M501', 'MB19', 'Y', 'Y');
 
 -- 3번 유저가 보내는 메일 (메일번호: "M502") 관련, 소유자(발신인,수신인) 각각의 데이터 
 -- 메일함
 -- 1번 유저 (수신인) - 받은메일함: 'MB1'
--- 2번 유저 (수신인) - 보낸메일함: 'MB4'
--- 3번 유저 (발신인) - 받은메일함: 'MB8'
--- 4번 유저 (수신인) - 받은메일함: 'MB10'
+-- 2번 유저 (수신인) - 받은메일함: 'MB7'
+-- 3번 유저 (발신인) - 보낸메일함: 'MB14'
+-- 4번 유저 (수신인) - 받은메일함: 'MB19'
 INSERT INTO MAIL_OWNER VALUES (1, 'M502', 'MB1', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (2, 'M502', 'MB4', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (3, 'M502', 'MB8', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (4, 'M502', 'MB10', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (2, 'M502', 'MB7', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (3, 'M502', 'MB14', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (4, 'M502', 'MB19', 'Y', 'Y');
 
---------------------------------------------------------------------------------
+-- 2번 유저의 임시보관 메일 (메일번호: "M503")
+INSERT INTO MAIL_OWNER VALUES (2, 'M503', 'MB9', 'N', 'Y');
+
+-- 2번 유저의 임시보관 메일2 (메일번호: "M504")
+INSERT INTO MAIL_OWNER VALUES (2, 'M504', 'MB9', 'Y', 'Y');
+
+-- 2번 유저의 내게쓴메일 (메일번호: "M505")
+INSERT INTO MAIL_OWNER VALUES (2, 'M505', 'MB10', 'Y', 'Y');
+
+-- 2번 유저의 내게쓴메일2 (메일번호: "M506")
+INSERT INTO MAIL_OWNER VALUES (2, 'M506', 'MB10', 'N', 'Y');
+
+-- 2번 유저의 휴지통메일 (메일번호: "M507")
+INSERT INTO MAIL_OWNER VALUES (1, 'M507', 'MB1', 'N', 'Y');
+INSERT INTO MAIL_OWNER VALUES (2, 'M507', 'MB11', 'N', 'N');
+
+-------------------------------------------------------------------------------
 --############### 수업_게시판 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE CLASS_BOARD(

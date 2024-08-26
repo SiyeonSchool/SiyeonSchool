@@ -1,3 +1,5 @@
+<%@page import="java.util.Set"%>
+<%@page import="com.kh.mail.model.vo.Mailbox"%>
 <%@page import="com.kh.mail.model.vo.Mail"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.common.model.vo.PageInfo"%>
@@ -16,9 +18,18 @@
 	int endPage = pi.getEndPage();
 	int maxPage = pi.getMaxPage();
 	
-	// 이외
+	// 현재 메일함
 	String currentMailbox = (String)request.getAttribute("currentMailbox");
-	//a(all: 전체메일함), i(inbox: 받은메일함), s(sent: 보낸메일함), t(temp: 임시보관함), m(myself: 내게쓴메일함), b(bin:휴지통)
+	// a(all: 전체메일함), i(inbox: 받은메일함), s(sent: 보낸메일함), t(temp: 임시보관함), m(myself: 내게쓴메일함), b(bin:휴지통)
+	// u(unread: 안읽은메일), im(important:중요메일)
+	
+	
+	
+	ArrayList<Mailbox> mailboxCountList = (ArrayList<Mailbox>)request.getAttribute("mailboxCountList"); // 메일함별 메일개수 리스트 
+	int allMailCount = (int)request.getAttribute("allMailCount");  			  // 전체메일개수
+	int unreadMailCount = (int)request.getAttribute("unreadMailCount"); 	  // 안읽은메일 갯수
+	int importantMailCount = (int)request.getAttribute("importantMailCount"); // 중요메일개수
+	
 %>
 
 <!DOCTYPE html>
@@ -43,13 +54,13 @@
 			</div>
 	
 			<div class="remind-btn-group">
-				<div class="remind-btn unread">
+				<div class="remind-btn unread" onclick="location.href='<%= contextPath %>/mail?mb=u&cpage=1'">
 					<span class="icon material-icons-round">markunread</span>
-					<p>안읽음<span>(5)</span></p>
+					<p>안읽음<span>(<%= unreadMailCount %>)</span></p>
 				</div>
-				<div class="remind-btn star">
+				<div class="remind-btn star" onclick="location.href='<%= contextPath %>/mail?mb=im&cpage=1'">
 					<span class="icon material-icons-round yellow-star">star</span>
-					<p>중요<span>(20)</span></p>
+					<p>중요<span>(<%= importantMailCount %>)</span></p>
 				</div>
 			</div>
 
@@ -67,58 +78,62 @@
 			<ul>
 	
 				<!-- 전체메일함 -->
-				<li onclick="location.href='<%= contextPath2 %>/mail?mb=a&cpage=1'" <% if(currentMailbox.equals("a")) { %> class="active" <% } %>>
+				<li onclick="location.href='<%= contextPath %>/mail?mb=a&cpage=1'" <% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { %> class="active" <% } %>>
 					<div class="mailbox-div">
 						<input type="hidden" name="mailboxNo" value="0">
 						<span class="icon mailboxNo-icon material-symbols-rounded">stacked_email</span>
 						<span class="mailboxName">전체메일함</span>
+						<span class="mailCount">(<%= allMailCount %>)</span>
 					</div>
 				</li>
 		
 				<!-- 받은메일함 -->
-				<li onclick="location.href='<%= contextPath2 %>/mail?mb=i&cpage=1'" <% if(currentMailbox.equals("i")) { %> class="active" <% } %>>
+				<li onclick="location.href='<%= contextPath %>/mail?mb=i&cpage=1'" <% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { %> class="active" <% } %>>
 					<div class="mailbox-div">
 						<input type="hidden" name="mailboxNo" value="">
 						<span class="icon mailboxNo-icon material-icons-round">mail_outline</span>
 						<span class="mailboxName">받은메일함</span>
-						<span class="mailCount">(5)</span>
+						<span class="mailCount">(<%= mailboxCountList.get(0).getMailCount() %>)</span>
 					</div>
 				</li>
 	
 				<!-- 보낸메일함 -->
-				<li onclick="location.href='<%= contextPath2 %>/mail?mb=s&cpage=1'" <% if(currentMailbox.equals("s")) { %> class="active" <% } %>>
+				<li onclick="location.href='<%= contextPath %>/mail?mb=s&cpage=1'" <% if(currentMailbox.equals("s")) { %> class="active" <% } %>>
 					<div class="mailbox-div">
 						<input type="hidden" name="mailboxNo" value="">
 						<span class="icon mailboxNo-icon material-icons-outlined">send</span>
 						<span class="mailboxName">보낸메일함</span>
+						<span class="mailCount">(<%= mailboxCountList.get(1).getMailCount() %>)</span>
 					</div>
 				</li>
 	
 				<!-- 임시보관함 -->
-				<li onclick="location.href='<%= contextPath2 %>/mail?mb=t&cpage=1'" <% if(currentMailbox.equals("t")) { %> class="active" <% } %>>
+				<li onclick="location.href='<%= contextPath %>/mail?mb=t&cpage=1'" <% if(currentMailbox.equals("t")) { %> class="active" <% } %>>
 					<div class="mailbox-div">
 						<input type="hidden" name="mailboxNo" value="">
 						<span class="icon mailboxNo-icon material-icons-outlined">note</span>
 						<span class="mailboxName">임시보관함</span>
-						<span class="mailCount">(0)</span>
+						<span class="mailCount">(<%= mailboxCountList.get(2).getMailCount() %>)</span>
 					</div>
 				</li>
 	
 				<!-- 내게쓴메일함 -->
-				<li onclick="location.href='<%= contextPath2 %>/mail?mb=m&cpage=1'" <% if(currentMailbox.equals("m")) { %> class="active" <% } %>>
+				<li onclick="location.href='<%= contextPath %>/mail?mb=m&cpage=1'" <% if(currentMailbox.equals("m")) { %> class="active" <% } %>>
 					<div class="mailbox-div">
 						<input type="hidden" name="mailboxNo" value="">
 						<span class="icon mailboxNo-icon material-icons-outlined">article</span>
 						<span class="mailboxName">내게쓴메일함</span>
+						<span class="mailCount">(<%= mailboxCountList.get(3).getMailCount() %>)</span>
 					</div>
 				</li>
 	
 				<!-- 휴지통 -->
-				<li onclick="location.href='<%= contextPath2 %>/mail?mb=b&cpage=1'" <% if(currentMailbox.equals("b")) { %> class="active" <% } %>>
+				<li onclick="location.href='<%= contextPath %>/mail?mb=b&cpage=1'" <% if(currentMailbox.equals("b")) { %> class="active" <% } %>>
 					<div class="mailbox-div">
 						<input type="hidden" name="mailboxNo" value="">
 						<span class="icon mailboxNo-icon material-symbols-outlined">delete</span>
 						<span class="mailboxName">휴지통</span>
+						<span class="mailCount">(<%= mailboxCountList.get(4).getMailCount() %>)</span>
 						<div class="emptyBtn">비우기</div>
 					</div>
 				</li>
@@ -145,7 +160,7 @@
 						<input type="hidden" name="mailboxNo" value="">
 						<span class="icon mailboxNo-icon material-symbols-outlined">folder</span>
 						<span class="mailboxName">내 메일함</span>
-						<span class="mailCount">(5)</span>
+						<span class="mailCount">(<%= mailboxCountList.get(5).getMailCount() %>)</span>
 						<span class="icon edit-icon material-symbols-rounded icon edit">edit</span>
 					</div>
 				</li>
@@ -183,15 +198,24 @@
 				<li class="mail-column checkbox"><input type="checkbox"></li>
 				<li class="mail-column star">중요</li>
 				
-				<% if(currentMailbox.equals("i")) { %>
+				<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { // 받은메일함, 안읽은메일  %>
 					<li class="mail-column read">읽음</li>
+				<% } %>
+				
+				<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { // 전체메일함, 중요메일 %>
+					<li class="mail-column mailbox">메일함</li>
 				<% } %>
 				
 				<li class="mail-column sender">보낸사람</li>
 				<li class="mail-column mailTitle">메일 제목</li>
 				
-				<% if(currentMailbox.equals("i")) { %>
+				<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { // 받은메일함, 안읽은메일 %>
 					<li class="mail-column type">수신구분</li>
+				<% } %>
+				
+				<% Set<String> excludedMailboxes = Set.of("a", "i", "u", "im");
+				   if(!excludedMailboxes.contains(currentMailbox)) { // 전체메일함, 받은메일함, 안읽은메일, 중요메일이 아닐때, 여백을 줌 %>
+					<div class="mail-column empty-space"></div>
 				<% } %>
 				
 				<li class="mail-column sentDate">보낸시간</li>
@@ -213,10 +237,12 @@
 							<li class="mail">
 						<% } %>
 						
+							<!-- 체크박스 -->
 							<div class="mail-column checkbox jc-center">
 								<input type="checkbox">
 							</div>
 							
+							<!-- 중요(별) -->
 							<div class="mail-column star jc-center">
 								<% if(m.getMailStar().equals("N")){ %>
 									<span class="icon star material-symbols-rounded">star</span>
@@ -225,7 +251,8 @@
 								<% } %>
 							</div>
 		
-							<% if(currentMailbox.equals("i")) { %>
+							<!-- 읽음 -->
+							<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { %>
 								<div class="mail-column read jc-center">
 									<% if(m.getIsRead().equals("N")){ %>
 										<span class="icon mail-icon material-icons-round">markunread</span>
@@ -235,6 +262,14 @@
 								</div>
 							<% } %>
 		
+							<!-- 메일함 -->
+							<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { %>
+								<div class="mail-column mailbox jc-center">
+									<span class="mailboxName"><%= m.getMailboxName() %></span>
+								</div>
+							<% } %>
+		
+							<!-- 보낸사람 -->
 							<div class="mail-column sender">
 								<% if(m.getProfilePath() != null){ %>
 									<img src="<%= contextPath %>/<%= m.getProfilePath() %>" class="profile-img">
@@ -245,16 +280,24 @@
 								<span class="userId">(<%= m.getUserId() %>)</span>
 							</div>
 							
+							<!--  메일 제목 -->
 							<div class="mail-column mailTitle text-left">
 								<span><%= m.getMailTitle() %></span>
 							</div>
 		
-							<% if(currentMailbox.equals("i")) { %>
+							<!-- 수신구분 -->
+							<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { %>
 								<div class="mail-column type jc-center">
 									<span><%= m.getReceiverType() %></span>
 								</div>
 							<% } %>
 		
+							<!-- 여백 -->
+							<% if(!excludedMailboxes.contains(currentMailbox)) { // 전체메일함, 받은메일함, 안읽은메일, 중요메일이 아닐때%>
+								<div class="mail-column empty-space"></div>
+							<% } %>
+		
+							<!-- 보낸시간 -->
 							<div class="mail-column sentDate jc-center">
 								<span><%= m.getSendDate() %></span>
 							</div>
