@@ -104,7 +104,7 @@ public class UserDao {
 		String sql = prop.getProperty("insertUser");
 
 		try {
-			pstmt = conn.prepareStatement(sql); // 미완성된 쿼리
+			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, u.getUserId());
 			pstmt.setString(2, u.getUserPwd());
@@ -152,5 +152,55 @@ public class UserDao {
 	    }
 
 	    return list;
+	}
+	
+	public User findUser(Connection conn, String userName, String birthday, int questionNo, String questionAnswer) {
+		User user = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("findUser");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, birthday);
+			pstmt.setInt(3, questionNo);
+			pstmt.setString(4, questionAnswer);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+	            user = new User();
+	            user.setUserId(rset.getString("USER_ID"));
+	        }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return user;
+	}
+
+	public int updateUserPwd(Connection conn, String updatePwd, String userId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateUserPwd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, updatePwd);
+			pstmt.setString(2, userId);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 }
