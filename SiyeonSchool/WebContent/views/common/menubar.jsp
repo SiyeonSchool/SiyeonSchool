@@ -48,7 +48,7 @@
             </a>
 
 			<!-- 메일 -->
-            <a href="<%= contextPath2 %>/mail">
+            <a href="<%= contextPath2 %>/mail?mb=i&cpage=1">
             	<% if(currentPage.equals("mail")) { %>
 	                <!-- <img src="resources/images/menubar/mail_sel.png" alt="메일버튼" style="height:48px; padding: 3px;"> -->
 	                <div class="menu-icon material-icons-round" style="color: var(--darkPurple);">email</div>
@@ -78,7 +78,7 @@
             </a>
 
 			<!-- 수업 -->
-            <a href="<%= contextPath2 %>/classroom">
+            <a href="<%= contextPath2 %>/classroom?cpage=1">
                 <% if(currentPage.equals("classroom")) { %>
 	                <!-- <img src="resources/images/menubar/class_sel.png" alt="수업자료버튼" style="height:49px; padding: 3px;"> -->
 	                <div class="menu-icon material-symbols-outlined" style="color: var(--darkRed);">book_2</div>

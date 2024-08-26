@@ -1,5 +1,55 @@
-/* 아래는 지우셔도 됩니다! */
-h1 {
-    font-size: 50px;
+/* ================================ 도구 ================================ */
+
+main{
+    width: 100vw;
+    height: calc(100vh - var(--menubar-height));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main section{
+    border: 1px solid var(--darkGrey);
+    width: 350px;
+    height: 500px;
+    background: lightgray;
+    position: relative;
+    margin: 0 30px;
+    cursor: pointer;
+}
+
+main section:hover{
+    background: rgb(221, 221, 221);
+}
+
+main section h2{
+    font-size: 1.3rem;
     font-weight: bold;
+    text-align: center;
+    margin: 40px 0 0;
+}
+
+main section img{
+    position: absolute;
+    display: block;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    transition: transform .1s;
+}
+
+main section img:hover{
+    transform: scale(1.05);
+}
+
+main section .section-behind{
+    width: 350px;
+    height: 500px;
+    background-color: darkgray;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: -1;
 }
