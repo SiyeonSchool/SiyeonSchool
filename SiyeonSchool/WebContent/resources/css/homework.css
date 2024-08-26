@@ -15,6 +15,13 @@
     height: 100px;
     border-bottom: 1px solid #f0f0f0;
 }
+
+#side1 span{
+    padding-left: 20px;
+    line-height: 40px;
+    font-weight: bold;
+}
+
 #side2{
     width: 100%;
     height: calc('#side' - '#side1');
@@ -47,18 +54,25 @@
 #side3{
     width: 100%;
     height: calc('#side' - ('#side1' - '#side2'));
+    position: relative;
+    /* padding: 8px 10px 3px 20px; */
+    cursor: pointer;
+}
+
+#side3 ul:first-child li{
+    padding: 8px 10px 3px 20px;
 }
 
 .sideList{
     position: relative;
-    padding: 3px 10px;
-    margin-left: 10px;
+    padding: 8px 10px 3px 20px;
 }
+
 
 .subject{
     margin-left: 10px;
     position: absolute;
-    top: 5px;
+    top: 10px;
 }
 
 .sideList span:nth-child(3){
@@ -83,6 +97,26 @@
     color: black;
 }
 
+#side3 span:nth-child(2){
+    position: absolute;
+    top: 10px;
+    margin-left: 10px;
+}
+
+#side3 span:last-child{
+    position: absolute;
+    top: 10px;
+    left: 135px;
+}
+
+.sideList{
+    cursor: pointer;
+}
+
+.sideList:hover, #side3 li:hover{
+    background-color: #fec3ff;
+}
+
 #homework{
     width: calc(100% - 300px);
 }
@@ -96,4 +130,27 @@
 #content{
     height: calc(100% - 50px);
     background-color: blueviolet;
+}
+
+#create{
+    position: relative;
+}
+
+#create a{
+    width: 88px;
+    height: 33px;
+    border: 1px solid #9a9a9a;
+    text-align: center;
+    line-height: 33px;
+    font-weight: 500;
+    border-radius: 5px;
+    background-color: #fff6ff;
+    position: absolute;
+    bottom: -440px;
+    left: 103px;
+    /* visibility: hidden; */
+}
+
+#create a:hover{
+    background-color: #fec3ff;
 }

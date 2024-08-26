@@ -16,7 +16,7 @@
 	<div class="container">
 		<div id="side">
 			<div class="sidebar" id="side1">
-				<span ><h2>곧 마감되는 과제</h2></span>
+				<span >곧 마감되는 과제</span>
 				
 			</div>
 			<div class="sidebar" id="side2">
@@ -54,8 +54,17 @@
 				</ul>
 			</div>
 			<div class="sidebar" id="side3">
-				<span class="icon mailboxNo-icon material-icons-outlined">note</span>
-				<span>임시보관함</span>
+				<ul>
+					<li>
+						<span class="icon mailboxNo-icon material-icons-outlined">note</span>
+						<span>임시보관함</span><span>(0)</span>
+					</li>
+				</ul>
+				<ul>
+					<li id="create">
+						<a href="<%=contextPath%>/">과제 만들기</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<div id="homework">
