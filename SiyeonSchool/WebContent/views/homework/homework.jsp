@@ -13,8 +13,24 @@
 
 	<%@ include file="../common/menubar.jsp" %>
 
-	<h1>과제 페이지 입니다.</h1><br>
+	<div class="container">
+		<div id="side">
+			<div class="sidebar" id="side1">
+				<span ><h2>곧 마감되는 과제</h2></span>
+			</div>
+			<div class="sidebar" id="side2">
 
+			</div>
+		</div>
+		<div id="homework">
+			<div class="content" id="header">
+
+			</div>
+			<div class="content" id="content">
+
+			</div>
+		</div>
+	</div>
 	
 </body>
 </html>

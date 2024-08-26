@@ -36,10 +36,10 @@
         #back {
             width: 210px;
             height: 47px;
-            border-radius: 10px;
+            border-radius: 25px;
             background-color: #46D3FF;
             color: white;
-            font-size: 26px;
+            font-size: 23px;
             font-weight: 700;
             border: none;
             position: absolute;
@@ -51,10 +51,10 @@
         #submit {
             width: 210px;
             height: 47px;
-            border-radius: 10px;
+            border-radius: 25px;
             background-color: #46D3FF;
             color: white;
-            font-size: 26px;
+            font-size: 23px;
             font-weight: 700;
             border: none;
             position: absolute;
@@ -68,23 +68,33 @@
             cursor: pointer;
         }
 
-        input, select {
+        input {
             font-size: 16px;
             font-weight: 500;
             border: none;
             border-radius: 7px;
+            padding: 0 8px;
+        }
+
+        select {
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 7px;
+            padding: 0 4px;
         }
 
         #checkId {
-            width: 100px;
+            width: 92px;
             height: 27px;
-            border-radius: 7px;
+            border-radius: 25px;
             background-color: #46D3FF;
             font-size: 16px;
             font-weight: 700;
             border: none;
             position: absolute;
-            letter-spacing: 3px;
+            letter-spacing: 1.5px;
+            color: rgb(255, 245, 232);
         }
 
         #checkId:hover {
@@ -189,13 +199,11 @@
             </tr>
             <tr>
                 <th><span>*</span> 비밀번호</th>
-                <td><input type="text" class="l" name="userPwd"
-                           placeholder="영문, 숫자,특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)" required></td>
+                <td><input type="text" class="l" name="userPwd" placeholder="영문, 숫자,특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)" required></td>
             </tr>
             <tr>
                 <th><span>*</span> 비밀번호 확인</th>
-                <td><input type="text" class="l" name="userPwdCheck" placeholder="비밀번호를 다시 한번 입력해주세요."
-                           required></td>
+                <td><input type="text" class="l" name="userPwdCheck" placeholder="비밀번호를 다시 한번 입력해주세요." required></td>
             </tr>
             <tr>
                 <th><span>*</span> 이름</th>
@@ -203,12 +211,11 @@
             </tr>
             <tr>
                 <th><span>*</span> 생년월일</th>
-                <td><input type="text" class="l" name="Birthday" placeholder="6자리 형식으로 입력해주세요. ex) 00-10-20"
-                           required></td>
+                <td><input type="text" class="l" name="birthday" placeholder="6자리 형식으로 입력해주세요. ex) 020422" required></td>
             </tr>
             <tr>
                 <th>주소</th>
-                <td><input type="text" class="l" name="Address" placeholder="상세주소는 필수 입력 항목이 아닙니다. ex) 서울 강남구"></td>
+                <td><input type="text" class="l" name="address" placeholder="상세주소는 필수 입력 항목이 아닙니다. ex) 서울 강남"></td>
             </tr>
             <tr>
                 <th>이메일</th>
@@ -221,7 +228,7 @@
             <tr>
                 <th><span>*</span> 질문</th>
                 <td>
-                    <select name="question" required>
+                    <select name="questionNo" required>
 						<option value="" disabled selected>아이디/비밀번호 찾기에 사용됩니다.</option>
 						<% ArrayList<Question> questionList = (ArrayList<Question>)request.getAttribute("questionList");
 					        if (questionList != null && !questionList.isEmpty()) {
@@ -230,21 +237,21 @@
 					        <option value="<%= question.getQuestionNo() %>"><%= question.getQuestionContent() %></option>
 					    <%     }
 					        } else {
-					    %> <option value="">질문이 없습니다</option>
+					    %> <option value=""></option>
 					    <% } %>
 					</select>
                 </td>
             </tr>
             <tr>
                 <th><span>*</span> 답변</th>
-                <td><input type="text" class="l" name="answer" placeholder="아이디/비밀번호 찾기에 사용됩니다."
+                <td><input type="text" class="l" name="questionAnswer" placeholder="아이디/비밀번호 찾기에 사용됩니다."
                            required></td>
             </tr>
             <tr>
                 <td colspan="2" id="end"><span>*</span> 필수 입력 항목입니다.</td>
             </tr>
         </table>
-        <button type="submit" id="submit" disabled onclick="alert('관리자에게 회원가입 승인 요청을 보냈습니다.\n관리자의 승인을 기다려주세요.')">회원가입 요청</button>
+        <button type="submit" id="submit" disabled>회원가입 요청</button>
         <button id="back" onclick="history.back()">회원가입 취소</button>
     </form>
 </div>

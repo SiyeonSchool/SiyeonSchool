@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ include file="views/common/common.jsp"%>
+<%String alertMsg = (String)session.getAttribute("alertMsg"); %>
 
 <!DOCTYPE html>
 <html>
@@ -50,8 +51,9 @@
 
 #left img{
 	width: 250px;
+	height: 220px;
 	margin: auto;
-	margin-top: 50px;
+	margin-top: 60px;
 }
 #right img{
 	width: 45%;
@@ -62,7 +64,7 @@
 #left p{
 	text-align: center;
 	font-weight: bold;
-	margin: 20px 50px;
+	margin: 20px 30px;
 }
 .p{
 	font-size: 24px;
@@ -87,6 +89,7 @@ input{
 	width: 410px;
 	height: 40px;
 	border-radius: 5px;
+	padding: 0 8px;
 }
 form input{
 	margin: 10px 0 20px 45px;
@@ -104,7 +107,7 @@ form{position: relative;}
 button{
 	width: 152px;
 	height: 47px;
-	border-radius: 5px;
+	border-radius: 25px;
 	background-color: #46D3FF;
 	color: white;
 	font-size: 20px;
@@ -148,22 +151,32 @@ li:first-child::before{display: none;}
 </style>
 </head>
 <body>
-	<!-- 이 "홈으로" a태그는 로그인 페이지 구현 끝날때까지 남겨주세요! -->
-	
-	<!-- <p>
-		위 "홈으로" 태그만 남겨주시고, 다 지우셔도 됩니다!<br> 화면구현하시는데 방해가 안되도록 absolute
-		포지션으로 잡아놓았습니다. <br> <br> 나중에 로그인 화면이 구현이 다 되면, 홈으로 이동할 수 있게
-		부탁드려요.<br> 그땐 당연히 저 위에 "홈으로" 태그도 지우셔도 됩니다. <br> 감사합니다!! - 동규
-	</p>
-	-->
+	<%
+	if (alertMsg != null) {
+	%>
+		<script>
+			alert("<%=alertMsg%>");
+		</script>
+	<%
+		session.removeAttribute("alertMsg");
+	%>
+	<%
+	}
+	%>
 	<div id="background">
-		<!-- <a id="homeBtn" href="<%=contextPath%>/home">홈으로</a> -->
 		<canvas id="canvas" class="canvas"></canvas>
 		<div id="login">
 			<div id="left">
 				<img src="resources/images/login_logo.png" alt=""> <br>
 				<p>
-					아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~아무튼간에 잘해보자잉~ <br>
+					시연스쿨에 오신 것을 환영합니다. 강사 김시연입니다. <br><br>
+					72:1의 법칙. <br>
+					72시간, 즉 3일 내에 결심한 것을 행동으로 옮기지 않는다면,<br>
+					단 1%도 성공할 가능성이 없다는 말입니다. <br>
+					이 글을 보고 있는 여러분, 도전하려는 마음을 먹었다면 <br>
+					반드시 3일 안에 결심을 행동으로 옮겨 성공에 한 발짝 다가가 보세요. <br><br>	
+					해보고 후회하는 것은 많이 없습니다. <br>
+					고민하지 말고 우선 행동으로 나아가세요!
 				</p>
 			</div>
 			<div id="right">
@@ -171,17 +184,17 @@ li:first-child::before{display: none;}
 				
 				<form action="<%=contextPath %>/login.user" id="login-form" method="post">
 					<p class="p">아이디</p>
-					<input type="text" name="userId" placeholder=" 영문, 숫자 조합으로 입력해주세요.(6~18자) " requried><br>
+					<input type="text" name="userId" placeholder="아이디는 영문, 숫자 조합 6~12자 입니다. " requried><br>
 					<p class="p">비밀번호</p>
-					<input type="password" name="userPwd" placeholder=" 영문, 숫자, 특수문자(!,@,#,$,%,^,&,* 만 사용) 조합으로 입력해주세요.(6~18자)" requried><br>
+					<input type="password" name="userPwd" placeholder="비밀번호는 영문, 숫자, 특수문자(!,@,#,$,%,^,&,* 사용) 조합 6~18자 입니다." requried><br>
 					 <p id="error-message">
 				        아이디 또는 비밀번호가 잘못 되었습니다. 아이디와 비밀번호를 정확히 입력해 주세요.
 				    </p>
 					<button type="submit">로 그 인</button>
 				</form>
 				<ul>
-					<li><a href="<%=contextPath%>/UserIdPwdFind">아이디 / 비밀번호 찾기 </a></li>
-					<li><a href="<%=contextPath%>/signIn">회원가입</a></li>
+					<li><a href="<%=contextPath%>/userIdPwdFind.user">아이디 / 비밀번호 찾기 </a></li>
+					<li><a href="<%=contextPath%>/signIn.user">회원가입</a></li>
 				</ul>
 			</div>
 		</div>

@@ -54,4 +54,25 @@ public class UserService {
         close(conn);
         return list;
     }
+    
+    public User findUser(String userName, String birthday, int questionNo, String questionAnswer) {
+    	Connection conn = getConnection();
+    	User user = new UserDao().findUser(conn, userName, birthday, questionNo, questionAnswer);
+    	close(conn);
+    	return user;
+    }
+    
+    public int updateUserPwd(String userId, String updatePwd) {
+    	Connection conn = getConnection();
+    	int result = new UserDao().updateUserPwd(conn, updatePwd, userId);
+    	
+    	if(result > 0) {
+    		commit(conn);
+    	}else {
+    		rollback(conn);
+    	}
+    	close(conn);
+    	return result;
+    }
+    
 }
