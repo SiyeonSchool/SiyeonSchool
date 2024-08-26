@@ -17,7 +17,70 @@
 }
 #side2{
     width: 100%;
-    height: calc(100% - 100px);
+    height: calc('#side' - '#side1');
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#title{
+    margin: 10px 10px;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+#listTitle{
+    padding: 0px 200px 0px 10px;
+}
+
+#title .material-symbols-rounded{
+    cursor: pointer;
+    font-size: 30px;
+    color: #9a9a9a;
+    position: absolute;
+}
+
+#title .material-symbols-rounded:hover{
+    color: black;
+}
+
+#side3{
+    width: 100%;
+    height: calc('#side' - ('#side1' - '#side2'));
+}
+
+.sideList{
+    position: relative;
+    padding: 3px 10px;
+    margin-left: 10px;
+}
+
+.subject{
+    margin-left: 10px;
+    position: absolute;
+    top: 5px;
+}
+
+.sideList span:nth-child(3){
+    position: absolute;
+    right: 43px;
+    cursor: pointer;
+    color: #9a9a9a;
+}
+
+.sideList span:nth-child(3):hover{
+    color: black;
+}
+
+.sideList span:last-child{
+    position: absolute;
+    right: 11px;
+    cursor: pointer;
+    color: #9a9a9a;
+}
+
+.sideList span:last-child:hover{
+    color: black;
 }
 
 #homework{
@@ -31,7 +94,6 @@
 }
 
 #content{
-
     height: calc(100% - 50px);
     background-color: blueviolet;
 }
