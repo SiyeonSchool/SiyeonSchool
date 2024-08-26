@@ -1,3 +1,10 @@
+-- 더 이상 사용하지 않는 테이블 삭제.(한번만 실행하고 빼기. 안빼면 오류남)
+DROP TABLE CLASS_COMMENT CASCADE CONSTRAINTS;
+DROP TABLE CLASS_ATTACHMENT CASCADE CONSTRAINTS;
+DROP TABLE MAIL_ATTACHMENT CASCADE CONSTRAINTS;
+DROP TABLE HOMEWORK_COMMENT CASCADE CONSTRAINTS;
+DROP TABLE HOMEWORK_ATTACHMENT CASCADE CONSTRAINTS;
+
 --------------------------------------------------------------------------------
 --############### 기존 데이터 삭제 ###############
 --------------------------------------------------------------------------------
@@ -15,11 +22,8 @@ DROP TABLE MAIL CASCADE CONSTRAINTS;
 DROP TABLE MAIL_RECEIVER CASCADE CONSTRAINTS;
 DROP TABLE MAILBOX CASCADE CONSTRAINTS;
 DROP TABLE MAIL_OWNER CASCADE CONSTRAINTS;
-DROP TABLE MAIL_ATTACHMENT CASCADE CONSTRAINTS;
 DROP TABLE CLASS_BOARD CASCADE CONSTRAINTS;
 DROP TABLE CLASS_POST CASCADE CONSTRAINTS;
-DROP TABLE CLASS_COMMENT CASCADE CONSTRAINTS;
-DROP TABLE CLASS_ATTACHMENT CASCADE CONSTRAINTS;
 DROP TABLE SURVEY_POST CASCADE CONSTRAINTS;
 DROP TABLE SURVEY_MEMBER CASCADE CONSTRAINTS;
 DROP TABLE SURVEY_QUESTION CASCADE CONSTRAINTS;
@@ -34,8 +38,7 @@ DROP TABLE CALENDAR CASCADE CONSTRAINTS;
 DROP TABLE TODO CASCADE CONSTRAINTS;
 DROP TABLE HOMEWORK_TEACHER CASCADE CONSTRAINTS;
 DROP TABLE HOMEWORK_STUDENT CASCADE CONSTRAINTS;
-DROP TABLE HOMEWORK_COMMENT CASCADE CONSTRAINTS;
-DROP TABLE HOMEWORK_ATTACHMENT CASCADE CONSTRAINTS;
+
 -- 시퀀스 삭제
 DROP SEQUENCE SEQ_FILENO; -- <첨부파일> 테이블 PK시퀀스
 DROP SEQUENCE SEQ_USERNO; -- <유저> 테이블 PK시퀀스
@@ -56,78 +59,92 @@ DROP SEQUENCE SEQ_CALENDAR_NO;
 DROP SEQUENCE SEQ_HOMEWORK_NO;
 DROP SEQUENCE SEQ_HOMEWORK_SUBMIT_NO;
 DROP SEQUENCE SEQ_TODO_NO;
+
 --------------------------------------------------------------------------------
 --############### 첨부파일 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE ATTACHMENT(
-FILE_NO NUMBER PRIMARY KEY,
-ORIGIN_NAME VARCHAR2(255) NOT NULL,
-CHANGE_NAME VARCHAR2(255) NOT NULL UNIQUE,
-FILE_PATH VARCHAR2(1000) NOT NULL,
-UPLOAD_DATE DATE DEFAULT SYSDATE NOT NULL,
-STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-CHECK(STATUS IN ('Y', 'N'))
+    FILE_NO VARCHAR2(10) PRIMARY KEY,
+    REF_BNO VARCHAR2(10),
+    ORIGIN_NAME VARCHAR2(255) NOT NULL,
+    CHANGE_NAME VARCHAR2(255) NOT NULL UNIQUE,
+    FILE_PATH VARCHAR2(1000) NOT NULL,
+    UPLOAD_DATE DATE DEFAULT SYSDATE NOT NULL,
+    STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    CHECK(STATUS IN ('Y', 'N'))
 );
-COMMENT ON COLUMN ATTACHMENT.FILE_NO IS '파일번호';
+
+COMMENT ON COLUMN ATTACHMENT.FILE_NO IS '파일번호(A1, A2, A3...)';
+COMMENT ON COLUMN ATTACHMENT.REF_BNO IS '참조게시글번호(수업:CP1~, 과제:H1~, 메일:M1~)';
 COMMENT ON COLUMN ATTACHMENT.ORIGIN_NAME IS '파일원본명';
 COMMENT ON COLUMN ATTACHMENT.CHANGE_NAME IS '파일수정명';
 COMMENT ON COLUMN ATTACHMENT.FILE_PATH IS '저장경로';
 COMMENT ON COLUMN ATTACHMENT.UPLOAD_DATE IS '업로드일';
 COMMENT ON COLUMN ATTACHMENT.STATUS IS '상태(미삭제:Y/삭제:N)';
+
 CREATE SEQUENCE SEQ_FILENO
 NOCACHE;
 
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'admin.jpg', 'admin.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user01.jpg', 'user01.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user02.jpg', 'user02.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user03.jpg', 'user03.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user04.jpg', 'user04.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user05.jpg', 'user05.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user06.jpg', 'user06.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user07.jpg', 'user07.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user08.jpg', 'user08.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user09.jpg', 'user09.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user10.jpg', 'user10.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'admin.jpg', 'admin.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user01.jpg', 'user01.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user02.jpg', 'user02.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user03.jpg', 'user03.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user04.jpg', 'user04.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user05.jpg', 'user05.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user06.jpg', 'user06.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user07.jpg', 'user07.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user08.jpg', 'user08.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user09.jpg', 'user09.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user10.jpg', 'user10.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
 
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user11.jpg', 'user11.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user12.jpg', 'user12.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user13.jpg', 'user13.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user14.jpg', 'user14.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user15.jpg', 'user15.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user16.jpg', 'user16.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user17.jpg', 'user17.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user18.jpg', 'user18.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user19.jpg', 'user19.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user20.jpg', 'user20.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user11.jpg', 'user11.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user12.jpg', 'user12.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user13.jpg', 'user13.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user14.jpg', 'user14.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user15.jpg', 'user15.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user16.jpg', 'user16.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user17.jpg', 'user17.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user18.jpg', 'user18.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user19.jpg', 'user19.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user20.jpg', 'user20.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
 
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user21.jpg', 'user21.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user22.jpg', 'user22.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user23.jpg', 'user23.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user24.jpg', 'user24.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user25.jpg', 'user25.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user26.jpg', 'user26.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user27.jpg', 'user27.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user28.jpg', 'user28.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user29.jpg', 'user29.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES(SEQ_FILENO.NEXTVAL, 'user30.jpg', 'user30.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user21.jpg', 'user21.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user22.jpg', 'user22.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user23.jpg', 'user23.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user24.jpg', 'user24.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user25.jpg', 'user25.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user26.jpg', 'user26.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user27.jpg', 'user27.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user28.jpg', 'user28.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user29.jpg', 'user29.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user30.jpg', 'user30.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
 
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1064', 'upfile_test_240824.pdf', 'upfile_test_240824.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1064', 'upfile_test_240824.pdf', 'upfile_test_240824-2.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-3.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-4.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-5.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
 
 --------------------------------------------------------------------------------
 --############### 질문 ############### (아이디/비밀번호 찾기용)
 --------------------------------------------------------------------------------
 CREATE TABLE QUESTION(
-QUESTION_NO NUMBER PRIMARY KEY,
-QUESTION_CONTENT VARCHAR2(100) NOT NULL
+    QUESTION_NO NUMBER PRIMARY KEY,
+    QUESTION_CONTENT VARCHAR2(100) NOT NULL
 );
+
 COMMENT ON COLUMN QUESTION.QUESTION_NO IS '질문번호';
 COMMENT ON COLUMN QUESTION.QUESTION_CONTENT IS '질문내용';
+
 CREATE SEQUENCE SEQ_QUESTIONNO
 NOCACHE;
+
 INSERT INTO QUESTION VALUES(SEQ_QUESTIONNO.NEXTVAL, '기억에 남는 추억의 장소는?');
 INSERT INTO QUESTION VALUES(SEQ_QUESTIONNO.NEXTVAL, '자신의 인생 좌우명은?');
 INSERT INTO QUESTION VALUES(SEQ_QUESTIONNO.NEXTVAL, '자신의 보물 제1호는?');
 INSERT INTO QUESTION VALUES(SEQ_QUESTIONNO.NEXTVAL, '가장 기억에 남는 선생님 성함은?');
 INSERT INTO QUESTION VALUES(SEQ_QUESTIONNO.NEXTVAL, '추억하고 싶은 날짜가 있다면?');
+
 --------------------------------------------------------------------------------
 --############### 유저 ###############
 --------------------------------------------------------------------------------
@@ -136,14 +153,14 @@ CREATE TABLE USERS(
     USER_ID VARCHAR2(20) NOT NULL UNIQUE,
     USER_PWD VARCHAR2(20) NOT NULL,
     USER_NAME VARCHAR2(20) NOT NULL,
-    PHONE VARCHAR2(13) NOT NULL, -- UNIQUE 조건 제외함. 테스트로 유저 추가시 연락처가 우연히 겹치면 없는 전화번호를 찾아야 하는 번거로움이 발생하므로 일부러 제외함.
+    PHONE VARCHAR2(13) NOT NULL, -- UNIQUE 조건 제외함. 테스트로 유저 추가시 연락처가 우연히 겹치면, 없는 전화번호를 찾아야 하는 번거로움이 발생하므로 일부러 제외함.
     PHONE_PUBLIC CHAR(1) DEFAULT 'N' NOT NULL,
     BIRTHDAY DATE NOT NULL,
     EMAIL VARCHAR2(30),
     ADDRESS VARCHAR2(100),
     ENROLL_DATE DATE DEFAULT SYSDATE NOT NULL,
     MODIFY_DATE DATE DEFAULT SYSDATE NOT NULL,
-    PROFILE_FILE_NO NUMBER,
+    PROFILE_FILE_NO VARCHAR2(10),
     QUESTION_NO NUMBER NOT NULL,
     QUESTION_ANSWER VARCHAR2(50)  NOT NULL, 
     USER_AUTH CHAR(1) DEFAULT 'U' NOT NULL,
@@ -155,6 +172,7 @@ CREATE TABLE USERS(
     CHECK(USER_AUTH IN ('U', 'A')),
     CHECK(STATUS IN ('W', 'Y', 'N'))
 );
+
 COMMENT ON COLUMN USERS.USER_NO IS '유저번호';
 COMMENT ON COLUMN USERS.USER_ID IS '유저아이디';
 COMMENT ON COLUMN USERS.USER_PWD IS '유저비밀번호';
@@ -173,99 +191,145 @@ COMMENT ON COLUMN USERS.USER_AUTH IS '유저권한(일반유저:U/관리자:A)';
 COMMENT ON COLUMN USERS.STATUS IS '상태(대기:W/가입:Y/탈퇴:N)';
 COMMENT ON COLUMN USERS.GITHUB_URL IS '깃허브주소';
 COMMENT ON COLUMN USERS.NOTION_URL IS '노션주소';
+
 CREATE SEQUENCE SEQ_USERNO
 NOCACHE;
 
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'admin', 'pass00', '나관리', '010-7777-7771', 'Y', TO_DATE('1995-12-25', 'YYYY-MM-DD'), 'manager@kh.or.kr', '서울시 강남구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 1, 2, '내가제일잘나가', 'A', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user01', 'pass01', '김태희', '010-8888-9990', 'N', TO_DATE('1985-07-05', 'YYYY-MM-DD'), 'kimtaehee@kh.or.kr', '서울시 중구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 2, 2, '첫사랑', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user02', 'pass02', '이민호', '010-1234-5679', 'N', TO_DATE('1990-12-12', 'YYYY-MM-DD'), 'leeminho@kh.or.kr', '서울시 서초구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 3, 2, '나의꿈', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user03', 'pass03', '박보검', '010-2345-6790', 'N', TO_DATE('1989-09-09', 'YYYY-MM-DD'), 'parkbogum@kh.or.kr', '서울시 강북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 4, 2, '내일의희망', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user04', 'pass04', '정해인', '010-3456-7891', 'N', TO_DATE('1992-03-20', 'YYYY-MM-DD'), 'junghaein@kh.or.kr', '서울시 송파구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 5, 2, '즐거운여행', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user05', 'pass05', '이준기', '010-4567-8902', 'N', TO_DATE('1988-04-21', 'YYYY-MM-DD'), 'leejoongi@kh.or.kr', '서울시 도봉구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 6, 2, '매일의행복', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user06', 'pass06', '유인나', '010-5678-9013', 'N', TO_DATE('1993-01-15', 'YYYY-MM-DD'), 'yoonina@kh.or.kr', '서울시 용산구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 7, 2, '내가최고', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user07', 'pass07', '한지민', '010-6789-0124', 'N', TO_DATE('1994-10-01', 'YYYY-MM-DD'), 'hanjimin@kh.or.kr', '서울시 강동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 8, 2, '소중한기억', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user08', 'pass08', '최민호', '010-7890-1235', 'N', TO_DATE('1995-07-14', 'YYYY-MM-DD'), 'choiminho@kh.or.kr', '서울시 금천구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 9, 2, '희망의날', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user09', 'pass09', '김소현', '010-8901-2346', 'N', TO_DATE('1996-02-25', 'YYYY-MM-DD'), 'kimsohyun@kh.or.kr', '서울시 은평구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 10, 2, '행복한하루', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user10', 'pass10', '이서진', '010-9012-3457', 'N', TO_DATE('1989-12-31', 'YYYY-MM-DD'), 'leesojin@kh.or.kr', '서울시 강서구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 11, 2, '꿈꾸는날', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user11', 'pass11', '오지호', '010-0123-4568', 'N', TO_DATE('1991-03-14', 'YYYY-MM-DD'), 'ohjiho@kh.or.kr', '서울시 관악구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 12, 2, '자유로운시간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user12', 'pass12', '신세경', '010-0134-5670', 'N', TO_DATE('1992-08-15', 'YYYY-MM-DD'), 'shinsekyung@kh.or.kr', '서울시 강남구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 13, 2, '사랑의날', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user13', 'pass13', '정수정', '010-2345-6791', 'N', TO_DATE('1988-05-16', 'YYYY-MM-DD'), 'jeongsujung@kh.or.kr', '서울시 양천구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 14, 2, '아름다운세상', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user14', 'pass14', '박서준', '010-3456-7892', 'N', TO_DATE('1993-11-22', 'YYYY-MM-DD'), 'parkseojun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 15, 2, '빛나는밤', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user15', 'pass15', '김영광', '010-4567-8903', 'N', TO_DATE('1995-05-17', 'YYYY-MM-DD'), 'kimyoungkwang@kh.or.kr', '서울시 노원구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 16, 2, '행복한시간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user16', 'pass16', '이보영', '010-5678-9014', 'N', TO_DATE('1992-04-12', 'YYYY-MM-DD'), 'leeboyeong@kh.or.kr', '서울시 동대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 17, 2, '기쁨의하루', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user17', 'pass17', '공유', '010-6789-0125', 'N', TO_DATE('1991-07-28', 'YYYY-MM-DD'), 'gongyoo@kh.or.kr', '서울시 마포구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 18, 2, '편안한시간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user18', 'pass18', '윤두준', '010-7890-1236', 'N', TO_DATE('1989-10-08', 'YYYY-MM-DD'), 'yundoojun@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 19, 2, '나의시간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user19', 'pass19', '이종석', '010-8901-2347', 'N', TO_DATE('1994-06-03', 'YYYY-MM-DD'), 'leejongsuk@kh.or.kr', '서울시 성북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 20, 2, '즐거운하루', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user20', 'pass20', '신동엽', '010-9012-3458', 'N', TO_DATE('1991-02-26', 'YYYY-MM-DD'), 'shindongyeob@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 21, 2, '행복한날', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user21', 'pass21', '송중기', '010-0123-4569', 'N', TO_DATE('1985-09-19', 'YYYY-MM-DD'), 'songjoongki@kh.or.kr', '서울시 강북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 22, 2, '기쁨의순간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user22', 'pass22', '유승호', '010-1234-5680', 'N', TO_DATE('1990-11-18', 'YYYY-MM-DD'), 'yoseungho@kh.or.kr', '서울시 동작구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 23, 2, '행복의순간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user23', 'pass23', '김우빈', '010-2345-6792', 'N', TO_DATE('1991-07-22', 'YYYY-MM-DD'), 'kimwoobin@kh.or.kr', '서울시 광진구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 24, 2, '사랑의순간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user24', 'pass24', '박신혜', '010-3456-7893', 'N', TO_DATE('1993-06-29', 'YYYY-MM-DD'), 'parkshinhye@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 25, 2, '나의소원', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user25', 'pass25', '이하늬', '010-4567-8904', 'N', TO_DATE('1986-09-02', 'YYYY-MM-DD'), 'leehanee@kh.or.kr', '서울시 마포구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 26, 2, '행운의순간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user26', 'pass26', '김지원', '010-5678-9015', 'N', TO_DATE('1992-10-19', 'YYYY-MM-DD'), 'kimjiwon@kh.or.kr', '서울시 은평구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 27, 2, '기쁨의시간', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user27', 'pass27', '배수지', '010-6789-0126', 'N', TO_DATE('1994-11-09', 'YYYY-MM-DD'), 'baesooji@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 28, 2, '사랑의기억', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user28', 'pass28', '임윤아', '010-7890-1237', 'N', TO_DATE('1990-06-13', 'YYYY-MM-DD'), 'imyoona@kh.or.kr', '서울시 종로구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 29, 2, '행복의기억', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user29', 'pass29', '박보영', '010-8901-2348', 'N', TO_DATE('1992-02-12', 'YYYY-MM-DD'), 'parkboyoung@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 30, 2, '즐거운기억', 'U', 'Y', NULL, NULL);
-INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user30', 'pass30', '장동건', '010-9012-3459', 'N', TO_DATE('1985-08-07', 'YYYY-MM-DD'), 'jangdonggun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 31, 2, '나의행운', 'U', 'Y', NULL, NULL);
+-- 유저 INSERT문은 "메일함" 밑에 있음.
+-- USER 데이터를 insert 하기전에, 메일함을 자동으로 생성해주는 '트리거'가 먼저 선언되야 하므로 중간에 '메일함'을 넣음.
+
+--------------------------------------------------------------------------------
+--############### 메일함 ###############
+--------------------------------------------------------------------------------
+CREATE TABLE MAILBOX(
+    MAILBOX_NO VARCHAR2(10) PRIMARY KEY,
+    OWNER_NO NUMBER NOT NULL,
+    MAILBOX_NAME VARCHAR2(50) NOT NULL,
+    MAILBOX_TYPE CHAR(1) DEFAULT 'B' NOT NULL,
+    MAILBOX_STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    FOREIGN KEY(OWNER_NO) REFERENCES USERS(USER_NO),
+    CHECK(MAILBOX_TYPE IN('B', 'P')),
+    CHECK(MAILBOX_STATUS IN('Y', 'N'))
+);
+
+COMMENT ON COLUMN MAILBOX.MAILBOX_NO IS '메일함번호(MB1, MB2, MB3...)';
+COMMENT ON COLUMN MAILBOX.OWNER_NO IS '메일함소유자';
+COMMENT ON COLUMN MAILBOX.MAILBOX_NAME IS '메일함이름';
+COMMENT ON COLUMN MAILBOX.MAILBOX_TYPE IS '메일함구분(기본:B/개인:P)';
+COMMENT ON COLUMN MAILBOX.MAILBOX_STATUS IS '메일함상태(미삭제:Y/삭제:N)';
+
+CREATE SEQUENCE SEQ_MAILBOXNO
+NOCACHE;
+
+-- 사용자 회원가입시, 기본으로 제공되는 메일함(을 만드는 트리거)
+CREATE OR REPLACE TRIGGER TRG_CREATE_MAILBOX
+AFTER INSERT ON USERS
+FOR EACH ROW
+BEGIN
+    INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '받은메일함', 'B', 'Y');
+    INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '보낸메일함', 'B', 'Y');
+    INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '내게쓴메일함', 'B', 'Y');
+END;
+/
+
+-- 아래는 백업용. 나중에 필요하면 다시 넣기. 
+-- INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '임시보관함', 'B', 'Y');
+-- INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '휴지통', 'B', 'Y');
+-- INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, :NEW.USER_NO, '내 메일함', 'P', 'Y');
+
+--------------------------------------------------------------------------------
+--############### 유저 - INSERT ###############
+--------------------------------------------------------------------------------
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'admin', 'pass00', '나관리', '010-7777-7771', 'Y', TO_DATE('1995-12-25', 'YYYY-MM-DD'), 'manager@kh.or.kr', '서울시 강남구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A1', 2, '내가제일잘나가', 'A', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user01', 'pass01', '김태희', '010-8888-9990', 'N', TO_DATE('1985-07-05', 'YYYY-MM-DD'), 'kimtaehee@kh.or.kr', '서울시 중구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A2', 2, '첫사랑', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user02', 'pass02', '이민호', '010-1234-5679', 'N', TO_DATE('1990-12-12', 'YYYY-MM-DD'), 'leeminho@kh.or.kr', '서울시 서초구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A3', 2, '나의꿈', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user03', 'pass03', '박보검', '010-2345-6790', 'N', TO_DATE('1989-09-09', 'YYYY-MM-DD'), 'parkbogum@kh.or.kr', '서울시 강북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A4', 2, '내일의희망', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user04', 'pass04', '정해인', '010-3456-7891', 'N', TO_DATE('1992-03-20', 'YYYY-MM-DD'), 'junghaein@kh.or.kr', '서울시 송파구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A5', 2, '즐거운여행', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user05', 'pass05', '이준기', '010-4567-8902', 'N', TO_DATE('1988-04-21', 'YYYY-MM-DD'), 'leejoongi@kh.or.kr', '서울시 도봉구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A6', 2, '매일의행복', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user06', 'pass06', '유인나', '010-5678-9013', 'N', TO_DATE('1993-01-15', 'YYYY-MM-DD'), 'yoonina@kh.or.kr', '서울시 용산구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A7', 2, '내가최고', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user07', 'pass07', '한지민', '010-6789-0124', 'N', TO_DATE('1994-10-01', 'YYYY-MM-DD'), 'hanjimin@kh.or.kr', '서울시 강동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A8', 2, '소중한기억', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user08', 'pass08', '최민호', '010-7890-1235', 'N', TO_DATE('1995-07-14', 'YYYY-MM-DD'), 'choiminho@kh.or.kr', '서울시 금천구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A9', 2, '희망의날', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user09', 'pass09', '김소현', '010-8901-2346', 'N', TO_DATE('1996-02-25', 'YYYY-MM-DD'), 'kimsohyun@kh.or.kr', '서울시 은평구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A10', 2, '행복한하루', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user10', 'pass10', '이서진', '010-9012-3457', 'N', TO_DATE('1989-12-31', 'YYYY-MM-DD'), 'leesojin@kh.or.kr', '서울시 강서구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A11', 2, '꿈꾸는날', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user11', 'pass11', '오지호', '010-0123-4568', 'N', TO_DATE('1991-03-14', 'YYYY-MM-DD'), 'ohjiho@kh.or.kr', '서울시 관악구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A12', 2, '자유로운시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user12', 'pass12', '신세경', '010-0134-5670', 'N', TO_DATE('1992-08-15', 'YYYY-MM-DD'), 'shinsekyung@kh.or.kr', '서울시 강남구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A13', 2, '사랑의날', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user13', 'pass13', '정수정', '010-2345-6791', 'N', TO_DATE('1988-05-16', 'YYYY-MM-DD'), 'jeongsujung@kh.or.kr', '서울시 양천구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A14', 2, '아름다운세상', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user14', 'pass14', '박서준', '010-3456-7892', 'N', TO_DATE('1993-11-22', 'YYYY-MM-DD'), 'parkseojun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A15', 2, '빛나는밤', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user15', 'pass15', '김영광', '010-4567-8903', 'N', TO_DATE('1995-05-17', 'YYYY-MM-DD'), 'kimyoungkwang@kh.or.kr', '서울시 노원구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A16', 2, '행복한시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user16', 'pass16', '이보영', '010-5678-9014', 'N', TO_DATE('1992-04-12', 'YYYY-MM-DD'), 'leeboyeong@kh.or.kr', '서울시 동대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A17', 2, '기쁨의하루', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user17', 'pass17', '공유', '010-6789-0125', 'N', TO_DATE('1991-07-28', 'YYYY-MM-DD'), 'gongyoo@kh.or.kr', '서울시 마포구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A18', 2, '편안한시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user18', 'pass18', '윤두준', '010-7890-1236', 'N', TO_DATE('1989-10-08', 'YYYY-MM-DD'), 'yundoojun@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A19', 2, '나의시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user19', 'pass19', '이종석', '010-8901-2347', 'N', TO_DATE('1994-06-03', 'YYYY-MM-DD'), 'leejongsuk@kh.or.kr', '서울시 성북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A20', 2, '즐거운하루', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user20', 'pass20', '신동엽', '010-9012-3458', 'N', TO_DATE('1991-02-26', 'YYYY-MM-DD'), 'shindongyeob@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A21', 2, '행복한날', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user21', 'pass21', '송중기', '010-0123-4569', 'N', TO_DATE('1985-09-19', 'YYYY-MM-DD'), 'songjoongki@kh.or.kr', '서울시 강북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A22', 2, '기쁨의순간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user22', 'pass22', '유승호', '010-1234-5680', 'N', TO_DATE('1990-11-18', 'YYYY-MM-DD'), 'yoseungho@kh.or.kr', '서울시 동작구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A23', 2, '행복의순간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user23', 'pass23', '김우빈', '010-2345-6792', 'N', TO_DATE('1991-07-22', 'YYYY-MM-DD'), 'kimwoobin@kh.or.kr', '서울시 광진구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A24', 2, '사랑의순간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user24', 'pass24', '박신혜', '010-3456-7893', 'N', TO_DATE('1993-06-29', 'YYYY-MM-DD'), 'parkshinhye@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A25', 2, '나의소원', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user25', 'pass25', '이하늬', '010-4567-8904', 'N', TO_DATE('1986-09-02', 'YYYY-MM-DD'), 'leehanee@kh.or.kr', '서울시 마포구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A26', 2, '행운의순간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user26', 'pass26', '김지원', '010-5678-9015', 'N', TO_DATE('1992-10-19', 'YYYY-MM-DD'), 'kimjiwon@kh.or.kr', '서울시 은평구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A27', 2, '기쁨의시간', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user27', 'pass27', '배수지', '010-6789-0126', 'N', TO_DATE('1994-11-09', 'YYYY-MM-DD'), 'baesooji@kh.or.kr', '서울시 성동구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A28', 2, '사랑의기억', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user28', 'pass28', '임윤아', '010-7890-1237', 'N', TO_DATE('1990-06-13', 'YYYY-MM-DD'), 'imyoona@kh.or.kr', '서울시 종로구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A29', 2, '행복의기억', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user29', 'pass29', '박보영', '010-8901-2348', 'N', TO_DATE('1992-02-12', 'YYYY-MM-DD'), 'parkboyoung@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A30', 2, '즐거운기억', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user30', 'pass30', '장동건', '010-9012-3459', 'N', TO_DATE('1985-08-07', 'YYYY-MM-DD'), 'jangdonggun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A31', 2, '나의행운', 'U', 'Y', NULL, NULL);
 
 
 --------------------------------------------------------------------------------
 --############### 댓글 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE COMMENTS(
-COMMENT_NO NUMBER PRIMARY KEY,
-COMMENT_TYPE CHAR(1) DEFAULT 'P' NOT NULL,
-P_COMMENT_NO NUMBER,
-WRITER_NO NUMBER NOT NULL,
-COMMENT_CONTENT VARCHAR2(400) NOT NULL,
-CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
-STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-FOREIGN KEY(P_COMMENT_NO) REFERENCES COMMENTS(COMMENT_NO),
-FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO),
-CHECK(COMMENT_TYPE IN ('P', 'C')),
-CHECK(STATUS IN ('Y', 'N'))
+    COMMENT_NO VARCHAR2(10) PRIMARY KEY,
+    REF_NO VARCHAR2(10),
+    TYPE CHAR(1) DEFAULT 'P' NOT NULL,
+    P_COMMENT_NO VARCHAR2(10),
+    WRITER_NO NUMBER NOT NULL,
+    COMMENT_CONTENT VARCHAR2(400) NOT NULL,
+    CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
+    STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    FOREIGN KEY(P_COMMENT_NO) REFERENCES COMMENTS(COMMENT_NO),
+    FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO),
+    CHECK(TYPE IN ('P', 'C')),
+    CHECK(STATUS IN ('Y', 'N'))
 );
-COMMENT ON COLUMN COMMENTS.COMMENT_NO IS '댓글번호';
-COMMENT ON COLUMN COMMENTS.COMMENT_TYPE IS '댓글구분(부모:P/자식:C)';
+
+COMMENT ON COLUMN COMMENTS.COMMENT_NO IS '댓글번호(C1, C2, C3...)';
+COMMENT ON COLUMN COMMENTS.REF_NO IS '참조게시글번호(수업:CP1~,과제:H1~)';
+COMMENT ON COLUMN COMMENTS.TYPE IS '댓글구분(부모:P/자식:C)';
 COMMENT ON COLUMN COMMENTS.P_COMMENT_NO IS '부모댓글번호';
 COMMENT ON COLUMN COMMENTS.WRITER_NO IS '작성자번호';
 COMMENT ON COLUMN COMMENTS.COMMENT_CONTENT IS '댓글내용';
 COMMENT ON COLUMN COMMENTS.CREATE_DATE IS '작성일';
 COMMENT ON COLUMN COMMENTS.STATUS IS '상태(미삭제:Y/삭제:N)';
+
 CREATE SEQUENCE SEQ_COMMENTNO
 NOCACHE;
-INSERT INTO COMMENTS VALUES(SEQ_COMMENTNO.NEXTVAL, 'P', NULL, 3, '댓글 테스트 중입니다~~~',
-SYSDATE, DEFAULT);
-INSERT INTO COMMENTS VALUES(SEQ_COMMENTNO.NEXTVAL, 'P', NULL, 1, '잘 되려나~~~', SYSDATE,
-DEFAULT);
-INSERT INTO COMMENTS VALUES(SEQ_COMMENTNO.NEXTVAL, 'P', NULL, 2, '괜찮아 잘될거야', SYSDATE,
-DEFAULT);
-INSERT INTO COMMENTS VALUES(SEQ_COMMENTNO.NEXTVAL, 'C', 1, 5, '답글테스트~~~', SYSDATE,
-DEFAULT);
-INSERT INTO COMMENTS VALUES(SEQ_COMMENTNO.NEXTVAL, 'C', 1, 4, '오호~~ 아무말대잔치', SYSDATE,
-DEFAULT);
-INSERT INTO COMMENTS VALUES(SEQ_COMMENTNO.NEXTVAL, 'P', NULL, 4, '과제 댓글1', SYSDATE,
-DEFAULT);
-INSERT INTO COMMENTS VALUES(SEQ_COMMENTNO.NEXTVAL, 'P', NULL, 4, '과제 댓글12', SYSDATE,
-DEFAULT);
+
+INSERT INTO COMMENTS VALUES('C' || SEQ_COMMENTNO.NEXTVAL, 'CP1064', 'P', NULL, 3, '댓글 테스트 CP1064-1', TO_DATE('2024-07-16', 'YYYY-MM-DD'), 'Y');
+INSERT INTO COMMENTS VALUES('C' || SEQ_COMMENTNO.NEXTVAL, 'CP1064', 'P', NULL, 1, '댓글 테스트 CP1064-2', TO_DATE('2024-07-17', 'YYYY-MM-DD'), 'Y');
+INSERT INTO COMMENTS VALUES('C' || SEQ_COMMENTNO.NEXTVAL, 'CP1064', 'P', NULL, 2, '댓글 테스트 CP1064-3', TO_DATE('2024-07-17', 'YYYY-MM-DD'), 'Y');
+INSERT INTO COMMENTS VALUES('C' || SEQ_COMMENTNO.NEXTVAL, 'CP1065', 'P', NULL, 4, '댓글 테스트 CP1065-1', TO_DATE('2024-07-19', 'YYYY-MM-DD'), 'Y');
+INSERT INTO COMMENTS VALUES('C' || SEQ_COMMENTNO.NEXTVAL, 'CP1065', 'C', 'C4', 5, '댓글 답글 테스트 CP1065-1-1', TO_DATE('2024-07-18', 'YYYY-MM-DD'), 'Y');
+INSERT INTO COMMENTS VALUES('C' || SEQ_COMMENTNO.NEXTVAL, 'CP1065', 'C', 'C4', 4, '댓글 답글 테스트 CP1065-1-2', TO_DATE('2024-07-18', 'YYYY-MM-DD'), 'Y');
+INSERT INTO COMMENTS VALUES('C' || SEQ_COMMENTNO.NEXTVAL, 'CP1065', 'P', NULL, 4, '댓글 테스트 CP1065-2', TO_DATE('2024-07-19', 'YYYY-MM-DD'), 'Y');
+
 --------------------------------------------------------------------------------
 --############### 알림 ############### (공통 헤더에 사용될 알림)
 --------------------------------------------------------------------------------
 CREATE TABLE NOTIFICATION(
-NOTI_NO NUMBER PRIMARY KEY,
-SENDER_NO NUMBER NOT NULL,
-RECEIVER_NO NUMBER NOT NULL,
-CONTENT VARCHAR2(255) NOT NULL,
-CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
-READ CHAR(1) DEFAULT'N' NOT NULL,
-STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-REFER_DB VARCHAR2(20),
-REFER_NO NUMBER,
-FOREIGN KEY(SENDER_NO) REFERENCES USERS(USER_NO),
-FOREIGN KEY(RECEIVER_NO) REFERENCES USERS(USER_NO),
-CHECK(READ IN ('Y', 'N')),
-CHECK(STATUS IN ('Y', 'N'))
+    NOTI_NO NUMBER PRIMARY KEY,
+    SENDER_NO NUMBER NOT NULL,
+    RECEIVER_NO NUMBER NOT NULL,
+    CONTENT VARCHAR2(255) NOT NULL,
+    CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
+    READ CHAR(1) DEFAULT'N' NOT NULL,
+    STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    REFER_DB VARCHAR2(20),
+    REFER_NO NUMBER,
+    FOREIGN KEY(SENDER_NO) REFERENCES USERS(USER_NO),
+    FOREIGN KEY(RECEIVER_NO) REFERENCES USERS(USER_NO),
+    CHECK(READ IN ('Y', 'N')),
+    CHECK(STATUS IN ('Y', 'N'))
 );
+
 COMMENT ON COLUMN NOTIFICATION.NOTI_NO IS '알림번호';
 COMMENT ON COLUMN NOTIFICATION.SENDER_NO IS '발신인번호';
 COMMENT ON COLUMN NOTIFICATION.RECEIVER_NO IS '수신인번호';
@@ -275,38 +339,39 @@ COMMENT ON COLUMN NOTIFICATION.READ IS '읽기여부(읽음:Y/안읽음:N)';
 COMMENT ON COLUMN NOTIFICATION.STATUS IS '상태(미삭제:Y/삭제:N)';
 COMMENT ON COLUMN NOTIFICATION.REFER_DB IS '참조DB테이블명';
 COMMENT ON COLUMN NOTIFICATION.REFER_NO IS '참조글번호';
+
 CREATE SEQUENCE SEQ_NOTINO
 NOCACHE;
-INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 3, 5, '주지훈(user02)님이 댓글을 남겼습니다.',
-SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
-INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 1, 2, '나관리(admin)님이 설문조사를
-요청하였습니다.', SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
-INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 4, 2, '장원영(user03)님이 댓글을 남겼습니다.',
-SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
-INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 5, 1, '손흥민(user04)님이 댓글을 남겼습니다.',
-SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
-INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 2, 3, '차은우(user01)님이 댓글을 남겼습니다.',
-SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
+
+INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 3, 5, '주지훈(user02)님이 댓글을 남겼습니다.', SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
+INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 1, 2, '나관리(admin)님이 설문조사를 요청하였습니다.', SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
+INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 4, 2, '장원영(user03)님이 댓글을 남겼습니다.', SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
+INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 5, 1, '손흥민(user04)님이 댓글을 남겼습니다.', SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
+INSERT INTO NOTIFICATION VALUES(SEQ_NOTINO.NEXTVAL, 2, 3, '차은우(user01)님이 댓글을 남겼습니다.', SYSDATE, DEFAULT, DEFAULT, NULL, NULL);
+
 --------------------------------------------------------------------------------
 --############### 주소록_카테고리 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE CONTACTS_CATEGORY(
-CATEGORY_NO NUMBER PRIMARY KEY,
-CATEGORY_NAME VARCHAR2(50) NOT NULL UNIQUE,
-STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-CHECK(STATUS IN ('Y', 'N'))
+    CATEGORY_NO NUMBER PRIMARY KEY,
+    CATEGORY_NAME VARCHAR2(50) NOT NULL UNIQUE,
+    STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    CHECK(STATUS IN ('Y', 'N'))
 );
+
 COMMENT ON COLUMN CONTACTS_CATEGORY.CATEGORY_NO IS '카테고리번호';
 COMMENT ON COLUMN CONTACTS_CATEGORY.CATEGORY_NAME IS '카테고리이름(ex) 세미 프로젝트)';
 COMMENT ON COLUMN CONTACTS_CATEGORY.STATUS IS '상태(미삭제:Y/삭제:N)';
+
 CREATE SEQUENCE SEQ_CONTACTS_CATENO
 NOCACHE;
-INSERT INTO CONTACTS_CATEGORY VALUES(SEQ_CONTACTS_CATENO.NEXTVAL, '자바 미니 팀프로젝트',
-'Y');
+
+INSERT INTO CONTACTS_CATEGORY VALUES(SEQ_CONTACTS_CATENO.NEXTVAL, '자바 미니 팀프로젝트', 'Y');
 INSERT INTO CONTACTS_CATEGORY VALUES(SEQ_CONTACTS_CATENO.NEXTVAL, '웹 클론 프로젝트', 'Y');
 INSERT INTO CONTACTS_CATEGORY VALUES(SEQ_CONTACTS_CATENO.NEXTVAL, '세미 프로젝트', 'Y');
 INSERT INTO CONTACTS_CATEGORY VALUES(SEQ_CONTACTS_CATENO.NEXTVAL, '파이널 프로젝트', 'Y');
 INSERT INTO CONTACTS_CATEGORY VALUES(SEQ_CONTACTS_CATENO.NEXTVAL, '자격증 스터디', 'Y');
+
 --------------------------------------------------------------------------------
 --############### 주소록 ###############
 --------------------------------------------------------------------------------
@@ -323,14 +388,17 @@ CREATE TABLE CONTACTS(
     CHECK(STATUS IN ('Y', 'N')),
     UNIQUE (CONTACTS_NAME, OWNER_NO)
 );
+
 COMMENT ON COLUMN CONTACTS.CONTACTS_NO IS '주소록번호';
 COMMENT ON COLUMN CONTACTS.CONTACTS_NAME IS '주소록이름(ex) 세미 2조)';
 COMMENT ON COLUMN CONTACTS.CONTACTS_TYPE IS '주소록구분(개인:P/공유:S)';
 COMMENT ON COLUMN CONTACTS.OWNER_NO IS '주소록소유자';
 COMMENT ON COLUMN CONTACTS.STATUS IS '상태(미삭제:Y/삭제:N)';
 COMMENT ON COLUMN CONTACTS.CATEGORY_NO IS '카테고리번호';
+
 CREATE SEQUENCE SEQ_CONTACTSNO
 NOCACHE;
+
 -- 공유주소록
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '자바 1조', 'S', '1', 'Y', 1);
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '자바 2조', 'S', '1', 'Y', 1);
@@ -364,6 +432,7 @@ INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '파이널 4조', 'S', '1', 
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '파이널 5조', 'S', '1', 'Y', 4);
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '정처기', 'S', '1', 'Y', 5);
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, 'SQLD', 'S', '1', 'Y', 5);
+
 -- 개인주소록 (유저 한명당 1개 처음에 기본제공)
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '개인주소록', 'P', '1', 'Y', NULL);
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '개인주소록', 'P', '2', 'Y', NULL);
@@ -396,6 +465,7 @@ INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '개인주소록', 'P', '28'
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '개인주소록', 'P', '29', 'Y', NULL);
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '개인주소록', 'P', '30', 'Y', NULL);
 INSERT INTO CONTACTS VALUES(SEQ_CONTACTSNO.NEXTVAL, '개인주소록', 'P', '31', 'Y', NULL);
+
 --------------------------------------------------------------------------------
 --############### 주소록_구성원 ###############
 --------------------------------------------------------------------------------
@@ -407,9 +477,11 @@ CREATE TABLE CONTACTS_MEMBER(
     FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO) ON DELETE CASCADE,
     FOREIGN KEY(CONTACTS_NO) REFERENCES CONTACTS(CONTACTS_NO) ON DELETE CASCADE
 );
+
 COMMENT ON COLUMN CONTACTS_MEMBER.CONTACTS_NO IS '주소록번호';
 COMMENT ON COLUMN CONTACTS_MEMBER.USER_NO IS '유저번호';
 COMMENT ON COLUMN CONTACTS_MEMBER.ROLE IS '역할(팀장:L/팀원:F)';
+
 ----------------------
 -- 자바 1조
 INSERT INTO CONTACTS_MEMBER VALUES(1, 2, 'L');
@@ -603,10 +675,12 @@ CREATE TABLE CONTACTS_STAR(
     FOREIGN KEY(OTHER_USER_NO) REFERENCES USERS(USER_NO) ON DELETE CASCADE,
     CHECK(STAR IN ('Y', 'N'))
 );
+
 COMMENT ON COLUMN CONTACTS_STAR.STAR_NO IS '중요표시번호';
 COMMENT ON COLUMN CONTACTS_STAR.CURRENT_USER_NO IS '현유저번호';
 COMMENT ON COLUMN CONTACTS_STAR.OTHER_USER_NO IS '타유저번호';
 COMMENT ON COLUMN CONTACTS_STAR.STAR IS '중요표시(중요:Y/안중요:N)';
+
 CREATE SEQUENCE SEQ_CONTACTS_STARNO
 NOCACHE;
 
@@ -620,222 +694,364 @@ INSERT INTO CONTACTS_STAR VALUES(SEQ_CONTACTS_STARNO.NEXTVAL, 1, 28, 'Y');
 --############### 메일 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE MAIL (
-MAIL_NO NUMBER PRIMARY KEY,
-SENDER NUMBER NOT NULL,
-MAIL_TITLE VARCHAR2(100) NOT NULL,
-MAIL_CONTENT VARCHAR2(4000),
-SEND_DATE DATE DEFAULT SYSDATE NOT NULL,
-SEND_CANCEL CHAR(1) DEFAULT 'N' NOT NULL,
-FOREIGN KEY (SENDER) REFERENCES USERS(USER_NO),
-CHECK (SEND_CANCEL IN ('Y', 'N'))
+    MAIL_NO VARCHAR2(10) PRIMARY KEY,
+    SENDER NUMBER NOT NULL,
+    MAIL_TITLE VARCHAR2(100) NOT NULL,
+    MAIL_CONTENT VARCHAR2(4000),
+    IS_SENT CHAR(1) NOT NULL,
+    SEND_DATE DATE DEFAULT SYSDATE,
+    FOREIGN KEY (SENDER) REFERENCES USERS(USER_NO),
+    CHECK(IS_SENT IN ('S', 'T', 'C'))
 );
-COMMENT ON COLUMN MAIL.MAIL_NO IS '메일번호';
+
+COMMENT ON COLUMN MAIL.MAIL_NO IS '메일번호(M1,M2,M3...)';
 COMMENT ON COLUMN MAIL.SENDER IS '발신인';
 COMMENT ON COLUMN MAIL.MAIL_TITLE IS '메일제목';
 COMMENT ON COLUMN MAIL.MAIL_CONTENT IS '메일내용';
+COMMENT ON COLUMN MAIL.IS_SENT IS '발신여부(T:임시저장/S:발신완료/C:발신취소)';
 COMMENT ON COLUMN MAIL.SEND_DATE IS '발신일시';
-COMMENT ON COLUMN MAIL.SEND_CANCEL IS '발신취소여부(발신취소:Y/발신:N)';
+
 CREATE SEQUENCE SEQ_MAILNO
 NOCACHE;
-INSERT INTO MAIL VALUES(SEQ_MAILNO.NEXTVAL, 3, '이곳은 메일 제목 자리입니다!!!', '여기는 메일의 내용
-자리입니다.', SYSDATE, DEFAULT);
-INSERT INTO MAIL VALUES(SEQ_MAILNO.NEXTVAL, 5, '가나다라마바사아자차카타파하', '여기는 메일의 내용
-자리입니다.11111', SYSDATE, DEFAULT);
-INSERT INTO MAIL VALUES(SEQ_MAILNO.NEXTVAL, 1, '샘플데이터 넣는중~~~~', '여기는 메일의 내용
-자리입니다.22222', SYSDATE, DEFAULT);
-INSERT INTO MAIL VALUES(SEQ_MAILNO.NEXTVAL, 4, '2222이곳은 메일 제목 자리입니다!!!', '여기는 메일의 내용
-자리입니다.33333', SYSDATE, DEFAULT);
-INSERT INTO MAIL VALUES(SEQ_MAILNO.NEXTVAL, 2, '3333이곳은 메일 제목 자리입니다!!!', '여기는 메일의 내용
-자리입니다.4444', SYSDATE, DEFAULT);
+
+-- 샘플 데이터
+-- 1번 유저가 보내는 메일
+-- INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 1, '이메일 제목 자리입니다. 페이징처리 테스트용 1', '여기는 메일의 내용 자리입니다. 페이징처리 테스트용 1', 'S', TO_DATE('2024-05-09 09:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+-- 500개 메일 데이터 넣기 (1시간씩 시간 더하면서)
+DECLARE
+    m_mail_count NUMBER := 500;
+    m_mail_index NUMBER := 1;
+BEGIN
+    WHILE m_mail_index <= m_mail_count LOOP
+        INSERT INTO MAIL
+        VALUES (
+                      'M' || SEQ_MAILNO.NEXTVAL
+                    , 1
+                    , '이메일 제목 자리입니다. 페이징처리 테스트용 ' || m_mail_index
+                    , '여기는 메일의 내용 자리입니다. 페이징처리 테스트용 ' || m_mail_index
+                    , 'S'
+                    , TO_DATE('2024-05-09 09:00:00', 'YYYY-MM-DD HH24:MI:SS') + (m_mail_index - 1) / 24
+        );
+        m_mail_index := m_mail_index + 1;
+    END LOOP;
+END;
+/
+
+-- 2번 유저가 보내는 메일 (메일번호: "M501")
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '중요 / 읽음 표시 테스트용 메일입니다.', '중요 / 읽음 표시 테스트 - 메일 내용입니다.', 'S', TO_DATE('2024-07-01 09:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+-- 3번 유저가 보내는 메일 (메일번호: "M502")
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 3, '중요 / 읽음 표시 테스트용 메일입니다.2', '중요 / 읽음 표시 테스트 - 메일 내용입니다.2', 'S', TO_DATE('2024-07-02 13:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
 --------------------------------------------------------------------------------
 --############### 메일_수신인 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE MAIL_RECEIVER (
-MAIL_NO NUMBER,
-RECEIVER_NO NUMBER,
-RECEIVER_TYPE CHAR(1) DEFAULT 'R' NOT NULL,
-READ CHAR(1) DEFAULT 'N' NOT NULL,
-PRIMARY KEY(MAIL_NO, RECEIVER_NO),
-FOREIGN KEY(MAIL_NO) REFERENCES MAIL(MAIL_NO),
-FOREIGN KEY(RECEIVER_NO) REFERENCES USERS(USER_NO),
-CHECK(RECEIVER_TYPE IN ('R', 'C', 'S')),
-CHECK(READ IN ('Y', 'N'))
+    MAIL_NO VARCHAR2(10),
+    RECEIVER_NO NUMBER,
+    RECEIVER_TYPE CHAR(1) DEFAULT 'R' NOT NULL,
+    READ_TIME DATE,
+    PRIMARY KEY(MAIL_NO, RECEIVER_NO),
+    FOREIGN KEY(MAIL_NO) REFERENCES MAIL(MAIL_NO),
+    FOREIGN KEY(RECEIVER_NO) REFERENCES USERS(USER_NO),
+    CHECK(RECEIVER_TYPE IN ('R', 'C', 'S'))
 );
+
 COMMENT ON COLUMN MAIL_RECEIVER.MAIL_NO IS '메일번호';
 COMMENT ON COLUMN MAIL_RECEIVER.RECEIVER_NO IS '수신인번호';
 COMMENT ON COLUMN MAIL_RECEIVER.RECEIVER_TYPE IS '수신인구분(수신:R/참조:C/비밀:S)';
-COMMENT ON COLUMN MAIL_RECEIVER.READ IS '읽음여부(읽음:Y/않읽음:N)';
-INSERT INTO MAIL_RECEIVER VALUES(1, 2, DEFAULT, DEFAULT);
-INSERT INTO MAIL_RECEIVER VALUES(1, 3, 'C', 'Y');
-INSERT INTO MAIL_RECEIVER VALUES(1, 4, 'S', DEFAULT);
-INSERT INTO MAIL_RECEIVER VALUES(1, 5, DEFAULT, DEFAULT);
-INSERT INTO MAIL_RECEIVER VALUES(2, 1, DEFAULT, DEFAULT);
---------------------------------------------------------------------------------
---############### 메일함 ###############
---------------------------------------------------------------------------------
-CREATE TABLE MAILBOX(
-MAILBOX_NO NUMBER PRIMARY KEY,
-MAILBOX_NAME VARCHAR2(50) NOT NULL,
-MAILBOX_TYPE CHAR(1) DEFAULT 'B' NOT NULL,
-STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-CHECK(MAILBOX_TYPE IN('B', 'P')),
-CHECK(STATUS IN('Y', 'N'))
-);
-COMMENT ON COLUMN MAILBOX.MAILBOX_NO IS '메일함번호';
-COMMENT ON COLUMN MAILBOX.MAILBOX_NAME IS '메일함이름';
-COMMENT ON COLUMN MAILBOX.MAILBOX_TYPE IS '메일함구분(기본:B/개인:P)';
-COMMENT ON COLUMN MAILBOX.STATUS IS '상태(미삭제:Y/삭제:N)';
-CREATE SEQUENCE SEQ_MAILBOXNO
-NOCACHE;
-INSERT INTO MAILBOX VALUES(SEQ_MAILBOXNO.NEXTVAL, '받은메일함', DEFAULT, DEFAULT);
-INSERT INTO MAILBOX VALUES(SEQ_MAILBOXNO.NEXTVAL, '보낸메일함', DEFAULT, DEFAULT);
-INSERT INTO MAILBOX VALUES(SEQ_MAILBOXNO.NEXTVAL, '임시보관함', DEFAULT, DEFAULT);
-INSERT INTO MAILBOX VALUES(SEQ_MAILBOXNO.NEXTVAL, '휴지통', DEFAULT, DEFAULT);
-INSERT INTO MAILBOX VALUES(SEQ_MAILBOXNO.NEXTVAL, '개인보관함1', 'P', DEFAULT);
+COMMENT ON COLUMN MAIL_RECEIVER.READ_TIME IS '읽은시간';
+
+-- 샘플 데이터
+-- 1번 유저가 보내는 메일(M1, M2, M3...)에 대한 수신인: 3명 (2번, 3번, 4번 유저) 데이터 넣기.
+-- INSERT INTO MAIL_RECEIVER VALUES('M1', 2, 'R', TO_DATE('2024-05-09 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+-- INSERT INTO MAIL_RECEIVER VALUES('M1', 3, 'R', TO_DATE('2024-05-09 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+-- INSERT INTO MAIL_RECEIVER VALUES('M1', 4, 'R', TO_DATE('2024-05-09 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+-- 500개 메일 x 3명 => 1500줄 데이터넣기
+DECLARE
+    mr_mail_count NUMBER := 500;
+    mr_mail_index NUMBER := 1;
+    mr_receiver_ids SYS.ODCINUMBERLIST := SYS.ODCINUMBERLIST(2, 3, 4); -- List of receiver IDs
+    mr_receiver_count NUMBER := mr_receiver_ids.COUNT;
+BEGIN
+    WHILE mr_mail_index <= mr_mail_count LOOP
+        FOR i IN 1..mr_receiver_count LOOP
+            INSERT INTO MAIL_RECEIVER
+            VALUES (
+                         'M' || mr_mail_index
+                        , mr_receiver_ids(i)
+                        , 'R'
+                        , TO_DATE('2024-05-09 10:00:00', 'YYYY-MM-DD HH24:MI:SS') + (mr_mail_index - 1) / 24
+            );
+        END LOOP;
+        mr_mail_index := mr_mail_index + 1;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 2번 유저가 보내는 메일 (메일번호: "M501") 관련, 수신인 데이터
+INSERT INTO MAIL_RECEIVER VALUES('M501', 1, 'R', NULL); -- 수신인: 1번유저, 수신, 읽지않은상태
+INSERT INTO MAIL_RECEIVER VALUES('M501', 3, 'C', NULL); -- 수신인: 2번유저, 참조, 읽지않은상태
+INSERT INTO MAIL_RECEIVER VALUES('M501', 4, 'S', NULL); -- 수신인: 3번유저, 비밀, 읽지않은상태
+
+-- 3번 유저가 보내는 메일 (메일번호: "M502") 관련, 수신인 데이터
+INSERT INTO MAIL_RECEIVER VALUES('M502', 1, 'C', NULL); -- 수신인: 1번유저, 참조, 읽지않은상태
+INSERT INTO MAIL_RECEIVER VALUES('M502', 2, 'S', NULL); -- 수신인: 2번유저, 비밀, 읽지않은상태
+INSERT INTO MAIL_RECEIVER VALUES('M502', 4, 'R', NULL); -- 수신인: 3번유저, 수신, 읽지않은상태
+
+
+
 --------------------------------------------------------------------------------
 --############### 메일_소유자 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE MAIL_OWNER(
-OWNER_NO NUMBER,
-MAIL_NO NUMBER,
-MAILBOX_NO NUMBER NOT NULL,
-MAIL_STAR CHAR(1) DEFAULT 'N' NOT NULL,
-MAIL_STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-PRIMARY KEY(OWNER_NO, MAIL_NO),
-FOREIGN KEY(MAILBOX_NO) REFERENCES MAILBOX(MAILBOX_NO),
-CHECK(MAIL_STAR IN ('Y', 'N')),
-CHECK(MAIL_STATUS IN ('Y', 'N'))
+    OWNER_NO NUMBER,
+    MAIL_NO VARCHAR2(10),
+    MAILBOX_NO VARCHAR2(10) NOT NULL,
+    MAIL_STAR CHAR(1) DEFAULT 'N' NOT NULL,
+    MAIL_STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    PRIMARY KEY(OWNER_NO, MAIL_NO),
+    FOREIGN KEY(MAILBOX_NO) REFERENCES MAILBOX(MAILBOX_NO),
+    CHECK(MAIL_STAR IN ('Y', 'N')),
+    CHECK(MAIL_STATUS IN ('Y', 'N'))
 );
+
 COMMENT ON COLUMN MAIL_OWNER.OWNER_NO IS '메일소유자';
 COMMENT ON COLUMN MAIL_OWNER.MAIL_NO IS '메일번호';
 COMMENT ON COLUMN MAIL_OWNER.MAILBOX_NO IS '메일함번호';
 COMMENT ON COLUMN MAIL_OWNER.MAIL_STAR IS '메일중요여부(중요:Y/안중요:N)';
 COMMENT ON COLUMN MAIL_OWNER.MAIL_STATUS IS '메일상태(미삭제:Y/삭제:N)';
-INSERT INTO MAIL_OWNER VALUES(2, 5, 1, DEFAULT, DEFAULT);
-INSERT INTO MAIL_OWNER VALUES(2, 4, 1, 'Y', DEFAULT);
-INSERT INTO MAIL_OWNER VALUES(2, 3, 2, DEFAULT, DEFAULT);
-INSERT INTO MAIL_OWNER VALUES(1, 2, 2, DEFAULT, DEFAULT);
-INSERT INTO MAIL_OWNER VALUES(1, 1, 1, DEFAULT, DEFAULT);
---------------------------------------------------------------------------------
---############### 메일_첨부파일 ###############
---------------------------------------------------------------------------------
-CREATE TABLE MAIL_ATTACHMENT(
-MAIL_NO NUMBER,
-FILE_NO NUMBER,
-PRIMARY KEY(MAIL_NO, FILE_NO),
-FOREIGN KEY(MAIL_NO) REFERENCES MAIL(MAIL_NO),
-FOREIGN KEY(FILE_NO) REFERENCES ATTACHMENT(FILE_NO)
-);
-COMMENT ON COLUMN MAIL_ATTACHMENT.MAIL_NO IS '메일번호';
-COMMENT ON COLUMN MAIL_ATTACHMENT.FILE_NO IS '파일번호';
-INSERT INTO MAIL_ATTACHMENT VALUES(1, 1);
-INSERT INTO MAIL_ATTACHMENT VALUES(1, 2);
-INSERT INTO MAIL_ATTACHMENT VALUES(1, 3);
-INSERT INTO MAIL_ATTACHMENT VALUES(2, 4);
-INSERT INTO MAIL_ATTACHMENT VALUES(3, 5);
+
+-- 1번 유저가 보내는 메일(M1, M2, M3...)의 소유자:  총 4명 데이터 넣기.
+
+-- 메일함
+-- 1번 유저 (발신인) - 보낸메일함: 'MB2'
+-- 2번 유저 (수신인) - 받은메일함: 'MB4'
+-- 3번 유저 (수신인) - 받은메일함: 'MB7'
+-- 4번 유저 (수신인) - 받은메일함: 'MB10'
+
+-- INSERT INTO MAIL_OWNER VALUES (1, 'M1', 'MB2', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (2, 'M1', 'MB4', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (3, 'M1', 'MB7', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (4, 'M1', 'MB10', 'N', 'Y');
+
+-- INSERT INTO MAIL_OWNER VALUES (1, 'M2', 'MB2', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (2, 'M2', 'MB4, 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (3, 'M2', 'MB7', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (4, 'M2', 'MB10', 'N', 'Y');
+
+-- INSERT INTO MAIL_OWNER VALUES (1, 'M3', 'MB2', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (2, 'M3', 'MB4', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (3, 'M3', 'MB7', 'N', 'Y');
+-- INSERT INTO MAIL_OWNER VALUES (4, 'M3', 'MB10', 'N', 'Y');
+
+DECLARE
+    mo_mail_count NUMBER := 500;
+    mo_mail_index NUMBER;
+    mo_mailboxes SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST('MB2', 'MB4', 'MB7', 'MB10');
+    mo_mailboxes_count NUMBER := mo_mailboxes.COUNT;
+BEGIN
+    FOR mo_mail_index IN 1..mo_mail_count LOOP
+        FOR i IN 1..mo_mailboxes_count LOOP
+            INSERT INTO MAIL_OWNER
+            VALUES (
+                  i
+                , 'M' || mo_mail_index
+                , mo_mailboxes(i)
+                , 'N'
+                , 'Y'
+            );
+        END LOOP;
+    END LOOP;
+END;
+/
+
+-- 2번 유저가 보내는 메일 (메일번호: "M501") 관련, 소유자(발신인,수신인) 각각의 데이터 
+-- 메일함
+-- 1번 유저 (수신인) - 받은메일함: 'MB1'
+-- 2번 유저 (발신인) - 보낸메일함: 'MB5'
+-- 3번 유저 (수신인) - 받은메일함: 'MB7'
+-- 4번 유저 (수신인) - 받은메일함: 'MB10'
+INSERT INTO MAIL_OWNER VALUES (1, 'M501', 'MB1', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (2, 'M501', 'MB5', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (3, 'M501', 'MB7', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (4, 'M501', 'MB10', 'Y', 'Y');
+
+-- 3번 유저가 보내는 메일 (메일번호: "M502") 관련, 소유자(발신인,수신인) 각각의 데이터 
+-- 메일함
+-- 1번 유저 (수신인) - 받은메일함: 'MB1'
+-- 2번 유저 (수신인) - 보낸메일함: 'MB4'
+-- 3번 유저 (발신인) - 받은메일함: 'MB8'
+-- 4번 유저 (수신인) - 받은메일함: 'MB10'
+INSERT INTO MAIL_OWNER VALUES (1, 'M502', 'MB1', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (2, 'M502', 'MB4', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (3, 'M502', 'MB8', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (4, 'M502', 'MB10', 'Y', 'Y');
+
 --------------------------------------------------------------------------------
 --############### 수업_게시판 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE CLASS_BOARD(
-BOARD_NO NUMBER PRIMARY KEY,
-BOARD_NAME VARCHAR2(50) NOT NULL UNIQUE,
-STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-CHECK(STATUS IN ('Y', 'N'))
+    BOARD_NO VARCHAR2(10) PRIMARY KEY,
+    BOARD_NAME VARCHAR2(50) NOT NULL UNIQUE,
+    STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    CHECK(STATUS IN ('Y', 'N'))
 );
-COMMENT ON COLUMN CLASS_BOARD.BOARD_NO IS '게시판번호';
+
+COMMENT ON COLUMN CLASS_BOARD.BOARD_NO IS '게시판번호(CB1, CB2, CB3...)';
 COMMENT ON COLUMN CLASS_BOARD.BOARD_NAME IS '게시판이름';
 COMMENT ON COLUMN CLASS_BOARD.STATUS IS '상태(미삭제:Y/삭제:N)';
+
 CREATE SEQUENCE SEQ_BOARDNO
 NOCACHE;
-INSERT INTO CLASS_BOARD VALUES(SEQ_BOARDNO.NEXTVAL, 'Java', DEFAULT);
-INSERT INTO CLASS_BOARD VALUES(SEQ_BOARDNO.NEXTVAL, 'Oracle', DEFAULT);
-INSERT INTO CLASS_BOARD VALUES(SEQ_BOARDNO.NEXTVAL, 'JDBC', DEFAULT);
-INSERT INTO CLASS_BOARD VALUES(SEQ_BOARDNO.NEXTVAL, 'Front-End', DEFAULT);
-INSERT INTO CLASS_BOARD VALUES(SEQ_BOARDNO.NEXTVAL, 'Server', DEFAULT);
+
+INSERT INTO CLASS_BOARD VALUES('CB' || SEQ_BOARDNO.NEXTVAL, 'Java', DEFAULT);
+INSERT INTO CLASS_BOARD VALUES('CB' || SEQ_BOARDNO.NEXTVAL, 'Oracle', DEFAULT);
+INSERT INTO CLASS_BOARD VALUES('CB' || SEQ_BOARDNO.NEXTVAL, 'JDBC', DEFAULT);
+INSERT INTO CLASS_BOARD VALUES('CB' || SEQ_BOARDNO.NEXTVAL, 'Front-End', DEFAULT);
+INSERT INTO CLASS_BOARD VALUES('CB' || SEQ_BOARDNO.NEXTVAL, 'Server', DEFAULT);
+INSERT INTO CLASS_BOARD VALUES('CB' || SEQ_BOARDNO.NEXTVAL, '페이징바 테스트용', DEFAULT);
+
+
 --------------------------------------------------------------------------------
 --############### 수업_게시글 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE CLASS_POST(
-POST_NO NUMBER PRIMARY KEY,
-BOARD_NO NUMBER NOT NULL,
-USER_NO NUMBER NOT NULL,
-POST_TITLE VARCHAR2(100) NOT NULL,
-POST_CONTENT VARCHAR2(4000),
-CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
-STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-FOREIGN KEY(BOARD_NO) REFERENCES CLASS_BOARD(BOARD_NO),
-FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO),
-CHECK(STATUS IN ('Y', 'N'))
+    POST_NO VARCHAR2(10) PRIMARY KEY,
+    BOARD_NO VARCHAR2(10) NOT NULL,
+    USER_NO NUMBER NOT NULL,
+    POST_TITLE VARCHAR2(100) NOT NULL,
+    POST_CONTENT VARCHAR2(4000),
+    CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
+    STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    FOREIGN KEY(BOARD_NO) REFERENCES CLASS_BOARD(BOARD_NO) ON DELETE CASCADE,
+    FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO),
+    CHECK(STATUS IN ('Y', 'N'))
 );
-COMMENT ON COLUMN CLASS_POST.POST_NO IS '게시글번호';
+
+COMMENT ON COLUMN CLASS_POST.POST_NO IS '게시글번호(CP1,CP2,CP3...)';
 COMMENT ON COLUMN CLASS_POST.BOARD_NO IS '게시판번호';
 COMMENT ON COLUMN CLASS_POST.USER_NO IS '작성자번호';
 COMMENT ON COLUMN CLASS_POST.POST_TITLE IS '게시글제목';
 COMMENT ON COLUMN CLASS_POST.POST_CONTENT IS '게시글내용';
 COMMENT ON COLUMN CLASS_POST.CREATE_DATE IS '작성일';
 COMMENT ON COLUMN CLASS_POST.STATUS IS '상태(미삭제:Y/삭제:N)';
+
 CREATE SEQUENCE SEQ_POSTNO
 NOCACHE;
-INSERT INTO CLASS_POST VALUES(SEQ_POSTNO.NEXTVAL, 1, 1, '이클립스 설치 및 세팅', '이클립스 설치는
-이렇게, 세팅은 요렇게 하면됩니다. 잘 아시겠쥬?', SYSDATE, DEFAULT);
-INSERT INTO CLASS_POST VALUES(SEQ_POSTNO.NEXTVAL, 1, 1, '배열', '배열은 배열입니다. 그렇습니다.',
-SYSDATE, DEFAULT);
-INSERT INTO CLASS_POST VALUES(SEQ_POSTNO.NEXTVAL, 1, 1, '컬렉션', '컬렉션에는 이런이런게 있습니다.
-이건 컬렉션이 아닙니다.', SYSDATE, DEFAULT);
-INSERT INTO CLASS_POST VALUES(SEQ_POSTNO.NEXTVAL, 2, 1, 'SELECT', '원하는 데이터를 가져오려면
-쿼리를 이렇게 짜면 됩니다. 조인바리를 이렇게 이렇게, 참 쉽죠?', SYSDATE, DEFAULT);
-INSERT INTO CLASS_POST VALUES(SEQ_POSTNO.NEXTVAL, 3, 1, 'JDBC 개요', '자바랑 DB랑 연결해봅시다.',
-SYSDATE, DEFAULT);
---------------------------------------------------------------------------------
---############### 수업_댓글 ###############
---------------------------------------------------------------------------------
-CREATE TABLE CLASS_COMMENT(
-POST_NO NUMBER,
-COMMENT_NO NUMBER UNIQUE,
-PRIMARY KEY(POST_NO, COMMENT_NO),
-FOREIGN KEY(POST_NO) REFERENCES CLASS_POST(POST_NO),
-FOREIGN KEY(COMMENT_NO) REFERENCES COMMENTS(COMMENT_NO)
-);
-COMMENT ON COLUMN CLASS_COMMENT.POST_NO IS '게시글번호';
-COMMENT ON COLUMN CLASS_COMMENT.COMMENT_NO IS '댓글번호';
-INSERT INTO CLASS_COMMENT VALUES(1, 1);
-INSERT INTO CLASS_COMMENT VALUES(1, 2);
-INSERT INTO CLASS_COMMENT VALUES(2, 3);
-INSERT INTO CLASS_COMMENT VALUES(3, 4);
-INSERT INTO CLASS_COMMENT VALUES(3, 5);
---------------------------------------------------------------------------------
---############### 수업_첨부파일 ###############
---------------------------------------------------------------------------------
-CREATE TABLE CLASS_ATTACHMENT(
-POST_NO NUMBER,
-FILE_NO NUMBER,
-PRIMARY KEY (POST_NO, FILE_NO),
-FOREIGN KEY(POST_NO) REFERENCES CLASS_POST(POST_NO),
-FOREIGN KEY(FILE_NO) REFERENCES ATTACHMENT(FILE_NO)
-);
-COMMENT ON COLUMN CLASS_ATTACHMENT.POST_NO IS '게시글번호';
-COMMENT ON COLUMN CLASS_ATTACHMENT.FILE_NO IS '파일번호';
-INSERT INTO CLASS_ATTACHMENT VALUES(1, 5);
-INSERT INTO CLASS_ATTACHMENT VALUES(1, 4);
-INSERT INTO CLASS_ATTACHMENT VALUES(2, 1);
-INSERT INTO CLASS_ATTACHMENT VALUES(3, 2);
-INSERT INTO CLASS_ATTACHMENT VALUES(4, 3);
+
+-- 페이징바 테스트용 (1000개 게시물 넣기)
+BEGIN
+    FOR i IN 1..1000 LOOP
+        INSERT INTO CLASS_POST 
+        VALUES (
+                     'CP' || SEQ_POSTNO.NEXTVAL
+                   , 'CB6'
+                   , 1
+                   ,  '페이징바 테스트용 게시물 제목입니다. ' || i
+                   ,  '페이징바 테스트용 게시물 내용입니다. ' || i
+                   ,  TO_DATE('2000-01-01 09:00:00', 'YYYY-MM-DD HH24:MI:SS') + (i - 1)
+                   , 'Y'
+                   );
+    END LOOP;
+END;
+/
+
+-- java
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, '자바 변수 선언', '자바에서 변수를 선언하는 방법과 기본 데이터 타입(정수, 실수, 문자 등)을 설명합니다.', TO_DATE('2024-05-09 14:35:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, '연산자 사용법', '자바에서 다양한 연산자(산술, 비교, 논리 연산자 등)의 사용법과 예제를 설명합니다.', TO_DATE('2024-05-10 11:22:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, 'if-else 문', '자바의 if-else 문을 사용하여 조건에 따른 분기 처리를 구현하는 방법을 설명합니다.', TO_DATE('2024-05-11 09:15:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, 'switch 문', '자바에서 switch 문을 사용하여 여러 조건을 처리하는 방법과 예제를 설명합니다.', TO_DATE('2024-05-12 10:45:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, 'for 루프', '자바의 for 루프를 사용하여 반복적인 작업을 수행하는 방법과 예제를 설명합니다.', TO_DATE('2024-05-13 16:30:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, 'while 루프', '자바의 while 루프를 사용하여 조건에 따라 반복 작업을 수행하는 방법을 설명합니다.', TO_DATE('2024-05-14 13:20:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, '배열 기본 사용법', '자바에서 배열을 선언하고 사용하는 방법, 배열의 인덱스와 요소에 접근하는 방법을 설명합니다.', TO_DATE('2024-05-15 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, '배열의 여러 가지 사용법', '다차원 배열 및 배열의 다양한 사용법과 예제를 설명합니다.', TO_DATE('2024-05-16 15:10:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, '클래스와 객체', '자바에서 클래스를 정의하고 객체를 생성하여 사용하는 방법을 설명합니다.', TO_DATE('2024-05-17 17:05:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, '메서드 사용법', '자바에서 메서드를 정의하고 호출하는 방법, 메서드 오버로딩에 대해 설명합니다.', TO_DATE('2024-05-18 10:55:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, '객체 지향 프로그래밍 원칙', '자바에서의 객체 지향 프로그래밍 원칙(상속, 다형성, 캡슐화, 추상화)에 대해 설명합니다.', TO_DATE('2024-05-19 14:40:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, '자바의 컬렉션 프레임워크', '자바 컬렉션 프레임워크의 주요 인터페이스와 클래스(예: List, Set, Map) 및 그 사용법을 설명합니다.', TO_DATE('2024-05-20 12:25:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, 'ArrayList와 LinkedList', 'ArrayList와 LinkedList의 차이점과 각각의 장단점, 사용 사례를 설명합니다.', TO_DATE('2024-05-21 16:15:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, 'HashMap과 TreeMap', 'HashMap과 TreeMap의 차이점과 사용 방법, 그리고 데이터 저장 방식에 대해 설명합니다.', TO_DATE('2024-05-22 11:50:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB1', 1, '인터페이스와 추상 클래스', '자바에서 인터페이스와 추상 클래스를 정의하고 사용하는 방법, 차이점을 설명합니다.', TO_DATE('2024-05-23 09:05:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+
+-- oracle
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'SELECT 기본 사용법', 'SELECT 문을 사용하여 테이블에서 데이터를 조회하는 기본적인 방법을 설명합니다.', TO_DATE('2024-05-24 09:30:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'SQL 함수 사용법', 'SQL에서 제공하는 다양한 함수(예: COUNT, AVG, SUM)와 사용법에 대해 설명합니다.', TO_DATE('2024-05-25 10:20:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'GROUP BY 절 사용법', 'GROUP BY 절을 사용하여 데이터를 그룹화하고 집계 함수와 함께 사용하는 방법을 설명합니다.', TO_DATE('2024-05-26 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'HAVING 절 사용법', 'HAVING 절을 사용하여 GROUP BY 절로 그룹화된 데이터에 조건을 추가하는 방법을 설명합니다.', TO_DATE('2024-05-27 16:45:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'JOIN 연산자', '테이블 간의 관계를 정의하여 데이터를 결합하는 JOIN 연산자(예: INNER JOIN, LEFT JOIN)의 사용법을 설명합니다.', TO_DATE('2024-05-28 11:10:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, '서브쿼리 사용법', 'SELECT 문 안에 포함된 서브쿼리를 사용하여 복잡한 데이터 조회를 수행하는 방법을 설명합니다.', TO_DATE('2024-05-29 14:25:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'CREATE TABLE 문', 'CREATE TABLE 문을 사용하여 새로운 테이블을 생성하는 방법과 테이블 정의를 설명합니다.', TO_DATE('2024-05-30 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'ALTER TABLE 문', 'ALTER TABLE 문을 사용하여 기존 테이블의 구조를 수정하는 방법(예: 열 추가, 삭제)을 설명합니다.', TO_DATE('2024-05-31 09:50:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'DROP TABLE 문', 'DROP TABLE 문을 사용하여 테이블을 삭제하는 방법과 주의사항을 설명합니다.', TO_DATE('2024-06-01 12:40:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'INSERT INTO 문', 'INSERT INTO 문을 사용하여 테이블에 새로운 데이터를 삽입하는 방법을 설명합니다.', TO_DATE('2024-06-02 10:10:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'UPDATE 문', 'UPDATE 문을 사용하여 기존 데이터의 값을 수정하는 방법과 조건을 설명합니다.', TO_DATE('2024-06-03 11:30:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, 'DELETE 문', 'DELETE 문을 사용하여 테이블에서 데이터를 삭제하는 방법과 주의사항을 설명합니다.', TO_DATE('2024-06-04 16:55:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, '트랜잭션 제어', '트랜잭션 제어를 통해 데이터베이스 작업을 관리하는 방법(예: COMMIT, ROLLBACK)을 설명합니다.', TO_DATE('2024-06-05 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB2', 1, '인덱스와 뷰', '테이블에 인덱스를 생성하여 조회 성능을 향상시키는 방법과 뷰를 사용하는 방법을 설명합니다.', TO_DATE('2024-06-06 12:15:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+
+-- jdbc
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB3', 1, 'JDBC Statement 사용법', 'JDBC에서 Statement 객체를 사용하여 SQL 쿼리를 실행하는 방법과 기본적인 사용법을 설명합니다.', TO_DATE('2024-06-10 10:15:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB3', 1, 'PreparedStatement 사용법', 'PreparedStatement를 사용하여 SQL 쿼리의 파라미터를 안전하게 처리하고 성능을 개선하는 방법을 설명합니다.', TO_DATE('2024-06-11 14:25:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB3', 1, 'JDBC Template 소개', 'JdbcTemplate을 사용하여 JDBC 작업을 더 쉽게 수행하는 방법을 설명합니다.', TO_DATE('2024-06-12 11:40:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB3', 1, 'Properties 파일 활용', 'JDBC 연결에 필요한 데이터베이스 연결 정보를 Properties 파일을 사용하여 설정하는 방법을 설명합니다.', TO_DATE('2024-06-13 15:10:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB3', 1, 'Transaction 관리', 'JDBC에서 트랜잭션을 관리하고 커밋 및 롤백을 수행하는 방법을 설명합니다.', TO_DATE('2024-06-14 13:50:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB3', 1, 'Batch Processing', 'JDBC에서 배치 처리를 사용하여 여러 SQL 명령을 효율적으로 실행하는 방법을 설명합니다.', TO_DATE('2024-06-15 16:20:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+
+-- front-end
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'HTML5 기본 구조', 'HTML5 문서의 기본 구조와 필수 요소들(예: <!DOCTYPE>, <html>, <head>, <body>)을 설명합니다.', TO_DATE('2024-06-16 09:30:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'HTML5 텍스트 요소', 'HTML5에서 텍스트를 표시하는 다양한 요소들(예: <h1>, <p>, <span>, <div>)의 사용법을 설명합니다.', TO_DATE('2024-06-17 10:45:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'HTML5 리스트', 'HTML5에서 순서가 있는 리스트(<ol>)와 순서가 없는 리스트(<ul>)를 생성하는 방법을 설명합니다.', TO_DATE('2024-06-18 14:35:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'HTML5 테이블', 'HTML5에서 테이블을 생성하고 데이터의 구조를 정의하는 방법을 설명합니다.', TO_DATE('2024-06-19 15:20:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'HTML5 이미지', 'HTML5에서 이미지를 삽입하고 속성(예: alt, width, height)을 설정하는 방법을 설명합니다.', TO_DATE('2024-06-20 13:30:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'HTML5 하이퍼링크', 'HTML5에서 하이퍼링크를 생성하고 링크의 목적지와 속성을 설정하는 방법을 설명합니다.', TO_DATE('2024-06-21 11:15:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'HTML5 폼', 'HTML5에서 다양한 입력 요소를 포함하는 폼을 생성하는 방법과 제출 방법을 설명합니다.', TO_DATE('2024-06-22 12:50:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'HTML5 비디오 및 오디오', 'HTML5에서 비디오와 오디오를 삽입하고 컨트롤을 추가하는 방법을 설명합니다.', TO_DATE('2024-06-23 10:20:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'CSS3 기본 선택자', 'CSS3에서 다양한 선택자(예: class, id, attribute)와 기본적인 스타일 적용 방법을 설명합니다.', TO_DATE('2024-06-24 13:40:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'CSS3 박스 모델', 'CSS3 박스 모델의 구성 요소(예: margin, border, padding, content)와 사용법을 설명합니다.', TO_DATE('2024-06-25 11:55:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'CSS3 레이아웃', 'CSS3에서 레이아웃을 설정하는 방법(예: flexbox, grid)과 사용 사례를 설명합니다.', TO_DATE('2024-06-26 15:05:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'CSS3 애니메이션', 'CSS3에서 애니메이션을 정의하고 적용하는 방법과 예제를 설명합니다.', TO_DATE('2024-06-27 12:30:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'JavaScript 기본 문법', 'JavaScript의 기본 문법(예: 변수 선언, 데이터 타입, 연산자)과 사용법을 설명합니다.', TO_DATE('2024-06-28 10:40:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'JavaScript 함수', 'JavaScript에서 함수를 정의하고 호출하는 방법과 함수의 다양한 사용법을 설명합니다.', TO_DATE('2024-06-29 13:10:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'JavaScript 이벤트', 'JavaScript에서 이벤트를 처리하고 이벤트 핸들러를 설정하는 방법을 설명합니다.', TO_DATE('2024-06-30 16:25:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'JavaScript DOM 조작', 'JavaScript를 사용하여 DOM 요소를 선택하고 수정하는 방법을 설명합니다.', TO_DATE('2024-07-01 15:40:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'jQuery 기본 사용법', 'jQuery를 사용하여 DOM 조작, 이벤트 처리 및 AJAX 요청을 수행하는 방법을 설명합니다.', TO_DATE('2024-07-02 11:20:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'jQuery 선택자', 'jQuery에서 다양한 선택자를 사용하여 DOM 요소를 선택하는 방법을 설명합니다.', TO_DATE('2024-07-03 14:50:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'jQuery 이벤트 처리', 'jQuery에서 이벤트를 처리하고 이벤트 핸들러를 설정하는 방법을 설명합니다.', TO_DATE('2024-07-04 16:10:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'jQuery AJAX', 'jQuery를 사용하여 AJAX 요청을 보내고 응답을 처리하는 방법을 설명합니다.', TO_DATE('2024-07-05 09:50:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB4', 1, 'jQuery 애니메이션', 'jQuery를 사용하여 애니메이션 효과를 적용하는 방법과 관련된 기능을 설명합니다.', TO_DATE('2024-07-06 13:25:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+
+-- server
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB5', 1, 'Servlet 기본 구조', 'Servlet의 기본 구조와 주요 메서드(예: doGet, doPost) 및 생명 주기를 설명합니다.', TO_DATE('2024-07-07 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB5', 1, 'Servlet 요청 및 응답 처리', 'Servlet에서 클라이언트의 요청을 처리하고 응답을 생성하는 방법을 설명합니다.', TO_DATE('2024-07-08 14:45:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB5', 1, 'Servlet 필터', 'Servlet 필터를 사용하여 요청과 응답을 가로채고 처리하는 방법을 설명합니다.', TO_DATE('2024-07-09 11:10:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB5', 1, 'JSP 기본 사용법', 'JSP의 기본 사용법과 문법(예: <%= %>, <jsp:include>)을 설명합니다.', TO_DATE('2024-07-10 16:20:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB5', 1, 'JSP 스크립틀릿과 표현식', 'JSP에서 스크립틀릿(<% %>)과 표현식(<%= %>)을 사용하여 서버 사이드 로직을 구현하는 방법을 설명합니다.', TO_DATE('2024-07-11 13:35:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB5', 1, 'JSP 액션 태그', 'JSP에서 액션 태그(<jsp:useBean>, <jsp:setProperty>, <jsp:getProperty>)를 사용하여 데이터를 처리하는 방법을 설명합니다.', TO_DATE('2024-07-12 12:10:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB5', 1, 'AJAX 기본 개념', 'AJAX의 기본 개념과 클라이언트-서버 간 비동기 통신을 설명합니다.', TO_DATE('2024-07-13 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB5', 1, 'AJAX 요청 및 응답 처리', 'AJAX를 사용하여 서버에 비동기 요청을 보내고 응답을 처리하는 방법을 설명합니다.', TO_DATE('2024-07-14 15:20:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+INSERT INTO CLASS_POST VALUES ('CP' || SEQ_POSTNO.NEXTVAL, 'CB5', 1, 'AJAX와 JSON', 'AJAX를 사용하여 서버에서 JSON 형식으로 데이터를 전송하고 처리하는 방법을 설명합니다.', TO_DATE('2024-07-15 13:50:00', 'YYYY-MM-DD HH24:MI:SS'), 'Y');
+
+
+
 --------------------------------------------------------------------------------
 --############### 설문조사_게시글 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE SURVEY_POST(
-POST_NO NUMBER PRIMARY KEY,
-POST_TITLE VARCHAR2(100) NOT NULL,
-WRITER_NO NUMBER NOT NULL,
-CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
-ON_GOING CHAR(1) DEFAULT 'Y' NOT NULL,
-TEMP_SAVE CHAR(1) DEFAULT 'N' NOT NULL,
-STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO),
-CHECK(ON_GOING IN ('Y', 'N')),
-CHECK(TEMP_SAVE IN ('Y', 'N')),
-CHECK(STATUS IN ('Y', 'N'))
+    POST_NO NUMBER PRIMARY KEY,
+    POST_TITLE VARCHAR2(100) NOT NULL,
+    WRITER_NO NUMBER NOT NULL,
+    CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
+    ON_GOING CHAR(1) DEFAULT 'Y' NOT NULL,
+    TEMP_SAVE CHAR(1) DEFAULT 'N' NOT NULL,
+    STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
+    FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO),
+    CHECK(ON_GOING IN ('Y', 'N')),
+    CHECK(TEMP_SAVE IN ('Y', 'N')),
+    CHECK(STATUS IN ('Y', 'N'))
 );
+
 COMMENT ON COLUMN SURVEY_POST.POST_NO IS '게시글번호';
 COMMENT ON COLUMN SURVEY_POST.POST_TITLE IS '게시글제목';
 COMMENT ON COLUMN SURVEY_POST.WRITER_NO IS '작성자번호';
@@ -843,111 +1059,124 @@ COMMENT ON COLUMN SURVEY_POST.CREATE_DATE IS '작성일';
 COMMENT ON COLUMN SURVEY_POST.ON_GOING IS '진행여부(진행중:Y/종료:N)';
 COMMENT ON COLUMN SURVEY_POST.TEMP_SAVE IS '임시보관여부(임시보관:Y/게시:N)';
 COMMENT ON COLUMN SURVEY_POST.STATUS IS '상태(미삭제:Y/삭제:N)';
+
 CREATE SEQUENCE SEQ_SURVEYPOSTNO
 NOCACHE;
-INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240607', 1, SYSDATE,
-'N', DEFAULT, DEFAULT);
-INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240620', 1, SYSDATE,
-'N', DEFAULT, DEFAULT);
-INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240703', 1, SYSDATE,
-'N', DEFAULT, DEFAULT);
-INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240715', 1, SYSDATE,
-'N', DEFAULT, DEFAULT);
-INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240801', 1, SYSDATE,
-'Y', DEFAULT, DEFAULT);
+
+INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240607', 1, SYSDATE, 'N', DEFAULT, DEFAULT);
+INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240620', 1, SYSDATE, 'N', DEFAULT, DEFAULT);
+INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240703', 1, SYSDATE, 'N', DEFAULT, DEFAULT);
+INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240715', 1, SYSDATE, 'N', DEFAULT, DEFAULT);
+INSERT INTO SURVEY_POST VALUES(SEQ_SURVEYPOSTNO.NEXTVAL, '평가제출현황_240801', 1, SYSDATE, 'Y', DEFAULT, DEFAULT);
+
 --------------------------------------------------------------------------------
 --############### 설문조사_대상자 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE SURVEY_MEMBER(
-POST_NO NUMBER,
-USER_NO NUMBER,
-COMPLETE CHAR(1) DEFAULT 'N' NOT NULL,
-PRIMARY KEY(POST_NO, USER_NO),
-FOREIGN KEY(POST_NO) REFERENCES SURVEY_POST(POST_NO),
-FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO),
-CHECK(COMPLETE IN ('Y', 'N'))
+    POST_NO NUMBER,
+    USER_NO NUMBER,
+    COMPLETE CHAR(1) DEFAULT 'N' NOT NULL,
+    PRIMARY KEY(POST_NO, USER_NO),
+    FOREIGN KEY(POST_NO) REFERENCES SURVEY_POST(POST_NO),
+    FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO),
+    CHECK(COMPLETE IN ('Y', 'N'))
 );
+
 COMMENT ON COLUMN SURVEY_MEMBER.POST_NO IS '게시글번호';
 COMMENT ON COLUMN SURVEY_MEMBER.USER_NO IS '조사대상자번호';
 COMMENT ON COLUMN SURVEY_MEMBER.COMPLETE IS '완료여부(참여완료:Y/미완료:N)';
+
 INSERT INTO SURVEY_MEMBER VALUES(1, 2, 'N');
 INSERT INTO SURVEY_MEMBER VALUES(1, 3, 'Y');
 INSERT INTO SURVEY_MEMBER VALUES(1, 4, 'Y');
 INSERT INTO SURVEY_MEMBER VALUES(1, 5, 'N');
 INSERT INTO SURVEY_MEMBER VALUES(2, 2, 'N');
+
 --------------------------------------------------------------------------------
 --############### 설문조사_질문 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE SURVEY_QUESTION(
-QUESTION_NO NUMBER PRIMARY KEY,
-POST_NO NUMBER NOT NULL,
-QUESTION_CONTENT VARCHAR2(300) NOT NULL,
-ANSWER_TYPE CHAR(1) DEFAULT 'S' NOT NULL,
-REQUIRED CHAR(1) DEFAULT 'N' NOT NULL,
-FOREIGN KEY(POST_NO) REFERENCES SURVEY_POST(POST_NO),
-CHECK(ANSWER_TYPE IN ('S', 'M', 'D')),
-CHECK(REQUIRED IN ('Y', 'N'))
+    QUESTION_NO NUMBER PRIMARY KEY,
+    POST_NO NUMBER NOT NULL,
+    QUESTION_CONTENT VARCHAR2(300) NOT NULL,
+    ANSWER_TYPE CHAR(1) DEFAULT 'S' NOT NULL,
+    REQUIRED CHAR(1) DEFAULT 'N' NOT NULL,
+    FOREIGN KEY(POST_NO) REFERENCES SURVEY_POST(POST_NO),
+    CHECK(ANSWER_TYPE IN ('S', 'M', 'D')),
+    CHECK(REQUIRED IN ('Y', 'N'))
 );
+
 COMMENT ON COLUMN SURVEY_QUESTION.QUESTION_NO IS '질문번호';
 COMMENT ON COLUMN SURVEY_QUESTION.POST_NO IS '게시글번호';
 COMMENT ON COLUMN SURVEY_QUESTION.QUESTION_CONTENT IS '질문내용';
 COMMENT ON COLUMN SURVEY_QUESTION.ANSWER_TYPE IS '답변타입(단일선택:S/다중선택:M/서술형:D)';
 COMMENT ON COLUMN SURVEY_QUESTION.REQUIRED IS '필수입력여부(필수입력:Y/선택입력:N)';
+
 CREATE SEQUENCE SEQ_SURVEYQNO
 NOCACHE;
-INSERT INTO SURVEY_QUESTION VALUES(SEQ_SURVEYQNO.NEXTVAL, 5, '이번 시험 난이도 어땠나요?', 'S',
-'Y');
+
+INSERT INTO SURVEY_QUESTION VALUES(SEQ_SURVEYQNO.NEXTVAL, 5, '이번 시험 난이도 어땠나요?', 'S', 'Y');
 INSERT INTO SURVEY_QUESTION VALUES(SEQ_SURVEYQNO.NEXTVAL, 5, '가장 어려웠던 문제는?', 'S', 'N');
 INSERT INTO SURVEY_QUESTION VALUES(SEQ_SURVEYQNO.NEXTVAL, 5, '가장 쉬웠던 문제는?', 'S', 'N');
 INSERT INTO SURVEY_QUESTION VALUES(SEQ_SURVEYQNO.NEXTVAL, 4, '좋아하는 가수는?', 'D', 'N');
 INSERT INTO SURVEY_QUESTION VALUES(SEQ_SURVEYQNO.NEXTVAL, 4, '취미?', 'M', 'Y');
+
 --------------------------------------------------------------------------------
 --############### 설문조사_선택지 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE SURVEY_CHOICE(
-CHOICE_NO NUMBER PRIMARY KEY,
-QUESTION_NO NUMBER NOT NULL,
-CHOICE_CONTENT VARCHAR2(100) NOT NULL,
-FOREIGN KEY(QUESTION_NO) REFERENCES SURVEY_QUESTION(QUESTION_NO)
+    CHOICE_NO NUMBER PRIMARY KEY,
+    QUESTION_NO NUMBER NOT NULL,
+    CHOICE_CONTENT VARCHAR2(100) NOT NULL,
+    FOREIGN KEY(QUESTION_NO) REFERENCES SURVEY_QUESTION(QUESTION_NO)
 );
+
 COMMENT ON COLUMN SURVEY_CHOICE.CHOICE_NO IS '선택지번호';
 COMMENT ON COLUMN SURVEY_CHOICE.QUESTION_NO IS '질문번호';
 COMMENT ON COLUMN SURVEY_CHOICE.CHOICE_CONTENT IS '선택지내용';
+
 CREATE SEQUENCE SEQ_SURVEY_CHOICENO
 NOCACHE;
+
 INSERT INTO SURVEY_CHOICE VALUES(SEQ_SURVEY_CHOICENO.NEXTVAL, 1, '매우 쉬움');
 INSERT INTO SURVEY_CHOICE VALUES(SEQ_SURVEY_CHOICENO.NEXTVAL, 1, '쉬움');
 INSERT INTO SURVEY_CHOICE VALUES(SEQ_SURVEY_CHOICENO.NEXTVAL, 1, '보통');
 INSERT INTO SURVEY_CHOICE VALUES(SEQ_SURVEY_CHOICENO.NEXTVAL, 1, '어려움');
 INSERT INTO SURVEY_CHOICE VALUES(SEQ_SURVEY_CHOICENO.NEXTVAL, 1, '매우 어려움');
+
 --------------------------------------------------------------------------------
 --############### 설문조사_답변 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE SURVEY_ANSWER(
-QUESTION_NO NUMBER,
-USER_NO NUMBER,
-USER_ANSWER VARCHAR2(300),
-PRIMARY KEY(QUESTION_NO, USER_NO),
-FOREIGN KEY(QUESTION_NO) REFERENCES SURVEY_QUESTION(QUESTION_NO),
-FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO)
+    QUESTION_NO NUMBER,
+    USER_NO NUMBER,
+    USER_ANSWER VARCHAR2(300),
+    PRIMARY KEY(QUESTION_NO, USER_NO),
+    FOREIGN KEY(QUESTION_NO) REFERENCES SURVEY_QUESTION(QUESTION_NO),
+    FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO)
 );
+
 COMMENT ON COLUMN SURVEY_ANSWER.QUESTION_NO IS '질문번호';
 COMMENT ON COLUMN SURVEY_ANSWER.USER_NO IS '유저번호';
 COMMENT ON COLUMN SURVEY_ANSWER.USER_ANSWER IS '유저답변(ex)1,2,3,..., 일반텍스트도 가능)';
+
 INSERT INTO SURVEY_ANSWER VALUES(1, 2, '3');
 INSERT INTO SURVEY_ANSWER VALUES(1, 3, '2');
 INSERT INTO SURVEY_ANSWER VALUES(1, 4, '4');
 INSERT INTO SURVEY_ANSWER VALUES(1, 5, '3');
 INSERT INTO SURVEY_ANSWER VALUES(5, 2, '영화보기, 등산, 요리');
+
 --------------------------------------------------------------------------------
 --############### 능력단위 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE SUBJECT(
-SUBJECT_NO NUMBER PRIMARY KEY,
-SUBJECT_NAME VARCHAR(60)
+    SUBJECT_NO NUMBER PRIMARY KEY,
+    SUBJECT_NAME VARCHAR(60)
 );
+
 COMMENT ON COLUMN SUBJECT.SUBJECT_NO IS '능력단위번호 1 ~ 18';
 COMMENT ON COLUMN SUBJECT.SUBJECT_NAME IS '능력단위명';
+
 INSERT INTO SUBJECT VALUES(1, '프로그래밍 언어 활용');
 INSERT INTO SUBJECT VALUES(2, '프로그래밍 언어 응용');
 INSERT INTO SUBJECT VALUES(3, '네트워크 프로그래밍 구현');
@@ -966,87 +1195,100 @@ INSERT INTO SUBJECT VALUES(15, '프로젝트 기반 공공데이터 활용');
 INSERT INTO SUBJECT VALUES(16, '프로젝트 기반 공공데이터 아키텍처 설계');
 INSERT INTO SUBJECT VALUES(17, '애플리케이션 테스트 수행');
 INSERT INTO SUBJECT VALUES(18, '애플리케이션 배포');
+
 --------------------------------------------------------------------------------
 --############### 시험구분 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE TEST_KIND(
-TEST_KIND_NO NUMBER PRIMARY KEY,
-TEST_KIND_NAME VARCHAR2(30)
+    TEST_KIND_NO NUMBER PRIMARY KEY,
+    TEST_KIND_NAME VARCHAR2(30)
 );
+
 COMMENT ON COLUMN TEST_KIND.TEST_KIND_NO IS '구분번호';
 COMMENT ON COLUMN TEST_KIND.TEST_KIND_NAME IS '구분명';
+
 INSERT INTO TEST_KIND VALUES(1, '문제해결시나리오');
 INSERT INTO TEST_KIND VALUES(2, '포트폴리오(신)');
+
 --------------------------------------------------------------------------------
 --############### 성적 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE SCORE (
-TEST_NO NUMBER PRIMARY KEY,
-USER_NO NUMBER NOT NULL,
-CLASS_NAME VARCHAR2(30) NOT NULL,
-SUBJECT_NO NUMBER NOT NULL,
-TEST_KIND_NO NUMBER NOT NULL,
-SCORE NUMBER,
-FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO),
-FOREIGN KEY(SUBJECT_NO) REFERENCES SUBJECT(SUBJECT_NO),
-FOREIGN KEY(TEST_KIND_NO) REFERENCES TEST_KIND(TEST_KIND_NO)
+    TEST_NO NUMBER PRIMARY KEY,
+    USER_NO NUMBER NOT NULL,
+    CLASS_NAME VARCHAR2(30) NOT NULL,
+    SUBJECT_NO NUMBER NOT NULL,
+    TEST_KIND_NO NUMBER NOT NULL,
+    SCORE NUMBER,
+    FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO),
+    FOREIGN KEY(SUBJECT_NO) REFERENCES SUBJECT(SUBJECT_NO),
+    FOREIGN KEY(TEST_KIND_NO) REFERENCES TEST_KIND(TEST_KIND_NO)
 );
+
 COMMENT ON COLUMN SCORE.TEST_NO IS '시험번호';
 COMMENT ON COLUMN SCORE.USER_NO IS '유저번호';
 COMMENT ON COLUMN SCORE.CLASS_NAME IS '교과구분';
 COMMENT ON COLUMN SCORE.SUBJECT_NO IS '능력단위 번호';
 COMMENT ON COLUMN SCORE.TEST_KIND_NO IS '구분번호';
 COMMENT ON COLUMN SCORE.SCORE IS '시험점수';
+
 INSERT INTO SCORE VALUES(1, 2, 'NCS전공교과', 1, 1, 100);
 INSERT INTO SCORE VALUES(2, 2, 'NCS전공교과', 2, 1, 100);
 INSERT INTO SCORE VALUES(3, 2, 'NCS전공교과', 3, 1, 100);
 INSERT INTO SCORE VALUES(4, 2, 'NCS전공교과', 4, 1, 100);
 INSERT INTO SCORE VALUES(5, 2, 'NCS전공교과', 5, 1, NULL);
+
 --------------------------------------------------------------------------------
 --############### 출결상태 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE ATD_STATE(
-STATE_CODE VARCHAR2(6) PRIMARY KEY,
-STATE_NAME VARCHAR2(6) NOT NULL
+    STATE_CODE VARCHAR2(6) PRIMARY KEY,
+    STATE_NAME VARCHAR2(6) NOT NULL
 );
+
 COMMENT ON COLUMN ATD_STATE.STATE_CODE IS '상태코드';
 COMMENT ON COLUMN ATD_STATE.STATE_NAME IS '상태이름(출석:ATD/지각:LATE/결석:ABS/조퇴:E_OUT)';
+
 INSERT INTO ATD_STATE VALUES('ATD', '출석');
 INSERT INTO ATD_STATE VALUES('LATE', '지각');
 INSERT INTO ATD_STATE VALUES('ABS', '결석');
 INSERT INTO ATD_STATE VALUES('E_OUT', '조퇴');
+
 --------------------------------------------------------------------------------
 --############### 출결 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE ATTENDANCE(
-USER_NO NUMBER,
-DAY DATE,
-STATE_CODE VARCHAR2(6),
-USE_DAY_OFF NUMBER,
-PRIMARY KEY(USER_NO, DAY),
-FOREIGN KEY(STATE_CODE) REFERENCES ATD_STATE(STATE_CODE)
+    USER_NO NUMBER,
+    DAY DATE,
+    STATE_CODE VARCHAR2(6),
+    USE_DAY_OFF NUMBER,
+    PRIMARY KEY(USER_NO, DAY),
+    FOREIGN KEY(STATE_CODE) REFERENCES ATD_STATE(STATE_CODE)
 );
+
 INSERT INTO ATTENDANCE VALUES(1, '2024/08/08', 'ATD', NULL);
 INSERT INTO ATTENDANCE VALUES(1, '2024/08/09', 'ATD', NULL);
 INSERT INTO ATTENDANCE VALUES(1, '2024/08/10', 'ATD', NULL);
 INSERT INTO ATTENDANCE VALUES(2, '2024/08/08', 'ATD', NULL);
 INSERT INTO ATTENDANCE VALUES(2, '2024/08/09', 'ATD', NULL);
 INSERT INTO ATTENDANCE VALUES(2, '2024/08/10', 'ATD', NULL);
+
 --------------------------------------------------------------------------------
 --############### 일정표 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE CALENDAR(
-"CALENDAR_NO" NUMBER PRIMARY KEY,
-"CONTACTS_NO" NUMBER,
-"WRITER_NO" NUMBER NOT NULL,
-"TITLE" VARCHAR2(50) NOT NULL,
-"DESCRIPTION" VARCHAR2(100),
-"START_DATE" DATE NOT NULL,
-"END_DATE" DATE NOT NULL,
-"STATUS" CHAR(1) DEFAULT 'Y' NOT NULL,
-FOREIGN KEY(CONTACTS_NO) REFERENCES CONTACTS(CONTACTS_NO),
-FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO)
+    "CALENDAR_NO" NUMBER PRIMARY KEY,
+    "CONTACTS_NO" NUMBER,
+    "WRITER_NO" NUMBER NOT NULL,
+    "TITLE" VARCHAR2(50) NOT NULL,
+    "DESCRIPTION" VARCHAR2(100),
+    "START_DATE" DATE NOT NULL,
+    "END_DATE" DATE NOT NULL,
+    "STATUS" CHAR(1) DEFAULT 'Y' NOT NULL,
+    FOREIGN KEY(CONTACTS_NO) REFERENCES CONTACTS(CONTACTS_NO),
+    FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO)
 );
+
 COMMENT ON COLUMN CALENDAR.CALENDAR_NO IS '일정번호';
 COMMENT ON COLUMN CALENDAR.CONTACTS_NO IS '주소록번호(개인:NULL)';
 COMMENT ON COLUMN CALENDAR.WRITER_NO IS '작성자번호';
@@ -1055,52 +1297,60 @@ COMMENT ON COLUMN CALENDAR.DESCRIPTION IS '설명';
 COMMENT ON COLUMN CALENDAR.START_DATE IS '시작날짜';
 COMMENT ON COLUMN CALENDAR.END_DATE IS '종료날짜';
 COMMENT ON COLUMN CALENDAR.STATUS IS '삭제여부(미삭제:Y/삭제:N)';
+
 CREATE SEQUENCE SEQ_CALENDAR_NO
 NOCACHE;
+
 INSERT INTO CALENDAR VALUES (1, 1, 2, '팀 회의', null, '20240812', '20240812',DEFAULT);
 INSERT INTO CALENDAR VALUES (2, 1, 2, '시험', '학원시험', '20240812', '20240812',DEFAULT);
 INSERT INTO CALENDAR VALUES (3, 2, 3, '화면구현', null, '20240812', '20240830',DEFAULT);
 INSERT INTO CALENDAR VALUES (4, 2, 4, '샘플', '샘플데이터', '20240814', '20240821',DEFAULT);
 INSERT INTO CALENDAR VALUES (5, null, 5, '여름휴가', '물놀이가자', '20240825', '20240829',DEFAULT);
+
 --------------------------------------------------------------------------------
 --############### 할 일 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE TODO (
-"TODO_NO" NUMBER PRIMARY KEY,
-"CONTACTS_NO" NUMBER,
-"WRITER_NO" NUMBER NOT NULL,
-"CONTENT" VARCHAR2(100) NOT NULL,
-"STATUS" CHAR(1) DEFAULT 'Y' NOT NULL,
-FOREIGN KEY(CONTACTS_NO) REFERENCES CONTACTS(CONTACTS_NO),
-FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO)
+    "TODO_NO" NUMBER PRIMARY KEY,
+    "CONTACTS_NO" NUMBER,
+    "WRITER_NO" NUMBER NOT NULL,
+    "CONTENT" VARCHAR2(100) NOT NULL,
+    "STATUS" CHAR(1) DEFAULT 'Y' NOT NULL,
+    FOREIGN KEY(CONTACTS_NO) REFERENCES CONTACTS(CONTACTS_NO),
+    FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO)
 );
+
 COMMENT ON COLUMN TODO.TODO_NO IS '할일번호';
 COMMENT ON COLUMN TODO.CONTACTS_NO IS '주소록번호(개인:NULL)';
 COMMENT ON COLUMN TODO.WRITER_NO IS '작성자번호';
 COMMENT ON COLUMN TODO.CONTENT IS '내용';
 COMMENT ON COLUMN TODO.STATUS IS '삭제여부(미삭제:Y/삭제:N)';
+
 CREATE SEQUENCE SEQ_TODO_NO
 NOCACHE;
+
 INSERT INTO TODO VALUES (1, 1, 2, '프로젝트 보고서 작성',DEFAULT);
 INSERT INTO TODO VALUES (2, NULL, 2, '고객 미팅 준비',DEFAULT);
 INSERT INTO TODO VALUES (3, 1, 3, '팀원 리뷰',DEFAULT);
 INSERT INTO TODO VALUES (4, NULL, 2, '샘플데이터',DEFAULT);
 INSERT INTO TODO VALUES (5, 2, 5, '24/09/09 프로젝트 발표',DEFAULT);
+
 --------------------------------------------------------------------------------
 --############### 과제_선생님 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE HOMEWORK_TEACHER (
-"HOMEWORK_NO" NUMBER PRIMARY KEY,
-"FILE_NO" NUMBER NOT NULL,
-"WRITER_NO" NUMBER NOT NULL,
-"SUBJECT" VARCHAR2(60) NOT NULL,
-"HOMEWORK_TITLE" VARCHAR2(30) NOT NULL,
-"HOMEWORK_END_DATE" DATE NOT NULL,
-"DESCRIPTION" VARCHAR2(500),
-"WRITE_DATE" DATE DEFAULT SYSDATE NOT NULL,
-FOREIGN KEY(FILE_NO) REFERENCES ATTACHMENT(FILE_NO),
-FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO)
+    "HOMEWORK_NO" VARCHAR2(10) PRIMARY KEY,
+    "FILE_NO" VARCHAR2(10) NOT NULL,
+    "WRITER_NO" NUMBER NOT NULL,
+    "SUBJECT" VARCHAR2(60) NOT NULL,
+    "HOMEWORK_TITLE" VARCHAR2(30) NOT NULL,
+    "HOMEWORK_END_DATE" DATE NOT NULL,
+    "DESCRIPTION" VARCHAR2(500),
+    "WRITE_DATE" DATE DEFAULT SYSDATE NOT NULL,
+    FOREIGN KEY(FILE_NO) REFERENCES ATTACHMENT(FILE_NO),
+    FOREIGN KEY(WRITER_NO) REFERENCES USERS(USER_NO)
 );
+
 COMMENT ON COLUMN HOMEWORK_TEACHER.HOMEWORK_NO IS '과제게시글번호';
 COMMENT ON COLUMN HOMEWORK_TEACHER.FILE_NO IS '파일번호';
 COMMENT ON COLUMN HOMEWORK_TEACHER.WRITER_NO IS '유저번호';
@@ -1109,73 +1359,47 @@ COMMENT ON COLUMN HOMEWORK_TEACHER.HOMEWORK_TITLE IS '제목';
 COMMENT ON COLUMN HOMEWORK_TEACHER.HOMEWORK_END_DATE IS '제출기한';
 COMMENT ON COLUMN HOMEWORK_TEACHER.DESCRIPTION IS '과제설명';
 COMMENT ON COLUMN HOMEWORK_TEACHER.WRITE_DATE IS '작성날짜';
+
 CREATE SEQUENCE SEQ_HOMEWORK_NO
 NOCACHE;
-INSERT INTO HOMEWORK_TEACHER VALUES (1, 6, 1, 'Java', '자바 문제', '20240815', '자바 종합연습',
-SYSDATE);
-INSERT INTO HOMEWORK_TEACHER VALUES (2, 9, 1, 'Oracle', '춘대학', '20240822', null, SYSDATE);
-INSERT INTO HOMEWORK_TEACHER VALUES (3, 10, 1, 'Oracle', '춘출판사', '20240822', '10,11번 문제는
-안풀어도 됩니다', SYSDATE);
-INSERT INTO HOMEWORK_TEACHER VALUES (4, 12, 1, 'front-end', '테이블만들기', '20240825', null, SYSDATE);
-INSERT INTO HOMEWORK_TEACHER VALUES (5, 13, 1, 'front-en', '스타일관련', '20240825', 'css 연습',
-SYSDATE);
+
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A6', 1, 'Java', '자바 문제', '20240815', '자바 종합연습', SYSDATE);
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A9', 1, 'Oracle', '춘대학', '20240822', null, SYSDATE);
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A10', 1, 'Oracle', '춘출판사', '20240822', '10,11번 문제는 안풀어도 됩니다', SYSDATE);
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A12', 1, 'front-end', '테이블만들기', '20240825', null, SYSDATE);
+INSERT INTO HOMEWORK_TEACHER VALUES ('HT'||SEQ_HOMEWORK_NO.NEXTVAL, 'A13', 1, 'front-en', '스타일관련', '20240825', 'css 연습', SYSDATE);
+
 --------------------------------------------------------------------------------
 --############### 과제_학생 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE HOMEWORK_STUDENT (
-"HOMEWORK_SUBMIT_NO" NUMBER PRIMARY KEY,
-HOMEWORK_NO NUMBER NOT NULL,
-"USER_NO" NUMBER NOT NULL,
-"FILE_NO" NUMBER NOT NULL,
-"SUBMIT_DATE" DATE DEFAULT SYSDATE NOT NULL,
-"SUBMIT_STATUS" CHAR(1) NOT NULL,
-FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO),
-FOREIGN KEY(FILE_NO) REFERENCES ATTACHMENT(FILE_NO),
-FOREIGN KEY(HOMEWORK_NO) REFERENCES HOMEWORK_TEACHER(HOMEWORK_NO)
+    "HOMEWORK_SUBMIT_NO" VARCHAR2(10) PRIMARY KEY,
+    HOMEWORK_NO VARCHAR2(10) NOT NULL,
+    "USER_NO" NUMBER NOT NULL,
+    "FILE_NO" VARCHAR2(10) NOT NULL,
+    "SUBMIT_DATE" DATE DEFAULT SYSDATE NOT NULL,
+    "SUBMIT_STATUS" CHAR(1) NOT NULL,
+    FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO),
+    FOREIGN KEY(FILE_NO) REFERENCES ATTACHMENT(FILE_NO),
+    FOREIGN KEY(HOMEWORK_NO) REFERENCES HOMEWORK_TEACHER(HOMEWORK_NO)
 );
+
 COMMENT ON COLUMN HOMEWORK_STUDENT.HOMEWORK_SUBMIT_NO IS '과제제출번호';
 COMMENT ON COLUMN HOMEWORK_STUDENT.HOMEWORK_NO IS '과제게시글번호';
 COMMENT ON COLUMN HOMEWORK_STUDENT.USER_NO IS '유저번호';
 COMMENT ON COLUMN HOMEWORK_STUDENT.FILE_NO IS '파일번호';
 COMMENT ON COLUMN HOMEWORK_STUDENT.SUBMIT_DATE IS '제출일시';
 COMMENT ON COLUMN HOMEWORK_STUDENT.SUBMIT_STATUS IS '제출상태(제출:Y/미제출:N)';
+
 CREATE SEQUENCE SEQ_HOMEWORK_SUBMIT_NO
 NOCACHE;
-INSERT INTO HOMEWORK_STUDENT VALUES (1, 1, 2, 7, SYSDATE, 'Y');
-INSERT INTO HOMEWORK_STUDENT VALUES (2, 2, 2, 11, SYSDATE, 'Y');
-INSERT INTO HOMEWORK_STUDENT VALUES (3, 1, 4, 8, SYSDATE, 'Y');
-INSERT INTO HOMEWORK_STUDENT VALUES (4, 3, 4, 12, SYSDATE, 'Y');
-INSERT INTO HOMEWORK_STUDENT VALUES (5, 4, 3, 14, SYSDATE, 'Y');
---------------------------------------------------------------------------------
---############### 과제_댓글 ###############
---------------------------------------------------------------------------------
-CREATE TABLE HOMEWORK_COMMENT(
-HOMEWORK_NO NUMBER,
-COMMENT_NO NUMBER,
-PRIMARY KEY(HOMEWORK_NO, COMMENT_NO),
-FOREIGN KEY(HOMEWORK_NO) REFERENCES HOMEWORK_TEACHER(HOMEWORK_NO),
-FOREIGN KEY(COMMENT_NO) REFERENCES COMMENTS(COMMENT_NO)
-);
-COMMENT ON COLUMN HOMEWORK_COMMENT.HOMEWORK_NO IS '과제게시글번호';
-COMMENT ON COLUMN HOMEWORK_COMMENT.COMMENT_NO IS '댓글번호';
-INSERT INTO HOMEWORK_COMMENT VALUES(1, 6);
-INSERT INTO HOMEWORK_COMMENT VALUES(2, 7);
---------------------------------------------------------------------------------
---############### 과제_첨부파일 ###############
---------------------------------------------------------------------------------
-CREATE TABLE HOMEWORK_ATTACHMENT (
-HOMEWORK_NO NUMBER NOT NULL,
-FILE_NO NUMBER NOT NULL,
-PRIMARY KEY(HOMEWORK_NO,FILE_NO),
-FOREIGN KEY(HOMEWORK_NO) REFERENCES HOMEWORK_TEACHER(HOMEWORK_NO),
-FOREIGN KEY(FILE_NO) REFERENCES ATTACHMENT(FILE_NO)
-);
-COMMENT ON COLUMN HOMEWORK_COMMENT.HOMEWORK_NO IS '과제게시글번호';
-COMMENT ON COLUMN HOMEWORK_STUDENT.FILE_NO IS '파일번호';
-INSERT INTO HOMEWORK_ATTACHMENT VALUES(1,11);
-INSERT INTO HOMEWORK_ATTACHMENT VALUES(1,12);
-INSERT INTO HOMEWORK_ATTACHMENT VALUES(2,13);
-INSERT INTO HOMEWORK_ATTACHMENT VALUES(3,14);
+
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT1', 2, 'A7', SYSDATE, 'Y');
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT2', 2, 'A11', SYSDATE, 'Y');
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT3', 4, 'A8', SYSDATE, 'Y');
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT4', 4, 'A12', SYSDATE, 'Y');
+INSERT INTO HOMEWORK_STUDENT VALUES ('HS' || SEQ_HOMEWORK_SUBMIT_NO, 'HT5', 3, 'A14', SYSDATE, 'Y');
+
 --------------------------------------------------------------------------------
 -- 커밋!!
 COMMIT;

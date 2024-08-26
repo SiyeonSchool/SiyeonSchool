@@ -9,9 +9,10 @@
     --classroom-postList-height: calc(100vh - var(--menubar-height) - var(--classroom-firstHeader-height)  - var(--classroom-secondHeader-height) - var(--classroom-paging-height));
     --classroom-paging-height: 40px; /* 하단 페이징부분 */
 
-    --classroom-hover-color: rgb(248, 182, 182);
+    --classroom-active-color: rgb(250, 193, 193);
+    --classroom-hover-color: rgba(250, 193, 193, 0.45);
+    --classroom-header-n-paging-color: rgba(243, 243, 243, 0.7);
 }
-
 
 
 /* ================================ 공통속성 ================================ */
@@ -57,6 +58,7 @@ aside{
     overflow-y: auto;
 }
 
+/* ----------------------------- 수업게시판 타이틀 ----------------------------- */
 /* "수업 게시판" 글자를 감싸고 있는 div */
 aside .title-div{
     display: flex;
@@ -76,6 +78,7 @@ aside .title-div .add-icon{
     cursor: pointer;
 }
 
+/* ----------------------------- 게시판 목록 ----------------------------- */
 /* 각각의 줄 */
 aside ul li{
     cursor: pointer;
@@ -89,10 +92,14 @@ aside ul li:hover{
     font-weight: bold;
 }
 
+aside ul li.active{
+    background-color: var(--classroom-active-color);
+}
+
 /* 각각의 줄 - 내부 div*/
 aside ul li .board-div{
     width: 100%;
-    height: 25px;
+    height: 24px;
     display: flex;
     align-items: center;
     position: relative;
@@ -114,11 +121,11 @@ aside ul li .board-div .edit-icon{
 /* ================================ 메인 ================================ */
 main{
     position: absolute;
-    left: 300px;
+    left: var(--sidebar-width);
     width: var(--classroom-content-width); 
     height: calc(100vh - var(--menubar-height)); /* 세로 화면크기 - 메뉴바 높이*/
     min-width: calc(1500px - var(--sidebar-width)); /* 화면을 더 줄일 수 없도록함. 화면 줄었을때 요소간 겹침 방지*/
-    font-size: 14px;
+    font-size: 15px;
 }
 
 
@@ -155,7 +162,7 @@ main .first-header .writeBtn-div .writeBtn{
 
 /* "게시글 작성" 버튼 - hover시 */
 main .first-header .writeBtn-div .writeBtn:hover{
-    background-color: var(--classroom-hover-color);
+    background-color: var(--classroom-active-color);
     font-weight: bold;
 }
 
@@ -215,11 +222,11 @@ main .first-header .search-bar-div .search-icon:hover{
 /* ------------------- 공통속성 - 두번째 헤더, 게시글 목록 ------------------- */
 /* 가로길이 비율 통일 */
 main .post-column.boardName{width: 15%;}
-main .post-column.postTitle{width: 35%;}
-main .post-column.attachment{width: 15%;}
-main .post-column.comment{width: 7%;}
+main .post-column.postTitle{width: 45%;}
+main .post-column.attachment{width: 5%;}
+main .post-column.comment{width: 5%;}
 main .post-column.writer{width: 15%;}
-main .post-column.createDate{width: 13%;}
+main .post-column.createDate{width: 15%;}
 
 
 
@@ -227,7 +234,7 @@ main .post-column.createDate{width: 13%;}
 main .second-header{
     height: 40px;
     border-bottom: 1px solid var(--lightGrey);
-    background-color: rgba(243, 243, 243, 0.7);
+    background-color: var(--classroom-header-n-paging-color);
     /* padding-right: 15px; */
 }
 
@@ -244,10 +251,16 @@ main .second-header ul li{
 
 
 /* ----------------------------- 게시글 목록 ----------------------------- */
+/* 게시글 목록 - section */
 main .post-list{
     height: var(--classroom-postList-height);
     max-height: var(--classroom-postList-height);
     overflow: auto;
+}
+
+/* 게시글 목록 - section > ul */
+main .post-list ul{
+    position: relative;
 }
 
 /* ----------------------------- 하나의 게시글 ----------------------------- */
@@ -263,6 +276,25 @@ main .post-list ul .post{
 /* 게시글 - 한줄 - 후버시 */
 main .post-list ul .post:hover{
     background-color: var(--classroom-hover-color);
+}
+
+/* 게시글 - 게시글이 없는경우 */
+main .post-list ul .post.noPost{
+    height: var(--mail-postList-height);
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    top: 100px;
+    left: 40%;
+    border-bottom: none;
+    cursor: default;
+    font-weight: bold;
+    display: block;
+}
+
+/* 게시글 - 게시글이 없는경우 - 후버시 */
+main .post-list ul .post.noPost:hover{
+    background-color: #fff;
 }
 
 /* 게시글 - 열 div */
@@ -304,14 +336,8 @@ main .post-list ul .post .post-column.attachment .moreFile{
 
 
 /* ------------- 작성자 ------------- */
-
-/* 작성자를 감싸고있는 div */
-main .post-list ul .post .post-column.writer{
-    padding-left: 50px;
-}
-
 /* 프로필 이미지 */
-main .post-list ul .post .post-column.writer img{
+main .post-list ul .post .post-column.writer .profile-img{
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -319,8 +345,13 @@ main .post-list ul .post .post-column.writer img{
 }
 
 /* 프로필 이미지 후버시*/
-main .post-list ul .post .post-column.writer img:hover{
+main .post-list ul .post .post-column.writer .profile-img:hover{
     opacity: .7;
+}
+
+/* 프로필 이미지 */
+main .post-list ul .post .post-column.writer .profile-icon{
+    font-size: 40px;
 }
 
 /* 작성자 이름 */
@@ -336,7 +367,7 @@ main .post-list ul .post .post-column.writer .userId{
 
 /* ------------- 작성일시 ------------- */
 main .post-list ul .post .post-column.createDate{
-    font-size: 13px;
+    font-size: 14px;
 }
 
 
@@ -346,7 +377,7 @@ main .paging-area{
     width: 100%;
     height: var(--classroom-paging-height);
     border-top: 1px solid var(--lightGrey);
-    background-color: rgba(243, 243, 243, 0.7);
+    background-color: var(--classroom-header-n-paging-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -356,6 +387,17 @@ main .paging-area{
 main .paging-area span {
     line-height: var(--classroom-paging-height);
     cursor: pointer;
+}
+
+/* 페이지 - 화살표 (비활성화) */
+main .paging-area span.hidden {
+    cursor: default;
+    color: var(--classroom-header-n-paging-color); /* 배경과 같은 색으로 해서 안보이게 */
+}
+
+/* 페이지 - 화살표 (비활성화) */
+main .paging-area span.hidden:hover {
+    color: var(--classroom-header-n-paging-color);  /* 배경과 같은 색으로 해서 안보이게 */
 }
 
 /* 페이지 - 숫자 */
