@@ -33,11 +33,13 @@
 	
 	<!-- 중요메일 개수조회 -->
 	<entry key="selectImportantMailCount">
-		SELECT COUNT(MAIL_NO) AS "COUNT"
-		  FROM MAIL_OWNER
-		 WHERE OWNER_NO = ?
-		   AND MAIL_STAR = 'Y'
-		   AND MAIL_STATUS = 'Y'
+		SELECT COUNT(MO.MAIL_NO) AS "COUNT"
+		  FROM MAIL_OWNER MO
+          JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
+		 WHERE MO.OWNER_NO = ?
+		   AND MO.MAIL_STAR = 'Y'
+		   AND MO.MAIL_STATUS = 'Y'
+           AND M.IS_SENT = 'S'
 	</entry>
 
 
