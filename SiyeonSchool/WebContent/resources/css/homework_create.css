@@ -1,0 +1,50 @@
+#container{
+    display: flex;
+    position: relative;
+}
+
+#homework_create_content{
+    width: calc(100% - 700px);
+    height: 100vh;
+    margin: auto;
+    position: absolute;
+    left: 500px;
+}
+
+#homework_create span{
+    display: block;
+    width: 126px;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 20px 0;
+}
+
+#container #back{
+    cursor: pointer;
+    height: 20px;
+    width: 88px;
+    position: relative;
+}
+
+#container #back:hover{
+    font-weight: bold;
+}
+
+#homework_btn{
+    display: flex;
+    position: absolute;
+    right: 0px;
+}
+
+#homework_btn button{
+    width: 88px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #f3f3f3;
+    letter-spacing: 2px;
+    margin: 20px 8px 0 0;
+    border: 1px solid #9a9a9a;
+    cursor: pointer;
+    font-size: 16px;
+}

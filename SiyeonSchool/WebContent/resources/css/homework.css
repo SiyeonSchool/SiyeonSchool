@@ -1,156 +1,81 @@
-.container {
+.container{
     display: flex;
-}
-
-#side {
-    width: 300px;
-    height: 100vh;
-    background-color: #fff;
-    border-right: 1px solid #f0f0f0;
-    position: relative;
-}
-
-#side1{
-    width: 100%;
-    height: 100px;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-#side1 span{
-    padding-left: 20px;
-    line-height: 40px;
-    font-weight: bold;
-}
-
-#side2{
-    width: 100%;
-    height: calc('#side' - '#side1');
-    border-bottom: 1px solid #f0f0f0;
-}
-
-#title{
-    margin: 10px 10px;
-    font-weight: 600;
-    font-size: 20px;
-    letter-spacing: 2px;
-    position: relative;
-}
-
-#listTitle{
-    padding: 0px 200px 0px 10px;
-}
-
-#title .material-symbols-rounded{
-    cursor: pointer;
-    font-size: 30px;
-    color: #9a9a9a;
-    position: absolute;
-}
-
-#title .material-symbols-rounded:hover{
-    color: black;
-}
-
-#side3{
-    width: 100%;
-    height: calc('#side' - ('#side1' - '#side2'));
-    position: relative;
-    /* padding: 8px 10px 3px 20px; */
-    cursor: pointer;
-}
-
-#side3 ul:first-child li{
-    padding: 8px 10px 3px 20px;
-}
-
-.sideList{
-    position: relative;
-    padding: 8px 10px 3px 20px;
-}
-
-
-.subject{
-    margin-left: 10px;
-    position: absolute;
-    top: 10px;
-}
-
-.sideList span:nth-child(3){
-    position: absolute;
-    right: 43px;
-    cursor: pointer;
-    color: #9a9a9a;
-}
-
-.sideList span:nth-child(3):hover{
-    color: black;
-}
-
-.sideList span:last-child{
-    position: absolute;
-    right: 11px;
-    cursor: pointer;
-    color: #9a9a9a;
-}
-
-.sideList span:last-child:hover{
-    color: black;
-}
-
-#side3 span:nth-child(2){
-    position: absolute;
-    top: 10px;
-    margin-left: 10px;
-}
-
-#side3 span:last-child{
-    position: absolute;
-    top: 10px;
-    left: 135px;
-}
-
-.sideList{
-    cursor: pointer;
-}
-
-.sideList:hover, #side3 li:hover{
-    background-color: #fec3ff;
 }
 
 #homework{
     width: calc(100% - 300px);
+    height: 100vh;
 }
 
 #header{
     width: 100%;
-    height: 50px;
-    border-bottom: 1px solid #f0f0f0;
+    height: 40px;
+    border-bottom: 1px solid #9a9a9a;
 }
 
-#content{
-    height: calc(100% - 50px);
-    background-color: blueviolet;
-}
-
-#create{
-    position: relative;
-}
-
-#create a{
-    width: 88px;
-    height: 33px;
-    border: 1px solid #9a9a9a;
+#list-header{
+    display: flex;
+    height: 100%;
+    font-size: 16px;
     text-align: center;
-    line-height: 33px;
-    font-weight: 500;
-    border-radius: 5px;
-    background-color: #fff6ff;
-    position: absolute;
-    bottom: -440px;
-    left: 103px;
-    /* visibility: hidden; */
+    line-height: 41px;
+    letter-spacing: 2px;
 }
 
-#create a:hover{
+#list{
+    display: flex;
+    height: 39px;
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 1px;
+    line-height: 37px;
+}
+
+#homework #content{
+    width: 100%;
+    height: calc(100% - 50px);
+}
+
+.container #homework #header ul #title{
+    width: 22%;
+    height: 100%;
+}
+.container #homework #header ul #endDate{
+    width: 15%;
+}
+.container #homework #header ul #status{
+    width: 25%;
+}
+.container #homework #header ul #reply{
+    width: 5%;
+}
+.container #homework #header ul #writer{
+    width: 18%;
+}
+.container #homework #header ul #createDate{
+    width: 15%;
+}
+.container #homework #content ul #title{
+    width: 22%;
+    height: 100%;
+}
+.container #homework #content ul #endDate{
+    width: 15%;
+}
+.container #homework #content ul #status{
+    width: 25%;
+}
+.container #homework #content ul #reply{
+    width: 5%;
+}
+.container #homework #content ul #writer{
+    width: 18%;
+}
+.container #homework #content ul #createDate{
+    width: 15%;
+}
+
+#homework #content a ul:hover{
     background-color: #fec3ff;
+    font-weight: bold;
 }

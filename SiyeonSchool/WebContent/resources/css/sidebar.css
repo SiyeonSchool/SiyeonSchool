@@ -1,0 +1,144 @@
+#side {
+    width: 300px;
+    height: 100vh;
+    background-color: #fff;
+    border-right: 1px solid #9a9a9a;
+    position: relative;
+}
+
+#side1{
+    width: 100%;
+    height: 100px;
+    border-bottom: 1px solid #9a9a9a;
+}
+
+#side1 ul li:first-child span{
+    padding-left: 20px;
+    line-height: 40px;
+    font-weight: bold;
+}
+#side1 ul li:last-child span{
+    padding-left: 20px;
+}
+
+#side1 ul li:last-child span:hover{
+    font-weight: bold;
+}
+
+#side2{
+    width: 100%;
+    height: calc('#side' - '#side1');
+    border-bottom: 1px solid #9a9a9a;
+}
+
+#side2 ul #title{
+    margin: 10px 10px;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+#listTitle{
+    padding: 0px 200px 0px 10px;
+}
+
+#title .material-symbols-rounded{
+    cursor: pointer;
+    font-size: 30px;
+    color: #9a9a9a;
+    position: absolute;
+}
+
+#title .material-symbols-rounded:hover{
+    color: black;
+}
+
+#side3{
+    width: 100%;
+    height: calc('#side' - ('#side1' - '#side2'));
+    position: relative;
+    /* padding: 8px 10px 3px 20px; */
+    cursor: pointer;
+}
+
+#side3 ul:first-child li{
+    padding: 8px 10px 3px 20px;
+}
+
+.sideList{
+    position: relative;
+    padding: 8px 10px 3px 20px;
+}
+
+
+.subject{
+    margin-left: 10px;
+    position: absolute;
+    top: 10px;
+}
+
+.sideList span:nth-child(3){
+    position: absolute;
+    right: 43px;
+    cursor: pointer;
+    color: #9a9a9a;
+}
+
+.sideList span:nth-child(3):hover{
+    color: black;
+}
+
+.sideList span:last-child{
+    position: absolute;
+    right: 11px;
+    cursor: pointer;
+    color: #9a9a9a;
+}
+
+.sideList span:last-child:hover{
+    color: black;
+}
+
+#side3 span:nth-child(2){
+    position: absolute;
+    top: 10px;
+    margin-left: 10px;
+}
+
+#side3 span:last-child{
+    position: absolute;
+    top: 10px;
+    left: 135px;
+}
+
+.sideList{
+    cursor: pointer;
+}
+
+.sideList:hover, #side3 li:hover{
+    background-color: #fec3ff;
+}
+
+#create{
+    position: relative;
+}
+
+#create a{
+    width: 88px;
+    height: 33px;
+    border: 1px solid #9a9a9a;
+    text-align: center;
+    line-height: 33px;
+    font-weight: 500;
+    border-radius: 5px;
+    background-color: #fff6ff;
+    position: absolute;
+    bottom: -440px;
+    left: 103px;
+    /* visibility: hidden; */
+}
+
+#create a:hover{
+    background-color: #fec3ff;
+}
