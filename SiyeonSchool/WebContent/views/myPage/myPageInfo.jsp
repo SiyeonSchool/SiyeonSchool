@@ -28,7 +28,7 @@
 
             <div class="myInfo__body">
                 <div class="myInfo__header"><p>내정보</p></div>
-                <div class="myInfo__transBtn_area"><a href="#" class="btn btn-sm btn-primary myInfo__transBtn">정보변경</a></div>
+                <div class="myInfo__transBtn_area"><a href="#" class="myInfo__transBtn">정보변경</a></div>
                 <div class="myInfo__content">
                     <table>
                         <tr>

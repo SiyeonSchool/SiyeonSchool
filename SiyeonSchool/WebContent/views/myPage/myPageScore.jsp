@@ -25,8 +25,8 @@
         <section class="body__wrapper">
             <%@ include file="../common/myPageSide.jsp" %>
 
-            <div id="myScore-area">
-                <div class="header">시험점수</div>
+            <div class="myScore-body">
+                <div class="myScore-header">시험점수</div>
                 <div class="body"></div>
             </div>
         </section>
