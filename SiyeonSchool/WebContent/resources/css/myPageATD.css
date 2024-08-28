@@ -24,21 +24,48 @@
     padding: 10px;
 }
 
-.myATD-content table {
-    width: 100%;
-    border-collapse: collapse;
+.attendance-container {
+    width: 90%;
+    margin: auto;
+    overflow-x: scroll;
 }
-.myATD-content table, th, td {
-    border: 1px solid black;
-}
-.myATD-content th, td {
-    padding: 8px;
-    text-align: left;
-}
-#monthNavigation {
+.month-navigation {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-top: 50px;
     margin-bottom: 10px;
+    font-size: 24px;
 }
+
+.navicon{
+    margin: 0px 20px;
+}
+
+.navicon:hover{
+    cursor: pointer;
+    color: #46D3FF;
+}
+
+table {
+    width: auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+table thead{
+    display: block;
+}
+
+th, td {
+    min-width: 50px;
+    height: 50px;
+    border: 1px solid #999;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+th {
+    background-color: #C2F0FF;
+}
+
