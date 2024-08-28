@@ -9,6 +9,7 @@
     --mail-postList-height: calc(100vh - var(--menubar-height) - var(--mail-firstHeader-height) - var(--mail-secondHeader-height) - var(--mail-paging-height));
     --mail-paging-height: 40px; /* 하단 페이징부분 */
 
+
     --mail-active-color: var(--lightPurple);
     --mail-hover-color: rgba(206, 188, 255, 0.4);
     --mail-header-n-paging-color: rgba(243, 243, 243, 0.7);
@@ -578,12 +579,12 @@ main.mail-detail {
 /* ----------------------------- 메일 상세조회 - 뒤로가기 버튼 ----------------------------- */
 main.mail-detail .btnToGoBack{
   position: absolute;
-  left: 20px;
-  top: 20px;
+  left: 0;
+  top: 0;
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: 10px;
+  padding: 10px 5px;
 }
 
 main.mail-detail .btnToGoBack:hover{
@@ -596,9 +597,35 @@ main.mail-detail .btnToGoBack .icon{
 }
 
 main.mail-detail .btnToGoBack .text{
-  font-size: 16px;
+  font-size: 14px;
   padding-top: 2px;
 }
+
+/* ----------------------------- 메일 버튼 - 답장/전달/이동/삭제----------------------------- */
+/* 버튼 감싸고 있는 div */
+main.mail-detail .email-btns {
+  position: absolute;
+  top: 20px;
+  left: 76%;
+}
+
+/* 실제 버튼 */
+main.mail-detail .email-btns .btn{
+  border: 1px solid var(--lightGrey);
+  border-radius: 3px;
+  background-color: #fff;
+  padding: 8px;
+  cursor: pointer;
+  width: 50px;
+  margin-right: 5px;
+}
+
+/* 실제 버튼 - hover시*/
+main.mail-detail .email-btns .btn:hover{
+  background-color: var(--mail-active-color);
+  font-weight: bold;
+}
+
 
 /* ----------------------------- 메일 상세조회 - 중앙 페이지 ----------------------------- */
 /* 메일 상세조회 - section */
@@ -607,38 +634,39 @@ main.mail-detail section {
   width: 50%;
   left: 0;
   right: 0;
-  margin: auto;
+  margin: 20px auto;
 }
 
-/* ----------------------------- 메일 버튼 - 답장/전달/이동/삭제----------------------------- */
-/* 버튼 감싸고 있는 div */
-main.mail-detail section .email-btns {
-  position: absolute;
-  top: 20px;
-  right: 0;
-  z-index: 1;
+
+/* ------------- 메일제목 ------------- */
+
+/* 메일 제목 div */
+main.mail-detail .mail-detail-header .title{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-/* 실제 버튼 */
-main.mail-detail section .email-btns .btn{
-  border: 1px solid var(--lightGrey);
-  border-radius: 3px;
-  background-color: #fff;
-  padding: 8px;
-  cursor: pointer;
-  width: 50px;
-  margin-left: 5px;
+/* 별 - 회색 빈 별*/
+main.mail-detail .mail-detail-header .title .icon.star {
+  font-size: 30px;
+  vertical-align: middle;
+  margin-right: 10px;
 }
 
-/* 실제 버튼 - hover시*/
-main.mail-detail section .email-btns .btn:hover{
-  background-color: var(--mail-active-color);
+/* 별 - 색상 채워진 별*/
+main.mail-detail .mail-detail-header .title .icon.star.fill {
+  color: var(--lightOrange);
+}
+
+/* 메일 제목 */
+main.mail-detail .mail-detail-header .title .mailTitle{
+  font-size: 1.3rem;
   font-weight: bold;
 }
 
-/* ----------------------------- 메일 상세조회 - 헤더 ----------------------------- */
+/* ----------------------------- 헤더 ----------------------------- */
 main.mail-detail .mail-detail-header {
-  padding-top: 10px;
   border-bottom: 1px solid var(--lightGrey);
   position: relative;
 }
@@ -646,10 +674,6 @@ main.mail-detail .mail-detail-header {
 /* 테이블 */
 main.mail-detail .mail-detail-header .outer-table{
   width: 100%;
-  font-family: "MinSans-Regular", sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.4;
 }
 
 /* 테이블 줄 */
@@ -660,10 +684,11 @@ main.mail-detail .mail-detail-header .outer-table tr{
 /* 테이블 각각의 셀 */
 main.mail-detail .mail-detail-header .outer-table tr td{
   font-family: "MinSans-Regular", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.4;
   vertical-align: middle;
+  /* color: red; */
 }
 
 /* 테이블 좌측 컬럼 */
@@ -673,36 +698,11 @@ main.mail-detail .mail-detail-header .outer-table tr td.td-left{
 }
 
 
-/* ------------- 메일제목 ------------- */
-
-/* 별 - 별을 감싸고 있는 div */
-main.mail-detail .mail-detail-header .outer-table tr.title td.td-left{
-  text-align: center;
-}
-
-/* 별 - 회색 빈 별*/
-main.mail-detail .mail-detail-header .outer-table tr.title td .icon.star {
-  font-size: 30px;
-  vertical-align: middle;
-}
-
-/* 별 - 색상 채워진 별*/
-main.mail-detail .mail-detail-header .outer-table tr.title td .icon.star.fill {
-  color: var(--lightOrange);
-}
-
-/* 메일 제목 */
-main.mail-detail .mail-detail-header .outer-table tr.title td .mailTitle{
-  font-size: 1.3rem;
-  font-weight: bold;
-}
-
-
 /* ------------- 발신인 ------------- */
 main.mail-detail .mail-detail-header .outer-table tr.sender .td-right{
-  /* height: 50px; */
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 /* 발신인 이미지 */
@@ -725,19 +725,22 @@ main.mail-detail .mail-detail-header .outer-table tr.sender .td-right .sender-in
 
 /* 발신인 아이디*/
 main.mail-detail .mail-detail-header .outer-table tr.sender .td-right .sender-info .userId{
-  margin: 0 5px;
+  margin-left: 2px;
   color: var(--lightGrey);
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* ------------- 보낸시간 ------------- */
 /* 보낸시간 div */
 main.mail-detail .mail-detail-header .outer-table tr.sender .td-right .sentTime-info{
-  font-size: 14px;
+  font-size: 12px;
   display: flex;
-  align-items: baseline;
-  margin-left: 30px;
-  padding-top: 5px;
+  align-items: center;
+  position: absolute;
+  right: 10%;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 /* 보낸시간 */
@@ -764,9 +767,10 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul li div{
   display: flex;
   align-items: center;
   font-family: "MinSans-Regular", sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.4;
+  /* color: blue; */
 }
 
 /* 헤더 & 내용 - 가로 비율 지정 */
@@ -775,6 +779,9 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul li .rUserName{w
 main.mail-detail .mail-detail-header .outer-table tr.receiver ul li .rType{width: 20%;}
 main.mail-detail .mail-detail-header .outer-table tr.receiver ul li .rTime{width: 40%;}
 
+main.mail-detail .mail-detail-header .outer-table tr.receiver .td-right {
+  position: relative;
+}
 
 /* ------------- 수신인 리스트 헤더 ------------- */
 main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-header {
@@ -829,16 +836,14 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-contents l
 
 /* 읽은 시간 */
 main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-contents li > div.rTime{
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* ------------- 수신인 요약 ------------- */
 /* 수신인 요약 - 총 몇명인지 */
 main.mail-detail .mail-detail-header .outer-table tr.receiver .listSummary{
-  font-family: "MinSans-Regular", sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
-  line-height: 1.4;
   margin-left: 10px;
 }
 
@@ -849,13 +854,10 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver .listSummary span{
 }
 
 /* ------------- 발신 취소 버튼 ------------- */
-main.mail-detail .mail-detail-header .cancel-sending{
+main.mail-detail .mail-detail-header .outer-table tr.receiver .btn{
   position: absolute;
-  bottom: 40px;
-  right: 70px;
-}
-
-main.mail-detail .mail-detail-header .cancel-sending .btn{
+  right: 10%;
+  bottom: -10px;
   border: 1px solid var(--lightGrey);
   border-radius: 3px;
   background-color: #fff;
@@ -863,16 +865,42 @@ main.mail-detail .mail-detail-header .cancel-sending .btn{
   cursor: pointer;
 }
 
-main.mail-detail .mail-detail-header .cancel-sending .btn:hover{
+main.mail-detail .mail-detail-header .outer-table tr.receiver .btn:hover{
   background-color: var(--mail-active-color);
   font-weight: bold;
 }
 
 
 /* ----------------------------- 메일 상세 내용 ----------------------------- */
-
 main.mail-detail .mail-detail-content {
-  margin-top: 20px;
-  padding: 0 10px;
+  padding: 20px 20px 100px;
+  white-space: pre-wrap;
 }
 
+/* ------------- 위로 올라가기 버튼 ------------- */
+
+/* 버튼을 감싸고 있는 div */
+main.mail-detail #btnToGoUp {
+  position: fixed;
+  left: 80%;
+  bottom: 20px;
+  border: 1px solid var(--lightGrey);
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  display: none;
+}
+
+/* 버튼을 감싸고 있는 div - hover시*/
+main.mail-detail #btnToGoUp:hover{
+  background-color: var(--mail-active-color);
+  font-weight: bold;
+}
+
+/* 아이콘 */
+main.mail-detail #btnToGoUp .icon{
+  font-size: 20px;
+  padding: 5px;
+}

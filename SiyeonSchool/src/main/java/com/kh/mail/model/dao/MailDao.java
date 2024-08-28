@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 import static com.kh.common.JDBCTemplate.*;
@@ -494,6 +495,35 @@ public class MailDao {
 		}
 		
 		return list;
+	}
+
+	public HashMap<String, Integer> selectMailReceiverTypeCount(Connection conn, String mailNo) {
+		HashMap<String, Integer> map = new HashMap<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMailReceiverTypeCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, mailNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				map.put(rset.getString("RECEIVER_TYPE"),
+						rset.getInt("COUNT"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return map;
 	}
 
 

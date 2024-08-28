@@ -2,6 +2,8 @@ package com.kh.mail.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -65,9 +67,17 @@ public class MailDetailController extends HttpServlet {
 		// ---------------- 메일상세조회 관련 ----------------
 		Mail m = new MailService().selectMail(ownerNo, currentMailNo);
 		ArrayList<MailReceiver> mrList = new MailService().selectMailReceiverList(currentMailNo);
+		HashMap<String, Integer> mrTypeCountMap = new MailService().selectMailReceiverTypeCount(currentMailNo);
+		
+		Set<String> keySet = mrTypeCountMap.keySet();
+		for(String key : keySet) {
+			Integer value = mrTypeCountMap.get(key);
+			System.out.println(key + ":" + value);
+		}
 		
 		request.setAttribute("mail", m);
 		request.setAttribute("mailReceivers", mrList);
+		request.setAttribute("mrTypeCountMap", mrTypeCountMap);
 
 		request.getRequestDispatcher("views/mail/mailDetail.jsp").forward(request, response);
 

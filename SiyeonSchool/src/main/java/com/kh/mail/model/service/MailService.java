@@ -2,6 +2,7 @@ package com.kh.mail.model.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.kh.common.JDBCTemplate.*;
 import com.kh.common.model.vo.PageInfo;
@@ -107,6 +108,13 @@ public class MailService {
 		ArrayList<MailReceiver> list = new MailDao().selectMailReceiverList(conn, mailNo);
 		close(conn);
 		return list;
+	}
+
+	public HashMap<String, Integer> selectMailReceiverTypeCount(String mailNo) {
+		Connection conn = getConnection();
+		HashMap<String, Integer> map = new MailDao().selectMailReceiverTypeCount(conn, mailNo);
+		close(conn);
+		return map;
 	}
 
 }

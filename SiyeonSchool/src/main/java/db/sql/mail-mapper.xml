@@ -324,7 +324,22 @@
 		FROM MAIL_RECEIVER MR
 		JOIN USERS U ON (MR.RECEIVER_NO = U.USER_NO)
 		WHERE MR.MAIL_NO = ?
+		ORDER
+		   BY U.USER_NAME ASC
 	</entry>
 	
+	<!-- 메일 수신인타입(R:수신/C:참조/S:비밀) 카운트 조회 : 메일번호 필요 -->
+	<entry key="selectMailReceiverTypeCount">
+		SELECT 
+			   CASE 
+			   		WHEN RECEIVER_TYPE IS NULL THEN 'TOTAL'
+			        ELSE RECEIVER_TYPE
+			    END AS RECEIVER_TYPE,
+			    COUNT(RECEIVER_TYPE) AS COUNT
+		  FROM MAIL_RECEIVER
+		 WHERE MAIL_NO = ?
+		 GROUP
+		    BY ROLLUP(RECEIVER_TYPE)
+	</entry>
 	
 </properties>
