@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.mail.model.service.MailService;
+import com.kh.mail.model.vo.Mail;
+import com.kh.mail.model.vo.MailReceiver;
 import com.kh.mail.model.vo.Mailbox;
 import com.kh.user.model.vo.User;
 
@@ -33,11 +35,13 @@ public class MailDetailController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String currentMailbox = request.getParameter("mb"); // 현재 메일함
-		String currentMail = request.getParameter("m"); // 현재 메일\
-		System.out.println("currentMail:" + currentMail);
+		String currentMailNo = request.getParameter("m"); // 현재 메일\
+		System.out.println("currentMailNo:" + currentMailNo);
 		
 		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		
+		
+		// ---------------- 사이드바 - 메일함 메일 개수 관련 ----------------
 		ArrayList<Mailbox> mailboxCountList = new MailService().selectMailboxCountList(ownerNo);
 		
 		int allMailCount = 0;
@@ -50,13 +54,20 @@ public class MailDetailController extends HttpServlet {
 		
 		int unreadMailCount = new MailService().selectUnreadMailCount(ownerNo); // 않읽은메일 개수
 		int importantMailCount = new MailService().selectImportantMailCount(ownerNo); // 중요메일 개수
-		
+
 		request.setAttribute("currentMailbox", currentMailbox);     	// 현재메일함
 		
 		request.setAttribute("mailboxCountList", mailboxCountList); 	// 메일함별 메일개수 리스트 
 		request.setAttribute("allMailCount", allMailCount);  		    // 전체메일개수
 		request.setAttribute("unreadMailCount", unreadMailCount);  		// 안읽은메일개수
 		request.setAttribute("importantMailCount", importantMailCount); // 중요메일개수
+		
+		// ---------------- 메일상세조회 관련 ----------------
+		Mail m = new MailService().selectMail(ownerNo, currentMailNo);
+		ArrayList<MailReceiver> mrList = new MailService().selectMailReceiverList(currentMailNo);
+		
+		request.setAttribute("mail", m);
+		request.setAttribute("mailReceivers", mrList);
 
 		request.getRequestDispatcher("views/mail/mailDetail.jsp").forward(request, response);
 

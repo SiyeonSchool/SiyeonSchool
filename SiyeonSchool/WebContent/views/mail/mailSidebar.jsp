@@ -25,6 +25,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="resources/css/mail.css">
+	<script defer src="resources/js/mail.js"></script>
 </head>
 <body>
 

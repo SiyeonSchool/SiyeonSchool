@@ -292,4 +292,39 @@
 		  WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	<!-- ===================== 메일 상세 조회 ============================= -->
+	
+	<!-- 메일 상세 조회 : 사용자번호(별 조회용), 메일번호 필요 -->
+	<entry key="selectMail">
+		SELECT 
+		       M.MAIL_NO
+             , MO.MAIL_STAR
+             , M.MAIL_TITLE
+		     , U1.USER_NAME
+		     , U1.USER_ID
+		     , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+             , M.SEND_DATE
+		     , M.MAIL_CONTENT
+		FROM MAIL M
+        JOIN MAIL_OWNER MO ON (MO.OWNER_NO = ?) AND (M.MAIL_NO = MO.MAIL_NO)
+		JOIN USERS U1 ON (M.SENDER = U1.USER_NO)
+		JOIN ATTACHMENT A ON (U1.PROFILE_FILE_NO = A.FILE_NO)
+		WHERE M.MAIL_NO = ?
+	</entry>
+	
+	<!-- 메일 수신인 조회 : 메일번호 필요 -->
+	<entry key="selectMailReceiverList">
+		SELECT
+		       MR.MAIL_NO
+		     , MR.RECEIVER_NO
+		     , U.USER_NAME
+		     , U.USER_ID
+		     , DECODE(MR.RECEIVER_TYPE, 'R', '수신', 'C', '참조', 'S', '비밀') AS "RECEIVER_TYPE"
+		     , NVL(TO_CHAR(MR.READ_TIME, 'YYYY-MM-DD DY HH24:MI'), '읽지않음') AS "READ_TIME"
+		FROM MAIL_RECEIVER MR
+		JOIN USERS U ON (MR.RECEIVER_NO = U.USER_NO)
+		WHERE MR.MAIL_NO = ?
+	</entry>
+	
+	
 </properties>

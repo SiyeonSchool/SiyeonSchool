@@ -13,6 +13,7 @@ import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.common.model.vo.PageInfo;
 import com.kh.mail.model.vo.Mail;
+import com.kh.mail.model.vo.MailReceiver;
 import com.kh.mail.model.vo.Mailbox;
 
 public class MailDao {
@@ -410,6 +411,79 @@ public class MailDao {
 								  rset.getString("PROFILE_PATH"),
 								  rset.getString("MAIL_TITLE"),
 								  rset.getString("SEND_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	// ===================== 메일 상세 조회 =============================
+	
+	public Mail selectMail(Connection conn, int ownerNo, String mailNo) {
+		Mail m = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, ownerNo);
+			pstmt.setString(2, mailNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				m = new Mail();
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setMailStar(rset.getString("MAIL_STAR"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setProfilePath(rset.getString("PROFILE_PATH"));
+				m.setSendDate(rset.getString("SEND_DATE"));
+				m.setMailContent(rset.getString("MAIL_CONTENT"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return m;
+	}
+
+	public ArrayList<MailReceiver> selectMailReceiverList(Connection conn, String mailNo) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMailReceiverList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, mailNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getString("MAIL_NO"),
+						  rset.getInt("RECEIVER_NO"),
+						  rset.getString("USER_NAME"),
+						  rset.getString("USER_ID"),
+						  rset.getString("RECEIVER_TYPE"),
+						  rset.getString("READ_TIME")
+						 ));
 			}
 			
 		} catch (SQLException e) {

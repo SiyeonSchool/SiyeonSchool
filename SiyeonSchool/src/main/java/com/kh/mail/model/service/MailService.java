@@ -7,6 +7,7 @@ import static com.kh.common.JDBCTemplate.*;
 import com.kh.common.model.vo.PageInfo;
 import com.kh.mail.model.dao.MailDao;
 import com.kh.mail.model.vo.Mail;
+import com.kh.mail.model.vo.MailReceiver;
 import com.kh.mail.model.vo.Mailbox;
 
 public class MailService {
@@ -88,6 +89,22 @@ public class MailService {
 	public ArrayList<Mail> selectImportantMailList(int ownerNo, PageInfo pi) {
 		Connection conn = getConnection();
 		ArrayList<Mail> list = new MailDao().selectImportantMailList(conn, ownerNo, pi);
+		close(conn);
+		return list;
+	}
+
+	// ===================== 메일 상세 조회 =============================
+	
+	public Mail selectMail(int ownerNo, String mailNo) {
+		Connection conn = getConnection();
+		Mail m = new MailDao().selectMail(conn, ownerNo, mailNo);
+		close(conn);
+		return m;
+	}
+
+	public ArrayList<MailReceiver> selectMailReceiverList(String mailNo) {
+		Connection conn = getConnection();
+		ArrayList<MailReceiver> list = new MailDao().selectMailReceiverList(conn, mailNo);
 		close(conn);
 		return list;
 	}

@@ -87,9 +87,9 @@
 
 						<!-- 하나의 메일 -->
 						<% if(m.getIsRead() != null && m.getIsRead().equals("N")){ %>
-							<li id="<%= m.getUserId() %>" ondblclick="location.href='<%= contextPath %>/mail.detail?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>'" class="mail unreadMail">
+							<li id="<%= m.getUserId() %>" class="mail unreadMail">
 						<% }else { %>
-							<li id="<%= m.getMailNo() %>" ondblclick="location.href='<%= contextPath %>/mail.detail?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>'" class="mail">
+							<li id="<%= m.getMailNo() %>" class="mail">
 						<% } %>
 						
 							<!-- 체크박스 -->
@@ -136,7 +136,7 @@
 							</div>
 							
 							<!--  메일 제목 -->
-							<div class="mail-column mailTitle text-left">
+							<div class="mail-column mailTitle text-left" onclick="location.href='<%= contextPath %>/mail.detail?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>'">
 								<span><%= m.getMailTitle() %></span>
 							</div>
 		
