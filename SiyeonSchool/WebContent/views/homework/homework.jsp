@@ -27,7 +27,7 @@
 				</ul>
 			</div>
 			<div class="content" id="content">
-				<a href="">
+				<a href="<%=contextPath%>/detailView.homework">
 					<ul id="list">
 						<li id="title">[subject]homework_title</li>
 						<li id="endDate">homework_end_date</li>

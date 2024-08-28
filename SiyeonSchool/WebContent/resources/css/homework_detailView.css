@@ -1,0 +1,23 @@
+#container2{
+    display: flex;
+    position: relative;
+}
+
+#homework_detailView_content{
+    width: calc(100% - 500px);
+    height: 100vh;
+    margin: auto;
+    position: absolute;
+    left: 500px;
+    display: flex;
+}
+
+#content1{
+    width: 776px;
+    background-color: red;
+}
+
+#content2{
+    width: 420px;
+    background-color: blue;
+}
