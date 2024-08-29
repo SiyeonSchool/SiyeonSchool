@@ -121,8 +121,13 @@ INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-5.pdf', 'resources/upfiles/classroom/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
 
 -- 메일
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M501', 'flower2.png', 'flower2_from_user01.png', 'resources/upfiles/mail/', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Y');
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'mail_test_240829.pdf', 'mail_test_240829.pdf', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'flower2.png', 'flower2.png', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M503', 'tower1.png', 'tower1.png', 'resources/upfiles/mail/', TO_DATE('2024-07-03', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'river2.png', 'river2.png', 'resources/upfiles/mail/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'forest1.png', 'forest1.png', 'resources/upfiles/mail/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M507', 'flower1.png', 'flower1.png', 'resources/upfiles/mail/', TO_DATE('2024-07-07', 'YYYY-MM-DD'), 'Y');
 
 
 --------------------------------------------------------------------------------
@@ -235,8 +240,7 @@ BEGIN
 END;
 /
 
--- 아래는 백업용. 나중에 필요하면 다시 넣기. 
-
+-- 참고) 메뉴얼로 넣는 데이터는 메일 테이블 위에 추가로 있음.
 
 --------------------------------------------------------------------------------
 --############### 유저 - INSERT ###############
@@ -692,6 +696,16 @@ INSERT INTO CONTACTS_STAR VALUES(SEQ_CONTACTS_STARNO.NEXTVAL, 1, 15, 'Y');
 INSERT INTO CONTACTS_STAR VALUES(SEQ_CONTACTS_STARNO.NEXTVAL, 1, 28, 'Y');
 
 --------------------------------------------------------------------------------
+--############### 메일함 ############### (PART2 - 메뉴얼로 추가하는 데이터)
+--------------------------------------------------------------------------------
+
+-- 2번 유저 개인메일함2 (메일함번호: 'MB187')
+INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, 2, '테스트메일함1', 'P', 'Y');
+
+-- 2번 유저 개인메일함3 (메일함번호: 'MB188')
+INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, 2, '테스트메일함2', 'P', 'Y');
+
+--------------------------------------------------------------------------------
 --############### 메일 ###############
 --------------------------------------------------------------------------------
 CREATE TABLE MAIL (
@@ -840,23 +854,30 @@ BEGIN
 - 당신의 이름이나 존재를 어느 매체(책, 인명사전 등)에 기록해주겠다며 지인들에게도 추천을 강요하는 타입
 등이 있다.';
     
-    INSERT INTO MAIL (
-        MAIL_NO, 
-        SENDER, 
-        MAIL_TITLE, 
-        MAIL_CONTENT, 
-        IS_SENT, 
-        SEND_DATE
-    ) VALUES (
-        'M508', 
-        28, 
-        '행운의 편지 - 수신인이 많고, 본문 내용이 긴 메일입니다. (테스트시 참고!) 제목도 길면 어떻게 되나 테스트중~!', 
-        v_mail_content, 
-        'S', 
-        TO_DATE('2024-07-07 07:07:07', 'YYYY-MM-DD HH24:MI:SS')
-    );
+    INSERT
+       INTO MAIL
+            (
+              MAIL_NO
+            , SENDER
+            , MAIL_TITLE
+            , MAIL_CONTENT
+            , IS_SENT
+            ,  SEND_DATE
+            ) 
+            VALUES
+            (
+             'M' || SEQ_MAILNO.NEXTVAL
+            , 28
+            , '행운의 편지 - 수신인이 많고, 본문 내용이 긴 메일입니다. (테스트시 참고!) 제목도 길면 어떻게 되나 테스트중~!'
+            , v_mail_content
+            , 'S'
+            , TO_DATE('2024-07-07 07:07:07', 'YYYY-MM-DD HH24:MI:SS')
+            );
 END;
 /
+
+-- 29번 유저가 보내는 메일 (메일번호: "M509")
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 29, '<내메일함>을 테스트 하기 위한 메일입니다~~~~~~', '내메일함에 메일수가 제대로 들어가는지 확인 중입니다.', 'S', TO_DATE('2024-07-10 10:10:10', 'YYYY-MM-DD HH24:MI:SS'));
 
 
 --------------------------------------------------------------------------------
@@ -961,6 +982,9 @@ INSERT INTO MAIL_RECEIVER VALUES('M508', 29, 'R', NULL);
 INSERT INTO MAIL_RECEIVER VALUES('M508', 30, 'R', NULL);
 INSERT INTO MAIL_RECEIVER VALUES('M508', 31, 'R', NULL);
 
+-- 29번 유저가 보내는 메일 (메일번호: "M509")
+INSERT INTO MAIL_RECEIVER VALUES('M509', 1, 'C', NULL);
+INSERT INTO MAIL_RECEIVER VALUES('M509', 2, 'R', NULL);
 
 --------------------------------------------------------------------------------
 --############### 메일_소유자 ###############
@@ -1097,6 +1121,11 @@ INSERT INTO MAIL_OWNER VALUES (28, 'M508', 'MB164', 'N', 'Y'); -- 28번 유저�
 INSERT INTO MAIL_OWNER VALUES (29, 'M508', 'MB169', 'N', 'Y');
 INSERT INTO MAIL_OWNER VALUES (30, 'M508', 'MB175', 'N', 'Y');
 INSERT INTO MAIL_OWNER VALUES (31, 'M508', 'MB181', 'N', 'Y');
+
+-- 29번 유저가 보내는 메일 (메일번호: "M509")
+INSERT INTO MAIL_OWNER VALUES (1, 'M509', 'MB6', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (2, 'M509', 'MB187', 'Y', 'Y');
+INSERT INTO MAIL_OWNER VALUES (29, 'M509', 'MB170', 'Y', 'Y'); -- 29번 유저는 보낸메일함에 저장
 
 -------------------------------------------------------------------------------
 --############### 수업_게시판 ###############

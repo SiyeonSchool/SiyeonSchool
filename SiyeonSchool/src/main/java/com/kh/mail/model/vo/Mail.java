@@ -6,6 +6,7 @@ public class Mail {
 	private String mailboxName; // 메일함 이름
 	private String mailStar;
 	private String isRead;
+	private int attachmentCount; // 첨부파일개수
 	private String userName;
 	private String userId;
 	private String profilePath;
@@ -18,14 +19,15 @@ public class Mail {
 	public Mail() {}
 
 	// 전체필드
-	public Mail(String mailNo, String mailboxName, String mailStar, String isRead, String userName, String userId,
-			String profilePath, String mailTitle, String mailContent, String receiverType, String isSent,
+	public Mail(String mailNo, String mailboxName, String mailStar, String isRead, int attachmentCount, String userName,
+			String userId, String profilePath, String mailTitle, String mailContent, String receiverType, String isSent,
 			String sendDate) {
 		super();
 		this.mailNo = mailNo;
 		this.mailboxName = mailboxName;
 		this.mailStar = mailStar;
 		this.isRead = isRead;
+		this.attachmentCount = attachmentCount;
 		this.userName = userName;
 		this.userId = userId;
 		this.profilePath = profilePath;
@@ -36,13 +38,14 @@ public class Mail {
 		this.sendDate = sendDate;
 	}
 
-	// "받은메일함 메일목록" 조회에 사용됨.
-	public Mail(String mailNo, String mailStar, String isRead, String userName, String userId, String profilePath,
-			String mailTitle, String receiverType, String sendDate) {
+	// 받은메일함 - 메일목록 조회에 사용됨.
+	public Mail(String mailNo, String mailStar, String isRead, int attachmentCount, String userName, String userId,
+			String profilePath, String mailTitle, String receiverType, String sendDate) {
 		super();
 		this.mailNo = mailNo;
 		this.mailStar = mailStar;
 		this.isRead = isRead;
+		this.attachmentCount = attachmentCount;
 		this.userName = userName;
 		this.userId = userId;
 		this.profilePath = profilePath;
@@ -51,18 +54,20 @@ public class Mail {
 		this.sendDate = sendDate;
 	}
 
-	// "보낸메일함 메일목록" 조회에 사용됨.
-	public Mail(String mailNo, String mailStar, String userName, String userId, String profilePath, String mailTitle,
+	// 보낸메일함/임시보관함/휴지통 - 메일목록 조회에 사용됨.
+	public Mail(String mailNo, String mailStar, int attachmentCount, String userName, String userId, String profilePath, String mailTitle,
 			String sendDate) {
 		super();
 		this.mailNo = mailNo;
 		this.mailStar = mailStar;
+		this.attachmentCount = attachmentCount;
 		this.userName = userName;
 		this.userId = userId;
 		this.profilePath = profilePath;
 		this.mailTitle = mailTitle;
 		this.sendDate = sendDate;
 	}
+
 
 	public String getMailNo() {
 		return mailNo;
@@ -94,6 +99,14 @@ public class Mail {
 
 	public void setIsRead(String isRead) {
 		this.isRead = isRead;
+	}
+
+	public int getAttachmentCount() {
+		return attachmentCount;
+	}
+
+	public void setAttachmentCount(int attachmentCount) {
+		this.attachmentCount = attachmentCount;
 	}
 
 	public String getUserName() {

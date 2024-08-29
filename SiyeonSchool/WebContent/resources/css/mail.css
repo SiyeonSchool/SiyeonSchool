@@ -369,16 +369,48 @@ main .first-header .search-bar-div .search-icon:hover {
 
 /* ------------------- 공통속성 - 두번째 헤더, 메일 목록 ------------------- */
 /* 가로길이 비율 통일 */
-main .mail-column.checkbox { width: 5%; }
-main .mail-column.star { width: 5%; }
-main .mail-column.attachment { width: 5%; }
-main .mail-column.read {  width: 5%; } /* 받은메일함에만 적용 */
-main .mail-column.mailbox { width: 10%; }
-main .mail-column.sender { width: 15%; }
-main .mail-column.mailTitle { width: 45%; }
-main .mail-column.type { width: 5%; } /* 받은메일함에만 적용 */
-main .mail-column.empty-space { width: 10%; } /* 전체메일함 or 받은메일함이 아닐때 적용 */
-main .mail-column.sentDate { width: 15%; }
+
+/* *********** 받은메일함 (98%) *********** */
+main .mail-column.checkbox {   width: 3%; }
+main .mail-column.star {       width: 3%; }
+main .mail-column.read {       width: 3%; }
+main .mail-column.attachment { width: 3%; }
+main .mail-column.sender {     width: 13%; }
+main .mail-column.mailTitle {  width: 53%; }
+main .mail-column.type {       width: 5%; }
+main .mail-column.sentDate {   width: 15%; }
+
+/* *********** 전체메일함 (100%) ***********
+main .mail-column.checkbox {   width: 3%; }
+main .mail-column.star {       width: 3%; }
+main .mail-column.attachment { width: 3%; }
+main .mail-column.sender {     width: 13%; }
+main .mail-column.mailTitle {  width: 53%; }
+main .mail-column.sentDate {   width: 15%; }
+*/
+main .mail-column.mailbox { width: 10%; } /* 전체메일함 */
+
+/* *********** 보낸메일함, 임시보관함, 휴지통 (97%) ***********
+main .mail-column.checkbox {   width: 3%; }
+main .mail-column.star {       width: 3%; }
+main .mail-column.attachment { width: 3%; }
+main .mail-column.sender {     width: 13%; }
+main .mail-column.mailTitle {  width: 53%; }
+main .mail-column.sentDate {   width: 15%; }
+*/
+main .mail-column.empty-space { width: 7%; }
+
+
+/* *********** 내게쓴메일함 (100%) ***********
+main .mail-column.checkbox {   width: 3%; }
+main .mail-column.star {       width: 3%; }
+main .mail-column.read {       width: 3%; }
+main .mail-column.attachment { width: 3%; }
+main .mail-column.sender {     width: 13%; }
+main .mail-column.mailTitle {  width: 53%; }
+main .mail-column.sentDate {   width: 15%; }
+main .mail-column.empty-space { width: 7%; }
+*/
 
 /* ----------------------------- 두번째 헤더 ----------------------------- */
 main .second-header {
@@ -397,6 +429,13 @@ main .second-header ul {
 main .second-header ul li {
   line-height: 40px;
   text-align: center;
+}
+
+/* 체크박스 */
+main .second-header ul li.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ----------------------------- 메일 목록 ----------------------------- */
@@ -458,28 +497,35 @@ main .mail-list ul .mail .mail-column {
   position: relative;
 }
 
-/* 메일 - 열 - 글씨 좌측정렬 */
-main .mail-list ul .mail .mail-column.text-left {
-  padding-left: 30px;
-}
-
 /* 메일 - 열 - 글씨 중앙정렬 */
 main .mail-list ul .mail .mail-column.jc-center {
   justify-content: center;
 }
 
 /* ------------- 중요 (별) ------------- */
-
 /* 별 - 색상 채워진 별 */
 main .mail-list ul .mail .mail-column.star span.icon.star.fill {
   color: var(--lightOrange);
 }
 
+/* ------------- 읽음 ------------- */
+main .mail-list ul .mail .mail-column.read span.icon {
+  font-size: 20px;
+}
+
+
+/* ------------- 첨부파일 ------------- */
+main .mail-list ul .mail .mail-column.attachment span.icon {
+  font-size: 18px;
+}
+
+
 /* ------------- 작성자 ------------- */
 
 /* 작성자를 감싸고있는 div */
 main .mail-list ul .mail .mail-column.sender {
-  padding-left: 30px;
+  display: flex;
+  justify-content: center;
 }
 
 /* 프로필 이미지 */
@@ -507,6 +553,12 @@ main .mail-list ul .mail .mail-column.sender .userId {
 }
 
 /* ------------- 메일 제목 ------------- */
+
+/* 메일 제목*/
+main .mail-list ul .mail .mail-column.mailTitle{
+  padding: 0 10px;
+}
+
 /* 메일 제목 - 후버시*/
 main .mail-list ul .mail .mail-column.mailTitle:hover{
   text-decoration: underline;

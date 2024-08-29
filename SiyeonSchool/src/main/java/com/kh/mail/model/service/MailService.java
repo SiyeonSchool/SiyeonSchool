@@ -24,6 +24,13 @@ public class MailService {
 		return list;
 	}
 	
+	public ArrayList<Mailbox> selectPrivateMailboxCountList(int ownerNo) {
+		Connection conn = getConnection();
+		ArrayList<Mailbox> list = new MailDao().selectPrivateMailboxCountList(conn, ownerNo);
+		close(conn);
+		return list;
+	}
+	
 	public int selectUnreadMailCount(int ownerNo) {
 		Connection conn = getConnection();
 		int result = new MailDao().selectUnreadMailCount(conn, ownerNo);
@@ -95,6 +102,13 @@ public class MailService {
 		close(conn);
 		return list;
 	}
+	
+	public ArrayList<Mail> selectPrivateMailboxMailList(String mailboxNo, PageInfo pi) {
+		Connection conn = getConnection();
+		ArrayList<Mail> list = new MailDao().selectPrivateMailboxMailList(conn, mailboxNo, pi);
+		close(conn);
+		return list;
+	}
 
 	// ===================== 메일 상세 조회 =============================
 	
@@ -138,6 +152,10 @@ public class MailService {
 		close(conn);
 		return list;
 	}
+
+
+
+
 
 
 

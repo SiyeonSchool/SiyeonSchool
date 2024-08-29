@@ -59,6 +59,34 @@ public class MailDao {
 		
 		return list;
 	}
+	
+	public ArrayList<Mailbox> selectPrivateMailboxCountList(Connection conn, int ownerNo) {
+		ArrayList<Mailbox> list = new ArrayList<Mailbox>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPrivateMailboxCountList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new Mailbox(rset.getString("MAILBOX_NO"),
+									 rset.getString("MAILBOX_NAME"),
+									 rset.getInt("COUNT")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
 
 	public int selectUnreadMailCount(Connection conn, int ownerNo) {
 		int listCount = 0;
@@ -139,6 +167,7 @@ public class MailDao {
 				m.setMailboxName(rset.getString("MAILBOX_NAME"));
 				m.setMailStar(rset.getString("MAIL_STAR"));
 				m.setIsRead(rset.getString("IS_READ"));
+				m.setAttachmentCount(rset.getInt("ATT_COUNT"));
 				m.setUserName(rset.getString("USER_NAME"));
 				m.setUserId(rset.getString("USER_ID"));
 				m.setProfilePath(rset.getString("PROFILE_PATH"));
@@ -179,6 +208,7 @@ public class MailDao {
 				list.add(new Mail(rset.getString("MAIL_NO"),
 								  rset.getString("MAIL_STAR"),
 								  rset.getString("IS_READ"),
+								  rset.getInt("ATT_COUNT"),
 								  rset.getString("USER_NAME"),
 								  rset.getString("USER_ID"),
 								  rset.getString("PROFILE_PATH"),
@@ -218,6 +248,7 @@ public class MailDao {
 			while(rset.next()) {
 				list.add(new Mail(rset.getString("MAIL_NO"),
 								  rset.getString("MAIL_STAR"),
+								  rset.getInt("ATT_COUNT"),
 								  rset.getString("USER_NAME"),
 								  rset.getString("USER_ID"),
 								  rset.getString("PROFILE_PATH"),
@@ -256,6 +287,7 @@ public class MailDao {
 			while(rset.next()) {
 				list.add(new Mail(rset.getString("MAIL_NO"),
 								  rset.getString("MAIL_STAR"),
+								  rset.getInt("ATT_COUNT"),
 								  rset.getString("USER_NAME"),
 								  rset.getString("USER_ID"),
 								  rset.getString("PROFILE_PATH"),
@@ -296,6 +328,7 @@ public class MailDao {
 				m.setMailNo(rset.getString("MAIL_NO"));
 				m.setMailStar(rset.getString("MAIL_STAR"));
 				m.setIsRead(rset.getString("IS_READ"));
+				m.setAttachmentCount(rset.getInt("ATT_COUNT"));
 				m.setUserName(rset.getString("USER_NAME"));
 				m.setUserId(rset.getString("USER_ID"));
 				m.setProfilePath(rset.getString("PROFILE_PATH"));
@@ -335,6 +368,7 @@ public class MailDao {
 			while(rset.next()) {
 				list.add(new Mail(rset.getString("MAIL_NO"),
 								  rset.getString("MAIL_STAR"),
+								  rset.getInt("ATT_COUNT"),
 								  rset.getString("USER_NAME"),
 								  rset.getString("USER_ID"),
 								  rset.getString("PROFILE_PATH"),
@@ -371,15 +405,18 @@ public class MailDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(new Mail(rset.getString("MAIL_NO"),
-								  rset.getString("MAIL_STAR"),
-								  rset.getString("IS_READ"),
-								  rset.getString("USER_NAME"),
-								  rset.getString("USER_ID"),
-								  rset.getString("PROFILE_PATH"),
-								  rset.getString("MAIL_TITLE"),
-								  rset.getString("RECEIVER_TYPE"),
-								  rset.getString("SEND_DATE")));
+				Mail m = new Mail();
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setMailStar(rset.getString("MAIL_STAR"));
+				m.setIsRead(rset.getString("IS_READ"));
+				m.setAttachmentCount(rset.getInt("ATT_COUNT"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setProfilePath(rset.getString("PROFILE_PATH"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setReceiverType(rset.getString("RECEIVER_TYPE"));
+				m.setSendDate(rset.getString("SEND_DATE"));
+				list.add(m);
 			}
 			
 		} catch (SQLException e) {
@@ -416,6 +453,7 @@ public class MailDao {
 				m.setMailboxName(rset.getString("MAILBOX_NAME"));
 				m.setMailStar(rset.getString("MAIL_STAR"));
 				m.setIsRead(rset.getString("IS_READ"));
+				m.setAttachmentCount(rset.getInt("ATT_COUNT"));
 				m.setUserName(rset.getString("USER_NAME"));
 				m.setUserId(rset.getString("USER_ID"));
 				m.setProfilePath(rset.getString("PROFILE_PATH"));
@@ -434,6 +472,49 @@ public class MailDao {
 		return list;
 	}
 
+
+	public ArrayList<Mail> selectPrivateMailboxMailList(Connection conn, String mailboxNo, PageInfo pi) {
+		ArrayList<Mail> list = new ArrayList<Mail>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPrivateMailboxMailList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getcPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt.setString(1, mailboxNo);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Mail m = new Mail();
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setMailStar(rset.getString("MAIL_STAR"));
+				m.setIsRead(rset.getString("IS_READ"));
+				m.setAttachmentCount(rset.getInt("ATT_COUNT"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setProfilePath(rset.getString("PROFILE_PATH"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setSendDate(rset.getString("SEND_DATE"));
+				list.add(m);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
 	// ===================== 메일 상세 조회 =============================
 	
 	public int updateIsRead(Connection conn, int ownerNo, String mailNo) {
@@ -589,15 +670,4 @@ public class MailDao {
 		return list;
 	}
 
-
-
-
-
-	
-
-
-
-
-
-	
 }

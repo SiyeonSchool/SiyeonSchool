@@ -53,7 +53,7 @@
 				<li class="mail-column checkbox"><input type="checkbox"></li>
 				<li class="mail-column star">중요</li>
 				
-				<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { // 받은메일함, 안읽은메일  %>
+				<% if(currentMailbox.equals("i") || currentMailbox.equals("u") || currentMailbox.equals("m")) { // 받은메일함, 안읽은메일, 내게쓴메일함 %>
 					<li class="mail-column read">읽음</li>
 				<% } %>
 
@@ -70,8 +70,8 @@
 					<li class="mail-column type">수신구분</li>
 				<% } %>
 				
-				<% Set<String> excludedMailboxes = Set.of("a", "i", "u", "im");
-				   if(!excludedMailboxes.contains(currentMailbox)) { // 전체메일함, 받은메일함, 안읽은메일, 중요메일이 아닐때, 여백을 줌 %>
+				<% Set<String> includedMailboxes = Set.of("s", "t", "m", "b"); // 보낸메일함, 임시보관함, 내게쓴메일함, 휴지통
+				   if(includedMailboxes.contains(currentMailbox)) { %>
 					<div class="mail-column empty-space"></div>
 				<% } %>
 				
@@ -94,76 +94,80 @@
 							<li id="<%= m.getMailNo() %>" class="mail">
 						<% } %>
 						
-							<!-- 체크박스 -->
-							<div class="mail-column checkbox jc-center">
-								<input type="checkbox">
-							</div>
-							
-							<!-- 중요(별) -->
-							<div class="mail-column star jc-center">
-								<% if(m.getMailStar().equals("N")){ %>
-									<span class="icon star material-symbols-rounded">star</span>
-								<% }else { %>
-									<span class="icon star fill material-icons-round">star</span>
-								<% } %>
-							</div>
-		
-							<!-- 읽음 -->
-							<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { %>
-								<div class="mail-column read jc-center">
-									<% if(m.getIsRead().equals("N")){ %>
-										<span class="icon mail-icon material-icons-round">markunread</span>
+								<!-- 체크박스 -->
+								<div class="mail-column checkbox jc-center">
+									<input type="checkbox">
+								</div>
+								
+								<!-- 중요(별) -->
+								<div class="mail-column star jc-center">
+									<% if(m.getMailStar().equals("N")){ %>
+										<span class="icon star material-symbols-rounded">star</span>
 									<% }else { %>
-										<span class="icon mail-icon material-icons-outlined">drafts</span>
+										<span class="icon star fill material-icons-round">star</span>
 									<% } %>
 								</div>
-							<% } %>
-
-							<!-- 첨부파일 -->
-							<div class="mail-column attachment jc-center">
-								<span class="icon material-symbols-outlined">attach_file</span>
-							</div>
-		
-							<!-- 메일함 -->
-							<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { %>
-								<div class="mail-column mailbox jc-center">
-									<span class="mailboxName"><%= m.getMailboxName() %></span>
-								</div>
-							<% } %>
-		
-							<!-- 보낸사람 -->
-							<div class="mail-column sender">
-								<% if(m.getProfilePath() != null){ %>
-									<img src="<%= contextPath %>/<%= m.getProfilePath() %>" class="profile-img">
-								<% }else { %>
-									<span class="material-symbols-rounded icon profile-icon">account_circle</span>
+			
+								<!-- 읽음 -->
+								<% if(currentMailbox.equals("i") || currentMailbox.equals("u") || currentMailbox.equals("m")) { %>
+									<div class="mail-column read jc-center">
+										<% if(m.getIsRead().equals("N")){ %>
+											<span class="icon mail-icon material-icons-round">markunread</span>
+										<% }else { %>
+											<span class="icon mail-icon material-icons-outlined">drafts</span>
+										<% } %>
+									</div>
 								<% } %>
-								<span class="userNameText"><%= m.getUserName() %></span>
-								<span class="userId">(<%= m.getUserId() %>)</span>
-							</div>
-							
-							<!--  메일 제목 -->
-							<div class="mail-column mailTitle text-left" onclick="location.href='<%= contextPath %>/mail.detail?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>'">
-								<span><%= m.getMailTitle() %></span>
-							</div>
-		
-							<!-- 수신구분 -->
-							<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { %>
-								<div class="mail-column type jc-center">
-									<span><%= m.getReceiverType() %></span>
+
+								<!-- 첨부파일 -->
+								<div class="mail-column attachment jc-center">
+									<% if(m.getAttachmentCount() > 0) { %>
+										<span class="icon material-symbols-outlined">attach_file</span>
+									<% } else { %>
+										<span>-</span>
+									<% } %>
 								</div>
-							<% } %>
-		
-							<!-- 여백 -->
-							<% if(!excludedMailboxes.contains(currentMailbox)) { // 전체메일함, 받은메일함, 안읽은메일, 중요메일이 아닐때%>
-								<div class="mail-column empty-space"></div>
-							<% } %>
-		
-							<!-- 보낸시간 -->
-							<div class="mail-column sentDate jc-center">
-								<span><%= m.getSendDate() %></span>
-							</div>
-						</li>
+			
+								<!-- 메일함 -->
+								<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { %>
+									<div class="mail-column mailbox jc-center">
+										<span class="mailboxName"><%= m.getMailboxName() %></span>
+									</div>
+								<% } %>
+			
+								<!-- 보낸사람 -->
+								<div class="mail-column sender">
+									<% if(m.getProfilePath() != null){ %>
+										<img src="<%= contextPath %>/<%= m.getProfilePath() %>" class="profile-img">
+									<% }else { %>
+										<span class="material-symbols-rounded icon profile-icon">account_circle</span>
+									<% } %>
+									<span class="userNameText"><%= m.getUserName() %></span>
+									<span class="userId">(<%= m.getUserId() %>)</span>
+								</div>
+								
+								<!--  메일 제목 -->
+								<div class="mail-column mailTitle" onclick="location.href='<%= contextPath %>/mail.detail?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>'">
+									<span><%= m.getMailTitle() %></span>
+								</div>
+			
+								<!-- 수신구분 -->
+								<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { %>
+									<div class="mail-column type jc-center">
+										<span><%= m.getReceiverType() %></span>
+									</div>
+								<% } %>
+			
+								<!-- 여백 -->
+								<% if(includedMailboxes.contains(currentMailbox)) { // 보낸메일함, 임시보관함, 내게쓴메일함, 휴지통 %>
+									<div class="mail-column empty-space"></div>
+								<% } %>
+			
+								<!-- 보낸시간 -->
+								<div class="mail-column sentDate jc-center">
+									<span><%= m.getSendDate() %></span>
+								</div>
+							</li>
 
 					<% } %>
 				<% } %>

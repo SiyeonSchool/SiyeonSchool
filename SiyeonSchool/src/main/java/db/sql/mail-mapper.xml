@@ -20,6 +20,21 @@
                TO_NUMBER(REGEXP_SUBSTR(MB.MAILBOX_NO, '[0-9]+')) ASC
 	</entry>
 
+	<!-- 내메일함별 메일 개수조회 -->
+	<entry key="selectPrivateMailboxCountList">
+		SELECT 
+			    MB.MAILBOX_NO
+			  , MB.MAILBOX_NAME
+			  , (SELECT COUNT(MO.MAILBOX_NO) 
+			       FROM MAIL_OWNER MO 
+			      WHERE MO.MAILBOX_NO = MB.MAILBOX_NO 
+			        AND MO.MAIL_STATUS = 'Y') AS "COUNT"
+		   FROM MAILBOX MB
+		  WHERE MB.OWNER_NO = ?
+			AND MB.MAILBOX_TYPE = 'P'
+			AND MB.MAILBOX_STATUS = 'Y'
+	</entry>
+
 	<!-- 않읽은메일 개수조회-->
 	<entry key="selectUnreadMailCount">
 		SELECT COUNT(MAIL_NO) AS "COUNT"
@@ -41,6 +56,7 @@
 		   AND MO.MAIL_STATUS = 'Y'
            AND M.IS_SENT = 'S'
 	</entry>
+	
 
 
 	<!-- ===================== 메일 목록 조회 ============================= -->
@@ -56,6 +72,7 @@
 							 , MB.MAILBOX_NAME
 							 , MO.MAIL_STAR
                              , NVL2(MR.READ_TIME, 'Y', 'N') AS "IS_READ"
+                             , NVL(AC.COUNT, 0) AS "ATT_COUNT"
                              , U.USER_NAME
                              , U.USER_ID
 							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
@@ -67,6 +84,10 @@
 						  JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
                           JOIN USERS U ON (M.SENDER = U.USER_NO)
 						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+                          LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
+                                        FROM ATTACHMENT
+                                       WHERE STATUS = 'Y'
+                                       GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
 						 WHERE MO.OWNER_NO = ?
 						   AND MO.MAIL_STATUS = 'Y'
 						   AND M.IS_SENT = 'S'
@@ -87,6 +108,7 @@
 						       MO.MAIL_NO
 						     , MO.MAIL_STAR
 						     , NVL2(MR.READ_TIME, 'Y', 'N') AS "IS_READ"
+                             , NVL(AC.COUNT, 0) AS "ATT_COUNT"
 						     , U.USER_NAME
 						     , U.USER_ID
 						     , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
@@ -97,7 +119,11 @@
 						  JOIN MAIL_RECEIVER MR ON (MO.MAIL_NO = MR.MAIL_NO) AND (MO.OWNER_NO = MR.RECEIVER_NO)
 						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
 						  JOIN USERS U ON (M.SENDER = U.USER_NO)
-						  LEFT JOIN ATTACHMENT A ON U.PROFILE_FILE_NO = A.FILE_NO
+						  LEFT JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+                          LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
+                                        FROM ATTACHMENT
+                                       WHERE STATUS = 'Y'
+                                       GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
 						 WHERE MO.MAILBOX_NO = (SELECT MAILBOX_NO
 						                          FROM MAILBOX
 						                         WHERE OWNER_NO = ?
@@ -120,6 +146,7 @@
 						SELECT
 							   MO.MAIL_NO
 							 , MO.MAIL_STAR
+                             , NVL(AC.COUNT, 0) AS "ATT_COUNT"
 							 , U.USER_NAME
 							 , U.USER_ID
 							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
@@ -129,6 +156,10 @@
 						JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
 						JOIN USERS U ON (M.SENDER = U.USER_NO)
 						JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+                        LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
+								      FROM ATTACHMENT
+							         WHERE STATUS = 'Y'
+							         GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
 					   WHERE MAILBOX_NO = ( SELECT MAILBOX_NO
 											 FROM MAILBOX
 											 WHERE OWNER_NO = ?
@@ -148,9 +179,10 @@
 		  FROM (
 			     SELECT ROWNUM RNUM, A.*
 			     FROM (
-						SELECT 
+                    	SELECT 
 						  	   MO.MAIL_NO
 						     , MO.MAIL_STAR
+                             , NVL(AC.COUNT, 0) AS "ATT_COUNT"
 						     , U.USER_NAME
 							 , U.USER_ID
 							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
@@ -160,6 +192,10 @@
 						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
 						  JOIN USERS U ON (M.SENDER = U.USER_NO)
 						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+                          LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
+										FROM ATTACHMENT
+									   WHERE STATUS = 'Y'
+									   GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
 					     WHERE MO.MAILBOX_NO = (SELECT MAILBOX_NO
 							                      FROM MAILBOX
 							                     WHERE OWNER_NO = ?
@@ -183,6 +219,7 @@
 						  	   MO.MAIL_NO
 						     , MO.MAIL_STAR
                              , NVL2(MR.READ_TIME, 'Y', 'N') AS "IS_READ"
+                             , NVL(AC.COUNT, 0) AS "ATT_COUNT"
 						     , U.USER_NAME
 							 , U.USER_ID
 							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
@@ -193,6 +230,10 @@
 						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
 						  JOIN USERS U ON (M.SENDER = U.USER_NO)
 						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+                          LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
+                                        FROM ATTACHMENT
+                                       WHERE STATUS = 'Y'
+                                       GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
 					     WHERE MO.MAILBOX_NO = (SELECT MAILBOX_NO
 							                      FROM MAILBOX
 							                     WHERE OWNER_NO = ?
@@ -215,6 +256,7 @@
 						SELECT 
 						  	   MO.MAIL_NO
 						     , MO.MAIL_STAR
+                             , NVL(AC.COUNT, 0) AS "ATT_COUNT"
 						     , U.USER_NAME
 							 , U.USER_ID
 							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
@@ -224,6 +266,10 @@
 						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
 						  JOIN USERS U ON (M.SENDER = U.USER_NO)
 						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+                          LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
+										FROM ATTACHMENT
+									   WHERE STATUS = 'Y'
+									   GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
 					     WHERE MO.MAILBOX_NO = (SELECT MAILBOX_NO
 							                      FROM MAILBOX
 							                     WHERE OWNER_NO = ?
@@ -246,6 +292,7 @@
 						       MR.MAIL_NO
 						     , MO.MAIL_STAR
 						     , NVL2(MR.READ_TIME, 'Y', 'N') AS "IS_READ"
+                             , NVL(AC.COUNT, 0) AS "ATT_COUNT"
 						     , U.USER_NAME
 							 , U.USER_ID
 							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
@@ -257,6 +304,10 @@
 						  JOIN MAIL_OWNER MO ON (MR.MAIL_NO = MO.MAIL_NO) AND (MR.RECEIVER_NO = MO.OWNER_NO)
 						  JOIN USERS U ON M.SENDER = U.USER_NO
 						  LEFT JOIN ATTACHMENT A ON U.PROFILE_FILE_NO = A.FILE_NO
+                          LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
+                                        FROM ATTACHMENT
+                                       WHERE STATUS = 'Y'
+                                       GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
 						 WHERE MR.RECEIVER_NO = ?
 						   AND MR.READ_TIME IS NULL
    						 ORDER
@@ -280,6 +331,7 @@
                                     WHEN MR.READ_TIME IS NOT NULL THEN 'Y'
                                     ELSE 'N'
                                END AS "IS_READ"
+                             , NVL(AC.COUNT, 0) AS "ATT_COUNT"
 							 , U.USER_NAME
 						     , U.USER_ID
 							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
@@ -291,12 +343,48 @@
                           LEFT JOIN MAIL_RECEIVER MR ON (MO.MAIL_NO = MR.MAIL_NO) AND (MO.OWNER_NO = MR.RECEIVER_NO)
 						  JOIN USERS U ON (M.SENDER = U.USER_NO)
 						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+                          LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
+                                        FROM ATTACHMENT
+                                       WHERE STATUS = 'Y'
+                                       GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
 						 WHERE MO.OWNER_NO = ?
 						   AND MO.MAIL_STAR = 'Y'
 						   AND MO.MAIL_STATUS = 'Y'
 						   AND M.IS_SENT = 'S'
 						 ORDER
 						    BY SEND_DATE DESC
+			          ) A
+		  		)
+		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 내메일함별 메일목록 조회: 메일함번호 필요 -->
+	<entry key="selectPrivateMailboxMailList">
+		SELECT *
+		  FROM (
+			     SELECT ROWNUM RNUM, A.*
+			     FROM (
+						SELECT 
+							   MO.MAIL_NO
+							 , MO.MAIL_STAR
+							 , NVL2(MR.READ_TIME, 'Y', 'N') AS "IS_READ"
+							 , NVL(AC.COUNT, 0) AS "ATT_COUNT"
+							 , U.USER_NAME
+							 , U.USER_ID
+							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+							 , M.MAIL_TITLE
+							 , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD (DY) HH24:MI') AS "SEND_DATE"
+						  FROM MAIL_OWNER MO
+						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
+						  JOIN MAIL_RECEIVER MR ON (MO.OWNER_NO = MR.RECEIVER_NO) AND (MO.MAIL_NO = MR.MAIL_NO)
+						  JOIN USERS U ON (M.SENDER = U.USER_NO)
+						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+						  LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
+										FROM ATTACHMENT
+									   WHERE STATUS = 'Y'
+									   GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
+						 WHERE MO.MAILBOX_NO = ?
+						   AND MO.MAIL_STATUS = 'Y'
 			          ) A
 		  		)
 		  WHERE RNUM BETWEEN ? AND ?

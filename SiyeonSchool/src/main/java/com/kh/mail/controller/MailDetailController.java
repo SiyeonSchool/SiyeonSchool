@@ -41,10 +41,11 @@ public class MailDetailController extends HttpServlet {
 		String currentMailNo = request.getParameter("m"); // 현재 메일
 		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		
-		// ---------------- 메일 읽음처리 ----------------
+		// ===================== 메일 읽음처리 =====================
 		new MailService().updateIsRead(ownerNo, currentMailNo);
 		
-		// ---------------- 사이드바 - 메일함 메일 개수 관련 ----------------
+		// ===================== 사이드바 - 메일함 메일 개수 관련 =====================
+		// 기본메일함별 메일개수 리스트
 		ArrayList<Mailbox> mailboxCountList = new MailService().selectMailboxCountList(ownerNo);
 		
 		int allMailCount = 0;
@@ -58,14 +59,19 @@ public class MailDetailController extends HttpServlet {
 		int unreadMailCount = new MailService().selectUnreadMailCount(ownerNo); // 않읽은메일 개수
 		int importantMailCount = new MailService().selectImportantMailCount(ownerNo); // 중요메일 개수
 
+		// 내메일함별 메일 리스트
+		ArrayList<Mailbox> pMailboxCountList = new MailService().selectPrivateMailboxCountList(ownerNo);
+				
 		request.setAttribute("currentMailbox", currentMailbox);     	// 현재메일함
 		
 		request.setAttribute("mailboxCountList", mailboxCountList); 	// 메일함별 메일개수 리스트 
+		request.setAttribute("pMailboxCountList", pMailboxCountList); 	// 내메일함별 메일개수 리스트
+		
 		request.setAttribute("allMailCount", allMailCount);  		    // 전체메일개수
 		request.setAttribute("unreadMailCount", unreadMailCount);  		// 안읽은메일개수
 		request.setAttribute("importantMailCount", importantMailCount); // 중요메일개수
 
-		// ---------------- 메일상세조회 관련 ----------------
+		// ===================== 메일상세조회 관련 =====================
 		Mail m = new MailService().selectMail(ownerNo, currentMailNo);
 		ArrayList<MailReceiver> mrList = new MailService().selectMailReceiverList(currentMailNo);
 		HashMap<String, Integer> mrTypeCountMap = new MailService().selectMailReceiverTypeCount(currentMailNo);
