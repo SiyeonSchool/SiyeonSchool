@@ -1,3 +1,4 @@
+<%@page import="com.kh.common.model.vo.Attachment"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="com.kh.mail.model.vo.MailReceiver"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -31,6 +32,8 @@
             mrTypeCount = mrTypeCount.substring(0, mrTypeCount.length() - 3);
 	}
 	
+	ArrayList<Attachment> attList = (ArrayList<Attachment>)request.getAttribute("attList");
+	// 첨부파일 리스트: 첨부파일번호, 원본파일명, 변경파일명, 파일경로
 	
 %>
 
@@ -87,7 +90,7 @@
 							</div>
 						</td>
 					</tr>
-
+					
 					<tr class="receiver">
 						<td class="td-left">받는사람</td>
 						<td class="td-right">
@@ -100,9 +103,8 @@
 								</li>
 							</ul>
 							<ul class="list-contents">
-							
 								<% if (mrList.size() == 0) { %>
-									<li>수신인이 없습니다.</li>
+									<li class="noReceivers">(지정된 수신인이 없습니다.)</li>
 								<% }else { %>
 									<% for(MailReceiver mr : mrList) { %>
 										<li>
@@ -116,18 +118,34 @@
 								
 							</ul>
 
-							<p class="listSummary">총 <%= mrTypeCountMap.get("TOTAL") %>명
-								<span>( <%= mrTypeCount %> )</span>
-							</p>
+							<% if (mrList.size() != 0) { %>
+								<p class="listSummary">총 <%= mrTypeCountMap.get("TOTAL") %>명
+									<span>( <%= mrTypeCount %> )</span>
+								</p>
+							<% } %>
 							
-							<button class="btn">발신취소</button>
+							<% if(m.getUserId().equals(loginUser.getUserId()) && !currentMailbox.equals("t")) { %>
+								<button class="btn">발신취소</button>
+							<% } %>
 						</td>
 					</tr>
 
 					<tr class="attachment">
 						<td class="td-left">첨부파일</td>
-						<td class="td-right">첨부파일명.pdf</td>
+						<% if(attList.size() == 0) { %>
+							<td class="td-right">(첨부파일이 없습니다.)</td>
+						<% }else {%>
+							<td class="td-right">
+								<% for(Attachment at : attList) { %>
+									<a class="file" download="<%= at.getOriginName() %>" href="<%= contextPath %>/<%= at.getFilePath() + at.getChangeName() %>">
+										<span class="icon material-icons">file_download</span>
+										<span class="fileName"><%= at.getOriginName() %></span>
+									</a>
+								<% } %>
+							</td>
+						<% } %>
 					</tr>
+					
 				</table>
 
 			</div>

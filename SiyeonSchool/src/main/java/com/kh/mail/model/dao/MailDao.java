@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import static com.kh.common.JDBCTemplate.*;
 
+import com.kh.common.model.vo.Attachment;
 import com.kh.common.model.vo.PageInfo;
 import com.kh.mail.model.vo.Mail;
 import com.kh.mail.model.vo.MailReceiver;
@@ -133,14 +134,17 @@ public class MailDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(new Mail(rset.getString("MAIL_NO"),
-						          rset.getString("MAILBOX_NAME"),
-								  rset.getString("MAIL_STAR"),
-								  rset.getString("USER_NAME"),
-								  rset.getString("USER_ID"),
-								  rset.getString("PROFILE_PATH"),
-								  rset.getString("MAIL_TITLE"),
-								  rset.getString("SEND_DATE")));
+				Mail m = new Mail();
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setMailboxName(rset.getString("MAILBOX_NAME"));
+				m.setMailStar(rset.getString("MAIL_STAR"));
+				m.setIsRead(rset.getString("IS_READ"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setProfilePath(rset.getString("PROFILE_PATH"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setSendDate(rset.getString("SEND_DATE"));
+				list.add(m);
 			}
 			
 		} catch (SQLException e) {
@@ -288,13 +292,16 @@ public class MailDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(new Mail(rset.getString("MAIL_NO"),
-								  rset.getString("MAIL_STAR"),
-								  rset.getString("USER_NAME"),
-								  rset.getString("USER_ID"),
-								  rset.getString("PROFILE_PATH"),
-								  rset.getString("MAIL_TITLE"),
-								  rset.getString("SEND_DATE")));
+				Mail m = new Mail();
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setMailStar(rset.getString("MAIL_STAR"));
+				m.setIsRead(rset.getString("IS_READ"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setProfilePath(rset.getString("PROFILE_PATH"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setSendDate(rset.getString("SEND_DATE"));
+				list.add(m);
 			}
 			
 		} catch (SQLException e) {
@@ -404,14 +411,17 @@ public class MailDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(new Mail(rset.getString("MAIL_NO"),
-						          rset.getString("MAILBOX_NAME"),
-								  rset.getString("MAIL_STAR"),
-								  rset.getString("USER_NAME"),
-								  rset.getString("USER_ID"),
-								  rset.getString("PROFILE_PATH"),
-								  rset.getString("MAIL_TITLE"),
-								  rset.getString("SEND_DATE")));
+				Mail m = new Mail();
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setMailboxName(rset.getString("MAILBOX_NAME"));
+				m.setMailStar(rset.getString("MAIL_STAR"));
+				m.setIsRead(rset.getString("IS_READ"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setProfilePath(rset.getString("PROFILE_PATH"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setSendDate(rset.getString("SEND_DATE"));
+				list.add(m);
 			}
 			
 		} catch (SQLException e) {
@@ -425,6 +435,28 @@ public class MailDao {
 	}
 
 	// ===================== 메일 상세 조회 =============================
+	
+	public int updateIsRead(Connection conn, int ownerNo, String mailNo) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateIsRead");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			pstmt.setString(2, mailNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	
 	public Mail selectMail(Connection conn, int ownerNo, String mailNo) {
 		Mail m = null;
@@ -525,6 +557,39 @@ public class MailDao {
 		
 		return map;
 	}
+
+	public ArrayList<Attachment> selectAttachmentList(Connection conn, String mailNo) {
+		ArrayList<Attachment> list = new ArrayList<Attachment>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectAttachmentList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, mailNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Attachment(rset.getString("FILE_NO"),
+										rset.getString("ORIGIN_NAME"),
+										rset.getString("CHANGE_NAME"),
+										rset.getString("FILE_PATH")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+
 
 
 

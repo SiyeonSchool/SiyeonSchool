@@ -36,20 +36,6 @@ public class Mail {
 		this.sendDate = sendDate;
 	}
 
-	// "전체메일함 메일목록" 조회에 사용됨.
-	public Mail(String mailNo, String mailboxName, String mailStar, String userName, String userId, String profilePath,
-			String mailTitle, String sendDate) {
-		super();
-		this.mailNo = mailNo;
-		this.mailboxName = mailboxName;
-		this.mailStar = mailStar;
-		this.userName = userName;
-		this.userId = userId;
-		this.profilePath = profilePath;
-		this.mailTitle = mailTitle;
-		this.sendDate = sendDate;
-	}
-
 	// "받은메일함 메일목록" 조회에 사용됨.
 	public Mail(String mailNo, String mailStar, String isRead, String userName, String userId, String profilePath,
 			String mailTitle, String receiverType, String sendDate) {

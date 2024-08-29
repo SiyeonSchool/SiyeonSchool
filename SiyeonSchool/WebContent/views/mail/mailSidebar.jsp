@@ -41,14 +41,25 @@
 			</div>
 	
 			<div class="remind-btn-group">
-				<div class="remind-btn unread" onclick="location.href='<%= contextPath %>/mail?mb=u&cpage=1'">
-					<span class="icon material-icons-round">markunread</span>
-					<p>안읽음<span>(<%= unreadMailCount %>)</span></p>
-				</div>
-				<div class="remind-btn star" onclick="location.href='<%= contextPath %>/mail?mb=im&cpage=1'">
-					<span class="icon material-icons-round yellow-star">star</span>
-					<p>중요<span>(<%= importantMailCount %>)</span></p>
-				</div>
+				<!-- 안읽은메일 -->
+				<% if(currentMailbox.equals("u")){ %> 
+					<div class="remind-btn unread active" onclick="location.href='<%= contextPath %>/mail?mb=u&cpage=1'">
+				<% }else { %>
+					<div class="remind-btn unread" onclick="location.href='<%= contextPath %>/mail?mb=u&cpage=1'">
+				<% } %>
+						<span class="icon material-icons-round">markunread</span>
+						<p>안읽음<span class="count">(<%= unreadMailCount %>)</span></p>
+					</div>
+				
+				<!-- 중요메일 -->
+				<% if(currentMailbox.equals("im")){ %> 
+					<div class="remind-btn star active" onclick="location.href='<%= contextPath %>/mail?mb=im&cpage=1'">
+				<% }else { %>
+					<div class="remind-btn star" onclick="location.href='<%= contextPath %>/mail?mb=im&cpage=1'">
+				<% } %>
+						<span class="icon material-icons-round yellow-star">star</span>
+						<p>중요<span class="count">(<%= importantMailCount %>)</span></p>
+					</div>
 			</div>
 
 		</section>
@@ -65,7 +76,7 @@
 			<ul>
 	
 				<!-- 전체메일함 -->
-				<li onclick="location.href='<%= contextPath %>/mail?mb=a&cpage=1'" <% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { %> class="active" <% } %>>
+				<li onclick="location.href='<%= contextPath %>/mail?mb=a&cpage=1'" <% if(currentMailbox.equals("a")){ %> class="active" <% } %>>
 					<div class="mailbox-div">
 						<input type="hidden" name="mailboxNo" value="0">
 						<span class="icon mailboxNo-icon material-symbols-rounded">stacked_email</span>
@@ -75,7 +86,7 @@
 				</li>
 		
 				<!-- 받은메일함 -->
-				<li onclick="location.href='<%= contextPath %>/mail?mb=i&cpage=1'" <% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { %> class="active" <% } %>>
+				<li onclick="location.href='<%= contextPath %>/mail?mb=i&cpage=1'" <% if(currentMailbox.equals("i")){ %> class="active" <% } %>>
 					<div class="mailbox-div">
 						<input type="hidden" name="mailboxNo" value="">
 						<span class="icon mailboxNo-icon material-icons-round">mail_outline</span>

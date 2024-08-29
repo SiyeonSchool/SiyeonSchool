@@ -56,6 +56,8 @@
 				<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { // 받은메일함, 안읽은메일  %>
 					<li class="mail-column read">읽음</li>
 				<% } %>
+
+				<li class="mail-column attachment">첨부</li>
 				
 				<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { // 전체메일함, 중요메일 %>
 					<li class="mail-column mailbox">메일함</li>
@@ -116,6 +118,11 @@
 									<% } %>
 								</div>
 							<% } %>
+
+							<!-- 첨부파일 -->
+							<div class="mail-column attachment jc-center">
+								<span class="icon material-symbols-outlined">attach_file</span>
+							</div>
 		
 							<!-- 메일함 -->
 							<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { %>

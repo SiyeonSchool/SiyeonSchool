@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.common.model.vo.Attachment;
 import com.kh.mail.model.service.MailService;
 import com.kh.mail.model.vo.Mail;
 import com.kh.mail.model.vo.MailReceiver;
@@ -37,11 +38,11 @@ public class MailDetailController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String currentMailbox = request.getParameter("mb"); // 현재 메일함
-		String currentMailNo = request.getParameter("m"); // 현재 메일\
-		System.out.println("currentMailNo:" + currentMailNo);
-		
+		String currentMailNo = request.getParameter("m"); // 현재 메일
 		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		
+		// ---------------- 메일 읽음처리 ----------------
+		new MailService().updateIsRead(ownerNo, currentMailNo);
 		
 		// ---------------- 사이드바 - 메일함 메일 개수 관련 ----------------
 		ArrayList<Mailbox> mailboxCountList = new MailService().selectMailboxCountList(ownerNo);
@@ -63,24 +64,19 @@ public class MailDetailController extends HttpServlet {
 		request.setAttribute("allMailCount", allMailCount);  		    // 전체메일개수
 		request.setAttribute("unreadMailCount", unreadMailCount);  		// 안읽은메일개수
 		request.setAttribute("importantMailCount", importantMailCount); // 중요메일개수
-		
+
 		// ---------------- 메일상세조회 관련 ----------------
 		Mail m = new MailService().selectMail(ownerNo, currentMailNo);
 		ArrayList<MailReceiver> mrList = new MailService().selectMailReceiverList(currentMailNo);
 		HashMap<String, Integer> mrTypeCountMap = new MailService().selectMailReceiverTypeCount(currentMailNo);
-		
-		Set<String> keySet = mrTypeCountMap.keySet();
-		for(String key : keySet) {
-			Integer value = mrTypeCountMap.get(key);
-			System.out.println(key + ":" + value);
-		}
+		ArrayList<Attachment> attList = new MailService().selectAttachmentList(currentMailNo);
 		
 		request.setAttribute("mail", m);
 		request.setAttribute("mailReceivers", mrList);
 		request.setAttribute("mrTypeCountMap", mrTypeCountMap);
+		request.setAttribute("attList", attList);
 
 		request.getRequestDispatcher("views/mail/mailDetail.jsp").forward(request, response);
-
 	}
 
 	/**

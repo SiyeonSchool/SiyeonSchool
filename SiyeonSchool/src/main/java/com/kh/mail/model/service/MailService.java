@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.kh.common.JDBCTemplate.*;
+
+import com.kh.common.model.vo.Attachment;
 import com.kh.common.model.vo.PageInfo;
 import com.kh.mail.model.dao.MailDao;
 import com.kh.mail.model.vo.Mail;
@@ -96,6 +98,19 @@ public class MailService {
 
 	// ===================== 메일 상세 조회 =============================
 	
+	// 메일 읽음처리
+	public void updateIsRead(int ownerNo, String mailNo) {
+		Connection conn = getConnection();
+		int result = new MailDao().updateIsRead(conn, ownerNo, mailNo);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+	}
+	
+	// 메일 상세 조회
 	public Mail selectMail(int ownerNo, String mailNo) {
 		Connection conn = getConnection();
 		Mail m = new MailDao().selectMail(conn, ownerNo, mailNo);
@@ -116,5 +131,14 @@ public class MailService {
 		close(conn);
 		return map;
 	}
+
+	public ArrayList<Attachment> selectAttachmentList(String mailNo) {
+		Connection conn = getConnection();
+		ArrayList<Attachment> list = new MailDao().selectAttachmentList(conn, mailNo);
+		close(conn);
+		return list;
+	}
+
+
 
 }

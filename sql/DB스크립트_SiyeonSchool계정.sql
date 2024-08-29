@@ -78,6 +78,7 @@ COMMENT ON COLUMN ATTACHMENT.STATUS IS '상태(미삭제:Y/삭제:N)';
 CREATE SEQUENCE SEQ_FILENO
 NOCACHE;
 
+-- 프로필사진
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'admin.jpg', 'admin.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user01.jpg', 'user01.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user02.jpg', 'user02.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
@@ -112,11 +113,17 @@ INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user28.jpg', 'us
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user29.jpg', 'user29.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, NULL, 'user30.jpg', 'user30.jpg', 'resources/images/profile_img/', TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'Y');
 
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1064', 'upfile_test_240824.pdf', 'upfile_test_240824.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1064', 'upfile_test_240824.pdf', 'upfile_test_240824-2.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-3.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-4.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-5.pdf', 'resources/classroom_upfiles/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+-- 수업게시판
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1064', 'upfile_test_240824.pdf', 'upfile_test_240824.pdf', 'resources/upfiles/classroom/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1064', 'upfile_test_240824.pdf', 'upfile_test_240824-2.pdf', 'resources/upfiles/classroom/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-3.pdf', 'resources/upfiles/classroom/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-4.pdf', 'resources/upfiles/classroom/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-5.pdf', 'resources/upfiles/classroom/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
+
+-- 메일
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'mail_test_240829.pdf', 'mail_test_240829.pdf', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'flower2.png', 'flower2.png', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
+
 
 --------------------------------------------------------------------------------
 --############### 질문 ############### (아이디/비밀번호 찾기용)
@@ -738,10 +745,10 @@ INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '안녕하세요 반갑습
 INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 3, '오늘 하루도 좋은 하루되세요!', '파이팅!!', 'S', TO_DATE('2024-07-02 13:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- 2번 유저의 임시보관 메일 (메일번호: "M503")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '이메일을 보낼까~ 말까~', '아직 수신인은 정하지 않았음. 수신인 없는게 정상', 'T', TO_DATE('2024-07-03 16:30:33', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '이메일을 보낼까~ 말까~ (수신인은 없음!)', '아직 수신인은 정하지 않았음. 수신인 없는게 정상', 'T', TO_DATE('2024-07-03 16:30:33', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- 2번 유저의 임시보관 메일2 (메일번호: "M504")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '이거 보낼지말지 고민이네요..', '우선 임시로 저장해놓을게요', 'T', TO_DATE('2024-07-04 09:25:03', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '임시메일인데, 수신인은 지정해놓은 메일입니다.', '수신인은 있지만 아직 보내지 않았어요. 보내지 않고, 임시로 저장해놓을게요', 'T', TO_DATE('2024-07-04 09:25:03', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- 2번 유저의 내게쓴메일 (메일번호: "M505")
 INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '나에게 보내는 편지', '테스트를 하려면 데이터를 넣어야합니다.', 'S', TO_DATE('2024-07-05 19:13:01', 'YYYY-MM-DD HH24:MI:SS'));
@@ -750,7 +757,7 @@ INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '나에게 보내는 편�
 INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '혼잣말하는중', 'order by가 잘먹히는지 보려면 2개는 넣어봐야합니다.', 'S', TO_DATE('2024-07-06 01:14:21', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- 2번 유저의 휴지통메일 (메일번호: "M507")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '이승기가 부릅니다 - 삭제 ', '명곡입니다.  (보낸사람은 메일을 삭제했지만 받은 사람은 그대로 가지고 있는게 정상. (발신취소가 아님!))', 'S', TO_DATE('2024-07-07 03:20:45', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '정작 보낸 사람은 삭제한 메일', '보낸사람은 메일을 삭제했지만 받은 사람은 그대로 가지고 있는게 정상. (발신취소가 아님!)', 'S', TO_DATE('2024-07-07 03:20:45', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- 28번 유저가 보내는 메일 (메일번호: "M508")
 DECLARE
@@ -908,6 +915,16 @@ INSERT INTO MAIL_RECEIVER VALUES('M501', 4, 'S', NULL); -- 수신인: 3번유저
 INSERT INTO MAIL_RECEIVER VALUES('M502', 1, 'C', NULL); -- 수신인: 1번유저, 참조, 읽지않은상태
 INSERT INTO MAIL_RECEIVER VALUES('M502', 2, 'S', NULL); -- 수신인: 2번유저, 비밀, 읽지않은상태
 INSERT INTO MAIL_RECEIVER VALUES('M502', 4, 'R', NULL); -- 수신인: 3번유저, 수신, 읽지않은상태
+
+-- 2번 유저의 임시보관 메일2 (메일번호: "M504")
+INSERT INTO MAIL_RECEIVER VALUES('M504', 1, 'R', NULL);
+INSERT INTO MAIL_RECEIVER VALUES('M504', 3, 'R', NULL);
+
+-- 2번 유저의 내게쓴메일 (메일번호: "M505")
+INSERT INTO MAIL_RECEIVER VALUES('M505', 2, 'R', NULL);
+
+-- 2번 유저의 내게쓴메일2 (메일번호: "M506")
+INSERT INTO MAIL_RECEIVER VALUES('M506', 2, 'R', NULL);
 
 -- 2번 유저의 휴지통메일 (메일번호: "M507")
 INSERT INTO MAIL_RECEIVER VALUES('M507', 1, 'S', NULL); -- 수신인: 1번유저, 수신, 읽지않은상태
