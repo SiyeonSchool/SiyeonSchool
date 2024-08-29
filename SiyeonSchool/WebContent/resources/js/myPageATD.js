@@ -35,11 +35,34 @@ function generateCalendar(date) {
         if (currentDate.getDay() === 6 || currentDate.getDay() === 0) {
             attendanceCell.textContent = '주말'; // 토요일(6)이나 일요일(0)이라면 "주말"을 표시
             attendanceCell.style = 'color:red'
-        } else {
-            attendanceCell.textContent = ''; // 이곳에 출석 데이터를 추가할 수 있습니다.
+        } else{
+            if(){}
         }
         attendanceRow.appendChild(attendanceCell);
     }
+
+    $.ajax({
+    url: 'atdState.li',
+    success: (result) => {
+        console.log(result)
+        let value = "";
+        for(let i=0 ; i<result.length ; i++){
+                value = result[i].stateName;
+                document.createElement('td').textContent = value;
+                if(value === "출석"){
+                    document.createElement('td').style = 'color:blue'
+                }else if(value === "결석"){
+                    document.createElement('td').style = 'color:red'
+                }else{
+                    document.createElement('td').style = 'color:black'
+                }
+                attendanceRow.appendChild(document.createElement('td'));
+        }
+    },
+    error: () => {
+        console.log("에러난다")
+    }
+    })
 
     // 현재 월을 표시
     document.getElementById('currentMonth').textContent = `${year}년 ${monthNames[month]}`;

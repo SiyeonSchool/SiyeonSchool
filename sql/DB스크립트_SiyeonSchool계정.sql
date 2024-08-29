@@ -1283,23 +1283,27 @@ BEGIN
     FOR v_user_no IN 2 .. 31 LOOP
         v_date := v_start_date;
         WHILE v_date <= v_end_date LOOP
-            -- 각 사용자와 날짜에 대해 상태코드를 무작위로 설정합니다.
-            INSERT INTO ATTENDANCE (USER_NO, DAY, STATE_CODE)
-            VALUES (
-                v_user_no,
-                v_date,
-                CASE
-                    WHEN DBMS_RANDOM.VALUE < 0.1 THEN 'LATE'  -- 10% 확률로 지각
-                    WHEN DBMS_RANDOM.VALUE < 0.2 THEN 'ABS'   -- 10% 확률로 결석 (지각과 결석의 총 비율은 20%)
-                    WHEN DBMS_RANDOM.VALUE < 0.3 THEN 'E_OUT' -- 10% 확률로 조퇴
-                    ELSE 'ATD'                               -- 나머지는 출석
-                END
-            );
+            -- 주말인지 확인 (토요일 또는 일요일이면 데이터 삽입 안 함)
+            IF TO_CHAR(v_date, 'DY', 'NLS_DATE_LANGUAGE=ENGLISH') NOT IN ('SAT', 'SUN') THEN
+                -- 각 사용자와 날짜에 대해 상태코드를 무작위로 설정합니다.
+                INSERT INTO ATTENDANCE (USER_NO, DAY, STATE_CODE)
+                VALUES (
+                    v_user_no,
+                    v_date,
+                    CASE
+                        WHEN DBMS_RANDOM.VALUE < 0.1 THEN 'LATE'  -- 10% 확률로 지각
+                        WHEN DBMS_RANDOM.VALUE < 0.2 THEN 'ABS'   -- 10% 확률로 결석 (지각과 결석의 총 비율은 20%)
+                        WHEN DBMS_RANDOM.VALUE < 0.3 THEN 'E_OUT' -- 10% 확률로 조퇴
+                        ELSE 'ATD'                               -- 나머지는 출석
+                    END
+                );
+            END IF;
             v_date := v_date + 1;
         END LOOP;
     END LOOP;
 END;
 /
+
 
 -- 프로시저를 생성하여 USE_DAY_OFF 값을 업데이트합니다.
 CREATE OR REPLACE PROCEDURE update_use_day_off IS
