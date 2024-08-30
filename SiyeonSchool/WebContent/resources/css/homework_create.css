@@ -1,0 +1,110 @@
+#container{
+    display: flex;
+    position: relative;
+}
+
+#homework_create_content{
+    width: calc(100% - 900px);
+    height: 100vh;
+    margin: auto;
+    position: absolute;
+    left: 600px;
+}
+
+#homework_create span:first-child{
+    display: block;
+    width: 126px;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 20px 0;
+}
+
+#container #back{
+    cursor: pointer;
+    height: 20px;
+    width: 88px;
+    position: relative;
+}
+
+#container #back:hover{
+    font-weight: bold;
+}
+
+#homework_btn{
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#homework_btn button{
+    width: 88px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    letter-spacing: 2px;
+    margin: 20px 8px 0 0;
+    border: 1px solid #9a9a9a;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#homework_btn button:hover{
+    scale: 1.1;
+}
+
+input[type="file"]{
+    background-color: #fff;
+}
+
+input[type="file"]:hover{
+    cursor: pointer;
+    scale: 1.1;
+}
+
+textarea{
+    width: 1000px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+tr{
+    height: 30px;
+    margin: 5px 0;
+}
+
+th{font-weight: bold;}
+
+input, textarea{
+    outline: none;
+}
+
+table tr:first-child input{
+    border: none;
+    border-bottom: 1px solid #9a9a9a;
+    width: 700px;
+}
+
+#homework_contacts{
+    overflow-y: auto;
+    width: 400px;
+    height: 80px;
+}
+
+#homework_contacts li{
+    height: 20px;
+    border-bottom: 1px solid #9a9a9a;
+}
+
+#homework_select ul{
+    width: 400px;
+    border: 1px solid black;
+}
+#homework_select span{
+    margin-left: 140px;
+}
+
+input[type="checkbox"]{
+    margin: 5px 10px 0 10px;
+}

@@ -167,7 +167,7 @@
 						<li>
 							<% if(loginUser.getUserAuth().equals("U")) { %>
 								<span class="material-icons">account_circle</span>
-								<span><a href="<%= contextPath2 %>/mypage">마이페이지</a></span>
+								<span><a href="<%= contextPath2 %>/mypageInfo">마이페이지</a></span>
 							<% } else{ %>
 								<span class="material-icons">account_circle</span>
 								<span><a href="<%= contextPath2 %>/adminpage">관리자페이지</a></span>
