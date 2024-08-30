@@ -70,8 +70,8 @@
 					<li class="mail-column type">수신구분</li>
 				<% } %>
 				
-				<% Set<String> includedMailboxes = Set.of("s", "t", "m", "b"); // 보낸메일함, 임시보관함, 내게쓴메일함, 휴지통
-				   if(includedMailboxes.contains(currentMailbox)) { %>
+				<% Set<String> excludedMailboxes = Set.of("a", "i", "u", "im"); // 전체메일함, 받은메일함, 임시보관함, 안읽은메일, 중요메일
+				   if(!excludedMailboxes.contains(currentMailbox)) { %>
 					<div class="mail-column empty-space"></div>
 				<% } %>
 				
@@ -100,7 +100,7 @@
 								</div>
 								
 								<!-- 중요(별) -->
-								<div class="mail-column star jc-center">
+								<div class="mail-column star jc-center" onclick="location.href='<%= contextPath %>/mail.update.star?mb=<%= currentMailbox %>&cpage=<%= cPage %>&m=<%= m.getMailNo() %>&s=<%= m.getMailStar() %>'">
 									<% if(m.getMailStar().equals("N")){ %>
 										<span class="icon star material-symbols-rounded">star</span>
 									<% }else { %>
@@ -110,7 +110,7 @@
 			
 								<!-- 읽음 -->
 								<% if(currentMailbox.equals("i") || currentMailbox.equals("u") || currentMailbox.equals("m")) { %>
-									<div class="mail-column read jc-center">
+									<div class="mail-column read jc-center" onclick="location.href='<%= contextPath %>/mail.update.read?mb=<%= currentMailbox %>&cpage=<%= cPage %>&m=<%= m.getMailNo() %>&r=<%= m.getIsRead() %>'">
 										<% if(m.getIsRead().equals("N")){ %>
 											<span class="icon mail-icon material-icons-round">markunread</span>
 										<% }else { %>
@@ -159,7 +159,7 @@
 								<% } %>
 			
 								<!-- 여백 -->
-								<% if(includedMailboxes.contains(currentMailbox)) { // 보낸메일함, 임시보관함, 내게쓴메일함, 휴지통 %>
+								<% if(!excludedMailboxes.contains(currentMailbox)) { %>
 									<div class="mail-column empty-space"></div>
 								<% } %>
 			

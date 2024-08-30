@@ -47,6 +47,15 @@
 
 	<%@ include file="mailSidebar.jsp" %>
 
+	<script>
+		// 뒤로가기 관련 기능 - 메일목록페이지의 url만 저장
+		const previousURL = document.referrer;
+		const splitURL = previousURL.split("/mail");
+		if(splitURL[1].startsWith("?mb=")){
+			sessionStorage.setItem("previousPage", previousURL);
+		}
+	</script>
+
 	<!-- ======================================== 메인 ======================================== -->
 	<main class="mail-detail">
 
@@ -66,13 +75,16 @@
 			<div class="mail-detail-header" id="mail-detail-header">
 
 				<div class="title">
-					<% if(m.getMailStar().equals("N")){ %>
-						<span class="icon star material-symbols-rounded">star</span>
-					<% }else { %>
-						<span class="icon star fill material-icons-round">star</span>
-					<% } %>
-
-					<span class="mailTitle"><%= m.getMailTitle() %></span>
+					<div class="starDiv" onclick="location.href='<%= contextPath %>/mail.update.star?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>&s=<%= m.getMailStar() %>'">
+						<% if(m.getMailStar().equals("N")){ %>
+							<span class="icon star material-symbols-rounded">star</span>
+						<% }else { %>
+							<span class="icon star fill material-icons-round">star</span>
+						<% } %>
+					</div>
+					<div class="mailTitle">
+						<%= m.getMailTitle() %>
+					</div>
 				</div>
 
 				<table class="outer-table">
@@ -125,7 +137,13 @@
 							<% } %>
 							
 							<% if(m.getUserId().equals(loginUser.getUserId()) && !currentMailbox.equals("t")) { %>
-								<button class="btn">발신취소</button>
+								<button class="btn">
+									발신취소
+								</button>
+							<% }else if(!currentMailbox.equals("t")){ %>
+								<button class="btn" onclick="location.href='<%= contextPath %>/mail.update.read?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>&r=<%= m.getIsRead() %>'">
+									안읽음
+								</button>
 							<% } %>
 						</td>
 					</tr>

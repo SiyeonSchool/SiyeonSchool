@@ -516,12 +516,40 @@ public class MailDao {
 	}
 	
 	// ===================== 메일 상세 조회 =============================
+
+	public String selectIsRead(Connection conn, int ownerNo, String mailNo) {
+		String isRead = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectIsRead");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			pstmt.setString(2, mailNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				isRead = rset.getString("IS_READ");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return isRead;
+	}
 	
 	public int updateIsRead(Connection conn, int ownerNo, String mailNo) {
 		int result = 0;
 		
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("updateIsRead");
+		String sql = prop.getProperty("updateReadToSysdate");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -669,5 +697,80 @@ public class MailDao {
 		
 		return list;
 	}
+
+	// ===================== 별 수정 =============================
+	
+	public int updateStar(Connection conn, String starYN, int ownerNo, String mailNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateStar");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, starYN);
+			pstmt.setInt(2, ownerNo);
+			pstmt.setString(3, mailNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	// ===================== 읽음 수정 =============================
+	
+	public int updateReadToNull(Connection conn, int ownerNo, String mailNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateReadToNull");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			pstmt.setString(2, mailNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateReadToSysdate(Connection conn, int ownerNo, String mailNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateReadToSysdate");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			pstmt.setString(2, mailNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 
 }

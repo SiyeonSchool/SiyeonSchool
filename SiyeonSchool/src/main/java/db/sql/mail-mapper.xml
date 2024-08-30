@@ -392,14 +392,6 @@
 	
 	<!-- ===================== 메일 상세 조회 ============================= -->
 	
-	<!-- 메일 읽음처리 : 사용자번호, 메일번호 필요 -->
-	<entry key="updateIsRead">
-		UPDATE MAIL_RECEIVER
-		   SET READ_TIME = SYSDATE
-		 WHERE RECEIVER_NO = ?
-		   AND MAIL_NO = ?
-	</entry>
-	
 	<!-- 메일 상세 조회 : 사용자번호, 메일번호 필요 -->
 	<entry key="selectMail">
 		SELECT 
@@ -458,6 +450,41 @@
 		FROM ATTACHMENT
 		WHERE REF_BNO = ?
 		AND STATUS = 'Y'
+	</entry>
+	
+	<!-- ===================== 별 수정 ============================= -->
+	<!-- 별 수정 -->
+	<entry key="updateStar">
+		UPDATE MAIL_OWNER
+		   SET MAIL_STAR = ?
+		 WHERE OWNER_NO = ?
+		   AND MAIL_NO = ?
+	</entry>
+	
+	<!-- ===================== 읽음 수정 ============================= -->
+	
+	<!-- 읽음 여부 조회 -->
+	<entry key="selectIsRead">
+		SELECT NVL2(READ_TIME, 'Y', 'N') AS "IS_READ"
+		  FROM MAIL_RECEIVER
+		 WHERE RECEIVER_NO = ?
+		   AND MAIL_NO = ?
+	</entry>
+	
+	<!-- 읽음 수정 - NULL -->
+	<entry key="updateReadToNull">
+		UPDATE MAIL_RECEIVER
+		   SET READ_TIME = NULL
+		 WHERE RECEIVER_NO = ?
+		   AND MAIL_NO = ?
+	</entry>
+	
+	<!-- 읽음 수정 - SYSDATE -->
+	<entry key="updateReadToSysdate">
+		UPDATE MAIL_RECEIVER
+		   SET READ_TIME = SYSDATE
+		 WHERE RECEIVER_NO = ?
+		   AND MAIL_NO = ?
 	</entry>
 	
 </properties>

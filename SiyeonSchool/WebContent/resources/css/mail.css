@@ -508,6 +508,11 @@ main .mail-list ul .mail .mail-column.star span.icon.star.fill {
   color: var(--lightOrange);
 }
 
+/* 별 - 색상 채워진 별 - hover시*/
+main .mail-list ul .mail .mail-column.star span.icon.star.fill:hover{
+  color: var(--darkOrange);
+}
+
 /* ------------- 읽음 ------------- */
 main .mail-list ul .mail .mail-column.read span.icon {
   font-size: 20px;
@@ -700,22 +705,27 @@ main.mail-detail .mail-detail-header .title{
   margin-bottom: 20px;
 }
 
-/* 별 - 회색 빈 별*/
-main.mail-detail .mail-detail-header .title .icon.star {
+/* 별 - 회색 빈 별 */
+main.mail-detail .mail-detail-header .title .starDiv .icon.star {
   font-size: 30px;
   vertical-align: middle;
-  margin-right: 10px;
 }
 
-/* 별 - 색상 채워진 별*/
-main.mail-detail .mail-detail-header .title .icon.star.fill {
+/* 별 - 색상 채워진 별 */
+main.mail-detail .mail-detail-header .title .starDiv .icon.star.fill {
   color: var(--lightOrange);
+}
+
+/* 별 - 색상 채워진 별 - hover시 */
+main.mail-detail .mail-detail-header .title .starDiv .icon.star.fill:hover {
+  color: var(--darkOrange);
 }
 
 /* 메일 제목 */
 main.mail-detail .mail-detail-header .title .mailTitle{
   font-size: 1.3rem;
   font-weight: bold;
+  padding: 0 10px;
 }
 
 /* ----------------------------- 헤더 ----------------------------- */

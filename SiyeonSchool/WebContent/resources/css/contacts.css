@@ -346,6 +346,11 @@ main section li div span.icon.star.fill{
     color: var(--lightOrange);
 }
 
+/* 별 - 색상 채워진 별 - hover시*/
+main section li div span.icon.star.fill:hover{
+    color: var(--darkOrange);
+}
+
 /* ------- 목록 헤더 섹션 (section__list-header) ------- */
 main .section__list-header{
     background-color: rgba(243, 243, 243, 0.7);

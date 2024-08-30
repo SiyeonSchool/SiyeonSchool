@@ -41,8 +41,10 @@ public class MailDetailController extends HttpServlet {
 		String currentMailNo = request.getParameter("m"); // 현재 메일
 		int ownerNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		
-		// ===================== 메일 읽음처리 =====================
-		new MailService().updateIsRead(ownerNo, currentMailNo);
+		// ===================== 메일 읽음처리 =====================	
+		if(request.getParameter("ur") == null) {
+			new MailService().updateIsRead(ownerNo, currentMailNo);
+		}
 		
 		// ===================== 사이드바 - 메일함 메일 개수 관련 =====================
 		// 기본메일함별 메일개수 리스트

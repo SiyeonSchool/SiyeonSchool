@@ -115,12 +115,21 @@ public class MailService {
 	// 메일 읽음처리
 	public void updateIsRead(int ownerNo, String mailNo) {
 		Connection conn = getConnection();
+		
+		String isRead = new MailDao().selectIsRead(conn, ownerNo, mailNo);
+		
+		if(isRead == null || !isRead.equals("N")) { // 보낸메일, 읽은메일일 경우: 읽음처리 안함.
+			return;
+		}
+		
+		// 안읽은메일일 경우만 실행 (isRead.equals("N"))
 		int result = new MailDao().updateIsRead(conn, ownerNo, mailNo);
 		if(result > 0) {
 			commit(conn);
 		} else {
 			rollback(conn);
 		}
+		
 		close(conn);
 	}
 	
@@ -152,6 +161,44 @@ public class MailService {
 		close(conn);
 		return list;
 	}
+
+	// ===================== 별 수정 =============================
+	
+	public void updateStar(String starYN, int ownerNo, String mailNo) {
+		Connection conn = getConnection();
+		int result = new MailDao().updateStar(conn, starYN, ownerNo, mailNo);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+	}
+
+
+
+	// ===================== 읽음 수정 =============================
+	
+	public void updateRead(String readYN, int ownerNo, String mailNo) {
+		Connection conn = getConnection();
+		
+		int result = 0;
+		 
+		if(readYN.equals("Y")) {
+			result = new MailDao().updateReadToNull(conn, ownerNo, mailNo); 
+		}else {
+			result = new MailDao().updateReadToSysdate(conn, ownerNo, mailNo); 
+		}
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+	}
+
 
 
 
