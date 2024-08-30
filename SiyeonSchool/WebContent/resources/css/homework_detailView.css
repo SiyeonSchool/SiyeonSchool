@@ -1,0 +1,217 @@
+#container_detailView{
+    display: flex;
+    position: relative;
+}
+
+#homework_detailView_content{
+    width: calc(100% - 500px);
+    height: 100vh;
+    margin: auto;
+    position: absolute;
+    left: 500px;
+    display: flex;
+}
+
+#detailView_submit_status{
+    width: 400px;
+    height: 100vh;
+    position: absolute;
+    right: 200px;
+}
+
+.toList{
+    margin: 10px 0 0 20px;
+    height: 20px;
+    width: 83px;
+    position: relative;
+}
+
+.toList:hover{
+    cursor: pointer;
+    scale: 1.05;
+}
+
+.toList span:last-child{
+    position: absolute;
+    top: 3px;
+}
+
+#detailView_content{
+    width: 776px;
+}
+
+#detailView_content table{
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+#detailView_content table tr{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+}
+
+#detailView_content table tr:first-child {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+#detailView_content table tr:nth-child(n+2):nth-child(-n+4) td:first-child{
+    width: 15%;
+}
+
+
+
+#detailView_content table tr:nth-child(4){
+    border-bottom: 1px solid #9a9a9a;
+}
+#detailView_content table tr:nth-child(5){
+    border-bottom: 1px solid black;
+}
+
+#detailView_content table tr:nth-child(6) td{
+    display: flex;
+    align-items: center;
+}
+
+#detailView_content table tr:nth-child(6) td span{
+    margin-right: 10px;
+}
+
+#detailView_content table tr:last-child td:nth-child(n+2){
+    text-align: center;
+}
+
+#detailView_content table tr:last-child td:nth-child(n+2){
+    width: 5%;
+    padding: 5px;
+}
+
+#table tr:nth-child(7){
+    position: relative;
+}
+
+button{
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 3px;
+    width: 45px;
+    height: 25px;
+}
+
+#detailView_content>table input {
+    border:none;
+    border-bottom: 1px solid #9a9a9a;
+    outline: none;
+    width: 90%;
+}
+
+#detailView_content>table img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    position: absolute;
+    top: 260px;
+    left: 20px;
+    object-fit:cover;
+}
+
+#submit_before, #submit_after{
+    margin: 30px 0;
+    width: 100%;
+    height: 270px;
+}
+
+#submit_before table, #submit_after table{
+    width: 90%;
+}
+
+#submit_before table tr, #submit_after table tr{
+    height: 40px;
+}
+
+#submit_before tr:nth-child(-n+3) td:first-child{
+    width: 20%;
+}
+
+#submit_after tr:nth-child(-n+3) td:first-child{
+    width: 20%;
+}
+
+#submit_before button{
+    background-color: #EF5F5F;
+    width: 80px;
+    height: 30px;
+    letter-spacing: 2px;
+}
+
+#submit_after button{
+    width: 80px;
+    height: 30px;
+    letter-spacing: 2px;
+}
+
+#submit_before button:hover, #submit_after button:hover{
+    cursor: pointer;
+    scale: 1.05;
+    font-weight: bold;
+}
+#submit_before .material-icons{
+    color: red;
+    margin-right: 5px;
+}
+#submit_after .material-icons{
+    color: green;
+    margin-right: 5px;
+}
+
+#submit_before table tr:first-child td:nth-child(2)
+, #submit_after table tr:first-child td:nth-child(2){
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+#submit_before table tr:last-child
+, #submit_after table tr:last-child{
+    text-align: right;
+}
+
+#detailView_submit_status table tr:first-child td:first-child{
+    vertical-align: top;
+}
+
+#detailView_submit_status table tr:nth-child(-n+3){
+    border-bottom: 1px solid #9a9a9a;
+}
+
+#detailView_submit_status table{
+    line-height: 50px;
+}
+
+#detailView_submit_situation{    
+    width: 400px;
+    height: 100vh;
+    position: absolute;
+    right: 200px;
+}
+
+#detailView_submit_situation ul li:first-child{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#detailView_submit_situation ul li:first-child>span{
+    margin-right: 30px;
+}
+
+#detailView_submit_situation ul li:first-child div{
+    display: flex;
+    align-items: center;
+}
+
+#sort:hover{
+    cursor: pointer;
+}
