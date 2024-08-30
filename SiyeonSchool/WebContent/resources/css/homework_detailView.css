@@ -123,28 +123,95 @@ button{
     height: 270px;
 }
 
-#submit_before table{
-    width: 100%;
+#submit_before table, #submit_after table{
+    width: 90%;
 }
 
-#submit_before table tr{
+#submit_before table tr, #submit_after table tr{
     height: 40px;
 }
 
-
 #submit_before tr:nth-child(-n+3) td:first-child{
     width: 20%;
-    text-align: center;
+}
+
+#submit_after tr:nth-child(-n+3) td:first-child{
+    width: 20%;
 }
 
 #submit_before button{
-    background-color: rgb(255, 69, 23);
+    background-color: #EF5F5F;
     width: 80px;
+    height: 30px;
     letter-spacing: 2px;
 }
 
-#submit_before button:hover{
+#submit_after button{
+    width: 80px;
+    height: 30px;
+    letter-spacing: 2px;
+}
+
+#submit_before button:hover, #submit_after button:hover{
     cursor: pointer;
     scale: 1.05;
     font-weight: bold;
+}
+#submit_before .material-icons{
+    color: red;
+    margin-right: 5px;
+}
+#submit_after .material-icons{
+    color: green;
+    margin-right: 5px;
+}
+
+#submit_before table tr:first-child td:nth-child(2)
+, #submit_after table tr:first-child td:nth-child(2){
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+#submit_before table tr:last-child
+, #submit_after table tr:last-child{
+    text-align: right;
+}
+
+#detailView_submit_status table tr:first-child td:first-child{
+    vertical-align: top;
+}
+
+#detailView_submit_status table tr:nth-child(-n+3){
+    border-bottom: 1px solid #9a9a9a;
+}
+
+#detailView_submit_status table{
+    line-height: 50px;
+}
+
+#detailView_submit_situation{    
+    width: 400px;
+    height: 100vh;
+    position: absolute;
+    right: 200px;
+}
+
+#detailView_submit_situation ul li:first-child{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#detailView_submit_situation ul li:first-child>span{
+    margin-right: 30px;
+}
+
+#detailView_submit_situation ul li:first-child div{
+    display: flex;
+    align-items: center;
+}
+
+#sort:hover{
+    cursor: pointer;
 }

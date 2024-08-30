@@ -73,7 +73,7 @@
                 </div>
 
             </div>
-            <div id="detailView_submit_status">
+            <div style="display: none;" id="detailView_submit_status">
                 <form action="">
                     <div id="submit_before">
                         <table>
@@ -105,8 +105,49 @@
                     </div>
                 </form>
                 <div id="submit_after">
-
+                    <table>
+                        <tr>
+                            <td>내 과제</td>
+                            <td>
+                                <span class="material-icons">check_circle_outline</span>
+                                <span>제출 완료</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>첨부파일</td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>제출일시</td>
+                            <td>
+                                <span> </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="submit">제출취소</button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
+            </div>
+            <div id="detailView_submit_situation">
+                <ul>
+                    <li>
+                        <span>제출현황</span>
+                        <div id="sort">
+                            <span class="material-icons">sort</span>
+                            <span>정렬기준</span>
+                        </div>
+                    </li>
+                    <li>
+                        <table>
+
+                        </table>
+                    </li>
+                </ul>
             </div>
         </div>
    

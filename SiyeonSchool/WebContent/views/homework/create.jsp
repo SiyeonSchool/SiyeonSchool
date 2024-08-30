@@ -15,7 +15,8 @@
         <div id="container">
             <%@ include file="sidebar.jsp" %>
             <div id="homework_create_content">
-                <form action="">
+                <form action="<%=contextPath%>/insert.homework" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="userNo" value="<%= loginUser.getUserNo() %>">
                     <div id="homework_btn">
                         <button type="button">작성하기</button>
                         <button type="button">임시저장</button>
@@ -26,19 +27,19 @@
                         <table>
                             <tr>
                                 <th>제목</th>
-                                <td><input type="text"></td>
+                                <td><input type="text" name="title" required></td>
                             </tr>
                             <tr>
                                 <th>구분</th>
                                 <td>
-                                    <select name="subject" id="">
+                                    <select name="subject" id="" required>
                                         <option value=""></option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <th>제출기한</th>
-                                <td><input type="date" name="" id=""></td>
+                                <td><input type="date" name="endDate" id=""></td>
                             </tr>
                             <tr>
                                 <th rowspan="3">제출대상자</th>
@@ -72,12 +73,12 @@
                                 <th>첨부파일</th>
                                 <td>
                                     <!-- <label id="label_file" for="input-file">첨부파일</label> -->
-                                    <input type="file" name="file" id="input-file">
+                                    <input type="file" name="upfile" id="input-file">
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <textarea name="" id="" rows="20" style="resize: none;"></textarea>
+                                    <textarea name="description" id="" rows="20" style="resize: none;"></textarea>
                                 </td>
                             </tr>
                         </table>
