@@ -16,6 +16,10 @@ function generateCalendar(date) {
     dayRow.innerHTML = '';  // 기존 요일 초기화
     attendanceRow.innerHTML = ''; // 기존 출석 데이터 초기화
 
+    const currentMonth = new Date(year, month + 1).toISOString().split('-').slice(0,2).join('-');
+
+    console.log(currentMonth);
+
     for (let i = 1; i <= lastDay; i++) {
         const currentDate = new Date(year, month, i);
         const dayName = dayNames[currentDate.getDay()];
@@ -32,37 +36,35 @@ function generateCalendar(date) {
 
         // 출석 데이터 셀 추가
         const attendanceCell = document.createElement('td');
+        attendanceRow.appendChild(attendanceCell);
+
         if (currentDate.getDay() === 6 || currentDate.getDay() === 0) {
             attendanceCell.textContent = '주말'; // 토요일(6)이나 일요일(0)이라면 "주말"을 표시
-            attendanceCell.style = 'color:red'
-        } else{
-            if(){}
+            attendanceCell.style.color = 'red';
+        } else {
         }
-        attendanceRow.appendChild(attendanceCell);
     }
+    // AJAX 요청
 
     $.ajax({
-    url: 'atdState.li',
-    success: (result) => {
-        console.log(result)
-        let value = "";
-        for(let i=0 ; i<result.length ; i++){
-                value = result[i].stateName;
-                document.createElement('td').textContent = value;
-                if(value === "출석"){
-                    document.createElement('td').style = 'color:blue'
-                }else if(value === "결석"){
-                    document.createElement('td').style = 'color:red'
-                }else{
-                    document.createElement('td').style = 'color:black'
-                }
-                attendanceRow.appendChild(document.createElement('td'));
+        url: 'atdState.li',
+        data: { currentMonth: currentMonth },
+        success: (result) => {
+            let value = result.stateName;
+            cell.textContent = value; // 해당 셀에 값 설정
+            if (value === "출석") {
+                cell.style.color = 'blue';
+            } else if (value === "결석") {
+                cell.style.color = 'red';
+            } else {
+                cell.style.color = 'black';
+            }
+        },
+        error: () => {
+            cell.textContent = '에러 발생';
+            cell.style.color = 'red';
         }
-    },
-    error: () => {
-        console.log("에러난다")
-    }
-    })
+    });
 
     // 현재 월을 표시
     document.getElementById('currentMonth').textContent = `${year}년 ${monthNames[month]}`;
@@ -84,3 +86,4 @@ document.getElementById('nextMonth').addEventListener('click', () => {
 window.onload = () => {
     generateCalendar(selectedDate);
 };
+

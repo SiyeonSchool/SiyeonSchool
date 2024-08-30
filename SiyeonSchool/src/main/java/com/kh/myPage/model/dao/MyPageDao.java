@@ -47,7 +47,7 @@ public class MyPageDao {
 
     }
 
-    public ArrayList<Attendance> selectAtd(Connection conn, int userNo){
+    public ArrayList<Attendance> selectAtd(Connection conn, int userNo, String currentMonth){
         ArrayList<Attendance> list = new ArrayList<Attendance>();
         PreparedStatement pstmt = null;
         ResultSet rset = null;
@@ -56,9 +56,10 @@ public class MyPageDao {
         try {
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, userNo);
+            pstmt.setString(2, currentMonth);
             rset = pstmt.executeQuery();
 
-            while(rset.next()){
+            while(rset.next()) {
                 list.add(new Attendance(rset.getInt("user_no"),
                                         rset.getString("day"),
                                         rset.getString("state_code"),

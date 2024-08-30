@@ -34,13 +34,16 @@ public class AjaxAtdStateListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int userNo = ((User) (request.getSession().getAttribute("loginUser"))).getUserNo();
+		String currentMonth = request.getParameter("currentMonth");
 
-		ArrayList<Attendance> list = new MyPageService().selectAtd(userNo);
+		if(currentMonth != null && !currentMonth.isEmpty()){
+			ArrayList<Attendance> atd = new MyPageService().selectAtd(userNo, currentMonth);
+			response.setContentType("application/json; charset=utf-8");
+			
+			new Gson().toJson(atd, response.getWriter());
+			System.out.println(atd);
+		}
 		
-		System.out.println(list);
-		response.setContentType("application/json; charset=utf-8");
-		
-		new Gson().toJson(list, response.getWriter());
 		
 		
 			

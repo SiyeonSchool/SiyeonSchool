@@ -26,6 +26,9 @@
 	  FROM ATTENDANCE A
 	  JOIN ATD_STATE B ON (A.STATE_CODE = B.STATE_CODE)
 	 WHERE USER_NO = ?
+	   AND TO_CHAR(A.DAY, 'YYYY-MM') = ?
+	 ORDER
+	    BY 2 ASC
 </entry>
 
 </properties>

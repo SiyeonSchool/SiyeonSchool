@@ -20,13 +20,13 @@ public class MyPageService {
         return result;
     }
 
-    public ArrayList<Attendance> selectAtd(int userNo){
+    public ArrayList<Attendance> selectAtd(int userNo, String currentMonth){
         Connection conn = getConnection();
 
-        ArrayList<Attendance> list = new MyPageDao().selectAtd(conn, userNo);
+        ArrayList<Attendance> atd = new MyPageDao().selectAtd(conn, userNo, currentMonth);
 
         close(conn);
-        return list;
+        return atd;
     }
 
 }
