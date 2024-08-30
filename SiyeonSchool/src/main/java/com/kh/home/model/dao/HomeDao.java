@@ -130,15 +130,17 @@ public class HomeDao {
             rset = pstmt.executeQuery();
 
             while(rset.next()){
-                list.add(new Mail(rset.getString("MAIL_NO"),
-								  rset.getString("MAIL_STAR"),
-								  rset.getString("IS_READ"),
-								  rset.getString("USER_NAME"),
-								  rset.getString("USER_ID"),
-								  rset.getString("PROFILE_PATH"),
-								  rset.getString("MAIL_TITLE"),
-								  rset.getString("RECEIVER_TYPE"),
-								  rset.getString("SEND_DATE")));
+				Mail m = new Mail();
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setMailStar(rset.getString("MAIL_STAR"));
+				m.setIsRead(rset.getString("IS_READ"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setProfilePath(rset.getString("PROFILE_PATH"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setReceiverType("RECEIVER_TYPE");
+				m.setSendDate(rset.getString("SEND_DATE"));
+				list.add(m);
             }
 
         } catch (SQLException e) {
