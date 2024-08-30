@@ -35,6 +35,13 @@
 	ArrayList<Attachment> attList = (ArrayList<Attachment>)request.getAttribute("attList");
 	// 첨부파일 리스트: 첨부파일번호, 원본파일명, 변경파일명, 파일경로
 	
+	//"안읽음"버튼 관련
+	String updateRead = "";
+	if(request.getAttribute("ur") != null) {
+		updateRead = (String)request.getAttribute("ur");
+		// "n" : 메일상세조회에서 "안읽음" 처리를 한경우, n을 넘겨줌. -> "안읽음"버튼을 숨기기 위해 사용됨.
+	}
+	
 %>
 
 <!DOCTYPE html>
@@ -140,7 +147,7 @@
 								<button class="btn">
 									발신취소
 								</button>
-							<% }else if(!currentMailbox.equals("t")){ %>
+							<% }else if(!currentMailbox.equals("t") && !updateRead.equals("n")) { %>
 								<button class="btn" onclick="location.href='<%= contextPath %>/mail.update.read?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>&r=<%= m.getIsRead() %>'">
 									안읽음
 								</button>

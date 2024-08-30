@@ -626,7 +626,9 @@ main .paging-area .page.currentPage {
   text-decoration: underline;
 }
 
+
 /* ================================ 메인 상세조회 ================================ */
+
 /* 메일 상세조회 - header, sidebar를 제외한 전체공간 */
 main.mail-detail {
   max-height: calc(100vh - var(--menubar-height));
@@ -796,7 +798,7 @@ main.mail-detail .mail-detail-header .outer-table tr.sender .td-right .sender-in
 /* ------------- 보낸시간 ------------- */
 /* 보낸시간 div */
 main.mail-detail .mail-detail-header .outer-table tr.sender .td-right .sentTime-info{
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   align-items: center;
   position: absolute;
@@ -857,11 +859,6 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-header {
 main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-header li > div {
   display: flex;
   justify-content: center;
-}
-
-/* 수신구분 */
-main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-header li > div.rType {
-  /* padding-right: 5px; */
 }
 
 /* ------------- 수신인 리스트 내용 ------------- */
@@ -999,3 +996,51 @@ main.mail-detail #btnToGoUp .icon{
   font-size: 20px;
   padding: 5px;
 }
+
+
+/* ================================ 메일쓰기 ================================ */
+/* 메일쓰기 - header, sidebar를 제외한 전체공간 */
+main.mail-write {
+  max-height: calc(100vh - var(--menubar-height));
+  overflow-y: auto;
+  position: relative;
+}
+
+main.mail-write form {
+  position: absolute;
+  width: 50%;
+  left: 0;
+  right: 0;
+  margin: 20px auto;
+
+  background-color: yellow;
+  
+}
+
+/* ----------------------------- 메일 버튼 - 보내기/임시저장/취소----------------------------- */
+/* 버튼 감싸고 있는 div */
+
+main.mail-write form .email-btns {
+  position: absolute;
+  top: 20px;
+  left: 76%;
+  width: max-content;
+}
+
+/* 실제 버튼 */
+main.mail-write form .email-btns .btn {
+  border: 1px solid var(--lightGrey);
+  border-radius: 3px;
+  background-color: #fff;
+  padding: 8px;
+  cursor: pointer;
+  /* width: 50px; */
+  margin-right: 5px;
+}
+
+/* 실제 버튼 - hover시*/
+main.mail-write form .email-btns .btn:hover {
+  background-color: var(--mail-active-color);
+  font-weight: bold;
+}
+
