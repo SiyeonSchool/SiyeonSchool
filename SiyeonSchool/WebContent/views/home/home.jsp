@@ -1,3 +1,4 @@
+<%@page import="com.kh.mail.model.vo.Mail"%>
 <%@page import="com.kh.home.model.vo.Curriculum"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -5,6 +6,7 @@
 <%
 	ArrayList<Curriculum> list = (ArrayList<Curriculum>)request.getAttribute("list");
 	int progressValue = Integer.parseInt(String.valueOf(request.getAttribute("progressValue")));
+	ArrayList<Mail> mList = (ArrayList<Mail>)request.getAttribute("mList");
 %>
 <%@ include file="../common/common.jsp" %>
 
@@ -244,9 +246,21 @@
 			</div>
 			<div class="mail-box">
 				<table>
-					<tr class="nothing">
-						<td colspan="2">받은 메일함이 비어있습니다</td>
-					</tr>
+					<% if(mList.size()==0){ %>
+						<tr class="nothing">
+							<td colspan="2">받은 메일함이 비어있습니다</td>
+						</tr>
+					<% }else {%>
+						<% for(int i=0 ; i<7 ; i++){ %>
+							<tr>
+								<td class="mail__title">
+									<div class="sender"><span><%= mList.get(i).getUserName() %></span></div>
+									<%= mList.get(i).getMailTitle() %>
+								</td>
+								<td class="mail__send_date"><%= mList.get(i).getSendDate() %></td>
+							</tr>
+						<% } %>
+					<% } %>
 				</table>
 			</div>
 		</div>

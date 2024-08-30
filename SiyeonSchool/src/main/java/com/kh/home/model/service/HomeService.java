@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.kh.home.model.dao.HomeDao;
 import com.kh.home.model.vo.Curriculum;
+import com.kh.mail.model.vo.Mail;
 
 public class HomeService {
     public ArrayList<Curriculum> selectCurriculum(){
@@ -53,5 +54,13 @@ public class HomeService {
         close(conn);
 
         return result;
+    }
+
+    public ArrayList<Mail> selectMailList(int userNo){
+        Connection conn = getConnection();
+        ArrayList<Mail> list = new HomeDao().selectMailList(conn, userNo);
+
+        close(conn);
+        return list;
     }
 }

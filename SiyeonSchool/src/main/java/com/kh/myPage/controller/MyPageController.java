@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class MyPageController
  */
-@WebServlet("/mypage")
+@WebServlet("/mypageInfo")
 public class MyPageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -27,8 +27,8 @@ public class MyPageController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.getSession().setAttribute("currentPage", "mypage");
-		request.getRequestDispatcher("views/myPage/myPage.jsp").forward(request, response);
+		request.getSession().setAttribute("currentPage", "mypageInfo");
+		request.getRequestDispatcher("views/myPage/myPageInfo.jsp").forward(request, response);
 		
 	}
 

@@ -1,10 +1,3 @@
--- 더 이상 사용하지 않는 테이블 삭제.(한번만 실행하고 빼기. 안빼면 오류남)
-DROP TABLE CLASS_COMMENT CASCADE CONSTRAINTS;
-DROP TABLE CLASS_ATTACHMENT CASCADE CONSTRAINTS;
-DROP TABLE MAIL_ATTACHMENT CASCADE CONSTRAINTS;
-DROP TABLE HOMEWORK_COMMENT CASCADE CONSTRAINTS;
-DROP TABLE HOMEWORK_ATTACHMENT CASCADE CONSTRAINTS;
-
 --------------------------------------------------------------------------------
 --############### 기존 데이터 삭제 ###############
 --------------------------------------------------------------------------------
@@ -1241,37 +1234,101 @@ INSERT INTO SCORE VALUES(5, 2, 'NCS전공교과', 5, 1, NULL);
 --------------------------------------------------------------------------------
 --############### 출결상태 ###############
 --------------------------------------------------------------------------------
-CREATE TABLE ATD_STATE(
-    STATE_CODE VARCHAR2(6) PRIMARY KEY,
-    STATE_NAME VARCHAR2(6) NOT NULL
-);
+-- 테이블과 데이터 생성
+BEGIN
+    -- 상태 코드 테이블 생성
+    EXECUTE IMMEDIATE '
+    CREATE TABLE ATD_STATE (
+        STATE_CODE VARCHAR2(7) PRIMARY KEY,
+        STATE_NAME VARCHAR2(7) NOT NULL
+    )';
 
-COMMENT ON COLUMN ATD_STATE.STATE_CODE IS '상태코드';
-COMMENT ON COLUMN ATD_STATE.STATE_NAME IS '상태이름(출석:ATD/지각:LATE/결석:ABS/조퇴:E_OUT)';
+    -- 상태 코드 설명 추가
+    EXECUTE IMMEDIATE 'COMMENT ON COLUMN ATD_STATE.STATE_CODE IS ''상태코드''';
+    EXECUTE IMMEDIATE 'COMMENT ON COLUMN ATD_STATE.STATE_NAME IS ''상태이름(출석:ATD/지각:LATE/결석:ABS/조퇴:E_OUT)''';
 
-INSERT INTO ATD_STATE VALUES('ATD', '출석');
-INSERT INTO ATD_STATE VALUES('LATE', '지각');
-INSERT INTO ATD_STATE VALUES('ABS', '결석');
-INSERT INTO ATD_STATE VALUES('E_OUT', '조퇴');
+    -- 상태 코드 데이터 삽입
+    EXECUTE IMMEDIATE 'INSERT INTO ATD_STATE (STATE_CODE, STATE_NAME) VALUES (''ATD'', ''출석'')';
+    EXECUTE IMMEDIATE 'INSERT INTO ATD_STATE (STATE_CODE, STATE_NAME) VALUES (''LATE'', ''지각'')';
+    EXECUTE IMMEDIATE 'INSERT INTO ATD_STATE (STATE_CODE, STATE_NAME) VALUES (''ABS'', ''결석'')';
+    EXECUTE IMMEDIATE 'INSERT INTO ATD_STATE (STATE_CODE, STATE_NAME) VALUES (''E_OUT'', ''조퇴'')';
+    EXECUTE IMMEDIATE 'INSERT INTO ATD_STATE (STATE_CODE, STATE_NAME) VALUES (''DAY_OFF'', ''휴가'')';
 
---------------------------------------------------------------------------------
---############### 출결 ###############
---------------------------------------------------------------------------------
-CREATE TABLE ATTENDANCE(
-    USER_NO NUMBER,
-    DAY DATE,
-    STATE_CODE VARCHAR2(6),
-    USE_DAY_OFF NUMBER,
-    PRIMARY KEY(USER_NO, DAY),
-    FOREIGN KEY(STATE_CODE) REFERENCES ATD_STATE(STATE_CODE)
-);
+    -- 출석 데이터 테이블 생성
+    EXECUTE IMMEDIATE '
+    CREATE TABLE ATTENDANCE (
+        USER_NO NUMBER,
+        DAY DATE,
+        STATE_CODE VARCHAR2(6),
+        USE_DAY_OFF NUMBER DEFAULT 0,
+        PRIMARY KEY (USER_NO, DAY),
+        FOREIGN KEY (STATE_CODE) REFERENCES ATD_STATE (STATE_CODE)
+    )';
 
-INSERT INTO ATTENDANCE VALUES(1, '2024/08/08', 'ATD', NULL);
-INSERT INTO ATTENDANCE VALUES(1, '2024/08/09', 'ATD', NULL);
-INSERT INTO ATTENDANCE VALUES(1, '2024/08/10', 'ATD', NULL);
-INSERT INTO ATTENDANCE VALUES(2, '2024/08/08', 'ATD', NULL);
-INSERT INTO ATTENDANCE VALUES(2, '2024/08/09', 'ATD', NULL);
-INSERT INTO ATTENDANCE VALUES(2, '2024/08/10', 'ATD', NULL);
+    -- 컬럼 설명 추가
+    EXECUTE IMMEDIATE 'COMMENT ON COLUMN ATTENDANCE.USER_NO IS ''유저번호''';
+    EXECUTE IMMEDIATE 'COMMENT ON COLUMN ATTENDANCE.DAY IS ''날짜''';
+    EXECUTE IMMEDIATE 'COMMENT ON COLUMN ATTENDANCE.STATE_CODE IS ''상태코드''';
+    EXECUTE IMMEDIATE 'COMMENT ON COLUMN ATTENDANCE.USE_DAY_OFF IS ''총휴가''';
+END;
+/
+
+-- 사용자 및 날짜에 대한 데이터를 생성합니다.
+DECLARE
+    v_start_date DATE := DATE '2024-07-01';
+    v_end_date DATE := DATE '2024-09-08';
+    v_user_no NUMBER;
+    v_date DATE;
+BEGIN
+    FOR v_user_no IN 2 .. 31 LOOP
+        v_date := v_start_date;
+        WHILE v_date <= v_end_date LOOP
+            -- 주말인지 확인 (토요일 또는 일요일이면 데이터 삽입 안 함)
+            IF TO_CHAR(v_date, 'DY', 'NLS_DATE_LANGUAGE=ENGLISH') NOT IN ('SAT', 'SUN') THEN
+                -- 각 사용자와 날짜에 대해 상태코드를 무작위로 설정합니다.
+                INSERT INTO ATTENDANCE (USER_NO, DAY, STATE_CODE)
+                VALUES (
+                    v_user_no,
+                    v_date,
+                    CASE
+                        WHEN DBMS_RANDOM.VALUE < 0.1 THEN 'LATE'  -- 10% 확률로 지각
+                        WHEN DBMS_RANDOM.VALUE < 0.2 THEN 'ABS'   -- 10% 확률로 결석 (지각과 결석의 총 비율은 20%)
+                        WHEN DBMS_RANDOM.VALUE < 0.3 THEN 'E_OUT' -- 10% 확률로 조퇴
+                        ELSE 'ATD'                               -- 나머지는 출석
+                    END
+                );
+            END IF;
+            v_date := v_date + 1;
+        END LOOP;
+    END LOOP;
+END;
+/
+
+
+-- 프로시저를 생성하여 USE_DAY_OFF 값을 업데이트합니다.
+CREATE OR REPLACE PROCEDURE update_use_day_off IS
+BEGIN
+    -- 모든 사용자 번호를 반복
+    FOR rec IN (SELECT DISTINCT USER_NO FROM ATTENDANCE) LOOP
+        -- 상태 코드가 'ATD'와 'DAY_OFF'의 수를 카운트
+        UPDATE ATTENDANCE
+        SET USE_DAY_OFF = (
+            SELECT FLOOR(COUNT(*) / 20)
+            FROM ATTENDANCE
+            WHERE USER_NO = rec.USER_NO
+              AND STATE_CODE IN ('ATD', 'DAY_OFF')
+        )
+        WHERE USER_NO = rec.USER_NO;
+    END LOOP;
+END;
+/
+
+-- 프로시저 호출
+BEGIN
+    update_use_day_off;
+END;
+/
+
 
 --------------------------------------------------------------------------------
 --############### 일정표 ###############

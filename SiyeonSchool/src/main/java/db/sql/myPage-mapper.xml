@@ -16,4 +16,19 @@
 	 WHERE USER_ID = ?
 </entry>
 
+<entry key="selectAtd">
+	SELECT 
+	     A.USER_NO,
+	     TO_CHAR(A.DAY, 'YYYY-MM-DD') AS "DAY",
+	     A.STATE_CODE,
+	     B.STATE_NAME,
+	     A.USE_DAY_OFF
+	  FROM ATTENDANCE A
+	  JOIN ATD_STATE B ON (A.STATE_CODE = B.STATE_CODE)
+	 WHERE USER_NO = ?
+	   AND TO_CHAR(A.DAY, 'YYYY-MM') = ?
+	 ORDER
+	    BY 2 ASC
+</entry>
+
 </properties>
