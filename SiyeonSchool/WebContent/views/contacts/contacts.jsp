@@ -7,7 +7,6 @@
 
 <%@ include file="../common/common.jsp" %>
 <%
-	
 	// 현재 카테고리번호 -> JS에서 사용
 	int currentCategoryNo = 0;
 	if(request.getAttribute("categoryNo") != null) {

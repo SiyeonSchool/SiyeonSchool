@@ -1,10 +1,11 @@
-package com.kh.attachment.model.vo;
+package com.kh.common.model.vo;
 
 import java.sql.Date;
 
 public class Attachment {
 	
-	private int fileNo;
+	private String fileNo;
+	private String refBno;
 	private String originName;
 	private String changeName;
 	private String filePath;
@@ -13,23 +14,40 @@ public class Attachment {
 	
 	public Attachment() {}
 
-	public Attachment(int fileNo, String originName, String changeName, String filePath, Date uploadDate,
-			String status) {
+	public Attachment(String fileNo, String refBno, String originName, String changeName, String filePath,
+			Date uploadDate, String status) {
 		super();
 		this.fileNo = fileNo;
+		this.refBno = refBno;
 		this.originName = originName;
 		this.changeName = changeName;
 		this.filePath = filePath;
 		this.uploadDate = uploadDate;
 		this.status = status;
 	}
+	
+	public Attachment(String fileNo, String originName, String changeName, String filePath) {
+		super();
+		this.fileNo = fileNo;
+		this.originName = originName;
+		this.changeName = changeName;
+		this.filePath = filePath;
+	}
 
-	public int getFileNo() {
+	public String getFileNo() {
 		return fileNo;
 	}
 
-	public void setFileNo(int fileNo) {
+	public void setFileNo(String fileNo) {
 		this.fileNo = fileNo;
+	}
+
+	public String getRefBno() {
+		return refBno;
+	}
+
+	public void setRefBno(String refBno) {
+		this.refBno = refBno;
 	}
 
 	public String getOriginName() {
@@ -74,8 +92,9 @@ public class Attachment {
 
 	@Override
 	public String toString() {
-		return "Attachment [fileNo=" + fileNo + ", originName=" + originName + ", changeName=" + changeName
-				+ ", filePath=" + filePath + ", uploadDate=" + uploadDate + ", status=" + status + "]";
+		return "Attachment [fileNo=" + fileNo + ", refBno=" + refBno + ", originName=" + originName + ", changeName="
+				+ changeName + ", filePath=" + filePath + ", uploadDate=" + uploadDate + ", status=" + status + "]";
 	};
-
+	
 }
+

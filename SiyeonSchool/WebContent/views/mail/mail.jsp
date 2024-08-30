@@ -1,9 +1,6 @@
-<%@page import="com.kh.mail.model.vo.Mail"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.kh.common.model.vo.PageInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    
 <%@ include file="../common/common.jsp" %>
 
 <%
@@ -15,170 +12,19 @@
 	int startPage = pi.getStartPage();
 	int endPage = pi.getEndPage();
 	int maxPage = pi.getMaxPage();
-	
-	// 이외
-	String mailbox = (String)request.getAttribute("mb");
-	//a(all: 전체메일함), i(inbox: 받은메일함), s(sent: 보낸메일함), t(temp: 임시보관함), m(myself: 내게쓴메일함), b(bin:휴지통)
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/mail.css">
 </head>
 <body>
 
 	<%@ include file="../common/menubar.jsp" %>
 
-	<!-- ======================================== 사이드바 ======================================== -->
-	<aside>
-
-		<!--  -------------------------- 사이드바 버튼그룹  -------------------------- -->
-		<section class="aside-btn-group">
-
-			<div class="write-btn-group">
-				<div class="btn">메일 쓰기</div>
-				<div class="btn">내게 쓰기</div>
-			</div>
+	<%@ include file="mailSidebar.jsp" %>
 	
-			<div class="remind-btn-group">
-				<div class="remind-btn unread">
-					<span class="icon material-icons-round">markunread</span>
-					<p>안읽음</p>
-				</div>
-				<div class="remind-btn star">
-					<span class="icon material-icons-round yellow-star">star</span>
-					<p>중요<span>(20)</span></p>
-				</div>
-			</div>
-
-		</section>
-
-		<!--  -------------------------- 기본메일함  -------------------------- -->
-		<section class="basic-mailBox">
-
-			<!-- -------------- 기본메일함 타이틀 -------------- -->
-			<div class="category-div">
-				<h2 class="category-title">기본 메일함</h2>
-			</div>
-	
-			<!-- -------------- 기본메일함 목록 -------------- -->
-			<ul>
-	
-				<!-- 전체메일함 -->
-				<% if(mailbox.equals("a")) { %>
-					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=a&cpage=1'">
-				<% } else { %>
-					<li onclick="location.href='<%= contextPath2 %>/mail?mb=a&cpage=1'">
-				<% } %>
-						<div class="mailbox-div">
-							<input type="hidden" name="mailboxNo" value="0">
-							<span class="icon mailboxNo-icon material-symbols-rounded">stacked_email</span>
-							<span class="mailboxName">전체메일함</span>
-						</div>
-					</li>
-		
-				<!-- 받은메일함 -->
-				<% if(mailbox.equals("i")) { %>
-					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=r&cpage=1'">
-				<% } else { %>
-					<li onclick="location.href='<%= contextPath2 %>/mail?mb=i&cpage=1'">
-				<% } %>
-						<div class="mailbox-div">
-							<input type="hidden" name="mailboxNo" value="">
-							<span class="icon mailboxNo-icon material-icons-round">mail_outline</span>
-							<span class="mailboxName">받은메일함</span>
-							<span class="mailCount">(5)</span>
-						</div>
-					</li>
-	
-				<!-- 보낸메일함 -->
-				<% if(mailbox.equals("s")) { %>
-					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=s&cpage=1'">
-				<% } else { %>
-					<li onclick="location.href='<%= contextPath2 %>/mail?mb=s&cpage=1'">
-				<% } %>
-						<div class="mailbox-div">
-							<input type="hidden" name="mailboxNo" value="">
-							<span class="icon mailboxNo-icon material-icons-outlined">send</span>
-							<span class="mailboxName">보낸메일함</span>
-						</div>
-					</li>
-	
-				<!-- 임시보관함 -->
-				<% if(mailbox.equals("t")) { %>
-					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=t&cpage=1'">
-				<% } else { %>
-					<li onclick="location.href='<%= contextPath2 %>/mail?mb=t&cpage=1'">
-				<% } %>
-						<div class="mailbox-div">
-							<input type="hidden" name="mailboxNo" value="">
-							<span class="icon mailboxNo-icon material-icons-outlined">note</span>
-							<span class="mailboxName">임시보관함</span>
-							<span class="mailCount">(0)</span>
-						</div>
-					</li>
-	
-				<!-- 내게쓴메일함 -->
-				<% if(mailbox.equals("m")) { %>
-					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=m&cpage=1'">
-				<% } else { %>
-					<li onclick="location.href='<%= contextPath2 %>/mail?mb=m&cpage=1'">
-				<% } %>
-						<div class="mailbox-div">
-							<input type="hidden" name="mailboxNo" value="">
-							<span class="icon mailboxNo-icon material-icons-outlined">article</span>
-							<span class="mailboxName">내게쓴메일함</span>
-						</div>
-					</li>
-	
-				<!-- 휴지통 -->
-				<% if(mailbox.equals("b")) { %>
-					<li class="active" onclick="location.href='<%= contextPath2 %>/mail?mb=b&cpage=1'">
-				<% } else { %>
-					<li onclick="location.href='<%= contextPath2 %>/mail?mb=b&cpage=1'">
-				<% } %>
-						<div class="mailbox-div">
-							<input type="hidden" name="mailboxNo" value="">
-							<span class="icon mailboxNo-icon material-symbols-outlined">delete</span>
-							<span class="mailboxName">휴지통</span>
-							<div class="emptyBtn">비우기</div>
-						</div>
-					</li>
-	
-			</ul>
-		</section>
-
-
-		<!--  -------------------------- 내메일함  -------------------------- -->
-		<section class="private-mailBox">
-			
-			<!-- -------------- 내메일함 타이틀 -------------- -->
-			<div class="category-div">
-				<h2 class="category-title">내 메일함</h2>
-				<div class="icon add-icon material-symbols-rounded">add</div>
-			</div>
-	
-			<!-- -------------- 내메일함 목록 -------------- -->
-			<ul>
-	
-				<!-- 내메일함 -->
-				<li class>
-					<div class="mailbox-div">
-						<input type="hidden" name="mailboxNo" value="">
-						<span class="icon mailboxNo-icon material-symbols-outlined">folder</span>
-						<span class="mailboxName">내 메일함</span>
-						<span class="mailCount">(5)</span>
-						<span class="icon edit-icon material-symbols-rounded icon edit">edit</span>
-					</div>
-				</li>
-	
-			</ul>
-		</section>
-
-
-	</aside>
 
 	<!-- ======================================== 메인 ======================================== -->
 	<main>
@@ -206,10 +52,29 @@
 			<ul>
 				<li class="mail-column checkbox"><input type="checkbox"></li>
 				<li class="mail-column star">중요</li>
-				<li class="mail-column read">읽음</li>
+				
+				<% if(currentMailbox.equals("i") || currentMailbox.equals("u") || currentMailbox.equals("m")) { // 받은메일함, 안읽은메일, 내게쓴메일함 %>
+					<li class="mail-column read">읽음</li>
+				<% } %>
+
+				<li class="mail-column attachment">첨부</li>
+				
+				<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { // 전체메일함, 중요메일 %>
+					<li class="mail-column mailbox">메일함</li>
+				<% } %>
+				
 				<li class="mail-column sender">보낸사람</li>
 				<li class="mail-column mailTitle">메일 제목</li>
-				<li class="mail-column type">수신구분</li>
+				
+				<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { // 받은메일함, 안읽은메일 %>
+					<li class="mail-column type">수신구분</li>
+				<% } %>
+				
+				<% Set<String> excludedMailboxes = Set.of("a", "i", "u", "im"); // 전체메일함, 받은메일함, 임시보관함, 안읽은메일, 중요메일
+				   if(!excludedMailboxes.contains(currentMailbox)) { %>
+					<div class="mail-column empty-space"></div>
+				<% } %>
+				
 				<li class="mail-column sentDate">보낸시간</li>
 			</ul>
 		</section>
@@ -223,16 +88,19 @@
 					<% for(Mail m : list) { %>
 
 						<!-- 하나의 메일 -->
-						<% if(m.getIsRead().equals("N")){ %>
-							<li class="mail unreadMail">
+						<% if(m.getIsRead() != null && m.getIsRead().equals("N")){ %>
+							<li id="<%= m.getUserId() %>" class="mail unreadMail">
 						<% }else { %>
-							<li class="mail">
+							<li id="<%= m.getMailNo() %>" class="mail">
 						<% } %>
+						
+								<!-- 체크박스 -->
 								<div class="mail-column checkbox jc-center">
 									<input type="checkbox">
 								</div>
 								
-								<div class="mail-column star jc-center">
+								<!-- 중요(별) -->
+								<div class="mail-column star jc-center" onclick="location.href='<%= contextPath %>/mail.update.star?mb=<%= currentMailbox %>&cpage=<%= cPage %>&m=<%= m.getMailNo() %>&s=<%= m.getMailStar() %>'">
 									<% if(m.getMailStar().equals("N")){ %>
 										<span class="icon star material-symbols-rounded">star</span>
 									<% }else { %>
@@ -240,14 +108,34 @@
 									<% } %>
 								</div>
 			
-								<div class="mail-column read jc-center">
-									<% if(m.getIsRead().equals("N")){ %>
-										<span class="icon mail-icon material-icons-round">markunread</span>
-									<% }else { %>
-										<span class="icon mail-icon material-icons-outlined">drafts</span>
+								<!-- 읽음 -->
+								<% if(currentMailbox.equals("i") || currentMailbox.equals("u") || currentMailbox.equals("m")) { %>
+									<div class="mail-column read jc-center" onclick="location.href='<%= contextPath %>/mail.update.read?mb=<%= currentMailbox %>&cpage=<%= cPage %>&m=<%= m.getMailNo() %>&r=<%= m.getIsRead() %>'">
+										<% if(m.getIsRead().equals("N")){ %>
+											<span class="icon mail-icon material-icons-round">markunread</span>
+										<% }else { %>
+											<span class="icon mail-icon material-icons-outlined">drafts</span>
+										<% } %>
+									</div>
+								<% } %>
+
+								<!-- 첨부파일 -->
+								<div class="mail-column attachment jc-center">
+									<% if(m.getAttachmentCount() > 0) { %>
+										<span class="icon material-symbols-outlined">attach_file</span>
+									<% } else { %>
+										<span>-</span>
 									<% } %>
 								</div>
 			
+								<!-- 메일함 -->
+								<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { %>
+									<div class="mail-column mailbox jc-center">
+										<span class="mailboxName"><%= m.getMailboxName() %></span>
+									</div>
+								<% } %>
+			
+								<!-- 보낸사람 -->
 								<div class="mail-column sender">
 									<% if(m.getProfilePath() != null){ %>
 										<img src="<%= contextPath %>/<%= m.getProfilePath() %>" class="profile-img">
@@ -258,14 +146,24 @@
 									<span class="userId">(<%= m.getUserId() %>)</span>
 								</div>
 								
-								<div class="mail-column mailTitle text-left">
+								<!--  메일 제목 -->
+								<div class="mail-column mailTitle" onclick="location.href='<%= contextPath %>/mail.detail?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>'">
 									<span><%= m.getMailTitle() %></span>
 								</div>
 			
-								<div class="mail-column type jc-center">
-									<span><%= m.getReceiverType() %></span>
-								</div>
+								<!-- 수신구분 -->
+								<% if(currentMailbox.equals("i") || currentMailbox.equals("u")) { %>
+									<div class="mail-column type jc-center">
+										<span><%= m.getReceiverType() %></span>
+									</div>
+								<% } %>
 			
+								<!-- 여백 -->
+								<% if(!excludedMailboxes.contains(currentMailbox)) { %>
+									<div class="mail-column empty-space"></div>
+								<% } %>
+			
+								<!-- 보낸시간 -->
 								<div class="mail-column sentDate jc-center">
 									<span><%= m.getSendDate() %></span>
 								</div>
@@ -285,13 +183,13 @@
 				<% if(cPage != 1) { %>
 					<!-- 왼쪽 끝 페이지로 -->
 					<% if(cPage == startPage) { %>
-						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= startPage - 10 %>'">first_page</span>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?mb=<%= currentMailbox %>&cpage=<%= startPage - 10 %>'">first_page</span>
 					<% } else { %>
-						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= startPage %>'">first_page</span>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?mb=<%= currentMailbox %>&cpage=<%= startPage %>'">first_page</span>
 					<% } %>
 
 					<!-- 왼쪽 바로 이전 페이지로 -->
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= cPage -1 %>'">navigate_before</span>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?mb=<%= currentMailbox %>&cpage=<%= cPage -1 %>'">navigate_before</span>
 				
 				<% } else { %> <!-- 첫페이지면 버튼 숨기기-->
 					<!-- 왼쪽 끝 페이지로 -->
@@ -311,7 +209,7 @@
 					<% if(p == cPage) { %>
 						<span class="page currentPage"><%= p %></span>
 					<% } else { %>
-						<span class="page" onclick="location.href='<%= contextPath %>/mail?cpage=<%= p %>'"><%= p %></span>
+						<span class="page" onclick="location.href='<%= contextPath %>/mail?mb=<%= currentMailbox %>&cpage=<%= p %>'"><%= p %></span>
 					<% } %>
 				<% } %>
 				
@@ -319,17 +217,17 @@
 				<!-- ------- 다음 페이지로 ------- -->
 				<% if(cPage != maxPage) { %>
 					<!-- 오른쪽 바로 다음 페이지로 -->
-					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= cPage + 1 %>'">navigate_next</span>
+					<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?mb=<%= currentMailbox %>&cpage=<%= cPage + 1 %>'">navigate_next</span>
 					
 					<!-- 오른쪽 끝 페이지로 -->
 					<% if(cPage == endPage) { %>
 						<% if(endPage + 10 < maxPage) { %>
-							<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= endPage + 10 %>'">last_page</span>
+							<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?mb=<%= currentMailbox %>&cpage=<%= endPage + 10 %>'">last_page</span>
 						<% } else { %>
-							<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= maxPage %>'">last_page</span>
+							<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?mb=<%= currentMailbox %>&cpage=<%= maxPage %>'">last_page</span>
 						<% } %>
 					<% } else { %>
-						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?cpage=<%= endPage %>'">last_page</span>
+						<span class="icon material-icons-outlined" onclick="location.href='<%= contextPath %>/mail?mb=<%= currentMailbox %>&cpage=<%= endPage %>'">last_page</span>
 					<% } %>
 
 				<% } else { %>  <!-- 마지막 페이지면 버튼 숨기기-->
