@@ -7,6 +7,7 @@ public class Mail {
 	private String mailStar;
 	private String isRead;
 	private int attachmentCount; // 첨부파일개수
+	private int userNo;
 	private String userName;
 	private String userId;
 	private String profilePath;
@@ -19,15 +20,16 @@ public class Mail {
 	public Mail() {}
 
 	// 전체필드
-	public Mail(String mailNo, String mailboxName, String mailStar, String isRead, int attachmentCount, String userName,
-			String userId, String profilePath, String mailTitle, String mailContent, String receiverType, String isSent,
-			String sendDate) {
+	public Mail(String mailNo, String mailboxName, String mailStar, String isRead, int attachmentCount, int userNo,
+			String userName, String userId, String profilePath, String mailTitle, String mailContent,
+			String receiverType, String isSent, String sendDate) {
 		super();
 		this.mailNo = mailNo;
 		this.mailboxName = mailboxName;
 		this.mailStar = mailStar;
 		this.isRead = isRead;
 		this.attachmentCount = attachmentCount;
+		this.userNo = userNo;
 		this.userName = userName;
 		this.userId = userId;
 		this.profilePath = profilePath;
@@ -109,6 +111,14 @@ public class Mail {
 		this.attachmentCount = attachmentCount;
 	}
 
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
 	public String getUserName() {
 		return userName;
 	}
@@ -176,9 +186,10 @@ public class Mail {
 	@Override
 	public String toString() {
 		return "Mail [mailNo=" + mailNo + ", mailboxName=" + mailboxName + ", mailStar=" + mailStar + ", isRead="
-				+ isRead + ", userName=" + userName + ", userId=" + userId + ", profilePath=" + profilePath
-				+ ", mailTitle=" + mailTitle + ", mailContent=" + mailContent + ", receiverType=" + receiverType
-				+ ", isSent=" + isSent + ", sendDate=" + sendDate + "]";
+				+ isRead + ", attachmentCount=" + attachmentCount + ", userNo=" + userNo + ", userName=" + userName
+				+ ", userId=" + userId + ", profilePath=" + profilePath + ", mailTitle=" + mailTitle + ", mailContent="
+				+ mailContent + ", receiverType=" + receiverType + ", isSent=" + isSent + ", sendDate=" + sendDate
+				+ "]";
 	}
 
 }

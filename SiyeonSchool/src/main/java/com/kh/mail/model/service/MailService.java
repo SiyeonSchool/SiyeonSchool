@@ -198,6 +198,28 @@ public class MailService {
 		}
 		close(conn);
 	}
+	
+	// ===================== 메일 보내기 =============================
+	
+	public int insertMail(Mail m, Attachment at) {
+		Connection conn = getConnection();
+		
+		int result1 = new MailDao().insertMail(conn, m);
+		int result2 = 1;
+		
+		if(at != null) {
+			result2 = new MailDao().insertAttachment(conn, at);
+		}
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result1 * result2;
+	}
 
 
 

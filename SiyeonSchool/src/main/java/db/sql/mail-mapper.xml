@@ -487,4 +487,55 @@
 		   AND MAIL_NO = ?
 	</entry>
 	
+	<!-- ===================== 메일 보내기 ============================= -->
+	
+	<!-- 메일 추가 -->
+	<entry key="insertMail">
+		INSERT
+	      INTO MAIL
+		     (
+		       MAIL_NO
+		     , SENDER
+		     , MAIL_TITLE
+		     , MAIL_CONTENT
+		     , IS_SENT
+		     , SEND_DATE
+		     )
+		     VALUES
+		     (
+		       'M' || SEQ_MAILNO.NEXTVAL
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , SYSDATE
+		     )
+	</entry>
+	
+	<!-- 메일 첨부파일 추가-->
+	<entry key="insertAttachment">
+		INSERT
+		  INTO ATTACHMENT
+		  (
+		    FILE_NO
+		  , REF_BNO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+		  , FILE_PATH
+		  , UPLOAD_DATE
+		  , STATUS
+		  )
+		  VALUES
+		  (
+		    'A' || SEQ_FILENO.NEXTVAL
+		  , 'M' || SEQ_MAILNO.CURRVAL
+		  , ?
+		  , ?
+		  , ?
+		  , SYSDATE
+		  , 'Y'
+		  )
+	</entry>
+	
+	
 </properties>
