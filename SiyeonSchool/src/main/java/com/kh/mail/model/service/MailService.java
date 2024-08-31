@@ -11,6 +11,7 @@ import com.kh.common.model.vo.PageInfo;
 import com.kh.mail.model.dao.MailDao;
 import com.kh.mail.model.vo.Mail;
 import com.kh.mail.model.vo.MailReceiver;
+import com.kh.mail.model.vo.MailWriteSearchResult;
 import com.kh.mail.model.vo.Mailbox;
 
 public class MailService {
@@ -219,6 +220,19 @@ public class MailService {
 		close(conn);
 		
 		return result1 * result2;
+	}
+
+	// ===================== 수신인 검색관련 =============================
+	
+	public ArrayList<MailWriteSearchResult> selectsearchResultList(int ownerNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<MailWriteSearchResult> list = new MailDao().selectUserList(conn);
+		list.addAll(new MailDao().selectPublicContactsList(conn));
+		list.addAll(new MailDao().selectPrivateContactsList(conn, ownerNo));
+		
+		close(conn);
+		return list;
 	}
 
 

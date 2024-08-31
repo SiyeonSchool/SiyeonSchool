@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.mail.model.service.MailService;
+import com.kh.mail.model.vo.MailWriteSearchResult;
 import com.kh.mail.model.vo.Mailbox;
 import com.kh.user.model.vo.User;
 
@@ -63,6 +64,10 @@ public class MailWriteFormController extends HttpServlet {
 		request.setAttribute("allMailCount", allMailCount);  		    // 전체메일개수
 		request.setAttribute("unreadMailCount", unreadMailCount);  		// 안읽은메일개수
 		request.setAttribute("importantMailCount", importantMailCount); // 중요메일개수
+		
+		// ===================== 수신인 검색에 필요한 데이터 =====================
+		ArrayList<MailWriteSearchResult> searchResultList = new MailService().selectsearchResultList(ownerNo);
+		request.setAttribute("searchResultList", searchResultList); 	// 모든사용자 & 모든주소록목록
 		
 		request.getRequestDispatcher("views/mail/mailWrtieForm.jsp").forward(request, response);
 

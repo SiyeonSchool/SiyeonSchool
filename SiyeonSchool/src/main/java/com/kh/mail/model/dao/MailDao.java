@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -16,6 +17,7 @@ import com.kh.common.model.vo.Attachment;
 import com.kh.common.model.vo.PageInfo;
 import com.kh.mail.model.vo.Mail;
 import com.kh.mail.model.vo.MailReceiver;
+import com.kh.mail.model.vo.MailWriteSearchResult;
 import com.kh.mail.model.vo.Mailbox;
 
 public class MailDao {
@@ -797,6 +799,92 @@ public class MailDao {
 		}
 		
 		return result;
+	}
+
+	// ===================== 수신인 검색관련 =============================
+	
+	public ArrayList<MailWriteSearchResult> selectUserList(Connection conn) {
+		ArrayList<MailWriteSearchResult> list = new ArrayList<MailWriteSearchResult>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectUserList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailWriteSearchResult(rset.getInt("USER_NO"),
+												   rset.getString("USER_NAME"),
+												   rset.getString("USER_ID"),
+												   true));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<MailWriteSearchResult> selectPublicContactsList(Connection conn) {
+		ArrayList<MailWriteSearchResult> list = new ArrayList<MailWriteSearchResult>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPublicContactsList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailWriteSearchResult(rset.getInt("CONTACTS_NO"),
+												   rset.getString("CONTACTS_NAME"),
+												   false));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<MailWriteSearchResult> selectPrivateContactsList(Connection conn, int ownerNo) {
+		ArrayList<MailWriteSearchResult> list = new ArrayList<MailWriteSearchResult>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPrivateContactsList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailWriteSearchResult(rset.getInt("CONTACTS_NO"),
+												   rset.getString("CONTACTS_NAME"),
+												   false));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 	
 }

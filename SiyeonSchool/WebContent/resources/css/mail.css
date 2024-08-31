@@ -1088,7 +1088,6 @@ main.mail-write form .mail-write-header table tr.mailtitle .td-right input{
   border: none;
   border-bottom: 1px solid var(--lightGrey);
   outline: none;
-  font-size: 16px;
 }
 
 
@@ -1117,6 +1116,11 @@ main.mail-write form .mail-write-header table tr.receiver .td-right ul li>div{
 main.mail-write form .mail-write-header table tr.receiver .td-left{
   vertical-align: top;
   padding-top: 5px;
+}
+
+/* 받는사람 - 오른쪽칸 전체 div */
+main.mail-write form .mail-write-header table tr.receiver .td-right{
+  position: relative;
 }
 
 /* ------------- 수신인 검색 ------------- */
@@ -1152,6 +1156,48 @@ main.mail-write form .mail-write-header table tr.receiver .td-right .search .ico
   bottom: 0;
   margin: auto;
 }
+
+/* ------------- 수신인 검색결과 ------------- */
+/* 검색결과 - div */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult{
+  display: none;
+  background-color: #fff;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  z-index: 1;
+  border: 1px solid var(--lightGrey);
+  border-radius: 3px;
+  width: 230px;
+  box-shadow: 3px 3px 5px var(--lightGrey);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* 검색결과 - 각각의 줄 */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li{
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+/* 검색결과 - 각각의 줄 - 후버시 */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li:hover{
+  background-color: var(--mail-hover-color);
+  font-weight: bold;
+}
+
+/* 검색결과 - 마지막줄 */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li:last-child{
+  border-bottom: none;
+}
+
+/* 검색결과 - 각각의 줄 */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li .userId{
+  margin-left: 10px;
+  color: var(--lightGrey);
+  font-size: 12px;
+}
+
 
 /* ------------- 수신인 구분 ------------- */
 main.mail-write form .mail-write-header table tr.receiver .td-right .receiverType{

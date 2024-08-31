@@ -537,5 +537,44 @@
 		  )
 	</entry>
 	
+	<!-- ===================== 수신인 검색관련 ============================= -->
+	
+	<!-- 모든사용자 목록조회 -->
+	<entry key="selectUserList">
+		SELECT
+		       USER_NO
+		     , USER_NAME
+		     , USER_ID
+		  FROM USERS
+		 WHERE STATUS = 'Y'
+		 ORDER
+		    BY USER_NAME, USER_ID
+	</entry>
+	
+	<!-- 공유주소록 목록조회 -->
+	<entry key="selectPublicContactsList">
+		SELECT
+		       CONTACTS_NO
+		     , CONTACTS_NAME
+	   	  FROM CONTACTS
+		 WHERE STATUS = 'Y'
+		   AND CONTACTS_TYPE = 'S'
+		 ORDER
+		    BY CONTACTS_NAME, CONTACTS_NO
+	</entry>
+	
+	<!-- 개인주소록 목록조회 -->
+	<entry key="selectPrivateContactsList">
+		SELECT 
+		       CONTACTS_NO
+		     , CONTACTS_NAME
+		  FROM CONTACTS
+		 WHERE STATUS ='Y'
+		   AND CONTACTS_TYPE = 'P'
+		   AND OWNER_NO = ?
+		 ORDER
+		    BY CONTACTS_NAME, CONTACTS_NO
+	</entry>
+	
 	
 </properties>

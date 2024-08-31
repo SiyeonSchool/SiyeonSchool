@@ -1,7 +1,15 @@
+<%@page import="com.kh.mail.model.vo.MailWriteSearchResult"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
 <%@ include file="../common/common.jsp" %>
+
+<%
+	ArrayList<MailWriteSearchResult> searchResultList = (ArrayList<MailWriteSearchResult>)request.getAttribute("searchResultList");
+	// 수신인검색에 사용될 모든사용자 & 모든주소록목록
+	// 1. 사용자 - 사용자번호, 사용자이름, 사용자아이디
+	// 2. 주소록 - 주소록번호, 주소록이름
+%>
 
 <!DOCTYPE html>
 <html>
@@ -32,7 +40,7 @@
 			});
 		      
 			//저장버튼 클릭시 form 전송
-			$("#save").click(function(){
+			$("#send").click(function(){
 			    oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 			    $("#frm").submit();
 			});
@@ -57,7 +65,7 @@
 					<h2>메일쓰기</h2>
 
 					<div class="email-btns">
-						<input type="button" class="btn" id="save" value="보내기"/>
+						<input type="button" class="btn" id="send" value="보내기"/>
 						<input type="button" class="btn" value="임시저장">
 						<input type="button" class="btn" value="취소"/>
 					</div>
@@ -77,7 +85,7 @@
 						<td class="td-right">
 
 							<div class="search">
-								<input class="search-input" type="text" name="keyword" placeholder="받는사람을 입력해주세요.">
+								<input id="searchReceiver" class="search-input" type="text" name="keyword" placeholder="검색어를 입력해주세요.">
 								<span class="icon material-symbols-outlined icon">search</span>
 
 								<div class="receiverType">
@@ -90,6 +98,21 @@
 									<input type="radio" id="rTypeS" name="rType" value="s">
 									<label for="rTypeS">비밀</label>
 								</div>
+							</div>
+
+							<div id="searchResult">
+								<ul>
+									<% for(MailWriteSearchResult sr : searchResultList) { %>
+										<li class="searchResult-data">
+											<input type="hidden" class="pkNo" value="<%= sr.getPkNo() %>">
+											<span class="name"><%= sr.getName() %></span>
+											<% if(sr.isUser()) { %>
+												<span class="userId">(<%= sr.getUserId() %>)</span>
+											<% } %>
+											<input type="hidden" class="isUser" value="<%= sr.isUser() %>">
+										</li>
+									<% } %>
+								</ul>
 							</div>
 
 							<ul class="list-header">
@@ -119,85 +142,6 @@
 										<span class="icon material-symbols-rounded">close</span>
 									</div>
 								</li>
-								<li>
-									<div class="rCheckbox">
-										<input type="checkbox">
-									</div>
-									<div class="rUserName">
-										<span class="userName">장원영</span>
-										<span class="userId">(wyjang)</span>
-									</div>
-									<div class="rType">수신</div>
-									<div class="rDelete">
-										<span class="icon material-symbols-rounded">close</span>
-									</div>
-								</li>
-								<li>
-									<div class="rCheckbox">
-										<input type="checkbox">
-									</div>
-									<div class="rUserName">
-										<span class="userName">장원영</span>
-										<span class="userId">(wyjang)</span>
-									</div>
-									<div class="rType">수신</div>
-									<div class="rDelete">
-										<span class="icon material-symbols-rounded">close</span>
-									</div>
-								</li>
-								<li>
-									<div class="rCheckbox">
-										<input type="checkbox">
-									</div>
-									<div class="rUserName">
-										<span class="userName">장원영</span>
-										<span class="userId">(wyjang)</span>
-									</div>
-									<div class="rType">수신</div>
-									<div class="rDelete">
-										<span class="icon material-symbols-rounded">close</span>
-									</div>
-								</li>
-								<li>
-									<div class="rCheckbox">
-										<input type="checkbox">
-									</div>
-									<div class="rUserName">
-										<span class="userName">장원영</span>
-										<span class="userId">(wyjang)</span>
-									</div>
-									<div class="rType">수신</div>
-									<div class="rDelete">
-										<span class="icon material-symbols-rounded">close</span>
-									</div>
-								</li>
-								<li>
-									<div class="rCheckbox">
-										<input type="checkbox">
-									</div>
-									<div class="rUserName">
-										<span class="userName">장원영</span>
-										<span class="userId">(wyjang)</span>
-									</div>
-									<div class="rType">수신</div>
-									<div class="rDelete">
-										<span class="icon material-symbols-rounded">close</span>
-									</div>
-								</li>
-								<li>
-									<div class="rCheckbox">
-										<input type="checkbox">
-									</div>
-									<div class="rUserName">
-										<span class="userName">장원영</span>
-										<span class="userId">(wyjang)</span>
-									</div>
-									<div class="rType">수신</div>
-									<div class="rDelete">
-										<span class="icon material-symbols-rounded">close</span>
-									</div>
-								</li>
-								
 							</ul>
 
 							<p class="listSummary">총 10명
