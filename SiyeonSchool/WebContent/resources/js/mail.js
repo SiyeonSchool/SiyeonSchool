@@ -61,7 +61,7 @@ $searchReceiverInput.on('keyup', function() {
 
     // 각각의 데이터를 순회하면서 키워드를 포함한 데이터만 보여주기
     let matchCount = 0;
-    $("#searchResult ul .searchResult-data").each(function() {
+    $searchResultLi.each(function() {
         const contentsToFind = $(this).find(".name").text().toLowerCase();
         if (contentsToFind.includes(keyword)) {
             $(this).show();
@@ -150,6 +150,7 @@ async function addToReceiverList(el){
         const userNo = $(el).find('.pkNo').val();
         const userName = $(el).find('.name').text();
         const userId = $(el).find('.userId').text();
+        isUserNoDuplicated(userNo);
         newHtmlText = getNewHtmlTextForReceiverList(userNo, userName, userId); // 추가할 htmlText 만들기
 
     }else { // 주소록을 선택한 경우
@@ -157,6 +158,7 @@ async function addToReceiverList(el){
         const userNoList = await selectContactsMemberList(contactsNo); // 주소록구성원 목록 (DB로 부터 조회)
         $(userNoList).each(function(){ // 주소록구성원 각각을 돌면서...
             const userNo = this.receiverNo;
+            isUserNoDuplicated(userNo);
             const userName = this.receiverName;
             const userId = this.receiverId;
             newHtmlText += getNewHtmlTextForReceiverList(userNo, userName, userId); // 추가할 htmlText 만들기
@@ -164,6 +166,15 @@ async function addToReceiverList(el){
     }
 
     displaySelectedReceiver(newHtmlText); // 화면에 뿌려주기
+}
+
+// 수신인리스트에 추가전 중복여부체크 ################### 작업중 ###################
+function isUserNoDuplicated(newUserNo){
+    console.log("isUserNoDuplicated() 실행됨.");
+    $("main.mail-write .receiver .list-contents li").each(function(){
+        const existingUserNo = $(this).find(".userNo").text();
+        console.log("existingUserNo:", existingUserNo, "newUserNo:", newUserNo);
+    })
 }
 
 // 수신인리스트에 추가할 htmlText 만들기
