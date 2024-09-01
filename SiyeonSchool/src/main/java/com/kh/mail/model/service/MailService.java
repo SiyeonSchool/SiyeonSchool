@@ -202,24 +202,44 @@ public class MailService {
 	
 	// ===================== 메일 보내기 =============================
 	
-	public int insertMail(Mail m, Attachment at) {
+	public int insertMail(Mail m, Attachment at, ArrayList<MailReceiver> mrList, int loginUserNo) {
 		Connection conn = getConnection();
 		
-		int result1 = new MailDao().insertMail(conn, m);
-		int result2 = 1;
+		// 메일 DB에 추가
+		int mailResult = new MailDao().insertMail(conn, m);
 		
+		// 첨부파일 DB에 추가
+		int attachmentResult = 1;
 		if(at != null) {
-			result2 = new MailDao().insertAttachment(conn, at);
+			attachmentResult = new MailDao().insertAttachment(conn, at);
 		}
 		
-		if(result1 > 0 && result2 > 0) {
+		// 메일수신인 DB에 추가
+		int receiverResult = 1;
+		for (MailReceiver mr: mrList) {
+			receiverResult *= new MailDao().insertMailReceiver(conn, mr);
+		}
+		
+		// 메일소유자 DB에 추가
+		int ownerResult = 1;
+		
+		String sentMailboxNo = new MailDao().selectSentMailboxNo(conn, loginUserNo); // 발신인 -> 보낸메일함
+		ownerResult *= new MailDao().insertMailOwner(conn, loginUserNo, sentMailboxNo);
+		
+		for (MailReceiver mr: mrList) {
+			int receiverNo = mr.getReceiverNo();
+			String inboxNo =  new MailDao().selectInboxNo(conn, receiverNo); // 수신인 -> 받은메일함
+			ownerResult *= new MailDao().insertMailOwner(conn, receiverNo, inboxNo);
+		}
+		
+		if(mailResult > 0 && attachmentResult > 0 && receiverResult > 0 && ownerResult > 0) {
 			commit(conn);
 		} else {
 			rollback(conn);
 		}
 		close(conn);
 		
-		return result1 * result2;
+		return mailResult * attachmentResult * receiverResult * ownerResult;
 	}
 
 	// ===================== 수신인 검색관련 =============================
@@ -235,11 +255,12 @@ public class MailService {
 		return list;
 	}
 
-
-
-
-
-
+	public ArrayList<MailReceiver> selectContactsMemberList(int contactsNo) {
+		Connection conn = getConnection();
+		ArrayList<MailReceiver> list = new MailDao().selectContactsMemberList(conn, contactsNo);
+		close(conn);
+		return list;
+	}
 
 
 }

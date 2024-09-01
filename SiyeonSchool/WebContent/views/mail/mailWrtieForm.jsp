@@ -42,6 +42,7 @@
 			//저장버튼 클릭시 form 전송
 			$("#send").click(function(){
 			    oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+				setReceiverCheckboxesChecked();
 			    $("#frm").submit();
 			});
 		});
@@ -88,14 +89,14 @@
 								<input id="searchReceiver" class="search-input" type="text" name="keyword" placeholder="검색어를 입력해주세요.">
 								<span class="icon material-symbols-outlined icon">search</span>
 
-								<div class="receiverType">
-									<input type="radio" id="rTypeR" name="rType" value="r" checked>
+								<div id="receiverType">
+									<input type="radio" id="rTypeR" name="receiverType" value="r" checked>
 									<label for="rTypeR">수신</label>
 									
-									<input type="radio" id="rTypeC" name="rType" value="c">
+									<input type="radio" id="rTypeC" name="receiverType" value="c">
 									<label for="rTypeC">참조</label>
 									
-									<input type="radio" id="rTypeS" name="rType" value="s">
+									<input type="radio" id="rTypeS" name="receiverType" value="s">
 									<label for="rTypeS">비밀</label>
 								</div>
 							</div>
@@ -106,10 +107,10 @@
 										<li class="searchResult-data">
 											<input type="hidden" class="pkNo" value="<%= sr.getPkNo() %>">
 											<span class="name"><%= sr.getName() %></span>
+											<input type="hidden" class="isUser" value="<%= sr.isUser() %>">
 											<% if(sr.isUser()) { %>
 												<span class="userId">(<%= sr.getUserId() %>)</span>
 											<% } %>
-											<input type="hidden" class="isUser" value="<%= sr.isUser() %>">
 										</li>
 									<% } %>
 								</ul>
@@ -128,21 +129,8 @@
 								</li>
 							</ul>
 
-							<ul class="list-contents">
-								<li>
-									<div class="rCheckbox">
-										<input type="checkbox">
-									</div>
-									<div class="rUserName">
-										<span class="userName">장원영</span>
-										<span class="userId">(wyjang)</span>
-									</div>
-									<div class="rType">수신</div>
-									<div class="rDelete">
-										<span class="icon material-symbols-rounded">close</span>
-									</div>
-								</li>
-							</ul>
+							<!-- 수신인 동적으로 추가될 공간 -->
+							<ul class="list-contents"></ul>
 
 							<p class="listSummary">총 10명
 								<span>( 수신 8, 참조 1, 비밀 1 )</span>

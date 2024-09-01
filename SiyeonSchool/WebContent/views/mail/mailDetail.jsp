@@ -158,7 +158,7 @@
 					<tr class="attachment">
 						<td class="td-left">첨부파일</td>
 						<% if(attList.size() == 0) { %>
-							<td class="td-right">(첨부파일이 없습니다.)</td>
+							<td class="td-right">-</td>
 						<% }else {%>
 							<td class="td-right">
 								<% for(Attachment at : attList) { %>

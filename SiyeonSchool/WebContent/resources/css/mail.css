@@ -1191,6 +1191,12 @@ main.mail-write form .mail-write-header table tr.receiver .td-right #searchResul
   border-bottom: none;
 }
 
+/* 검색결과 - 하이라이트시 (키보드로 이동시 사용됨) */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li.highlight{
+  background-color: var(--mail-hover-color);
+  font-weight: bold;
+}
+
 /* 검색결과 - 각각의 줄 */
 main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li .userId{
   margin-left: 10px;
@@ -1200,7 +1206,7 @@ main.mail-write form .mail-write-header table tr.receiver .td-right #searchResul
 
 
 /* ------------- 수신인 구분 ------------- */
-main.mail-write form .mail-write-header table tr.receiver .td-right .receiverType{
+main.mail-write form .mail-write-header table tr.receiver .td-right #receiverType{
   height: 30px;
   display: flex;
   align-items: center;
@@ -1211,11 +1217,11 @@ main.mail-write form .mail-write-header table tr.receiver .td-right .receiverTyp
   margin: auto;
 }
 
-main.mail-write form .mail-write-header table tr.receiver .td-right .receiverType input{
+main.mail-write form .mail-write-header table tr.receiver .td-right #receiverType input{
   cursor: pointer;
 }
 
-main.mail-write form .mail-write-header table tr.receiver .td-right .receiverType label{
+main.mail-write form .mail-write-header table tr.receiver .td-right #receiverType label{
   cursor: pointer;
   margin-right: 5px;
 }

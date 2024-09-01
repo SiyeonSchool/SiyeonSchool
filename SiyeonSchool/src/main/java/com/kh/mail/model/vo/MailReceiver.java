@@ -22,6 +22,14 @@ public class MailReceiver {
 		this.readTime = readTime;
 	}
 
+	// 주소록구성원 DB에서 조회후 결과 받아올대 사용됨.
+	public MailReceiver(int receiverNo, String receiverName, String receiverId) {
+		super();
+		this.receiverNo = receiverNo;
+		this.receiverName = receiverName;
+		this.receiverId = receiverId;
+	}
+
 	public String getMailNo() {
 		return mailNo;
 	}

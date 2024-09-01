@@ -59,7 +59,7 @@
 	
 
 
-	<!-- ===================== 메일 목록 조회 ============================= -->
+	<!-- ===================== 메일목록 조회 ============================= -->
 
 	<!-- 전체메일함 메일목록 조회 -->
 	<entry key="selectAllMailList">
@@ -537,6 +537,66 @@
 		  )
 	</entry>
 	
+	<!-- 메일수신인 추가 --> 
+	<entry key="insertMailReceiver">
+		INSERT
+		  INTO MAIL_RECEIVER
+		  (
+		    MAIL_NO
+		  , RECEIVER_NO
+		  , RECEIVER_TYPE
+		  , READ_TIME
+		  )
+		  VALUES
+		  (
+		    'M' || SEQ_MAILNO.CURRVAL
+		  , ?
+		  , ?
+		  , NULL
+		  )
+	</entry>
+	
+	<!-- 메일소유자 추가 --> 
+	<entry key="insertMailOwner">
+		INSERT
+		  INTO MAIL_OWNER
+		  (
+		    OWNER_NO
+		  , MAIL_NO
+		  , MAILBOX_NO
+		  , MAIL_STAR
+		  , MAIL_STATUS
+		  )
+		  VALUES
+		  (
+		    ?
+		  , 'M' || SEQ_MAILNO.CURRVAL
+		  , ?
+		  , 'N'
+		  , 'Y'
+		  )
+	</entry>
+	
+	
+	<!-- ===================== 메일함 번호조회 ============================= -->
+	
+	<!-- 보낸메일함 번호조회 -->
+	<entry key="selectSentMailboxNo">
+		SELECT MAILBOX_NO
+		  FROM MAILBOX
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NAME = '보낸메일함'
+	</entry>
+	
+	<!-- 받은메일함 번호조회 -->
+	<entry key="selectInboxNo">
+		SELECT MAILBOX_NO
+		  FROM MAILBOX
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NAME = '받은메일함'
+	</entry>
+
+	
 	<!-- ===================== 수신인 검색관련 ============================= -->
 	
 	<!-- 모든사용자 목록조회 -->
@@ -574,6 +634,19 @@
 		   AND OWNER_NO = ?
 		 ORDER
 		    BY CONTACTS_NAME, CONTACTS_NO
+	</entry>
+	
+	<!-- 주소록구성원 조회 -->
+	<entry key="selectContactsMemberList">
+		SELECT 
+		       CM.USER_NO
+		     , U.USER_NAME
+		     , U.USER_ID
+		  FROM CONTACTS_MEMBER CM
+		  JOIN USERS U ON (CM.USER_NO = U.USER_NO)
+		 WHERE CM.CONTACTS_NO = ?
+		 ORDER
+		    BY U.USER_NAME ASC
 	</entry>
 	
 	

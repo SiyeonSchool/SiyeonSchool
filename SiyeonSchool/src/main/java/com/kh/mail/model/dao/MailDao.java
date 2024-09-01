@@ -801,6 +801,105 @@ public class MailDao {
 		return result;
 	}
 
+	public int insertMailReceiver(Connection conn, MailReceiver mr) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertMailReceiver");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, mr.getReceiverNo());
+			pstmt.setString(2, mr.getReceiverType());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public String selectSentMailboxNo(Connection conn, int ownerNo) {
+		String mailboxNo = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectSentMailboxNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mailboxNo = rset.getString("MAILBOX_NO");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mailboxNo;
+	}
+
+
+	public String selectInboxNo(Connection conn, int ownerNo) {
+		String mailboxNo = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectInboxNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mailboxNo = rset.getString("MAILBOX_NO");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mailboxNo;
+	}
+
+	
+	public int insertMailOwner(Connection conn, int ownerNo, String mailboxNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertMailOwner");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			pstmt.setString(2, mailboxNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	
 	// ===================== 수신인 검색관련 =============================
 	
 	public ArrayList<MailWriteSearchResult> selectUserList(Connection conn) {
@@ -886,5 +985,36 @@ public class MailDao {
 		
 		return list;
 	}
+
+	public ArrayList<MailReceiver> selectContactsMemberList(Connection conn, int contactsNo) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectContactsMemberList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, contactsNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getInt("USER_NO"),
+										  rset.getString("USER_NAME"),
+										  rset.getString("USER_ID")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+
 	
 }
