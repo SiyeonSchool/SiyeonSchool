@@ -99,6 +99,12 @@
 									<input type="radio" id="rTypeS" name="receiverType" value="s">
 									<label for="rTypeS">비밀</label>
 								</div>
+
+								<!-- 
+								<div class="changeType">
+									<button type="button" class="btn" onclick="changeReceiverType()">수신구분변경</button>
+								</div>
+								-->
 							</div>
 
 							<div id="searchResult">
@@ -119,10 +125,10 @@
 							<ul class="list-header">
 								<li>
 									<div class="rCheckbox">
-										<input type="checkbox">
+										<input class="checkAll" type="checkbox">
 									</div>
 									<div class="rUserName">받는사람</div>
-									<div class="rType">구분</div>
+									<div class="rType">수신구분</div>
 									<div class="rDelete">
 										<span class="icon material-symbols-rounded">close</span>
 									</div>
@@ -132,9 +138,12 @@
 							<!-- 수신인 동적으로 추가될 공간 -->
 							<ul class="list-contents"></ul>
 
-							<p class="listSummary">총 10명
-								<span>( 수신 8, 참조 1, 비밀 1 )</span>
-							</p>
+
+
+							<div class="listSummary">
+								<p>총 <span class="total">0</span>명</p>
+								<p class="detailCount">( 수신 <span class="r">0</span>, 참조 <span class="c">0</span>, 비밀 <span class="s">0</span> )</p>
+							</div>
 
 						</td>
 					</tr>

@@ -1044,7 +1044,6 @@ main.mail-write form .mail-write-header .title .email-btns .btn {
   background-color: #fff;
   padding: 8px;
   cursor: pointer;
-  /* width: 50px; */
   margin-left: 5px;
 }
 
@@ -1210,11 +1209,7 @@ main.mail-write form .mail-write-header table tr.receiver .td-right #receiverTyp
   height: 30px;
   display: flex;
   align-items: center;
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
+  margin-left: 5px;
 }
 
 main.mail-write form .mail-write-header table tr.receiver .td-right #receiverType input{
@@ -1226,6 +1221,30 @@ main.mail-write form .mail-write-header table tr.receiver .td-right #receiverTyp
   margin-right: 5px;
 }
 
+/* 수신구분변경 버튼 - 바로 밖 div */
+main.mail-write form .mail-write-header table tr.receiver .td-right .changeType{
+  position: absolute;
+  right: 0;
+  top:0;
+  bottom:0;
+  margin: auto;
+}
+
+/* 수신구분변경 버튼 - 실제버튼*/
+main.mail-write form .mail-write-header table tr.receiver .td-right .changeType .btn{
+  border: 1px solid var(--lightGrey);
+  border-radius: 3px;
+  background-color: #fff;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* 수신구분변경 버튼 - 후버시*/
+main.mail-write form .mail-write-header table tr.receiver .td-right .changeType .btn:hover{
+  background-color: var(--mail-active-color);
+  font-weight: bold;
+}
 
 /* ------------- 수신인 리스트 헤더 ------------- */
 main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-header{
@@ -1298,11 +1317,13 @@ main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-cont
 main.mail-write form .mail-write-header table tr.receiver .td-right .listSummary{
   line-height: 30px;
   font-size: 14px;
+  display: flex;
   margin-left: 10px;
 }
 
 /* 수신인 요약 - 분류별로 */
-main.mail-write form .mail-write-header table tr.receiver .td-right .listSummary span{
+main.mail-write form .mail-write-header table tr.receiver .td-right .listSummary .detailCount{
+  margin-left: 5px;
   font-size: 13px;
 }
 
