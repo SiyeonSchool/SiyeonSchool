@@ -94,14 +94,13 @@ $searchReceiverInput.on('keyup', function(e) {
         }
     });
 
-    // Reset index when search results change
-    rResultcurrentIndex = 0; // Start at the first item in the filtered list
+    rResultcurrentIndex = 0; // 다음 검색결과를 위해서 인덱스 초기화함
 
     // 매칭되는게 없는 경우 div를 숨겨줌.
     if (matchCount === 0) {
         $searchResultDiv.hide();
     } else {
-        updateHighlight(); // Automatically highlight the first item if any results are visible
+        updateHighlight(); // 검색결과가 하나라도 있으면 하이라이트함.
     }
 });
 
@@ -127,9 +126,10 @@ $searchReceiverInput.on('keydown', function(e) {
     }
 });
 
-// Update the highlight based on the current index
+// 검색결과 키보드로 이동시 하이라이트
 function updateHighlight() {
     $searchResultLi.removeClass('highlight');
+
     if (rResultcurrentIndex >= 0 && rResultcurrentIndex < $visibleSearchResultLi.length) {
         const $currentItem = $visibleSearchResultLi.eq(rResultcurrentIndex);
         $currentItem.addClass('highlight');
@@ -165,48 +165,236 @@ $searchResultDiv.on('click', '.searchResult-data', function(event) {
     $searchReceiverInput.val(""); // 검색창 input 비워주기
 });
 
-// 클릭된 요소를 화면에 넣어주기
+// 검색결과에서 클릭된 요소를 화면에 넣어주기
 async function addToReceiverList(el){
+
+    // 모든사용자/모든학생/선생님 중 선택했는지 확인
+    const pkNo = $(el).find('.pkNo').val();
+    switch(pkNo){
+        case "allUsers": console.log("모든 사용자 선택함"); return;
+        case "allStudents": console.log("모든 학생 선택함"); return;
+        case "teacher": console.log("선생님 선택함"); return;
+    }
+    
+    // 사용자/주소록
     const isUser = ($(el).find('.isUser').val() === 'true');
     let newHtmlText = "";
 
     if(isUser) { // 유저를 선택한 경우
         const userNo = $(el).find('.pkNo').val();
         if(isUserNoDuplicated(userNo)){ return; }; // 중복검사. 중복되면 아래 내용 수행안함.
+        newHtmlText = addToReceiverListByUser(userNo, el);
 
-        const userName = $(el).find('.name').text();
-        const userId = $(el).find('.userId').text();
+    }else { // 주소록을 선택한 경우
+        newHtmlText = await addToReceiverListByContacts(el);
+    }
+
+    displaySelectedReceiver(newHtmlText); // 선택된 수신인 화면에 뿌려주기
+
+    displayCurrentReceiverCount(); // 수신인카운트 화면에 뿌려주기
+    initializePreviousRType(); 
+}
+
+// 검색결과에서 유저 선택한 경우
+function addToReceiverListByUser(userNo, el){
+    const userName = $(el).find('.name').text();
+    const userId = $(el).find('.userId').text();
+    const rType = getReceiverTypeFromJSP();
+
+    addReceiverCount(rType); // 수신인카운트 증가
+    return getNewHtmlTextForReceiverList(userNo, userName, userId, rType); // 추가할 htmlText 만들어서 반환
+}
+
+// 검색결과에서 주소록 선택한 경우
+async function addToReceiverListByContacts(el){
+    const contactsNo = $(el).find('.pkNo').val();
+    const userNoList = await selectContactsMemberList(contactsNo); // 주소록구성원 목록 (DB로 부터 조회)
+    let newHtmlText = "";
+
+    for (const user of userNoList) { // 주소록구성원 각각을 돌면서...
+        const userNo = user.receiverNo;
+        if(isUserNoDuplicated(userNo)){ continue; }; // 중복검사. 중복되면 아래 내용 수행안하고 다음 iteration으로 넘어감.
+
+        const userName = user.receiverName;
+        const userId = `(${user.receiverId})`;
         const rType = getReceiverTypeFromJSP();
 
         addReceiverCount(rType); // 수신인카운트 증가
 
-        newHtmlText = getNewHtmlTextForReceiverList(userNo, userName, userId, rType); // 추가할 htmlText 만들기
-
-    }else { // 주소록을 선택한 경우
-        const contactsNo = $(el).find('.pkNo').val();
-        const userNoList = await selectContactsMemberList(contactsNo); // 주소록구성원 목록 (DB로 부터 조회)
-        
-        for (const user of userNoList) { // 주소록구성원 각각을 돌면서...
-            const userNo = user.receiverNo;
-            if(isUserNoDuplicated(userNo)){ console.log("중복됨"); continue; }; // 중복검사. 중복되면 아래 내용 수행안하고 다음 iteration으로 넘어감.
-
-            const userName = user.receiverName;
-            const userId = `(${user.receiverId})`;
-            const rType = getReceiverTypeFromJSP();
-
-            addReceiverCount(rType); // 수신인카운트 증가
-
-            newHtmlText += getNewHtmlTextForReceiverList(userNo, userName, userId, rType); // 추가할 htmlText 만들기
-        };
-    }
-
-    displaySelectedReceiver(newHtmlText); // 화면에 뿌려주기
-    displayCurrentReceiverCount();
+        newHtmlText += getNewHtmlTextForReceiverList(userNo, userName, userId, rType); // 추가할 htmlText 만들기
+    };
+    
+    return newHtmlText;
 }
 
 // 화면에서 수신타입 받아오기 
 function getReceiverTypeFromJSP(){
     return $("#receiverType input[type=radio]:checked").val(); // r:수신, c:참조, s:비밀
+}
+
+// 수신인리스트에 추가할 htmlText 만들기
+function getNewHtmlTextForReceiverList(userNo, userName, userId, rType){
+
+    let newHtmlText =   `<li>
+                            <div class="rCheckbox">
+                                <input type="checkbox" name="userNo" value="${userNo}">
+                            </div>
+                            <div class="rUserName">
+                                <span class="userName">${userName}</span>
+                                <span class="userId">${userId}</span>
+                            </div>
+                            <div class="rType">
+                                <select name="rType">`;
+
+    if(rType === 'r'){
+        newHtmlText += `<option value="r" selected>수신</option>`;
+    }else {
+        newHtmlText += `<option value="r">수신</option>`;
+    };
+
+    if(rType === 'c'){
+        newHtmlText +=`<option value="c" selected>참조</option>`;
+    }else {
+        newHtmlText += `<option value="c">참조</option>`;
+    };
+
+    if(rType === 's'){
+        newHtmlText += `<option value="s" selected>비밀</option>`;
+    }else {
+        newHtmlText += `<option value="s">비밀</option>`;
+    };
+
+    newHtmlText +=      `</select>
+                    </div>
+                    <div class="rDelete">
+                        <span class="icon material-symbols-rounded">close</span>
+                    </div>
+                </li>`;
+    return newHtmlText;
+}
+
+// 주소록구성원 리스트 조회
+function selectContactsMemberList(contactsNo){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url:"mail.wrtieForm/list.contactsMember",
+            type:"get",
+            data:{
+                contactsNo: contactsNo,
+            },
+            success: function(result){;
+                resolve(result);
+            },
+            error:function(){
+                reject(new Error('AJAX 통신실패: selectContactsMemberList()'));
+            }
+        })
+    })
+
+}
+
+// 수신인리스트에 추가전 중복여부체크
+function isUserNoDuplicated(newUserNo){
+    let isDuplicated = false;
+
+    $("main.mail-write .receiver .list-contents li").each(function(){
+        const existingUserNo = $(this).find(".rCheckbox input").val();
+
+        //console.log("existingUserNo:" + existingUserNo + ", type:" + typeof(existingUserNo) + " / newUserNo:" + newUserNo + ", type:" + typeof(newUserNo));
+
+        if(existingUserNo == newUserNo){ // 중복되는 경우 (일부러 ===가 아닌 ==을 사용함. type이 달라도 글자만 맞으면 중복으로 판단하도록 함.)
+            isDuplicated = true;
+            return; // each문 빠져나옴
+        }
+    })
+    
+    return isDuplicated; // true: 중복됨, false: 중복안됨.
+}
+
+// 선택된 수신인을 화면에 뿌려주기.
+function displaySelectedReceiver(newHtmlText){
+    const currentSelections = captureCurrentSelections();  // 수신구분 현재 선택된것 보관
+
+    let htmlText = $recevierListContentsEl.html();
+    htmlText += newHtmlText;
+    $recevierListContentsEl.html(htmlText);
+
+    reapplySelections(currentSelections);  // 수신구분 보관해뒀던 것으로 반영
+}
+
+// 수신구분 현재 선택된것 반환
+function captureCurrentSelections() {
+    const selections = {};
+    $('main.mail-write .receiver .list-contents li').each(function(index, li) {
+        const $select = $(li).find('select[name="rType"]');
+        const userNo = $(li).find('input[name="userNo"]').val();
+        selections[userNo] = $select.val(); // {userNo : rType, ...} 형식으로 저장
+    });
+    return selections;
+}
+
+// 수신구분 보관해뒀던 것으로 반영
+function reapplySelections(selections) {
+    $('main.mail-write .receiver .list-contents li').each(function(index, li) {
+        const $select = $(li).find('select[name="rType"]');
+        const userNo = $(li).find('input[name="userNo"]').val();
+        if (selections[userNo]) {
+            $select.val(selections[userNo]); // 해당 userNo에 해당하는 값이 있으면 반영
+        }
+    });
+}
+
+// 수신인 리스트에서 X아이콘 클릭시, 해당 요소 삭제.
+$recevierListContentsEl.on('click', '.rDelete', function(){
+    const rType = $(this).parent().find("select[name=rType]").val(); // 수신인 타입 받아오기 (r:수신, c:참조, s:비밀)
+    console.log("rType:", rType);
+    subtractReceiverCount(rType); // 수신인카운트 감소시키기
+    displayCurrentReceiverCount(); // 수신인카운트 화면에 반영하기
+    
+    $(this).parent().remove(); // 요소 화면에서 제거
+})
+
+// 수신인 리스트 헤더에서 X아이콘 클릭시, 리스트 한번에 비우기
+$("main.mail-write .receiver .list-header .rDelete").on('click', '.icon', function(){
+
+    if(!confirm("받는사람 목록을 초기화 하시겠습니까?")) {
+        return;
+    }
+
+    // 수신인 카운트 관련 변수 초기화
+    receiverTotalCount = 0; // 총합
+    receiverRCount = 0; // 수신
+    receiverCCount = 0; // 참조
+    receiverSCount = 0; // 비밀
+    displayCurrentReceiverCount(); // 수신인카운트 화면에 반영하기
+
+    $recevierListContentsEl.empty(); // 화면에서 수신인 전체 리스트 요소 제거
+})
+
+
+// 수신구분 select가 바뀔경우, 카운트 반영 & 화면에 반영
+$recevierListContentsEl.on('change', 'select[name="rType"]', function() {
+    const $select = $(this);
+    const oldRType = $select.data('previous'); // jQuery 내부메모리에 저장해뒀던 이전 값을 가져옴
+    const newRType = $select.val(); // 새로운 현재 값
+
+    if (oldRType) { // 이전값이 있는 경우 값을 감소시킴
+        subtractReceiverCount(oldRType);
+    }
+    addReceiverCount(newRType); // 새로운값은 증가
+
+    displayCurrentReceiverCount(); // 화면에 반영
+
+    $select.data('previous', newRType); // 새로운 값을 다음에 쓰기 위해 저장해둠.
+});
+
+
+// 수신구분의 현재 값을 jQuery 내부메모리에 보관함 (previous라는 key로 저장함.)
+function initializePreviousRType() {
+    $('select[name="rType"]').each(function() {
+        const $select = $(this);
+        $select.data('previous', $select.val());
+    });
 }
 
 // 수신인 타입에 따라 수신인카운트 증가
@@ -237,170 +425,9 @@ function displayCurrentReceiverCount(){
     $receiverSCountEl.text(receiverSCount);
 }
 
-// 수신인리스트에 추가전 중복여부체크
-function isUserNoDuplicated(newUserNo){
-    let isDuplicated = false;
-
-    $("main.mail-write .receiver .list-contents li").each(function(){
-        const existingUserNo = $(this).find(".rCheckbox input").val();
-
-        //console.log("existingUserNo:" + existingUserNo + ", type:" + typeof(existingUserNo) + " / newUserNo:" + newUserNo + ", type:" + typeof(newUserNo));
-
-        if(existingUserNo == newUserNo){ // 중복되는 경우 (일부러 ===가 아닌 ==을 사용함. type이 달라도 글자만 맞으면 중복으로 판단하도록 함.)
-            isDuplicated = true;
-            return; // each문 빠져나옴
-        }
-    })
-    
-    return isDuplicated; // true: 중복됨, false: 중복안됨.
-}
-
-// 수신인리스트에 추가할 htmlText 만들기
-function getNewHtmlTextForReceiverList(userNo, userName, userId, rType){
-
-    let newHtmlText =   `<li>
-                            <div class="rCheckbox">
-                                <input type="checkbox" name="userNo" value="${userNo}">
-                            </div>
-                            <div class="rUserName">
-                                <span class="userName">${userName}</span>
-                                <span class="userId">${userId}</span>
-                            </div>
-                            <div class="rType">
-                                <select name="rType" id="">`;
-
-    if(rType === 'r'){
-        newHtmlText += `<option value="r" selected>수신</option>`;
-    }else {
-        newHtmlText += `<option value="r">수신</option>`;
-    };
-
-    if(rType === 'c'){
-        newHtmlText +=`<option value="c" selected>참조</option>`;
-    }else {
-        newHtmlText += `<option value="c">참조</option>`;
-    };
-
-    if(rType === 's'){
-        newHtmlText += `<option value="s" selected>비밀</option>`;
-    }else {
-        newHtmlText += `<option value="s">비밀</option>`;
-    };
-
-    newHtmlText +=      `</select>
-                    </div>
-                    <div class="rDelete">
-                        <span class="icon material-symbols-rounded">close</span>
-                    </div>
-                </li>`;
-    return newHtmlText;
-}
-
-// 선택된 수신인을 화면에 뿌려주기.
-function displaySelectedReceiver(newHtmlText){
-    let htmlText = $recevierListContentsEl.html();
-    htmlText += newHtmlText;
-    $recevierListContentsEl.html(htmlText);
-}
-
-// 주소록구성원 리스트 조회
-function selectContactsMemberList(contactsNo){
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url:"mail.wrtieForm/list.contactsMember",
-            type:"get",
-            data:{
-                contactsNo: contactsNo,
-            },
-            success: function(result){;
-                resolve(result);
-            },
-            error:function(){
-                reject(new Error('AJAX 통신실패: selectContactsMemberList()'));
-            }
-        })
-    })
-
-}
-
-// 수신인 리스트에서 X아이콘 클릭시, 해당 요소 삭제.
-$recevierListContentsEl.on('click', '.rDelete', function(){
-    const rType = $(this).parent().find("input[name=rType]").val(); // 수신인 타입 받아오기 (r:수신, c:참조, s:비밀)
-    subtractReceiverCount(rType); // 수신인카운트 감소시키기
-    displayCurrentReceiverCount(); // 수신인카운트 화면에 반영하기
-    
-    $(this).parent().remove(); // 요소 화면에서 제거
-})
-
-// 수신인 리스트 헤더에서 X아이콘 클릭시, 리스트 한번에 비우기
-$("main.mail-write .receiver .list-header .rDelete").on('click', '.icon', function(){
-
-    if(!confirm("받는사람 목록을 초기화 하시겠습니까?")) {
-        return;
-    }
-
-    // 수신인 카운트 관련 변수 초기화
-    receiverTotalCount = 0; // 총합
-    receiverRCount = 0; // 수신
-    receiverCCount = 0; // 참조
-    receiverSCount = 0; // 비밀
-    displayCurrentReceiverCount(); // 수신인카운트 화면에 반영하기
-
-    $recevierListContentsEl.empty(); // 화면에서 수신인 전체 리스트 요소 제거
-})
-
-// 수신인리스트 목록에서 한줄 클릭시, 해당 요소의 체크박스에 체크/언체크됨.
-$recevierListContentsEl.on('click', 'li', function(e){
-    
-    if ($(e.target).is(':checkbox')) {  //체크박스
-        return;
-    }else if($(e.target).is('.rDelete span.icon')) { // 제거 아이콘
-        return;
-    }
-
-    let $checkbox = $(this).find("input[name=userNo]");
-    let isChecked = $checkbox.is(":checked");
-    $checkbox.prop("checked", !isChecked);
-})
-
-// 수신인리스트 헤더에서 체크박스 클릭시, 리스트의 모든 체크박스 체크/언체크
-$("main.mail-write .receiver .list-header .checkAll").click(function(){
-    const headerCheckbox = $("main.mail-write .receiver .list-header :checkbox");
-    const contentsCheckbox = $("main.mail-write .receiver .list-contents :checkbox");
-
-    if(headerCheckbox.prop("checked")) {
-        contentsCheckbox.prop("checked", true);
-    }else {
-        contentsCheckbox.prop("checked", false);
-    };
-})
-
-/*
-// "수신구분변경" 버튼 클릭시
-function changeReceiverType(){
-
-    const checkedUserNoList = getCheckedReceiverList();
-
-}
-
-// 수신인리스트의 체크된 userNo 리스트 반환
-function getCheckedReceiverNoList(){
-    const checkedUserNoList = [];
-
-    $("main.mail-write .receiver .list-contents li input[name=userNo]").each(function(){
-        if($(this).prop("checked")){
-            checkedUserNoList.push($(this).val());
-        };
-    })
-
-    return checkedUserNoList;
-}
-*/
-
 // 메일 보내기 버튼 클릭시, 수신인 리스트에 있는 데이터를 보내주기 위해서, 수신인리스트의 체크박스를 체크함.
 function setReceiverCheckboxesChecked(){
     $("main.mail-write .receiver .list-contents li").each(function(){
         $(this).find("input[name=userNo]").attr("checked", true);
     })
 }
-

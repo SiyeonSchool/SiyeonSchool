@@ -1221,31 +1221,6 @@ main.mail-write form .mail-write-header table tr.receiver .td-right #receiverTyp
   margin-right: 5px;
 }
 
-/* 수신구분변경 버튼 - 바로 밖 div */
-main.mail-write form .mail-write-header table tr.receiver .td-right .changeType{
-  position: absolute;
-  right: 0;
-  top:0;
-  bottom:0;
-  margin: auto;
-}
-
-/* 수신구분변경 버튼 - 실제버튼*/
-main.mail-write form .mail-write-header table tr.receiver .td-right .changeType .btn{
-  border: 1px solid var(--lightGrey);
-  border-radius: 3px;
-  background-color: #fff;
-  padding: 5px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-/* 수신구분변경 버튼 - 후버시*/
-main.mail-write form .mail-write-header table tr.receiver .td-right .changeType .btn:hover{
-  background-color: var(--mail-active-color);
-  font-weight: bold;
-}
-
 /* ------------- 수신인 리스트 헤더 ------------- */
 main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-header{
   border: 1px solid var(--lightGrey);
@@ -1278,11 +1253,6 @@ main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-cont
   border-radius: 0 0 3px 3px;
 }
 
-/* 수신인 리스트 - 각각의 줄 */
-main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li{
-  cursor: pointer;
-}
-
 /* 수신인 리스트 - 후버시 */
 main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li:hover{
   background-color: var(--mail-hover-color);
@@ -1301,11 +1271,21 @@ main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-cont
   justify-content: center;
 }
 
+/* 수신인 체크박스 - 숨겨둠 (처음에 만들어뒀다가 나중에 보여줄 필요가 없다는걸 알게됨... 엮여있는 기능이 많으므로 삭제는 안하고 숨겨둠.*/
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li .rCheckbox{
+  display: none;
+}
+
 /* 수신인 아이디 */
 main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li .rUserName .userId{
   font-size: 13px;
   color: var(--lightGrey);
   margin-left: 10px;
+}
+
+/* 수신구분 */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li .rType select{
+  cursor: pointer;
 }
 
 /* 수신인 리스트 -  x 아이콘 */

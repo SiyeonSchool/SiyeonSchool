@@ -99,16 +99,28 @@
 									<input type="radio" id="rTypeS" name="receiverType" value="s">
 									<label for="rTypeS">비밀</label>
 								</div>
-
-								<!-- 
-								<div class="changeType">
-									<button type="button" class="btn" onclick="changeReceiverType()">수신구분변경</button>
-								</div>
-								-->
 							</div>
 
 							<div id="searchResult">
 								<ul>
+									<li class="searchResult-data">
+										<input type="hidden" class="pkNo" value="allUsers">
+										<span class="name">* 모든 사용자</span>
+										<input type="hidden" class="isUser" value="false">
+									</li>
+
+									<li class="searchResult-data">
+										<input type="hidden" class="pkNo" value="allStudents">
+										<span class="name">* 모든 학생</span>
+										<input type="hidden" class="isUser" value="false">
+									</li>
+
+									<li class="searchResult-data">
+										<input type="hidden" class="pkNo" value="teacher">
+										<span class="name">* 선생님</span>
+										<input type="hidden" class="isUser" value="false">
+									</li>
+
 									<% for(MailWriteSearchResult sr : searchResultList) { %>
 										<li class="searchResult-data">
 											<input type="hidden" class="pkNo" value="<%= sr.getPkNo() %>">
@@ -124,9 +136,6 @@
 
 							<ul class="list-header">
 								<li>
-									<div class="rCheckbox">
-										<input class="checkAll" type="checkbox">
-									</div>
 									<div class="rUserName">받는사람</div>
 									<div class="rType">수신구분</div>
 									<div class="rDelete">
