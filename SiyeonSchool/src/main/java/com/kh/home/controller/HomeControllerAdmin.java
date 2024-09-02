@@ -17,14 +17,14 @@ import com.kh.user.model.vo.User;
 /**
  * Servlet implementation class HomeController
  */
-@WebServlet("/home.st")
-public class HomeController extends HttpServlet {
+@WebServlet("/home.ad")
+public class HomeControllerAdmin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public HomeController() {
+	public HomeControllerAdmin() {
 		super();
 	}
 
@@ -44,11 +44,11 @@ public class HomeController extends HttpServlet {
 
 		ArrayList<Mail> mList = new HomeService().selectMailList(userNo);
 
-		request.getSession().setAttribute("currentPage", "home_st");
+		request.getSession().setAttribute("currentPage", "home_ad");
 		request.setAttribute("list", list);
 		request.setAttribute("progressValue", progressValue);
 		request.setAttribute("mList", mList);
-		request.getRequestDispatcher("views/home/home_st.jsp").forward(request, response);
+		request.getRequestDispatcher("views/home/home_ad.jsp").forward(request, response);
 
 	}
 

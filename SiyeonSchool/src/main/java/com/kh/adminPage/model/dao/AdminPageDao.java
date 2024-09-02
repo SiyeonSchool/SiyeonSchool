@@ -53,4 +53,36 @@ public class AdminPageDao {
 
     }
 
+    public ArrayList<User> selectSignRequest(Connection conn){
+        ArrayList<User> list = new ArrayList<User>();
+        PreparedStatement pstmt = null;        
+        ResultSet rset = null;
+        String sql = prop.getProperty("selectSignRequest");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            rset = pstmt.executeQuery();
+
+            while(rset.next()){
+                list.add(new User(rset.getInt("user_no"),
+                                  rset.getString("user_id"),
+                                  rset.getString("user_pwd"),
+                                  rset.getString("user_name"),
+                                  rset.getString("phone"),
+                                  rset.getString("birthday"),
+                                  rset.getString("email"),
+                                  rset.getString("address"),
+                                  rset.getString("enroll_date")));
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally{
+            close(rset);
+            close(pstmt);
+        }
+
+        return list;
+    }
+
 }

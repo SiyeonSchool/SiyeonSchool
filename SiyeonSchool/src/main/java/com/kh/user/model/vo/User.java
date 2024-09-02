@@ -130,6 +130,21 @@ public class User {
 		this.role = role;
 		this.star = star;
 	}
+	
+
+	public User(int userNo, String userId, String userPwd, String userName, String phone, String birthday, String email,
+			String address, String enrollDate) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.phone = phone;
+		this.birthday = birthday;
+		this.email = email;
+		this.address = address;
+		this.enrollDate = enrollDate;
+	}
 
 	public User(String userName, String phone) {
 		super();

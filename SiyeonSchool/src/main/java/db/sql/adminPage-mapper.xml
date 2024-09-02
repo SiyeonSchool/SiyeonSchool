@@ -10,4 +10,18 @@
 	   AND USER_AUTH = 'U'
 </entry>
 
+<entry key="selectSignRequest">
+	SELECT USER_NO
+		 , USER_ID
+		 , USER_PWD
+		 , USER_NAME
+		 , PHONE
+		 , BIRTHDAY
+		 , EMAIL
+		 , ADDRESS
+		 , ENROLL_DATE
+	  FROM USERS
+	 WHERE STATUS = 'W'
+</entry>
+
 </properties>

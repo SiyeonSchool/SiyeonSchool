@@ -20,4 +20,16 @@ public class AdminPageService {
         return list;
     }
 
+    public ArrayList<User> selectSignRequest(){
+        Connection conn = getConnection();
+        
+        ArrayList<User> list = new AdminPageDao().selectSignRequest(conn);
+        
+        close(conn);
+        
+        return list;
+    }
+
 }
+
+

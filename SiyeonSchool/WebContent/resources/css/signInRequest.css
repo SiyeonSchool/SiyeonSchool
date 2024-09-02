@@ -1,0 +1,53 @@
+.myInfo__body{
+    width: 700px;
+    height: 600px;
+    background-color: #f7f1ff;
+    border-radius: 20px;
+    float: right;
+    margin-right: 50px;
+}
+
+.myInfo__body .signInRequest__header{
+    width: 150px;
+    height: 40px;
+    background-color: #DFCCFB;
+    border-top: 3px solid #A98AFF;
+    margin-top: 50px;
+    margin-left: 10px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.myInfo__body .myInfo__content{
+    margin-top: 30px;
+    padding: 10px 20px;
+}
+
+.myInfo__body .myInfo__content table{
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #999;
+}
+
+.myInfo__body .myInfo__content table tr{
+    border-bottom: 1px solid #999;
+}
+
+.myInfo__body .myInfo__content table td:first-child{
+    width: 20%;
+    height: 40px;
+    background-color: #C2F0FF;
+    text-align: left;
+    vertical-align: middle;
+    border-right: 1px solid #999;
+    padding: 10px 20px;
+}
+
+.myInfo__body .myInfo__content table td:last-child{
+    width: 80%;
+    padding: 10px 20px;
+}
+

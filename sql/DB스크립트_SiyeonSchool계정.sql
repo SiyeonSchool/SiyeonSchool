@@ -279,7 +279,7 @@ INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user27', 'pass27', '배수지', '0
 INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user28', 'pass28', '임윤아', '010-7890-1237', 'N', TO_DATE('1990-06-13', 'YYYY-MM-DD'), 'imyoona@kh.or.kr', '서울시 종로구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A29', 2, '행복의기억', 'U', 'Y', NULL, NULL);
 INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user29', 'pass29', '박보영', '010-8901-2348', 'N', TO_DATE('1992-02-12', 'YYYY-MM-DD'), 'parkboyoung@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A30', 2, '즐거운기억', 'U', 'Y', NULL, NULL);
 INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user30', 'pass30', '장동건', '010-9012-3459', 'N', TO_DATE('1985-08-07', 'YYYY-MM-DD'), 'jangdonggun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A31', 2, '나의행운', 'U', 'Y', NULL, NULL);
-
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user31', 'pass31', '마동석', '010-8916-4891', 'N', TO_DATE('1983-08-01', 'YYYY-MM-DD'), 'madongseok@kh.or.kr', '서울시 광진구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A32', 2, '나의행운', 'U', 'W', NULL, NULL);
 
 --------------------------------------------------------------------------------
 --############### 댓글 ###############

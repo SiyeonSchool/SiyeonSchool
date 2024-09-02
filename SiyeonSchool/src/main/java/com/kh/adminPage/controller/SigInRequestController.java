@@ -1,11 +1,16 @@
 package com.kh.adminPage.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.kh.adminPage.model.service.AdminPageService;
+import com.kh.user.model.vo.User;
 
 /**
  * Servlet implementation class SigInRequestController
@@ -26,8 +31,11 @@ public class SigInRequestController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<User> list = new AdminPageService().selectSignRequest();
+		request.setAttribute("list", list);
 		request.getSession().setAttribute("currentPage", "sigInRequest");
 		request.getRequestDispatcher("views/adminPage/sigInRequest.jsp").forward(request, response);
+		
 	}
 
 	/**

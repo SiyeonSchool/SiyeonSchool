@@ -15,7 +15,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="resources/css/home.css">
-	<script src="resources/js/home.js"></script>
+	<script src="resources/js/home_st.js"></script>
 </head>
 <body>
 
@@ -114,11 +114,6 @@
 			</div>
 		</div>
 	</section>
-	<!-- Form 태그 -->
-	<form id="updateForm" method="POST" action="<%= contextPath2 %>/update.cb" style="display: none;">
-		<input type="hidden" name="subject" value="">
-		<input type="hidden" name="state" value="Y">
-	</form>
 	
 	<!-- 게시판들 -->
 	<section class="boards">
