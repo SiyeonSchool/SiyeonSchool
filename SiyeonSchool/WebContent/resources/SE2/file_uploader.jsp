@@ -47,7 +47,8 @@ if (ServletFileUpload.isMultipartContent(request)){
                     //파일 기본경로
                     String dftFilePath = request.getSession().getServletContext().getRealPath("/");
                     //파일 기본경로 _ 상세경로
-                    String filePath = dftFilePath + "resources/SE2" + File.separator +"upload" + File.separator;
+                    //String filePath = dftFilePath + "resources/SE2" + File.separator +"upload" + File.separator;
+                    String filePath = dftFilePath + "resources" + File.separator + "upfiles" + File.separator + "mail" + File.separator + "mailContent" + File.separator;
                      
                     File file = null;
                     file = new File(filePath);
@@ -79,7 +80,8 @@ if (ServletFileUpload.isMultipartContent(request)){
                     return3 += "&bNewLine=true";
                                 // img 태그의 title 옵션에 들어갈 원본파일명
                     return3 += "&sFileName="+ name;
-                    return3 += "&sFileURL=/SiS/resources/SE2/upload/"+realFileNm;
+                    //return3 += "&sFileURL=/SiS/resources/SE2/upload/"+realFileNm;
+                    return3 += "&sFileURL=/SiS/resources/upfiles/mail/mailContent/"+realFileNm;
                 }
             }else {
                   return3 += "&errstr=error";

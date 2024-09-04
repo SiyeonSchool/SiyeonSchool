@@ -66,8 +66,14 @@ public class MailWriteFormController extends HttpServlet {
 		request.setAttribute("importantMailCount", importantMailCount); // 중요메일개수
 		
 		// ===================== 수신인 검색에 필요한 데이터 =====================
-		ArrayList<MailWriteSearchResult> searchResultList = new MailService().selectsearchResultList(ownerNo);
-		request.setAttribute("searchResultList", searchResultList); 	// 모든사용자 & 모든주소록목록
+		
+		MailWriteSearchResult teacher = new MailService().selectTeacher(); // 선생님
+		ArrayList<MailWriteSearchResult> studentList = new MailService().selectStudentList(); // 학생 리스트
+		ArrayList<MailWriteSearchResult> contactsList = new MailService().selectContactsList(ownerNo); // 모든 주소록 (공유+개인)
+		
+		request.setAttribute("teacher", teacher); 	
+		request.setAttribute("studentList", studentList);
+		request.setAttribute("contactsList", contactsList);
 		
 		request.getRequestDispatcher("views/mail/mailWrtieForm.jsp").forward(request, response);
 

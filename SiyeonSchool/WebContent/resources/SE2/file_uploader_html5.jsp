@@ -34,7 +34,8 @@
 		//파일 기본경로
 		String dftFilePath = request.getSession().getServletContext().getRealPath("/");
 		//파일 기본경로 _ 상세경로
-		String filePath = dftFilePath + "resources/SE2" + File.separator + "multiupload" + File.separator;
+		//String filePath = dftFilePath + "resources" + File.separator + "SE2" + File.separator + "multiupload" + File.separator;
+		String filePath = dftFilePath + "resources" + File.separator + "upfiles" + File.separator + "mail" + File.separator + "mailContent" + File.separator;
 		File file = new File(filePath);
 		if (!file.exists()) {
 			file.mkdirs();
@@ -59,10 +60,13 @@
 		os.close();
 		///////////////// 서버에 파일쓰기 /////////////////
 
+		//System.out.println("원본 filename:" + filename);
+		//System.out.println("바뀐 filename:" + realFileNm);
+		
 		// 정보 출력
 		sFileInfo += "&bNewLine=true";	
 		sFileInfo += "&sFileName=" + filename;	
-		sFileInfo += "&sFileURL=/SiS/resources/SE2/multiupload/"+realFileNm;
+		sFileInfo += "&sFileURL=/SiS/resources/upfiles/mail/mailContent/"+realFileNm;
 		out.println(sFileInfo);
 	}
 %>

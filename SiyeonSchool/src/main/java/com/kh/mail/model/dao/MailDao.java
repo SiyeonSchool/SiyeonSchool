@@ -877,6 +877,33 @@ public class MailDao {
 		return mailboxNo;
 	}
 
+
+	public String selectMyselfMailboxNo(Connection conn, int loginUserNo) {
+		String mailboxNo = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMyselfMailboxNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mailboxNo = rset.getString("MAILBOX_NO");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mailboxNo;
+	}
 	
 	public int insertMailOwner(Connection conn, int ownerNo, String mailboxNo) {
 		int result = 0;
@@ -902,12 +929,42 @@ public class MailDao {
 	
 	// ===================== 수신인 검색관련 =============================
 	
-	public ArrayList<MailWriteSearchResult> selectUserList(Connection conn) {
+	public MailWriteSearchResult selectTeacher(Connection conn) {
+		MailWriteSearchResult teacher = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectTeacher");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				teacher = new MailWriteSearchResult(rset.getInt("USER_NO"),
+												    rset.getString("USER_NAME"),
+												    rset.getString("USER_ID"),
+												    true);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return teacher;
+	}
+	
+	public ArrayList<MailWriteSearchResult> selectStudentList(Connection conn) {
 		ArrayList<MailWriteSearchResult> list = new ArrayList<MailWriteSearchResult>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectUserList");
+		
+		String sql = prop.getProperty("selectStudentList");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -929,7 +986,7 @@ public class MailDao {
 		
 		return list;
 	}
-
+	
 	public ArrayList<MailWriteSearchResult> selectPublicContactsList(Connection conn) {
 		ArrayList<MailWriteSearchResult> list = new ArrayList<MailWriteSearchResult>();
 		
@@ -1014,6 +1071,64 @@ public class MailDao {
 		
 		return list;
 	}
+
+	public ArrayList<MailReceiver> selectUserList(Connection conn) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectUserList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getInt("USER_NO"),
+						  rset.getString("USER_NAME"),
+						  rset.getString("USER_ID")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<MailReceiver> selectAllStudentList(Connection conn) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectStudentList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getInt("USER_NO"),
+						  rset.getString("USER_NAME"),
+						  rset.getString("USER_ID")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+
 
 
 	

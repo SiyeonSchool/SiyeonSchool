@@ -1,6 +1,5 @@
 console.log("메일 js 실행됨!");
-
-
+console.log("현재 메일함: " + currentMailbox);
 
 
 // ================================ 메인 상세조회 ================================ 
@@ -153,7 +152,7 @@ function selectItem($item) {
     addToReceiverList($item[0]); // 클릭된 요소를 화면에 넣어주기
     $searchResultDiv.hide(); // 검색결과 div 숨기기
     $searchReceiverInput.val(""); // 검색창 input 비워주기
-    $searchReceiverInput.blur(); // Remove focus from the input temporarily
+    $searchReceiverInput.blur(); // 검색창 포커스를 잠깐 없애줌.
     rResultcurrentIndex = -1;
 };
 
@@ -167,26 +166,39 @@ $searchResultDiv.on('click', '.searchResult-data', function(event) {
 
 // 검색결과에서 클릭된 요소를 화면에 넣어주기
 async function addToReceiverList(el){
+    let shouldSkip = false;
+    let newHtmlText = "";
 
     // 모든사용자/모든학생/선생님 중 선택했는지 확인
     const pkNo = $(el).find('.pkNo').val();
     switch(pkNo){
-        case "allUsers": console.log("모든 사용자 선택함"); return;
-        case "allStudents": console.log("모든 학생 선택함"); return;
-        case "teacher": console.log("선생님 선택함"); return;
+        case "allUsers":
+            newHtmlText = await addToReceiverListByAllUsers();
+            shouldSkip = true;
+            break;
+        case "allStudents":
+            newHtmlText = await addToReceiverListByAllStudents();
+            shouldSkip = true;
+            break;
+        case "teacher":
+            const teacher = await selectTeacher(); // 선생님 (DB로 부터 조회)
+            if(isUserNoDuplicated(teacher.pkNo)){ return; }; // 중복검사. 중복되면 아래 내용 수행안함.
+            newHtmlText = await addToReceiverListByTeacher(teacher);
+            shouldSkip = true;
+            break;
     }
     
-    // 사용자/주소록
-    const isUser = ($(el).find('.isUser').val() === 'true');
-    let newHtmlText = "";
+    if(!shouldSkip) { //모든사용자/모든학생/선생님이 아닌경우
+        const isUser = ($(el).find('.isUser').val() === 'true');
 
-    if(isUser) { // 유저를 선택한 경우
-        const userNo = $(el).find('.pkNo').val();
-        if(isUserNoDuplicated(userNo)){ return; }; // 중복검사. 중복되면 아래 내용 수행안함.
-        newHtmlText = addToReceiverListByUser(userNo, el);
+        if(isUser) { // 유저를 선택한 경우
+            const userNo = $(el).find('.pkNo').val();
+            if(isUserNoDuplicated(userNo)){ return; }; // 중복검사. 중복되면 아래 내용 수행안함.
+            newHtmlText = addToReceiverListByUser(userNo, el);
 
-    }else { // 주소록을 선택한 경우
-        newHtmlText = await addToReceiverListByContacts(el);
+        }else { // 주소록을 선택한 경우
+            newHtmlText = await addToReceiverListByContacts(el);
+        }
     }
 
     displaySelectedReceiver(newHtmlText); // 선택된 수신인 화면에 뿌려주기
@@ -205,13 +217,41 @@ function addToReceiverListByUser(userNo, el){
     return getNewHtmlTextForReceiverList(userNo, userName, userId, rType); // 추가할 htmlText 만들어서 반환
 }
 
+// 검색결과에서 선생님 선택한 경우
+async function addToReceiverListByTeacher(teacher){
+    const userNo = teacher.pkNo;
+    const userName = teacher.name;
+    const userId = `(${teacher.userId})`;
+    const rType = getReceiverTypeFromJSP();
+
+    addReceiverCount(rType); // 수신인카운트 증가
+    return getNewHtmlTextForReceiverList(userNo, userName, userId, rType); // 추가할 htmlText 만들어서 반환
+}
+
 // 검색결과에서 주소록 선택한 경우
 async function addToReceiverListByContacts(el){
     const contactsNo = $(el).find('.pkNo').val();
-    const userNoList = await selectContactsMemberList(contactsNo); // 주소록구성원 목록 (DB로 부터 조회)
+    const userList = await selectContactsMemberList(contactsNo); // 주소록구성원 목록 (DB로 부터 조회)
+    return addToReceiverListAtOnce(userList);
+}
+
+// 검색결과에서 모든사용자 선택한 경우
+async function addToReceiverListByAllUsers(){
+    const userList = await selectUsersList(); // 모든사용자 목록 (DB로 부터 조회)
+    return addToReceiverListAtOnce(userList);
+}
+
+// 검색결과에서 모든학생 선택한 경우
+async function addToReceiverListByAllStudents(){
+    const userList = await selectStudentList(); // 모든학생 목록 (DB로 부터 조회)
+    return addToReceiverListAtOnce(userList);
+}
+
+// 검색결과에서 여러명이 들어있는 옵션을 선택한경우
+function addToReceiverListAtOnce(userList){
     let newHtmlText = "";
 
-    for (const user of userNoList) { // 주소록구성원 각각을 돌면서...
+    for (const user of userList) {
         const userNo = user.receiverNo;
         if(isUserNoDuplicated(userNo)){ continue; }; // 중복검사. 중복되면 아래 내용 수행안하고 다음 iteration으로 넘어감.
 
@@ -223,7 +263,7 @@ async function addToReceiverListByContacts(el){
 
         newHtmlText += getNewHtmlTextForReceiverList(userNo, userName, userId, rType); // 추가할 htmlText 만들기
     };
-    
+
     return newHtmlText;
 }
 
@@ -290,7 +330,57 @@ function selectContactsMemberList(contactsNo){
             }
         })
     })
+}
 
+// 모든사용자 리스트 조회
+function selectUsersList(){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url:"mail.wrtieForm/list.allUsers",
+            type:"get",
+            data:{},
+            success: function(result){;
+                resolve(result);
+            },
+            error:function(){
+                reject(new Error('AJAX 통신실패: selectUsersList()'));
+            }
+        })
+    })
+}
+
+// 모든학생 리스트 조회
+function selectStudentList(){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url:"mail.wrtieForm/list.allStudents",
+            type:"get",
+            data:{},
+            success: function(result){;
+                resolve(result);
+            },
+            error:function(){
+                reject(new Error('AJAX 통신실패: selectStudentList()'));
+            }
+        })
+    })
+}
+
+// 선생님 조회
+function selectTeacher(){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url:"mail.wrtieForm/teacher",
+            type:"get",
+            data:{},
+            success: function(result){;
+                resolve(result);
+            },
+            error:function(){
+                reject(new Error('AJAX 통신실패: selectTeacher()'));
+            }
+        })
+    })
 }
 
 // 수신인리스트에 추가전 중복여부체크
@@ -425,9 +515,56 @@ function displayCurrentReceiverCount(){
     $receiverSCountEl.text(receiverSCount);
 }
 
-// 메일 보내기 버튼 클릭시, 수신인 리스트에 있는 데이터를 보내주기 위해서, 수신인리스트의 체크박스를 체크함.
+// ------------- 메일 보내기 관련 -------------
+
+// 메일제목 비었는지 검증
+function validateMailtitle(){
+    const titleEl = $("main.mail-write #title");
+    if(titleEl.val() === "") {
+        $(titleEl).focus();
+        return false;
+    }
+    return true;
+}
+
+// 메일수신인 있는지 검증
+function validateMailReceiver() {
+    const $receiverList = $("main.mail-write .receiver .list-contents").find("li");
+    if($receiverList.length <= 0 && currentMailbox !== "xm") { // 수신인이 없거나, 내게쓰기가 아닌경우
+        $("main.mail-write #searchReceiver").focus();
+        return false;
+    };
+    return true;
+}
+
+
+
+// 메일 보내기 버튼 클릭시, 수신인 리스트에 있는 데이터를 보내주기 위해서, 수신인리스트의 (보이지않는)체크박스를 체크함.
 function setReceiverCheckboxesChecked(){
+    if(currentMailbox === "xm") { // 내게쓰기인 경우, 아래 수행안함.
+        return;
+    }
+
     $("main.mail-write .receiver .list-contents li").each(function(){
         $(this).find("input[name=userNo]").attr("checked", true);
     })
+}
+
+// ------------- 메일쓰기 취소 -------------
+
+// 메일취소를 진짜 할건지 확인하는 기능
+function cancelWritingMail() {
+
+    if(!confirm("메일쓰기를 취소하시겠습니까?\n취소 진행시, 해당 내용은 저장되지 않습니다.")) {
+        return;
+    }else {
+        location.href=`${contextPath}/mail?mb=i&cpage=1`;
+    }
+}
+
+// ------------- 메일 임시저장 -------------
+
+function changeIsSentToT(){
+    const isSent = $("main.mail-write #isSent").val();
+    console.log(isSent);
 }

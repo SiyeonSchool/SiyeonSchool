@@ -5,10 +5,19 @@
 <%@ include file="../common/common.jsp" %>
 
 <%
-	ArrayList<MailWriteSearchResult> searchResultList = (ArrayList<MailWriteSearchResult>)request.getAttribute("searchResultList");
-	// 수신인검색에 사용될 모든사용자 & 모든주소록목록
-	// 1. 사용자 - 사용자번호, 사용자이름, 사용자아이디
-	// 2. 주소록 - 주소록번호, 주소록이름
+	MailWriteSearchResult teacher = (MailWriteSearchResult)request.getAttribute("teacher");
+	// 선생님 - 사용자번호, 사용자이름, 사용자아이디
+
+	ArrayList<MailWriteSearchResult> studentList = (ArrayList<MailWriteSearchResult>)request.getAttribute("studentList");
+	// 학생목록 - 사용자번호, 사용자이름, 사용자아이디
+	
+	ArrayList<MailWriteSearchResult> contactsList = (ArrayList<MailWriteSearchResult>)request.getAttribute("contactsList");
+	// 모든주소록(공유+개인) - 주소록번호, 주소록이름
+	
+	// 검색결과 리스트
+	ArrayList<MailWriteSearchResult> searchResultList = new ArrayList<MailWriteSearchResult>();
+	searchResultList.addAll(studentList);
+	searchResultList.addAll(contactsList);
 %>
 
 <!DOCTYPE html>
@@ -39,11 +48,24 @@
 				fCreator: "createSEditor2"
 			});
 		      
-			//저장버튼 클릭시 form 전송
+			//메일 보내기 버튼 클릭시 form 전송
 			$("#send").click(function(){
 			    oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-				setReceiverCheckboxesChecked();
-			    $("#frm").submit();
+				if(validateMailtitle() && validateMailReceiver()){
+					setReceiverCheckboxesChecked();
+					$("#frm").submit();
+				};
+			});
+
+			//메일 임시저장 버튼 클릭시 form 전송
+			$("#tempSave").click(function(){
+			    oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+				if(validateMailtitle()){
+					setReceiverCheckboxesChecked();
+					alert("임시저장버튼 수행됨!");
+					changeIsSentToT();
+					// $("#frm").submit();
+				};
 			});
 		});
 	</script>
@@ -53,6 +75,7 @@
 
 	<%@ include file="../common/menubar.jsp" %>
 	<%@ include file="mailSidebar.jsp" %>
+
 	
 	<!-- ======================================== 메인 ======================================== -->
 	
@@ -63,12 +86,16 @@
 			<div class="mail-write-header">
 
 				<div class="title">
-					<h2>메일쓰기</h2>
-
+					<% if(!currentMailbox.equals("xm")) { %>
+						<h2>메일쓰기</h2>
+					<% } else { %>
+						<h2>내게쓰기</h2>
+					<% } %>
 					<div class="email-btns">
 						<input type="button" class="btn" id="send" value="보내기"/>
-						<input type="button" class="btn" value="임시저장">
-						<input type="button" class="btn" value="취소"/>
+						<input type="button" class="btn" id="tempSave" value="임시저장">
+						<input type="hidden" id="isSent" name="isSent" value="S">
+						<input type="button" class="btn" value="취소" onclick="cancelWritingMail()"/>
 					</div>
 				</div>
 
@@ -77,85 +104,91 @@
 					<tr class="mailtitle">
 						<td class="td-left">제목</td>
 						<td class="td-right">
-							<input type="text" id="title" name="title" placeholder="제목을 입력해주세요." required/>
+							<input type="text" id="title" name="title" placeholder="제목을 입력해주세요." maxlength="50" required/>
 						</td>
 					</tr>
 
-					<tr class="receiver">
-						<td class="td-left">받는사람</td>
-						<td class="td-right">
+					<% if(!currentMailbox.equals("xm")) { %> <!-- 내게쓰기가 아닐경우 -->
+						<tr class="receiver">
+							<td class="td-left">받는사람</td>
+							<td class="td-right">
 
-							<div class="search">
-								<input id="searchReceiver" class="search-input" type="text" name="keyword" placeholder="검색어를 입력해주세요.">
-								<span class="icon material-symbols-outlined icon">search</span>
+								<div class="search">
+									<input id="searchReceiver" class="search-input" type="text" name="keyword" placeholder="검색어를 입력해주세요.">
+									<span class="icon material-symbols-outlined icon">search</span>
 
-								<div id="receiverType">
-									<input type="radio" id="rTypeR" name="receiverType" value="r" checked>
-									<label for="rTypeR">수신</label>
-									
-									<input type="radio" id="rTypeC" name="receiverType" value="c">
-									<label for="rTypeC">참조</label>
-									
-									<input type="radio" id="rTypeS" name="receiverType" value="s">
-									<label for="rTypeS">비밀</label>
-								</div>
-							</div>
-
-							<div id="searchResult">
-								<ul>
-									<li class="searchResult-data">
-										<input type="hidden" class="pkNo" value="allUsers">
-										<span class="name">* 모든 사용자</span>
-										<input type="hidden" class="isUser" value="false">
-									</li>
-
-									<li class="searchResult-data">
-										<input type="hidden" class="pkNo" value="allStudents">
-										<span class="name">* 모든 학생</span>
-										<input type="hidden" class="isUser" value="false">
-									</li>
-
-									<li class="searchResult-data">
-										<input type="hidden" class="pkNo" value="teacher">
-										<span class="name">* 선생님</span>
-										<input type="hidden" class="isUser" value="false">
-									</li>
-
-									<% for(MailWriteSearchResult sr : searchResultList) { %>
-										<li class="searchResult-data">
-											<input type="hidden" class="pkNo" value="<%= sr.getPkNo() %>">
-											<span class="name"><%= sr.getName() %></span>
-											<input type="hidden" class="isUser" value="<%= sr.isUser() %>">
-											<% if(sr.isUser()) { %>
-												<span class="userId">(<%= sr.getUserId() %>)</span>
-											<% } %>
-										</li>
-									<% } %>
-								</ul>
-							</div>
-
-							<ul class="list-header">
-								<li>
-									<div class="rUserName">받는사람</div>
-									<div class="rType">수신구분</div>
-									<div class="rDelete">
-										<span class="icon material-symbols-rounded">close</span>
+									<div id="receiverType">
+										<input type="radio" id="rTypeR" name="receiverType" value="r" checked>
+										<label for="rTypeR">수신</label>
+										
+										<input type="radio" id="rTypeC" name="receiverType" value="c">
+										<label for="rTypeC">참조</label>
+										
+										<input type="radio" id="rTypeS" name="receiverType" value="s">
+										<label for="rTypeS">비밀</label>
 									</div>
-								</li>
-							</ul>
+								</div>
 
-							<!-- 수신인 동적으로 추가될 공간 -->
-							<ul class="list-contents"></ul>
+								<div id="searchResult">
+									<ul>
+										<li class="searchResult-data">
+											<input type="hidden" class="pkNo" value="allUsers">
+											<span class="name">* 모든 사용자</span>
+											<input type="hidden" class="isUser" value="false">
+										</li>
 
+										<li class="searchResult-data">
+											<input type="hidden" class="pkNo" value="allStudents">
+											<span class="name">* 모든 학생</span>
+											<input type="hidden" class="isUser" value="false">
+										</li>
 
+										<li class="searchResult-data">
+											<input type="hidden" class="pkNo" value="teacher">
+											<span class="name">* 선생님 - <%= teacher.getName() %> </span>
+											<input type="hidden" class="isUser" value="true">
+											<span class="userId">(<%= teacher.getUserId() %>)</span>
+										</li>
 
-							<div class="listSummary">
-								<p>총 <span class="total">0</span>명</p>
-								<p class="detailCount">( 수신 <span class="r">0</span>, 참조 <span class="c">0</span>, 비밀 <span class="s">0</span> )</p>
-							</div>
+										<% for(MailWriteSearchResult sr : searchResultList) { %>
+											<li class="searchResult-data">
+												<input type="hidden" class="pkNo" value="<%= sr.getPkNo() %>">
+												<span class="name"><%= sr.getName() %></span>
+												<input type="hidden" class="isUser" value="<%= sr.isUser() %>">
+												<% if(sr.isUser()) { %>
+													<span class="userId">(<%= sr.getUserId() %>)</span>
+												<% } %>
+											</li>
+										<% } %>
+									</ul>
+								</div>
 
-						</td>
-					</tr>
+								<ul class="list-header">
+									<li>
+										<div class="rUserName">받는사람</div>
+										<div class="rType">수신구분</div>
+										<div class="rDelete">
+											<span class="icon material-symbols-rounded">close</span>
+										</div>
+									</li>
+								</ul>
+
+								<!-- 수신인 동적으로 추가될 공간 -->
+								<ul class="list-contents"></ul>
+
+								<div class="listSummary">
+									<p>총 <span class="total">0</span>명</p>
+									<p class="detailCount">( 수신 <span class="r">0</span>, 참조 <span class="c">0</span>, 비밀 <span class="s">0</span> )</p>
+								</div>
+
+							</td>
+						</tr>
+					<% } else { %>
+						<!-- 내게쓰기 -->
+						<input type="hidden" name="userNo" value="<%= loginUser.getUserNo() %>">
+						<input type="hidden" name="rType" value="r">
+					<% } %>
+						
 
 					<tr class="attachment">
 						<td class="td-left">첨부파일</td>

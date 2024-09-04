@@ -223,14 +223,21 @@ public class MailService {
 		// 메일소유자 DB에 추가
 		int ownerResult = 1;
 		
-		String sentMailboxNo = new MailDao().selectSentMailboxNo(conn, loginUserNo); // 발신인 -> 보낸메일함
-		ownerResult *= new MailDao().insertMailOwner(conn, loginUserNo, sentMailboxNo);
-		
-		for (MailReceiver mr: mrList) {
-			int receiverNo = mr.getReceiverNo();
-			String inboxNo =  new MailDao().selectInboxNo(conn, receiverNo); // 수신인 -> 받은메일함
-			ownerResult *= new MailDao().insertMailOwner(conn, receiverNo, inboxNo);
+		if(mrList.size() == 1 && mrList.get(0).getReceiverNo() == loginUserNo) { // 내게쓴메일
+			String myselfMailboxNo = new MailDao().selectMyselfMailboxNo(conn, loginUserNo); // 발신인 -> 내게쓴메일함
+			ownerResult *= new MailDao().insertMailOwner(conn, loginUserNo, myselfMailboxNo);
+			
+		} else { // 내게쓴메일이 아닌경우
+			String sentMailboxNo = new MailDao().selectSentMailboxNo(conn, loginUserNo); // 발신인 -> 보낸메일함
+			ownerResult *= new MailDao().insertMailOwner(conn, loginUserNo, sentMailboxNo);
+			
+			for (MailReceiver mr: mrList) {
+				int receiverNo = mr.getReceiverNo();
+				String inboxNo =  new MailDao().selectInboxNo(conn, receiverNo); // 수신인 -> 받은메일함
+				ownerResult *= new MailDao().insertMailOwner(conn, receiverNo, inboxNo);
+			}
 		}
+
 		
 		if(mailResult > 0 && attachmentResult > 0 && receiverResult > 0 && ownerResult > 0) {
 			commit(conn);
@@ -243,18 +250,31 @@ public class MailService {
 	}
 
 	// ===================== 수신인 검색관련 =============================
-	
-	public ArrayList<MailWriteSearchResult> selectsearchResultList(int ownerNo) {
+
+	public ArrayList<MailWriteSearchResult> selectStudentList() {
 		Connection conn = getConnection();
-		
-		ArrayList<MailWriteSearchResult> list = new MailDao().selectUserList(conn);
-		list.addAll(new MailDao().selectPublicContactsList(conn));
-		list.addAll(new MailDao().selectPrivateContactsList(conn, ownerNo));
-		
+		ArrayList<MailWriteSearchResult> list = new MailDao().selectStudentList(conn);
 		close(conn);
 		return list;
 	}
+	
+	public MailWriteSearchResult selectTeacher() {
+		Connection conn = getConnection();
+		MailWriteSearchResult teacher = new MailDao().selectTeacher(conn);
+		close(conn);
+		return teacher;
+	}
 
+	public ArrayList<MailWriteSearchResult> selectContactsList(int ownerNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<MailWriteSearchResult> list = new MailDao().selectPublicContactsList(conn); // 공유주소록
+		list.addAll(new MailDao().selectPrivateContactsList(conn, ownerNo)); // 개인주소록 합치기
+		
+		close(conn);
+		return list; // 공유주소록 + 개인주소록
+	}
+	
 	public ArrayList<MailReceiver> selectContactsMemberList(int contactsNo) {
 		Connection conn = getConnection();
 		ArrayList<MailReceiver> list = new MailDao().selectContactsMemberList(conn, contactsNo);
@@ -262,5 +282,18 @@ public class MailService {
 		return list;
 	}
 
+	public ArrayList<MailReceiver> selectUserList() {
+		Connection conn = getConnection();
+		ArrayList<MailReceiver> list = new MailDao().selectUserList(conn);
+		close(conn);
+		return list;
+	}
+	
+	public ArrayList<MailReceiver> selectAllStudentList() {
+		Connection conn = getConnection();
+		ArrayList<MailReceiver> list = new MailDao().selectAllStudentList(conn);
+		close(conn);
+		return list;
+	}
 
 }

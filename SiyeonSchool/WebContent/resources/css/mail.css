@@ -971,6 +971,13 @@ main.mail-detail .mail-detail-content {
   white-space: pre-wrap;
 }
 
+/* 메일 내용 내 모든 이미지 */
+main.mail-detail .mail-detail-content img{
+  display:block;
+	max-width:100%;
+	height:auto;
+}
+
 /* ------------- 위로 올라가기 버튼 ------------- */
 
 /* 버튼을 감싸고 있는 div */
@@ -1081,15 +1088,25 @@ main.mail-write form .mail-write-header table tr td.td-left{
 }
 
 /* ------------- 메일쓰기 - 메일제목 ------------- */
+/* 메일제목 칸이름 */
+main.mail-write form .mail-write-header table tr.mailtitle .td-left{
+  margin-bottom: 10px;
+}
+
 /* 메일제목 입력창 */
 main.mail-write form .mail-write-header table tr.mailtitle .td-right input{
   width: 100%;
   border: none;
   border-bottom: 1px solid var(--lightGrey);
+  padding: 10px;
   outline: none;
+  margin-bottom: 10px;
 }
 
-
+/* 메일제목 입력창 - focus시 */
+main.mail-write form .mail-write-header table tr.mailtitle .td-right input:focus{
+  border-bottom: 2px solid var(--darkPurple);
+}
 /* ------------- 메일쓰기 - 수신인 ------------- */
 /* 셀 가로정렬 */
 main.mail-write form .mail-write-header table tr.receiver .td-right ul li{
@@ -1143,6 +1160,7 @@ main.mail-write form .mail-write-header table tr.receiver .td-right .search .sea
 
 /* 검색창 - focus시 테두리 강조 안되게*/
 main.mail-write form .mail-write-header table tr.receiver .td-right .search .search-input:focus{
+  background-color: var(--mail-hover-color);
   outline: none;
 }
 
@@ -1192,13 +1210,13 @@ main.mail-write form .mail-write-header table tr.receiver .td-right #searchResul
 
 /* 검색결과 - 하이라이트시 (키보드로 이동시 사용됨) */
 main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li.highlight{
-  background-color: var(--mail-hover-color);
+  background-color: var(--mail-active-color);
   font-weight: bold;
 }
 
 /* 검색결과 - 각각의 줄 */
 main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li .userId{
-  margin-left: 10px;
+  margin-left: 5px;
   color: var(--lightGrey);
   font-size: 12px;
 }
@@ -1307,3 +1325,6 @@ main.mail-write form .mail-write-header table tr.receiver .td-right .listSummary
   font-size: 13px;
 }
 
+
+/* ------------- 메일 상세내용 - 실재내용부분 (스마트에디터) ------------- */
+/* 스마트에디터 내 모든 이미지 */

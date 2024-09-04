@@ -595,6 +595,14 @@
 		 WHERE OWNER_NO = ?
 		   AND MAILBOX_NAME = '받은메일함'
 	</entry>
+	
+	<!-- 내게쓴메일함 번호조회 -->
+	<entry key="selectMyselfMailboxNo">
+		SELECT MAILBOX_NO
+		  FROM MAILBOX
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NAME = '내게쓴메일함'
+	</entry>
 
 	
 	<!-- ===================== 수신인 검색관련 ============================= -->
@@ -608,6 +616,32 @@
 		  FROM USERS
 		 WHERE STATUS = 'Y'
 		 ORDER
+		    BY USER_NAME, USER_ID
+	</entry>
+	
+	<!-- 학생 목록조회 -->
+	<entry key="selectStudentList">
+		SELECT
+		       USER_NO
+		     , USER_NAME
+		     , USER_ID
+		  FROM USERS
+		 WHERE USER_AUTH = 'U'
+		   AND STATUS = 'Y'
+   		 ORDER
+		    BY USER_NAME, USER_ID
+	</entry>
+	
+	<!-- 선생님 조회 -->
+	<entry key="selectTeacher">
+		SELECT
+		       USER_NO
+		     , USER_NAME
+		     , USER_ID
+		  FROM USERS
+		 WHERE USER_AUTH = 'A'
+		   AND STATUS = 'Y'
+   		 ORDER
 		    BY USER_NAME, USER_ID
 	</entry>
 	
