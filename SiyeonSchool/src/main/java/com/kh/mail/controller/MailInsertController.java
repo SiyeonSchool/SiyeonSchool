@@ -53,14 +53,15 @@ public class MailInsertController extends HttpServlet {
 			String title = multiRequest.getParameter("title");
 			String content = multiRequest.getParameter("content");
 			String[] userNoList = multiRequest.getParameterValues("userNo");		
-			String[] rTypeList = multiRequest.getParameterValues("rType");		
-
+			String[] rTypeList = multiRequest.getParameterValues("rType");
+			String isSent = multiRequest.getParameter("isSent");
+			
 			// 메일 데이터
 			Mail m = new Mail();
 			m.setUserNo(senderNo);
 			m.setMailTitle(title);
 			m.setMailContent(content);
-			m.setIsSent("S");
+			m.setIsSent(isSent);
 			
 			// 첨부파일 데이터
 			Attachment at = null;
@@ -73,11 +74,13 @@ public class MailInsertController extends HttpServlet {
 			
 			// 수신인 데이터
 			ArrayList<MailReceiver> mrList = new ArrayList<MailReceiver>();
-			for(int i=0; i<userNoList.length; i++) {
-				MailReceiver mr = new MailReceiver();
-				mr.setReceiverNo(Integer.parseInt(userNoList[i]));
-				mr.setReceiverType(rTypeList[i].toUpperCase());
-				mrList.add(mr);
+			if(userNoList != null) { // 수신인 데이터가 있을때만 (임시저장시에는 수신인이 없을수도 있음)
+				for(int i=0; i<userNoList.length; i++) {
+					MailReceiver mr = new MailReceiver();
+					mr.setReceiverNo(Integer.parseInt(userNoList[i]));
+					mr.setReceiverType(rTypeList[i].toUpperCase());
+					mrList.add(mr);
+				}
 			}
 			
 			// 로그인사용자번호
@@ -86,7 +89,12 @@ public class MailInsertController extends HttpServlet {
 			int result = new MailService().insertMail(m, at, mrList, loginUserNo);
 			
 			if(result > 0) { // 성공
-				request.getSession().setAttribute("mailAlertMsg", "성공적으로 메일을 전송하였습니다.");
+				if(m.getIsSent().equals("T")) { // 임시저장메일인경우
+					request.getSession().setAttribute("mailAlertMsg", "메일을 임시저장하였습니다.");
+				}else {
+					request.getSession().setAttribute("mailAlertMsg", "성공적으로 메일을 전송하였습니다.");
+				}
+				
 			} else { // 실패
 				if(at != null) { // 첨부파일이 있는경우
 					new File(savePath + at.getChangeName()).delete(); // 첨부파일 삭제
@@ -94,7 +102,11 @@ public class MailInsertController extends HttpServlet {
 				request.getSession().setAttribute("mailAlertMsg", "메일 전송 실패");
 			}
 			
-			response.sendRedirect(request.getContextPath() + "/mail?mb=s&cpage=1");
+			if(m.getIsSent().equals("T")) { // 임시저장메일인경우
+				response.sendRedirect(request.getContextPath() + "/mail?mb=t&cpage=1"); // 임시보관함으로
+			}else {
+				response.sendRedirect(request.getContextPath() + "/mail?mb=s&cpage=1"); // 보낸메일함으로
+			}
 			
 		}
 	}

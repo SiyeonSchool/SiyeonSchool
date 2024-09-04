@@ -223,14 +223,17 @@ public class MailService {
 		// 메일소유자 DB에 추가
 		int ownerResult = 1;
 		
-		if(mrList.size() == 1 && mrList.get(0).getReceiverNo() == loginUserNo) { // 내게쓴메일
+		if(m.getIsSent().equals("T")) { // 임시저장메일
+			String tempMailboxNo = new MailDao().selectTempMailboxNo(conn, loginUserNo); // 발신인 -> 임시보관함
+			ownerResult *= new MailDao().insertMailOwner(conn, loginUserNo, tempMailboxNo);
+			
+		}else if(mrList.size() == 1 && mrList.get(0).getReceiverNo() == loginUserNo) { // 내게쓴메일
 			String myselfMailboxNo = new MailDao().selectMyselfMailboxNo(conn, loginUserNo); // 발신인 -> 내게쓴메일함
 			ownerResult *= new MailDao().insertMailOwner(conn, loginUserNo, myselfMailboxNo);
 			
-		} else { // 내게쓴메일이 아닌경우
+		} else { // 임시저장메일 or 내게쓴메일이 아닌경우
 			String sentMailboxNo = new MailDao().selectSentMailboxNo(conn, loginUserNo); // 발신인 -> 보낸메일함
 			ownerResult *= new MailDao().insertMailOwner(conn, loginUserNo, sentMailboxNo);
-			
 			for (MailReceiver mr: mrList) {
 				int receiverNo = mr.getReceiverNo();
 				String inboxNo =  new MailDao().selectInboxNo(conn, receiverNo); // 수신인 -> 받은메일함
@@ -294,6 +297,15 @@ public class MailService {
 		ArrayList<MailReceiver> list = new MailDao().selectAllStudentList(conn);
 		close(conn);
 		return list;
+	}
+	
+	// ===================== 메일 답장 관련 =============================
+	
+	public Mail selectMailtoReply(String mailNo) {
+		Connection conn = getConnection();
+		Mail m = new MailDao().selectMailtoReply(conn, mailNo);
+		close(conn);
+		return m;
 	}
 
 }

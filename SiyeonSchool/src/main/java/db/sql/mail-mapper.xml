@@ -604,6 +604,14 @@
 		   AND MAILBOX_NAME = '내게쓴메일함'
 	</entry>
 
+	<!-- 임시보관함 번호조회 -->
+	<entry key="selectTempMailboxNo">
+		SELECT MAILBOX_NO
+		  FROM MAILBOX
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NAME = '임시보관함'
+	</entry>
+
 	
 	<!-- ===================== 수신인 검색관련 ============================= -->
 	
@@ -682,6 +690,24 @@
 		 ORDER
 		    BY U.USER_NAME ASC
 	</entry>
+	
+	<!-- ===================== 메일 답장 관련 ============================= -->
+	
+	<!-- 메일조회 -->
+	<entry key="selectMailtoReply">
+		SELECT
+		       M.MAIL_NO
+		     , M.SENDER
+		     , U.USER_NAME
+		     , U.USER_ID
+		     , M.MAIL_TITLE
+		     , M.MAIL_CONTENT
+		     , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD (DY) HH24:MI') AS "SEND_DATE"
+		  FROM MAIL M
+		  JOIN USERS U ON (M.SENDER = U.USER_NO)
+		 WHERE M.MAIL_NO = ?
+	</entry>
+	
 	
 	
 </properties>

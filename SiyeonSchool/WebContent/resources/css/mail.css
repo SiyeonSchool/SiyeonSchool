@@ -913,7 +913,6 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-contents l
 /* 수신인 요약 - 총 몇명인지 */
 main.mail-detail .mail-detail-header .outer-table tr.receiver .listSummary{
   font-size: 14px;
-  font-weight: bold;
   margin-left: 10px;
 }
 
@@ -978,10 +977,17 @@ main.mail-detail .mail-detail-content img{
 	height:auto;
 }
 
-/* ------------- 위로 올라가기 버튼 ------------- */
+/* 메일 내용 내 모든 b태그 */
+main.mail-detail .mail-detail-content b{
+  font-weight: bold;
+}
+
+/* ------------- 위로 올라가기 버튼 (메일상세조회, 메일쓰기) ------------- */
 
 /* 버튼을 감싸고 있는 div */
-main.mail-detail #btnToGoUp {
+main.mail-detail #btnToGoUp,
+main.mail-write #btnToGoUp
+{
   position: fixed;
   left: 80%;
   bottom: 20px;
@@ -995,13 +1001,17 @@ main.mail-detail #btnToGoUp {
 }
 
 /* 버튼을 감싸고 있는 div - hover시*/
-main.mail-detail #btnToGoUp:hover{
+main.mail-detail #btnToGoUp:hover,
+main.mail-write #btnToGoUp:hover
+{
   background-color: var(--mail-active-color);
   font-weight: bold;
 }
 
 /* 아이콘 */
-main.mail-detail #btnToGoUp .icon{
+main.mail-detail #btnToGoUp .icon,
+main.mail-write #btnToGoUp .icon
+{
   font-size: 20px;
   padding: 5px;
 }

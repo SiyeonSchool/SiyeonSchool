@@ -18,13 +18,36 @@
 	ArrayList<MailWriteSearchResult> searchResultList = new ArrayList<MailWriteSearchResult>();
 	searchResultList.addAll(studentList);
 	searchResultList.addAll(contactsList);
+	
+	// 메일답장시 - 원본 메일의 정보를 화면에 미리 넣어주기
+	Mail m = null;
+	String mailTitle = "";
+	String mailContent = "";
+	if (request.getAttribute("m") != null) { 
+		m = (Mail)request.getAttribute("m");
+		
+		// 메일정보 + 원본 메일내용 => form에 넣어주기
+		StringBuilder sb = new StringBuilder();
+		sb.append("<br><br><br><br>----- Original Message -----<br>");
+		sb.append("<b>From:</b> " + m.getUserName() + " (" + m.getUserId() + ")<br>");
+		sb.append("<b>To:</b> " + "수신인누군가" + " (" + "userXXX" + ")<br>");
+		sb.append("<b>Cc:</b> " + "참조인누군가" + " (" + "userXXX" + ")<br>");
+		sb.append("<b>Sent:</b> " + m.getSendDate() + "<br>");
+		sb.append("<b>Subject:</b> " + m.getMailTitle() + "<br><br><br><br>");
+		sb.append(m.getMailContent());
+		mailContent = sb.toString();
+		
+		// 메일제목
+		mailTitle = "RE: " + m.getMailTitle();
+	};
+	
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	
+
 	<!-- 네이버 스마트에디터(SmartEditor) -->
 	<script type="text/javascript" src="<%= contextPath %>/resources/SE2/js/HuskyEZCreator.js" charset="utf-8"></script>
 	<script type="text/javascript">
@@ -43,7 +66,7 @@
 				}, 
 				fOnAppLoad : function(){
 				    //기존 저장된 내용의 text 내용을 에디터상에 뿌려주고자 할때 사용
-				    //oEditors.getById["ir1"].exec("PASTE_HTML", ["기존 DB에 저장된 내용을 에디터에 적용할 문구"]);
+				    oEditors.getById["ir1"].exec("PASTE_HTML", [`<%= mailContent %>`]);
 				},
 				fCreator: "createSEditor2"
 			});
@@ -64,7 +87,7 @@
 					setReceiverCheckboxesChecked();
 					alert("임시저장버튼 수행됨!");
 					changeIsSentToT();
-					// $("#frm").submit();
+					$("#frm").submit();
 				};
 			});
 		});
@@ -104,7 +127,7 @@
 					<tr class="mailtitle">
 						<td class="td-left">제목</td>
 						<td class="td-right">
-							<input type="text" id="title" name="title" placeholder="제목을 입력해주세요." maxlength="50" required/>
+							<input type="text" id="title" name="title" placeholder="제목을 입력해주세요." maxlength="50" value="<%= mailTitle %>" required/>
 						</td>
 					</tr>
 
@@ -208,6 +231,9 @@
 
 		</form>
 		
+		<div class="btn" id="btnToGoUp">
+			<span class="icon material-icons-round">arrow_upward</span>
+		</div>
 	</main>
 	
 </body>

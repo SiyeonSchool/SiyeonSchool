@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -905,6 +904,33 @@ public class MailDao {
 		return mailboxNo;
 	}
 	
+	public String selectTempMailboxNo(Connection conn, int loginUserNo) {
+		String mailboxNo = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectTempMailboxNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mailboxNo = rset.getString("MAILBOX_NO");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mailboxNo;
+	}
+	
 	public int insertMailOwner(Connection conn, int ownerNo, String mailboxNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -1127,7 +1153,41 @@ public class MailDao {
 		
 		return list;
 	}
-
+	
+	// ===================== 메일 답장 관련 =============================
+	
+	public Mail selectMailtoReply(Connection conn, String mailNo) {
+		Mail m = new Mail();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMailtoReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mailNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setUserNo(rset.getInt("SENDER"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setMailContent(rset.getString("MAIL_CONTENT"));
+				m.setSendDate(rset.getString("SEND_DATE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return m;
+	}
 
 
 

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.mail.model.service.MailService;
+import com.kh.mail.model.vo.Mail;
 import com.kh.mail.model.vo.MailWriteSearchResult;
 import com.kh.mail.model.vo.Mailbox;
 import com.kh.user.model.vo.User;
@@ -75,6 +76,18 @@ public class MailWriteFormController extends HttpServlet {
 		request.setAttribute("studentList", studentList);
 		request.setAttribute("contactsList", contactsList);
 		
+		
+		// ===================== 답장 관련 =====================
+		String mailNo = request.getParameter("m"); // 답장할 메일번호
+		if (mailNo != null) {
+			Mail m = new MailService().selectMailtoReply(mailNo);
+			
+			
+			request.setAttribute("m", m);
+		}
+		
+		
+		// ===================== 응답화면 =====================
 		request.getRequestDispatcher("views/mail/mailWrtieForm.jsp").forward(request, response);
 
 	}

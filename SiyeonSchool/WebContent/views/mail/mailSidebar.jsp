@@ -15,7 +15,7 @@
 	String currentMailbox = (String)request.getAttribute("currentMailbox");
 	// 기본메일함 - a(all: 전체메일함), i(inbox: 받은메일함), s(sent: 보낸메일함), t(temp: 임시보관함), m(myself: 내게쓴메일함), b(bin:휴지통), u(unread: 안읽은메일), im(important:중요메일)
 	// 내메일함 - 메일박스번호 ex) MB12, MB187, MB188
-	// 미선택시 - x(메일쓰기), xm(내게쓰기)
+	// 기타 - x(메일쓰기), xm(내게쓰기)
 	
 	// 메일 개수
 	ArrayList<Mailbox> mailboxCountList = (ArrayList<Mailbox>)request.getAttribute("mailboxCountList"); // 기본메일함별 메일개수 리스트 
