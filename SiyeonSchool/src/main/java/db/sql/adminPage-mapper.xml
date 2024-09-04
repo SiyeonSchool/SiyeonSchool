@@ -30,4 +30,8 @@
 	 WHERE USER_NO = ?
 </entry>
 
+<entry key="refusalStudent">
+
+</entry>
+
 </properties>

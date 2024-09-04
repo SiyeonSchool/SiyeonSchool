@@ -7,19 +7,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.adminPage.model.service.AdminPageService;
-
 /**
- * Servlet implementation class StudentInfoDetailController
+ * Servlet implementation class RefusalController
  */
-@WebServlet("/studentInfo.dt")
-public class StudentInfoDetailController extends HttpServlet {
+@WebServlet("/delete.st")
+public class RefusalController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StudentInfoDetailController() {
+    public RefusalController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,11 +26,9 @@ public class StudentInfoDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
-
-		int result = new AdminPageService().refusalStudent(userNo);
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

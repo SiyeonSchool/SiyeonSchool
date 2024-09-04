@@ -72,8 +72,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                    <button type="submit" class="btn btn-success" id="approveBtn">승인</button>
-                                    <button type="button" class="btn btn-danger" id="rejectBtn">거절</button>
+                                    <button type="submit" class="btn btn-success" id="approveBtn"  formaction="<%= contextPath2 %>/update.st">승인</button>
+                                    <button type="button" class="btn btn-danger" id="rejectBtn" formaction="<%= contextPath2 %>/delete.st">거절</button>
                                 </div>
                             </form>
                           </div>

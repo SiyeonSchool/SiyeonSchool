@@ -104,4 +104,10 @@ public class AdminPageDao {
         return result;
     }
 
+    public int refusalStudent(Connection conn, int userNo) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+        String sql = prop.getProperty("refusalStudent");
+    }
+
 }
