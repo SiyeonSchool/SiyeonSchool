@@ -24,4 +24,10 @@
 	 WHERE STATUS = 'W'
 </entry>
 
+<entry key="approveUser">
+	UPDATE USERS
+	   SET STATUS = 'Y'
+	 WHERE USER_NO = ?
+</entry>
+
 </properties>

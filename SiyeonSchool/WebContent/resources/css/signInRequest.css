@@ -1,4 +1,4 @@
-.myInfo__body{
+.signInRequest__body{
     width: 700px;
     height: 600px;
     background-color: #f7f1ff;
@@ -7,7 +7,7 @@
     margin-right: 50px;
 }
 
-.myInfo__body .signInRequest__header{
+.signInRequest__body .signInRequest__header{
     width: 150px;
     height: 40px;
     background-color: #DFCCFB;
@@ -21,33 +21,41 @@
 }
 
 
-.myInfo__body .myInfo__content{
+.signInRequest__body .signInRequest__content{
     margin-top: 30px;
     padding: 10px 20px;
 }
 
-.myInfo__body .myInfo__content table{
+.signInRequest__body .signInRequest__content table{
     width: 100%;
     border-collapse: collapse;
-    border-top: 1px solid #999;
 }
 
-.myInfo__body .myInfo__content table tr{
+.signInRequest__body .signInRequest__content table tr{
     border-bottom: 1px solid #999;
 }
 
-.myInfo__body .myInfo__content table td:first-child{
-    width: 20%;
+.signInRequest__body .signInRequest__content table td:first-child{
+    width: 80%;
     height: 40px;
-    background-color: #C2F0FF;
     text-align: left;
     vertical-align: middle;
-    border-right: 1px solid #999;
     padding: 10px 20px;
 }
 
-.myInfo__body .myInfo__content table td:last-child{
-    width: 80%;
+.signInRequest__body .signInRequest__content table td:last-child{
+    width: 20%;
     padding: 10px 20px;
 }
 
+.signInRequest__body .signInRequest__content table .infoBtn{
+    border: 2px solid #A98AFF;
+    border-radius: 5px;
+    background-color: #f7f1ff;
+}
+
+
+.signInRequest__body .signInRequest__content table .infoBtn:hover{
+    background-color: #DFCCFB;
+    color: #ffffff;
+}

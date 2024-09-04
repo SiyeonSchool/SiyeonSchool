@@ -30,6 +30,22 @@ public class AdminPageService {
         return list;
     }
 
+    public int approveUser(int userNo){
+        Connection conn = getConnection();
+        
+        int result = new AdminPageDao().approveUser(conn, userNo);
+
+        if(result > 0){
+            commit(conn);
+        }else{
+            rollback(conn);
+        }
+
+        close(conn);
+        
+        return result;
+    }
+
 }
 
 
