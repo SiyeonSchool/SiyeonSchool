@@ -864,7 +864,8 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-header li 
 
 /* ------------- 수신인 리스트 내용 ------------- */
 main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-contents{
-  max-height: 120px;
+  /* max-height: 120px; */
+  max-height: 200px;
   overflow-y: auto;
   margin-bottom: 5px;
   width: 90%;
@@ -1341,4 +1342,26 @@ main.mail-write form .mail-write-header table tr.receiver .td-right .listSummary
 /* 메일답장시, 원본메일정보부분 (Original Message) */
 #originalMsg{
   font-size: 14px;
+}
+
+/* ------------- 메일 전달 페이지 - 첨부파일 ------------- */
+main.mail-write .mail-write-header table tr.attachment .td-right{
+  height: 50px;
+  display: flex;
+  line-height: 50px;
+}
+
+main.mail-write .mail-write-header table tr.attachment .td-right a{
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+main.mail-write .mail-write-header table tr.attachment .td-right a:hover{
+  font-weight: bold;
+}
+
+main.mail-write .mail-write-header table tr.attachment .td-right .uploadInput{
+  display: flex;
+  align-items: center;
 }

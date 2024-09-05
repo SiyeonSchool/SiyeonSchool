@@ -1,3 +1,4 @@
+<%@page import="com.kh.common.model.vo.Attachment"%>
 <%@page import="com.kh.mail.model.vo.MailReceiver"%>
 <%@page import="com.kh.mail.model.vo.MailWriteSearchResult"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -20,20 +21,41 @@
 	searchResultList.addAll(studentList);
 	searchResultList.addAll(contactsList);
 	
+	// ===================== 답장 관련 =====================
 	// 메일답장시 - 원본 메일의 정보를 화면에 미리 넣어주기
 	Mail m = null;
+	String mailNo = "";
 	String mailTitle = "";
 	String mailContent = "";
+	int senderNo = 0;
+	String senderName = "";
+	String senderId = "";
+	ArrayList<MailReceiver> mrListR = new ArrayList<MailReceiver>(); // 수신인 리스트
+	ArrayList<MailReceiver> mrListC = new ArrayList<MailReceiver>(); // 참조인 리스트
+	ArrayList<Attachment> attList = null; // 첨부파일 리스트
+	String replyType = "";
 	
 	if(request.getAttribute("m") != null) { // 메일을 컨트롤러로부터 전달받았다면
 		m = (Mail)request.getAttribute("m"); // 메일정보
-		ArrayList<MailReceiver> mrListR = new ArrayList<MailReceiver>(); // 수신인 리스트
-		ArrayList<MailReceiver> mrListC = new ArrayList<MailReceiver>(); // 참조인 리스트
+
+		replyType = (String)request.getAttribute("replyType"); // 답장 타입 (s:single-답장, a:all-전체답장, f:forawd-전달)
 		
-		if(request.getAttribute("mrListR") != null){
+		if(replyType.equals("f")) { // 메일을 전달하는 경우
+			mailTitle = "Fw: " + m.getMailTitle(); // Fw: 전달
+			attList = (ArrayList<Attachment>)request.getAttribute("attList");
+		} else { // 메일 답장/전체답장의 경우
+			mailTitle = "Re: " + m.getMailTitle(); // Re: 답장/전체답장
+		}
+		
+		mailNo = m.getMailNo();
+		senderNo = m.getUserNo();
+		senderName = m.getUserName();
+		senderId = m.getUserId();
+		
+		if(request.getAttribute("mrListR") != null){ // 수신인리스트를 컨트롤러로부터 받았다면
 			mrListR.addAll((ArrayList<MailReceiver>)request.getAttribute("mrListR"));
 		}
-		if(request.getAttribute("mrListC") != null){
+		if(request.getAttribute("mrListC") != null){ // 참조인리스트를 컨트롤러로부터 받았다면
 			mrListC.addAll((ArrayList<MailReceiver>)request.getAttribute("mrListC"));
 		}
 	
@@ -58,14 +80,13 @@
 			sb3.append(mrListC.get(i).getReceiverName() + "(" + mrListC.get(i).getReceiverId() + ")");
 		}
 		mrListC_str = sb3.toString();
-
 		
 		// 메일정보 + 원본 메일내용 => form에 넣어주기
 		StringBuilder sb = new StringBuilder();
 		sb.append("<br><br><br><br>");
 		sb.append("<div id='originalMsg'>");
-		sb.append("----- Original Message -----<br>");
-		sb.append("<b>From:</b> " + m.getUserName() + " (" + m.getUserId() + ")<br>");
+		sb.append("--------------- Original Message ---------------<br>");
+		sb.append("<b>From:</b> " + senderName + " (" + senderId + ")<br>");
 		sb.append("<b>To:</b> " + mrListR_str + "<br>");
 		sb.append("<b>Cc:</b> " + mrListC_str + "<br>");
 		sb.append("<b>Sent:</b> " + m.getSendDate() + "<br>");
@@ -74,10 +95,14 @@
 		sb.append("<br><br><br><br>");
 		
 		sb.append(m.getMailContent()); // 메일 원본내용
-		mailContent = sb.toString();
+		mailContent = sb.toString(); // 에디터 본문에 넣을 최종 텍스트
 		
-		// 메일제목
-		mailTitle = "RE: " + m.getMailTitle();
+		if(mailTitle.length() > 100) { // 메일 제목이 db에 들어가기에 너무 길 경우, 뒷부분을 잘라줌.
+			mailTitle = mailTitle.subSequence(0, 96) + "...";
+		}
+		
+		// 첨부파일 받아오기
+		
 	};
 	
 %>
@@ -124,7 +149,6 @@
 			    oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 				if(validateMailtitle()){
 					setReceiverCheckboxesChecked();
-					alert("임시저장버튼 수행됨!");
 					changeIsSentToT();
 					$("#frm").submit();
 				};
@@ -141,6 +165,26 @@
 	
 	<!-- ======================================== 메인 ======================================== -->
 	
+	<script>
+		
+		// 메일 답장의 경우에 사용됨.
+		const senderNo = Number('<%= senderNo %>');
+		const senderName = '<%= senderName %>';
+		const senderId = '<%= senderId %>';
+		const replyType = '<%= replyType %>'; // 답장 타입 (s:single-답장, a:all-전체답장, f:forward-전달)
+		
+		$(document).ready(function(){
+			if (senderNo !== 0){ // 보낸사람이 있는경우
+				console.log("replyType:" + replyType);
+				switch(replyType) {
+					case "s": addSenderToRList(senderNo, senderName, senderId); break; // 답장 - 보낸사람을 수신인리스트에 추가
+					case "a": addOriginalReceiversToRList('<%= mailNo %>'); break; // 전체답장 - 기존 수신인들을 수신인리스트에 추가
+				}
+			}
+		})
+
+	</script>
+
 	<main class="mail-write">
 
 		<form id="frm" action="<%= contextPath %>/mail.insert" method="post" enctype="multipart/form-data">
@@ -156,7 +200,7 @@
 					<div class="email-btns">
 						<input type="button" class="btn" id="send" value="보내기"/>
 						<input type="button" class="btn" id="tempSave" value="임시저장">
-						<input type="hidden" id="isSent" name="isSent" value="S">
+						<input type="hidden" id="isSent" name="isSent" value="S"><!-- 보내기:S, 임시저장:T-->
 						<input type="button" class="btn" value="취소" onclick="cancelWritingMail()"/>
 					</div>
 				</div>
@@ -166,7 +210,7 @@
 					<tr class="mailtitle">
 						<td class="td-left">제목</td>
 						<td class="td-right">
-							<input type="text" id="title" name="title" placeholder="제목을 입력해주세요." maxlength="50" value="<%= mailTitle %>" required/>
+							<input type="text" id="title" name="title" placeholder="제목을 입력해주세요." maxlength="100" value="<%= mailTitle %>" required/>
 						</td>
 					</tr>
 
@@ -254,9 +298,19 @@
 
 					<tr class="attachment">
 						<td class="td-left">첨부파일</td>
-
 						<td class="td-right">
-							<input type="file" name="upfile">
+							<% if(attList != null) { %>
+								<% for(Attachment at : attList) { %>
+									<a class="file" download="<%= at.getOriginName() %>" href="<%= contextPath %>/<%= at.getFilePath() + at.getChangeName() %>">
+										<span class="icon material-icons">file_download</span>
+										<span class="fileName"><%= at.getOriginName() %></span>
+									</a>
+									<input type="hidden" name="originFileName" value="<%= at.getOriginName() %>">
+								<% } %>
+							<% } %>
+							<div class="uploadInput">
+								<input type="file" name="upfile">
+							</div>
 						</td>
 					</tr>
 					
