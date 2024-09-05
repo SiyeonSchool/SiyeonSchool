@@ -35,8 +35,8 @@ public class UpDeStudentController extends HttpServlet {
 
 		if(result > 0) {
             response.sendRedirect(request.getContextPath() + "/sigInRequest.list");
-        } else {
         }
+		
 
 	}
 

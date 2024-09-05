@@ -55,7 +55,7 @@
                     <div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" aria-labelledby="userInfoModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
-                            <form action="<%= contextPath2 %>/update.st" method="post">
+                            <form method="post">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="userInfoModalLabel">회원 정보</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
@@ -72,8 +72,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                    <button type="submit" class="btn btn-success" id="approveBtn"  formaction="<%= contextPath2 %>/update.st">승인</button>
-                                    <button type="button" class="btn btn-danger" id="rejectBtn" formaction="<%= contextPath2 %>/delete.st">거절</button>
+                                    <button type="submit" class="btn btn-success" id="approveBtn" formaction="<%= contextPath2 %>/update.st">승인</button>
+                                    <button type="submit" class="btn btn-danger" id="rejectBtn" formaction="<%= contextPath2 %>/delete.st">거절</button>
                                 </div>
                             </form>
                           </div>

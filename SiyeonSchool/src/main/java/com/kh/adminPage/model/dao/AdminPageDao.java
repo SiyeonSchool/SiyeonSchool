@@ -108,6 +108,19 @@ public class AdminPageDao {
         int result = 0;
         PreparedStatement pstmt = null;
         String sql = prop.getProperty("refusalStudent");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, userNo);
+
+            result = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally{
+            close(pstmt);
+        }
+        return result;
     }
 
 }

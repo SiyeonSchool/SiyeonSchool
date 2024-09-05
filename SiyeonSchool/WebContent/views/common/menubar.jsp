@@ -54,13 +54,13 @@
 	            	<% } %>
             <% }else { %>
             	<a href="<%= contextPath2 %>/home.st">
-				<% if(currentPage.equals("home_ad")) { %>
-					<!-- 메뉴 아이콘 이미지를 사용하기엔 크기를 맞추기 어려워서, 우선은 테두리 없는 아이콘으로 사용했습니다. 기존 이미지들은 주석처리함.-->
- 	  	            <!-- <img src="resources/images/menubar/home_sel.png" alt="홈버튼" style="height:45px; padding: 5px;"> -->
-					<div class="menu-icon material-icons-round" style="color: var(--darkSkyBlue);">home</div>
-            	<% } else { %>
-		            <div class="menu-icon material-icons-round">home</div>
-            	<% } %>
+					<% if(currentPage.equals("home_st")) { %>
+						<!-- 메뉴 아이콘 이미지를 사용하기엔 크기를 맞추기 어려워서, 우선은 테두리 없는 아이콘으로 사용했습니다. 기존 이미지들은 주석처리함.-->
+						<!-- <img src="resources/images/menubar/home_sel.png" alt="홈버튼" style="height:45px; padding: 5px;"> -->
+						<div class="menu-icon material-icons-round" style="color: var(--darkSkyBlue);">home</div>
+					<% } else { %>
+						<div class="menu-icon material-icons-round">home</div>
+					<% } %>
             <% } %>
             </a>
 

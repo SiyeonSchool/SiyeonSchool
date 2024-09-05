@@ -31,7 +31,9 @@
 </entry>
 
 <entry key="refusalStudent">
-
+	UPDATE USERS
+	   SET STATUS = 'N'
+	 WHERE USER_NO = ?
 </entry>
 
 </properties>
