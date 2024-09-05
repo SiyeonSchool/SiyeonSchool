@@ -84,10 +84,12 @@ public class MailWriteFormController extends HttpServlet {
 			Mail m = new MailService().selectMailtoReply(mailNo); // 메일정보
 			ArrayList<MailReceiver> mrListR = new MailService().selectMailReceiverOnlyR(mailNo); // 수신인 리스트
 			ArrayList<MailReceiver> mrListC = new MailService().selectMailReceiverOnlyC(mailNo); // 참조인 리스트
+			String replyType = request.getParameter("r"); // 답장 타입 (s:single-답장, a:all-전체답장, f:forawd-전달)
 			
-			request.setAttribute("m", m);
-			request.setAttribute("mrListR", mrListR);
-			request.setAttribute("mrListC", mrListC);
+			request.setAttribute("m", m); // 메일정보
+			request.setAttribute("mrListR", mrListR); // 수신인 리스트
+			request.setAttribute("mrListC", mrListC); // 참조인 리스트
+			request.setAttribute("replyType", replyType); // 답장 타입
 		}
 		
 		

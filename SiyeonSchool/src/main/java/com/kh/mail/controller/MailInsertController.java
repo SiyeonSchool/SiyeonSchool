@@ -3,6 +3,7 @@ package com.kh.mail.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +45,7 @@ public class MailInsertController extends HttpServlet {
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
 			// 첨부파일 관련
-			int maxSize = 10*1024*1024; // 10MB
+			int maxSize = 20*1024*1024; // 20MB
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/upfiles/mail/");
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 		

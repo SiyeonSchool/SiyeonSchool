@@ -79,7 +79,7 @@
 							 , M.MAIL_TITLE
 							 , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD (DY) HH24:MI') AS "SEND_DATE"
 						  FROM MAIL_OWNER MO
-                          JOIN MAIL_RECEIVER MR ON (MO.MAIL_NO = MR.MAIL_NO) AND (MO.OWNER_NO = MR.RECEIVER_NO)
+                          LEFT JOIN MAIL_RECEIVER MR ON (MO.MAIL_NO = MR.MAIL_NO) AND (MO.OWNER_NO = MR.RECEIVER_NO)
 						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
 						  JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
                           JOIN USERS U ON (M.SENDER = U.USER_NO)
@@ -738,6 +738,22 @@
 		   AND MR.RECEIVER_TYPE = 'C'
          ORDER
 		    BY U.USER_NAME ASC
+	</entry>
+	
+	<!-- 메일수신인 조회 : 수신인 + 참조인 -->
+	<entry key="selectOriginalReceiverList">
+		SELECT
+		       MR.MAIL_NO
+		     , MR.RECEIVER_NO
+		     , U.USER_NAME
+		     , U.USER_ID
+		     , MR.RECEIVER_TYPE
+		  FROM MAIL_RECEIVER MR
+		  JOIN USERS U ON (MR.RECEIVER_NO = U.USER_NO)
+		 WHERE MR.MAIL_NO = ?
+		   AND MR.RECEIVER_TYPE IN ('R', 'C')
+         ORDER
+		    BY MR.RECEIVER_TYPE DESC, U.USER_NAME ASC
 	</entry>
 	
 	

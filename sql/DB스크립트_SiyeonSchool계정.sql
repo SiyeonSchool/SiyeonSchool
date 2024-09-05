@@ -124,13 +124,11 @@ INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-5.pdf', 'resources/upfiles/classroom/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
 
 -- 메일
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M501', 'flower2.png', 'flower2_from_user01.png', 'resources/upfiles/mail/', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'mail_test_240829.pdf', 'mail_test_240829.pdf', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'flower2.png', 'flower2.png', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M503', 'tower1.png', 'tower1.png', 'resources/upfiles/mail/', TO_DATE('2024-07-03', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'river2.png', 'river2.png', 'resources/upfiles/mail/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'forest1.png', 'forest1.png', 'resources/upfiles/mail/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M507', 'flower1.png', 'flower1.png', 'resources/upfiles/mail/', TO_DATE('2024-07-07', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M501', 'flower2.PNG', 'flower2_from_user01.PNG', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'mail_test_240829.pdf', 'mail_test_240829.pdf', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M503', 'tower1.PNG', 'tower1.PNG', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-03', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'river2.PNG', 'river2.PNG', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M507', 'flower1.PNG', 'flower1.PNG', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-07', 'YYYY-MM-DD'), 'Y');
 
 
 --------------------------------------------------------------------------------
@@ -719,7 +717,7 @@ INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, 2, '테스트메일함
 CREATE TABLE MAIL (
     MAIL_NO VARCHAR2(10) PRIMARY KEY,
     SENDER NUMBER NOT NULL,
-    MAIL_TITLE VARCHAR2(150) NOT NULL,
+    MAIL_TITLE VARCHAR2(300) NOT NULL,
     MAIL_CONTENT CLOB,
     IS_SENT CHAR(1) NOT NULL,
     SEND_DATE DATE DEFAULT SYSDATE,

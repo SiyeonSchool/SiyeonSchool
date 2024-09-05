@@ -864,7 +864,8 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-header li 
 
 /* ------------- 수신인 리스트 내용 ------------- */
 main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-contents{
-  max-height: 120px;
+  /* max-height: 120px; */
+  max-height: 200px;
   overflow-y: auto;
   margin-bottom: 5px;
   width: 90%;
