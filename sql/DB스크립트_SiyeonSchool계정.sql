@@ -124,11 +124,11 @@ INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-5.pdf', 'resources/upfiles/classroom/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
 
 -- 메일
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M501', 'flower2.PNG', 'flower2_from_user01.PNG', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'mail_test_240829.pdf', 'mail_test_240829.pdf', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M503', 'tower1.PNG', 'tower1.PNG', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-03', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'river2.PNG', 'river2.PNG', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M507', 'flower1.PNG', 'flower1.PNG', 'resources/upfiles/mail/mailBasicData/', TO_DATE('2024-07-07', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M501', 'mail_test_240829.pdf', 'mail_test_240829.pdf', 'resources/upfiles/mail/', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'mail_test_개발자발작버튼.jpg', 'mail_test_개발자발작버튼.jpg', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M503', 'mail_test_북금곰에어팟짤.jpg', 'mail_test_북금곰에어팟짤.jpg', 'resources/upfiles/mail/', TO_DATE('2024-07-03', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'mail_test_왜되지.png', 'mail_test_왜되지.png', 'resources/upfiles/mail/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M507', 'mail_test_개발자가이드.png', 'mail_test_개발자가이드.png', 'resources/upfiles/mail/', TO_DATE('2024-07-07', 'YYYY-MM-DD'), 'Y');
 
 
 --------------------------------------------------------------------------------

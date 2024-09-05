@@ -2,7 +2,9 @@ package com.kh.mail.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 
 import javax.servlet.ServletException;
@@ -66,10 +68,16 @@ public class MailInsertController extends HttpServlet {
 			
 			// 첨부파일 데이터
 			Attachment at = null;
-			if(multiRequest.getOriginalFileName("upfile") != null) {
+			if(multiRequest.getOriginalFileName("upfile") != null) { // 새로 넘어온 첨부파일이 있으면 생성
 				at = new Attachment();
 				at.setOriginName(multiRequest.getOriginalFileName("upfile"));
 				at.setChangeName(multiRequest.getFilesystemName("upfile"));
+				at.setFilePath("resources/upfiles/mail/");
+			}else if(multiRequest.getParameter("originFileName") != null) {
+				at = new Attachment();
+				String originFileName = multiRequest.getParameter("originFileName"); // 이전 원본메일 첨부파일명
+				at.setOriginName(originFileName);
+				at.setChangeName(getCustomChangeName(originFileName));
 				at.setFilePath("resources/upfiles/mail/");
 			}
 			
@@ -119,4 +127,12 @@ public class MailInsertController extends HttpServlet {
 		doGet(request, response);
 	}
 
+	// 파일명 문자열로 받아서 새로운 파일명 반환하는 메소드
+	private String getCustomChangeName(String originName) {
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); 
+		int ranNum = (int)(Math.random() * 90000 + 10000); 
+		String ext = originName.substring(originName.lastIndexOf(".")); 
+		String changeName = currentTime + ranNum + ext;
+		return changeName;
+	}
 }

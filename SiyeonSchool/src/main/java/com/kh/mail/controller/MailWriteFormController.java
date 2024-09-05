@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.common.model.vo.Attachment;
 import com.kh.mail.model.service.MailService;
 import com.kh.mail.model.vo.Mail;
 import com.kh.mail.model.vo.MailReceiver;
@@ -85,6 +86,11 @@ public class MailWriteFormController extends HttpServlet {
 			ArrayList<MailReceiver> mrListR = new MailService().selectMailReceiverOnlyR(mailNo); // 수신인 리스트
 			ArrayList<MailReceiver> mrListC = new MailService().selectMailReceiverOnlyC(mailNo); // 참조인 리스트
 			String replyType = request.getParameter("r"); // 답장 타입 (s:single-답장, a:all-전체답장, f:forawd-전달)
+			
+			if(replyType.equals("f")) { // 전달하는 메일인 경우, 원본첨부파일도 전달
+				ArrayList<Attachment> attList = new MailService().selectAttachmentList(mailNo);
+				request.setAttribute("attList", attList);
+			}
 			
 			request.setAttribute("m", m); // 메일정보
 			request.setAttribute("mrListR", mrListR); // 수신인 리스트

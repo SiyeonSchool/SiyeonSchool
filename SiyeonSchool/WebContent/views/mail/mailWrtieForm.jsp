@@ -1,3 +1,4 @@
+<%@page import="com.kh.common.model.vo.Attachment"%>
 <%@page import="com.kh.mail.model.vo.MailReceiver"%>
 <%@page import="com.kh.mail.model.vo.MailWriteSearchResult"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -31,6 +32,7 @@
 	String senderId = "";
 	ArrayList<MailReceiver> mrListR = new ArrayList<MailReceiver>(); // 수신인 리스트
 	ArrayList<MailReceiver> mrListC = new ArrayList<MailReceiver>(); // 참조인 리스트
+	ArrayList<Attachment> attList = null; // 첨부파일 리스트
 	String replyType = "";
 	
 	if(request.getAttribute("m") != null) { // 메일을 컨트롤러로부터 전달받았다면
@@ -38,9 +40,10 @@
 
 		replyType = (String)request.getAttribute("replyType"); // 답장 타입 (s:single-답장, a:all-전체답장, f:forawd-전달)
 		
-		if(replyType.equals("f")) {
+		if(replyType.equals("f")) { // 메일을 전달하는 경우
 			mailTitle = "Fw: " + m.getMailTitle(); // Fw: 전달
-		} else {
+			attList = (ArrayList<Attachment>)request.getAttribute("attList");
+		} else { // 메일 답장/전체답장의 경우
 			mailTitle = "Re: " + m.getMailTitle(); // Re: 답장/전체답장
 		}
 		
@@ -82,7 +85,7 @@
 		StringBuilder sb = new StringBuilder();
 		sb.append("<br><br><br><br>");
 		sb.append("<div id='originalMsg'>");
-		sb.append("----- Original Message -----<br>");
+		sb.append("--------------- Original Message ---------------<br>");
 		sb.append("<b>From:</b> " + senderName + " (" + senderId + ")<br>");
 		sb.append("<b>To:</b> " + mrListR_str + "<br>");
 		sb.append("<b>Cc:</b> " + mrListC_str + "<br>");
@@ -97,6 +100,8 @@
 		if(mailTitle.length() > 100) { // 메일 제목이 db에 들어가기에 너무 길 경우, 뒷부분을 잘라줌.
 			mailTitle = mailTitle.subSequence(0, 96) + "...";
 		}
+		
+		// 첨부파일 받아오기
 		
 	};
 	
@@ -174,7 +179,6 @@
 				switch(replyType) {
 					case "s": addSenderToRList(senderNo, senderName, senderId); break; // 답장 - 보낸사람을 수신인리스트에 추가
 					case "a": addOriginalReceiversToRList('<%= mailNo %>'); break; // 전체답장 - 기존 수신인들을 수신인리스트에 추가
-					case "f": addOriginalAttachment('<%= mailNo %>'); break; // 전달 - 기존 첨부파일을 가져옴
 				}
 			}
 		})
@@ -295,7 +299,18 @@
 					<tr class="attachment">
 						<td class="td-left">첨부파일</td>
 						<td class="td-right">
-							<input type="file" name="upfile">
+							<% if(attList != null) { %>
+								<% for(Attachment at : attList) { %>
+									<a class="file" download="<%= at.getOriginName() %>" href="<%= contextPath %>/<%= at.getFilePath() + at.getChangeName() %>">
+										<span class="icon material-icons">file_download</span>
+										<span class="fileName"><%= at.getOriginName() %></span>
+									</a>
+									<input type="hidden" name="originFileName" value="<%= at.getOriginName() %>">
+								<% } %>
+							<% } %>
+							<div class="uploadInput">
+								<input type="file" name="upfile">
+							</div>
 						</td>
 					</tr>
 					
