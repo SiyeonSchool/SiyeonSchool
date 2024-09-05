@@ -708,6 +708,37 @@
 		 WHERE M.MAIL_NO = ?
 	</entry>
 	
+	<!-- 메일수신인 조회 : 수신인만 -->
+	<entry key="selectMailReceiverOnlyR">
+		SELECT
+		       MR.MAIL_NO
+		     , MR.RECEIVER_NO
+		     , U.USER_NAME
+		     , U.USER_ID
+		     , DECODE(MR.RECEIVER_TYPE, 'R', '수신', 'C', '참조', 'S', '비밀') AS "RECEIVER_TYPE"
+		  FROM MAIL_RECEIVER MR
+		  JOIN USERS U ON (MR.RECEIVER_NO = U.USER_NO)
+		 WHERE MR.MAIL_NO = ?
+		   AND MR.RECEIVER_TYPE = 'R'
+   		 ORDER
+		    BY U.USER_NAME ASC
+	</entry>
+	
+	<!-- 메일수신인 조회 : 참조인만 -->
+	<entry key="selectMailReceiverOnlyC">
+		SELECT
+		       MR.MAIL_NO
+		     , MR.RECEIVER_NO
+		     , U.USER_NAME
+		     , U.USER_ID
+		     , DECODE(MR.RECEIVER_TYPE, 'R', '수신', 'C', '참조', 'S', '비밀') AS "RECEIVER_TYPE"
+		  FROM MAIL_RECEIVER MR
+		  JOIN USERS U ON (MR.RECEIVER_NO = U.USER_NO)
+		 WHERE MR.MAIL_NO = ?
+		   AND MR.RECEIVER_TYPE = 'C'
+         ORDER
+		    BY U.USER_NAME ASC
+	</entry>
 	
 	
 </properties>

@@ -21,6 +21,16 @@ public class MailReceiver {
 		this.receiverType = receiverType;
 		this.readTime = readTime;
 	}
+	
+	// 메일답장시 기존 수신인 or 참조인 db에서 받아올때 사용됨
+	public MailReceiver(String mailNo, int receiverNo, String receiverName, String receiverId, String receiverType) {
+		super();
+		this.mailNo = mailNo;
+		this.receiverNo = receiverNo;
+		this.receiverName = receiverName;
+		this.receiverId = receiverId;
+		this.receiverType = receiverType;
+	}
 
 	// 주소록구성원 DB에서 조회후 결과 받아올대 사용됨.
 	public MailReceiver(int receiverNo, String receiverName, String receiverId) {

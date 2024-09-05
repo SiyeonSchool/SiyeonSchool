@@ -72,7 +72,8 @@
 		</div>
 
 		<div class="email-btns">
-			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=x&m=<%= m.getMailNo() %>'">답장</button>
+			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>'">답장</button>
+			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>'">전체답장</button>
 			<button class="btn">전달</button>
 			<button class="btn">이동</button>
 			<button class="btn">삭제</button>

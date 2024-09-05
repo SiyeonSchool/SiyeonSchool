@@ -676,7 +676,7 @@ main.mail-detail .email-btns .btn{
   background-color: #fff;
   padding: 8px;
   cursor: pointer;
-  width: 50px;
+  width: fit-content;
   margin-right: 5px;
 }
 
@@ -1336,5 +1336,9 @@ main.mail-write form .mail-write-header table tr.receiver .td-right .listSummary
 }
 
 
-/* ------------- 메일 상세내용 - 실재내용부분 (스마트에디터) ------------- */
-/* 스마트에디터 내 모든 이미지 */
+/* ------------- 메일 상세내용 - 실제내용부분 (스마트에디터) ------------- */
+
+/* 메일답장시, 원본메일정보부분 (Original Message) */
+#originalMsg{
+  font-size: 14px;
+}

@@ -308,4 +308,18 @@ public class MailService {
 		return m;
 	}
 
+	public ArrayList<MailReceiver> selectMailReceiverOnlyR(String mailNo) {
+		Connection conn = getConnection();
+		ArrayList<MailReceiver> list = new MailDao().selectMailReceiverOnlyR(conn, mailNo);
+		close(conn);
+		return list;
+	}
+
+	public ArrayList<MailReceiver> selectMailReceiverOnlyC(String mailNo) {
+		Connection conn = getConnection();
+		ArrayList<MailReceiver> list = new MailDao().selectMailReceiverOnlyC(conn, mailNo);
+		close(conn);
+		return list;
+	}
+
 }

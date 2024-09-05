@@ -1,3 +1,4 @@
+<%@page import="com.kh.mail.model.vo.MailReceiver"%>
 <%@page import="com.kh.mail.model.vo.MailWriteSearchResult"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -23,18 +24,56 @@
 	Mail m = null;
 	String mailTitle = "";
 	String mailContent = "";
-	if (request.getAttribute("m") != null) { 
-		m = (Mail)request.getAttribute("m");
+	
+	if(request.getAttribute("m") != null) { // 메일을 컨트롤러로부터 전달받았다면
+		m = (Mail)request.getAttribute("m"); // 메일정보
+		ArrayList<MailReceiver> mrListR = new ArrayList<MailReceiver>(); // 수신인 리스트
+		ArrayList<MailReceiver> mrListC = new ArrayList<MailReceiver>(); // 참조인 리스트
+		
+		if(request.getAttribute("mrListR") != null){
+			mrListR.addAll((ArrayList<MailReceiver>)request.getAttribute("mrListR"));
+		}
+		if(request.getAttribute("mrListC") != null){
+			mrListC.addAll((ArrayList<MailReceiver>)request.getAttribute("mrListC"));
+		}
+	
+		// 수신인리스트 -> '이름(아이디)' 형식으로 하나의 문자열로 합침
+		String mrListR_str = "";
+		StringBuilder sb2 = new StringBuilder();
+		for(int i=0; i<mrListR.size(); i++) {
+			if(i != 0) {
+				sb2.append(", ");
+			}
+			sb2.append(mrListR.get(i).getReceiverName() + "(" + mrListR.get(i).getReceiverId() + ")");
+		}
+		mrListR_str = sb2.toString();
+		
+		// 참조인리스트 -> '이름(아이디)' 형식으로 하나의 문자열로 합침
+		String mrListC_str = "";
+		StringBuilder sb3 = new StringBuilder();
+		for(int i=0; i<mrListC.size(); i++) {
+			if(i != 0) {
+				sb3.append(", ");
+			}
+			sb3.append(mrListC.get(i).getReceiverName() + "(" + mrListC.get(i).getReceiverId() + ")");
+		}
+		mrListC_str = sb3.toString();
+
 		
 		// 메일정보 + 원본 메일내용 => form에 넣어주기
 		StringBuilder sb = new StringBuilder();
-		sb.append("<br><br><br><br>----- Original Message -----<br>");
+		sb.append("<br><br><br><br>");
+		sb.append("<div id='originalMsg'>");
+		sb.append("----- Original Message -----<br>");
 		sb.append("<b>From:</b> " + m.getUserName() + " (" + m.getUserId() + ")<br>");
-		sb.append("<b>To:</b> " + "수신인누군가" + " (" + "userXXX" + ")<br>");
-		sb.append("<b>Cc:</b> " + "참조인누군가" + " (" + "userXXX" + ")<br>");
+		sb.append("<b>To:</b> " + mrListR_str + "<br>");
+		sb.append("<b>Cc:</b> " + mrListC_str + "<br>");
 		sb.append("<b>Sent:</b> " + m.getSendDate() + "<br>");
-		sb.append("<b>Subject:</b> " + m.getMailTitle() + "<br><br><br><br>");
-		sb.append(m.getMailContent());
+		sb.append("<b>Subject:</b> " + m.getMailTitle());
+		sb.append("</div>");
+		sb.append("<br><br><br><br>");
+		
+		sb.append(m.getMailContent()); // 메일 원본내용
 		mailContent = sb.toString();
 		
 		// 메일제목
@@ -109,7 +148,7 @@
 			<div class="mail-write-header">
 
 				<div class="title">
-					<% if(!currentMailbox.equals("xm")) { %>
+					<% if(!currentMailbox.equals("wm")) { %>
 						<h2>메일쓰기</h2>
 					<% } else { %>
 						<h2>내게쓰기</h2>
@@ -131,7 +170,7 @@
 						</td>
 					</tr>
 
-					<% if(!currentMailbox.equals("xm")) { %> <!-- 내게쓰기가 아닐경우 -->
+					<% if(!currentMailbox.equals("wm")) { %> <!-- 내게쓰기가 아닐경우 -->
 						<tr class="receiver">
 							<td class="td-left">받는사람</td>
 							<td class="td-right">

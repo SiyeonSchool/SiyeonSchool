@@ -517,6 +517,28 @@ function displayCurrentReceiverCount() {
     $receiverSCountEl.text(receiverSCount);
 }
 
+
+// 메일쓰기페이지 - 위로가기 버튼
+$(() => {
+    var $mailWrite = $('.mail-write');
+
+    $mailWrite.scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('#btnToGoUp').fadeIn();
+        } else {
+            $('#btnToGoUp').fadeOut();
+        }
+    });
+
+    $("#btnToGoUp").click(function () {
+        $mailWrite.animate({
+            scrollTop: 0
+        }, 400);
+        return false;
+    });
+});
+
+
 // ------------- 메일 보내기 관련 -------------
 
 // 메일제목 비었는지 검증
@@ -532,18 +554,16 @@ function validateMailtitle() {
 // 메일수신인 있는지 검증
 function validateMailReceiver() {
     const $receiverList = $("main.mail-write .receiver .list-contents").find("li");
-    if ($receiverList.length <= 0 && currentMailbox !== "xm") { // 수신인이 없거나, 내게쓰기가 아닌경우
+    if ($receiverList.length <= 0 && currentMailbox !== "wm") { // 수신인이 없거나, 내게쓰기가 아닌경우
         $("main.mail-write #searchReceiver").focus();
         return false;
     };
     return true;
 }
 
-
-
 // 메일 보내기 버튼 클릭시, 수신인 리스트에 있는 데이터를 보내주기 위해서, 수신인리스트의 (보이지않는)체크박스를 체크함.
 function setReceiverCheckboxesChecked() {
-    if (currentMailbox === "xm") { // 내게쓰기인 경우, 아래 수행안함.
+    if (currentMailbox === "wm") { // 내게쓰기인 경우, 아래 수행안함.
         return;
     }
 
@@ -565,29 +585,10 @@ function cancelWritingMail() {
 }
 
 // ------------- 메일 임시저장 -------------
+
 // isSent를 S(보내기)->T(임시저장)로 변경
 function changeIsSentToT() {
     const $isSentEl = $("main.mail-write #isSent");
     $isSentEl.val("T");
 }
 
-
-// 메일쓰기페이지 - 위로가기 버튼
-$(() => {
-    var $mailWrite = $('.mail-write');
-
-    $mailWrite.scroll(function () {
-        if ($(this).scrollTop() > 50) {
-            $('#btnToGoUp').fadeIn();
-        } else {
-            $('#btnToGoUp').fadeOut();
-        }
-    });
-
-    $("#btnToGoUp").click(function () {
-        $mailWrite.animate({
-            scrollTop: 0
-        }, 400);
-        return false;
-    });
-});

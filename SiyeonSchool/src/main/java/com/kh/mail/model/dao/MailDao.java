@@ -1189,6 +1189,66 @@ public class MailDao {
 		return m;
 	}
 
+	public ArrayList<MailReceiver> selectMailReceiverOnlyR(Connection conn, String mailNo) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMailReceiverOnlyR");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mailNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getString("MAIL_NO"),
+										  rset.getInt("RECEIVER_NO"),
+										  rset.getString("USER_NAME"),
+										  rset.getString("USER_ID"),
+										  rset.getString("RECEIVER_TYPE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<MailReceiver> selectMailReceiverOnlyC(Connection conn, String mailNo) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMailReceiverOnlyC");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mailNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getString("MAIL_NO"),
+										  rset.getInt("RECEIVER_NO"),
+										  rset.getString("USER_NAME"),
+										  rset.getString("USER_ID"),
+										  rset.getString("RECEIVER_TYPE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
 
 
 	
