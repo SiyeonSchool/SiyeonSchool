@@ -59,3 +59,12 @@
     background-color: #DFCCFB;
     color: #ffffff;
 }
+
+body p {
+    margin: 0px;
+}
+
+body a:hover {
+    text-decoration: none;
+    color: #333;
+}

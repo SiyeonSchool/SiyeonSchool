@@ -32,6 +32,8 @@ public class MyPageATDController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		int userNo = ((User) (request.getSession().getAttribute("loginUser"))).getUserNo();
+
 		request.getSession().setAttribute("currentPage", "myATD");
         request.getRequestDispatcher("views/myPage/myPageATD.jsp").forward(request, response);
 	}

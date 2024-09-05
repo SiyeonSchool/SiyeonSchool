@@ -63,7 +63,7 @@ function generateCalendar() {
                     // 토요일은 파란색
                     cellStyle = 'color: blue;';
                 }
-                calendarHTML += '<td style="' + cellStyle +'">' + dayCounter + '</td>';
+                calendarHTML += '<td class="calendar_date" style="' + cellStyle +'">' + dayCounter + '</td>';
                 dayCounter++;
             }
         }
@@ -80,13 +80,15 @@ function generateCalendar() {
     // 생성된 달력을 달력 컨테이너에 추가
     var calendarContainer = document.getElementById("calendar");
     calendarContainer.innerHTML = calendarHTML;
+
+    // 현재 날짜에 스타일 추가
+    highlightCurrentDate();
 }
 
 // 페이지 로드 시 실행할 함수들
 window.onload = function () {
     generateCalendar();
-    // 현재 날짜에 스타일 추가
-    highlightCurrentDate();
+    
 
     todoHeader();
     dDay();
@@ -97,7 +99,7 @@ function highlightCurrentDate(){
     let currentDate = new Date();
     let currentDay = currentDate.getDate();
 
-    let calendarCells = document.querySelectorAll('td');
+    let calendarCells = document.querySelectorAll('.calendar_date');
     calendarCells.forEach(function (cell) {
         let cellDay = parseInt(cell.innerText);
 

@@ -215,7 +215,7 @@ CREATE TABLE MAILBOX(
     MAILBOX_NAME VARCHAR2(50) NOT NULL,
     MAILBOX_TYPE CHAR(1) DEFAULT 'B' NOT NULL,
     MAILBOX_STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-    FOREIGN KEY(OWNER_NO) REFERENCES USERS(USER_NO),
+    FOREIGN KEY(OWNER_NO) REFERENCES USERS(USER_NO) ON DELETE CASCADE,
     CHECK(MAILBOX_TYPE IN('B', 'P')),
     CHECK(MAILBOX_STATUS IN('Y', 'N'))
 );
@@ -1003,7 +1003,7 @@ CREATE TABLE MAIL_OWNER(
     MAILBOX_NO VARCHAR2(10) NOT NULL,
     MAIL_STAR CHAR(1) DEFAULT 'N' NOT NULL,
     MAIL_STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-    PRIMARY KEY(OWNER_NO, MAIL_NO, MAILBOX_NO),
+    PRIMARY KEY(OWNER_NO, MAIL_NO),
     FOREIGN KEY(MAILBOX_NO) REFERENCES MAILBOX(MAILBOX_NO),
     CHECK(MAIL_STAR IN ('Y', 'N')),
     CHECK(MAIL_STATUS IN ('Y', 'N'))
@@ -1513,7 +1513,7 @@ BEGIN
         USER_NO NUMBER,
         DAY DATE,
         STATE_CODE VARCHAR2(6),
-        USE_DAY_OFF NUMBER DEFAULT 0,
+        USE_DAY_OFF NUMBER DEFAULT 6,
         PRIMARY KEY (USER_NO, DAY),
         FOREIGN KEY (STATE_CODE) REFERENCES ATD_STATE (STATE_CODE)
     )';
@@ -1544,9 +1544,9 @@ BEGIN
                     v_user_no,
                     v_date,
                     CASE
-                        WHEN DBMS_RANDOM.VALUE < 0.1 THEN 'LATE'  -- 10% 확률로 지각
-                        WHEN DBMS_RANDOM.VALUE < 0.2 THEN 'ABS'   -- 10% 확률로 결석 (지각과 결석의 총 비율은 20%)
-                        WHEN DBMS_RANDOM.VALUE < 0.3 THEN 'E_OUT' -- 10% 확률로 조퇴
+                        WHEN DBMS_RANDOM.VALUE < 0.05 THEN 'LATE'  -- 10% 확률로 지각
+                        WHEN DBMS_RANDOM.VALUE < 0.1 THEN 'ABS'   -- 10% 확률로 결석 (지각과 결석의 총 비율은 20%)
+                        WHEN DBMS_RANDOM.VALUE < 0.15 THEN 'E_OUT' -- 10% 확률로 조퇴
                         ELSE 'ATD'                               -- 나머지는 출석
                     END
                 );
@@ -1556,32 +1556,6 @@ BEGIN
     END LOOP;
 END;
 /
-
-
--- 프로시저를 생성하여 USE_DAY_OFF 값을 업데이트합니다.
-CREATE OR REPLACE PROCEDURE update_use_day_off IS
-BEGIN
-    -- 모든 사용자 번호를 반복
-    FOR rec IN (SELECT DISTINCT USER_NO FROM ATTENDANCE) LOOP
-        -- 상태 코드가 'ATD'와 'DAY_OFF'의 수를 카운트
-        UPDATE ATTENDANCE
-        SET USE_DAY_OFF = (
-            SELECT FLOOR(COUNT(*) / 20)
-            FROM ATTENDANCE
-            WHERE USER_NO = rec.USER_NO
-              AND STATE_CODE IN ('ATD', 'DAY_OFF')
-        )
-        WHERE USER_NO = rec.USER_NO;
-    END LOOP;
-END;
-/
-
--- 프로시저 호출
-BEGIN
-    update_use_day_off;
-END;
-/
-
 
 --------------------------------------------------------------------------------
 --############### 일정표 ###############

@@ -9,5 +9,10 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/dev/apache-tomcat-9.0.91/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="C:/dev/cos-22.05 (1)/lib/cos.jar"/>
+	<classpathentry kind="lib" path="C:/dev/gson-2.8.5.jar"/>
+	<classpathentry kind="lib" path="C:/dev/cos/commons-fileupload-1.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/dev/cos/commons-io-2.1.jar"/>
+	<classpathentry kind="lib" path="C:/dev/ojdbc6.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

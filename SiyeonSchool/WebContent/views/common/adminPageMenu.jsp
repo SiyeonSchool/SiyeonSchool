@@ -23,59 +23,67 @@
             </div>
             <!-- 관리자페이지 메뉴바 영역 -->
             <div id="menu-area">
-                <ul>
-                    <li>
-                        <% if(currentPage.equals("sigInRequest")) { %>
-                            <a href="<%= contextPath2 %>/sigInRequest.list"  class="admin-menu selected">
+                <ul class="side_nav">
+                    <% if(currentPage.equals("sigInRequest")) { %>
+                        <li class="admin-menu selected">
+                            <a href="<%= contextPath2 %>/sigInRequest.list">
                                 <span>회원가입 관리</span>
                                 <span class="material-icons">navigate_next</span>
                             </a>
-                        <% } else { %>
-                            <a href="<%= contextPath2 %>/sigInRequest.list"  class="admin-menu">
+                        </li>
+                    <% } else { %>
+                        <li class="admin-menu none">
+                            <a href="<%= contextPath2 %>/sigInRequest.list">
                                 <span>회원가입 관리</span>
                                 <span class="material-icons">navigate_next</span>
                             </a>
-                        <% } %>
-                    </li>
-                    <li>
-                        <% if(currentPage.equals("myATD")) { %>
-                            <a href="<%= contextPath2 %>/atd.list"  class="admin-menu selected">
+                        </li>
+                    <% } %>
+                    <% if(currentPage.equals("myATD")) { %>
+                        <li class="admin-menu selected">
+                            <a href="<%= contextPath2 %>/atd.list">
                                 <span>학생정보</span>
                                 <span class="material-icons">navigate_next</span>
                             </a>
-                            <% } else { %>
-                            <a href="<%= contextPath2 %>/atd.list"  class="admin-menu">
+                        </li>
+                    <% } else { %>
+                        <li class="admin-menu none">
+                            <a href="<%= contextPath2 %>/atd.list">
                                 <span>학생정보</span>
                                 <span class="material-icons">navigate_next</span>
                             </a>
-                            <% } %>
-                    </li>
-                    <li>
-                        <% if(currentPage.equals("myScore")) { %>
-                            <a href="<%= contextPath2 %>/myScore.list"  class="admin-menu selected">
+                        </li>
+                    <% } %>
+                    <% if(currentPage.equals("myScore")) { %>
+                        <li class="admin-menu selected">
+                            <a href="<%= contextPath2 %>/myScore.list">
                                 <span>학생출결</span>
                                 <span class="material-icons">navigate_next</span>
                             </a>
-                            <% } else { %>
-                            <a href="<%= contextPath2 %>/myScore.list"  class="admin-menu">
+                        </li>
+                    <% } else { %>
+                            <li class="admin-menu none">
+                            <a href="<%= contextPath2 %>/myScore.list">
                                 <span>학생출결</span>
                                 <span class="material-icons">navigate_next</span>
                             </a>
-                        <% } %>
-                    </li>
-                    <li>
-                        <% if(currentPage.equals("myScore")) { %>
-                            <a href="<%= contextPath2 %>/myScore.list"  class="admin-menu selected">
+                        </li>
+                    <% } %>
+                    <% if(currentPage.equals("myScore")) { %>
+                        <li class="admin-menu selected">
+                            <a href="<%= contextPath2 %>/myScore.list">
                                 <span>학생 성적 관리</span>
                                 <span class="material-icons">navigate_next</span>
                             </a>
-                            <% } else { %>
-                            <a href="<%= contextPath2 %>/myScore.list"  class="admin-menu">
+                        </li>
+                    <% } else { %>
+                        <li class="admin-menu none">
+                            <a href="<%= contextPath2 %>/myScore.list">
                                 <span>학생 성적 관리</span>
                                 <span class="material-icons">navigate_next</span>
                             </a>
-                        <% } %>
-                    </li>
+                        </li>
+                    <% } %>
                 </ul>
             </div>
             </div>

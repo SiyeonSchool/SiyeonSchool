@@ -250,8 +250,18 @@
 						<tr class="nothing">
 							<td colspan="2">받은 메일함이 비어있습니다</td>
 						</tr>
-					<% }else {%>
-						<% for(int i=0 ; i<5 ; i++){ %>
+					<% }else if(mList.size() < 7){%>
+						<% for(int i=0 ; i<mList.size() ; i++){ %>
+							<tr>
+								<td class="mail__title">
+									<div class="sender"><span><%= mList.get(i).getUserName() %></span></div>
+									<%= mList.get(i).getMailTitle() %>
+								</td>
+								<td class="mail__send_date"><%= mList.get(i).getSendDate() %></td>
+							</tr>
+						<% } %>
+					<% } else{ %>
+						<% for(int i=0 ; i<7 ; i++){ %>
 							<tr>
 								<td class="mail__title">
 									<div class="sender"><span><%= mList.get(i).getUserName() %></span></div>
