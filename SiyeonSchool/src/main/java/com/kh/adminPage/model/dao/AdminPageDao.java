@@ -53,4 +53,74 @@ public class AdminPageDao {
 
     }
 
+    public ArrayList<User> selectSignRequest(Connection conn){
+        ArrayList<User> list = new ArrayList<User>();
+        PreparedStatement pstmt = null;        
+        ResultSet rset = null;
+        String sql = prop.getProperty("selectSignRequest");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            rset = pstmt.executeQuery();
+
+            while(rset.next()){
+                list.add(new User(rset.getInt("user_no"),
+                                  rset.getString("user_id"),
+                                  rset.getString("user_pwd"),
+                                  rset.getString("user_name"),
+                                  rset.getString("phone"),
+                                  rset.getString("birthday"),
+                                  rset.getString("email"),
+                                  rset.getString("address"),
+                                  rset.getString("enroll_date")));
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally{
+            close(rset);
+            close(pstmt);
+        }
+
+        return list;
+    }
+
+    public int approveUser(Connection conn, int userNo){
+        int result = 0;
+        PreparedStatement pstmt = null;
+        String sql = prop.getProperty("approveUser");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, userNo);
+            result = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            close(pstmt);
+        }
+
+        return result;
+    }
+
+    public int refusalStudent(Connection conn, int userNo) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+        String sql = prop.getProperty("refusalStudent");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, userNo);
+
+            result = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally{
+            close(pstmt);
+        }
+        return result;
+    }
+
 }
