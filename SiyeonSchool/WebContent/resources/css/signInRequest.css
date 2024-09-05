@@ -1,0 +1,61 @@
+.signInRequest__body{
+    width: 700px;
+    height: 600px;
+    background-color: #f7f1ff;
+    border-radius: 20px;
+    float: right;
+    margin-right: 50px;
+}
+
+.signInRequest__body .signInRequest__header{
+    width: 150px;
+    height: 40px;
+    background-color: #DFCCFB;
+    border-top: 3px solid #A98AFF;
+    margin-top: 50px;
+    margin-left: 10px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.signInRequest__body .signInRequest__content{
+    margin-top: 30px;
+    padding: 10px 20px;
+}
+
+.signInRequest__body .signInRequest__content table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.signInRequest__body .signInRequest__content table tr{
+    border-bottom: 1px solid #999;
+}
+
+.signInRequest__body .signInRequest__content table td:first-child{
+    width: 80%;
+    height: 40px;
+    text-align: left;
+    vertical-align: middle;
+    padding: 10px 20px;
+}
+
+.signInRequest__body .signInRequest__content table td:last-child{
+    width: 20%;
+    padding: 10px 20px;
+}
+
+.signInRequest__body .signInRequest__content table .infoBtn{
+    border: 2px solid #A98AFF;
+    border-radius: 5px;
+    background-color: #f7f1ff;
+}
+
+
+.signInRequest__body .signInRequest__content table .infoBtn:hover{
+    background-color: #DFCCFB;
+    color: #ffffff;
+}
