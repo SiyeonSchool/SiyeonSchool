@@ -38,7 +38,7 @@ public class MailReadUpdateController extends HttpServlet {
 		String mailNo = request.getParameter("m");   // 현재 메일
 		String readYN = request.getParameter("r");   // 읽음 ("Y" or "N")
 		
-		System.out.println("mailbox:" + mailbox + ", cpage:" + cpage + " // mailNo:" + mailNo + ", readYN:" + readYN);
+		// System.out.println("mailbox:" + mailbox + ", cpage:" + cpage + " // mailNo:" + mailNo + ", readYN:" + readYN);
 		
 		new MailService().updateRead(readYN, ownerNo, mailNo);
 		

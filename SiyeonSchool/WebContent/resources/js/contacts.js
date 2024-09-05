@@ -951,8 +951,7 @@ function selectCategoryList() {
                 resolve(result);
             },
             error: function() {
-                console.error('AJAX 통신실패: selectCategoryList()');
-                reject(new Error('Failed to load category list'));
+                reject(new Error('AJAX 통신실패: selectCategoryList()'));
             }
         });
     });

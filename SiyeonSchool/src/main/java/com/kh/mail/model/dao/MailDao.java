@@ -16,6 +16,7 @@ import com.kh.common.model.vo.Attachment;
 import com.kh.common.model.vo.PageInfo;
 import com.kh.mail.model.vo.Mail;
 import com.kh.mail.model.vo.MailReceiver;
+import com.kh.mail.model.vo.MailWriteSearchResult;
 import com.kh.mail.model.vo.Mailbox;
 
 public class MailDao {
@@ -517,56 +518,6 @@ public class MailDao {
 	
 	// ===================== 메일 상세 조회 =============================
 
-	public String selectIsRead(Connection conn, int ownerNo, String mailNo) {
-		String isRead = null;
-		
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectIsRead");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, ownerNo);
-			pstmt.setString(2, mailNo);
-			
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				isRead = rset.getString("IS_READ");
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		
-		return isRead;
-	}
-	
-	public int updateIsRead(Connection conn, int ownerNo, String mailNo) {
-		int result = 0;
-		
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("updateReadToSysdate");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, ownerNo);
-			pstmt.setString(2, mailNo);
-			
-			result = pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		
-		return result;
-	}
-	
 	public Mail selectMail(Connection conn, int ownerNo, String mailNo) {
 		Mail m = null;
 		
@@ -726,6 +677,36 @@ public class MailDao {
 
 	// ===================== 읽음 수정 =============================
 	
+	public String selectIsRead(Connection conn, int ownerNo, String mailNo) {
+		String isRead = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectIsRead");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			pstmt.setString(2, mailNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				isRead = rset.getString("IS_READ");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return isRead;
+	}
+	
+	
+	
 	public int updateReadToNull(Connection conn, int ownerNo, String mailNo) {
 		
 		int result = 0;
@@ -772,5 +753,503 @@ public class MailDao {
 		return result;
 	}
 
+	// ===================== 메일 보내기 =============================
+	
+	public int insertMail(Connection conn, Mail m) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertMail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, m.getUserNo());
+			pstmt.setString(2, m.getMailTitle());
+			pstmt.setString(3, m.getMailContent());
+			pstmt.setString(4, m.getIsSent());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int insertAttachment(Connection conn, Attachment at) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, at.getOriginName());
+			pstmt.setString(2, at.getChangeName());
+			pstmt.setString(3, at.getFilePath());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
+	public int insertMailReceiver(Connection conn, MailReceiver mr) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertMailReceiver");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, mr.getReceiverNo());
+			pstmt.setString(2, mr.getReceiverType());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public String selectSentMailboxNo(Connection conn, int ownerNo) {
+		String mailboxNo = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectSentMailboxNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mailboxNo = rset.getString("MAILBOX_NO");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mailboxNo;
+	}
+
+
+	public String selectInboxNo(Connection conn, int ownerNo) {
+		String mailboxNo = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectInboxNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mailboxNo = rset.getString("MAILBOX_NO");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mailboxNo;
+	}
+
+
+	public String selectMyselfMailboxNo(Connection conn, int loginUserNo) {
+		String mailboxNo = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMyselfMailboxNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mailboxNo = rset.getString("MAILBOX_NO");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mailboxNo;
+	}
+	
+	public String selectTempMailboxNo(Connection conn, int loginUserNo) {
+		String mailboxNo = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectTempMailboxNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mailboxNo = rset.getString("MAILBOX_NO");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mailboxNo;
+	}
+	
+	public int insertMailOwner(Connection conn, int ownerNo, String mailboxNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertMailOwner");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			pstmt.setString(2, mailboxNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	
+	// ===================== 수신인 검색관련 =============================
+	
+	public MailWriteSearchResult selectTeacher(Connection conn) {
+		MailWriteSearchResult teacher = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectTeacher");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				teacher = new MailWriteSearchResult(rset.getInt("USER_NO"),
+												    rset.getString("USER_NAME"),
+												    rset.getString("USER_ID"),
+												    true);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return teacher;
+	}
+	
+	public ArrayList<MailWriteSearchResult> selectStudentList(Connection conn) {
+		ArrayList<MailWriteSearchResult> list = new ArrayList<MailWriteSearchResult>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectStudentList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailWriteSearchResult(rset.getInt("USER_NO"),
+												   rset.getString("USER_NAME"),
+												   rset.getString("USER_ID"),
+												   true));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<MailWriteSearchResult> selectPublicContactsList(Connection conn) {
+		ArrayList<MailWriteSearchResult> list = new ArrayList<MailWriteSearchResult>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPublicContactsList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailWriteSearchResult(rset.getInt("CONTACTS_NO"),
+												   rset.getString("CONTACTS_NAME"),
+												   false));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<MailWriteSearchResult> selectPrivateContactsList(Connection conn, int ownerNo) {
+		ArrayList<MailWriteSearchResult> list = new ArrayList<MailWriteSearchResult>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPrivateContactsList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailWriteSearchResult(rset.getInt("CONTACTS_NO"),
+												   rset.getString("CONTACTS_NAME"),
+												   false));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<MailReceiver> selectContactsMemberList(Connection conn, int contactsNo) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectContactsMemberList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, contactsNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getInt("USER_NO"),
+										  rset.getString("USER_NAME"),
+										  rset.getString("USER_ID")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<MailReceiver> selectUserList(Connection conn) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectUserList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getInt("USER_NO"),
+						  rset.getString("USER_NAME"),
+						  rset.getString("USER_ID")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<MailReceiver> selectAllStudentList(Connection conn) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectStudentList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getInt("USER_NO"),
+						  rset.getString("USER_NAME"),
+						  rset.getString("USER_ID")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	// ===================== 메일 답장 관련 =============================
+	
+	public Mail selectMailtoReply(Connection conn, String mailNo) {
+		Mail m = new Mail();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMailtoReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mailNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setUserNo(rset.getInt("SENDER"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setMailContent(rset.getString("MAIL_CONTENT"));
+				m.setSendDate(rset.getString("SEND_DATE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return m;
+	}
+
+	public ArrayList<MailReceiver> selectMailReceiverOnlyR(Connection conn, String mailNo) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMailReceiverOnlyR");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mailNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getString("MAIL_NO"),
+										  rset.getInt("RECEIVER_NO"),
+										  rset.getString("USER_NAME"),
+										  rset.getString("USER_ID"),
+										  rset.getString("RECEIVER_TYPE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<MailReceiver> selectMailReceiverOnlyC(Connection conn, String mailNo) {
+		ArrayList<MailReceiver> list = new ArrayList<MailReceiver>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMailReceiverOnlyC");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mailNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MailReceiver(rset.getString("MAIL_NO"),
+										  rset.getInt("RECEIVER_NO"),
+										  rset.getString("USER_NAME"),
+										  rset.getString("USER_ID"),
+										  rset.getString("RECEIVER_TYPE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+
+
+	
 }

@@ -8,10 +8,14 @@
     pageEncoding="UTF-8"%>
 
 <%
+	String mailAlertMsg = (String)session.getAttribute("mailAlertMsg");
+	// 메일 alert 메시지 (null / 메시지)
+
 	// 현재 메일함
 	String currentMailbox = (String)request.getAttribute("currentMailbox");
 	// 기본메일함 - a(all: 전체메일함), i(inbox: 받은메일함), s(sent: 보낸메일함), t(temp: 임시보관함), m(myself: 내게쓴메일함), b(bin:휴지통), u(unread: 안읽은메일), im(important:중요메일)
 	// 내메일함 - 메일박스번호 ex) MB12, MB187, MB188
+	// 기타 - w(write: 메일쓰기), wm(write to myself: 내게쓰기), 
 	
 	// 메일 개수
 	ArrayList<Mailbox> mailboxCountList = (ArrayList<Mailbox>)request.getAttribute("mailboxCountList"); // 기본메일함별 메일개수 리스트 
@@ -31,6 +35,19 @@
 </head>
 <body>
 
+	<% if(mailAlertMsg != null) { %>
+		<script>
+			alert("<%= mailAlertMsg %>");
+		</script>
+		<% session.removeAttribute("mailAlertMsg"); %>
+	<% } %>
+
+	<script>
+		// 현재메일함 -> js로 가져감.
+		const currentMailbox = `<%= currentMailbox %>`;
+		const contextPath = `<%= contextPath %>`;
+	</script>
+
 	<!-- ======================================== 사이드바 ======================================== -->
 	<aside>
 
@@ -38,8 +55,8 @@
 		<section class="aside-btn-group">
 
 			<div class="write-btn-group">
-				<div class="btn">메일 쓰기</div>
-				<div class="btn">내게 쓰기</div>
+				<div class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w'">메일 쓰기</div>
+				<div class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=wm'">내게 쓰기</div>
 			</div>
 	
 			<div class="remind-btn-group">

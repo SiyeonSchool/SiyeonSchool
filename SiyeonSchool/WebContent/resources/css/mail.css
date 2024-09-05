@@ -626,7 +626,9 @@ main .paging-area .page.currentPage {
   text-decoration: underline;
 }
 
+
 /* ================================ 메인 상세조회 ================================ */
+
 /* 메일 상세조회 - header, sidebar를 제외한 전체공간 */
 main.mail-detail {
   max-height: calc(100vh - var(--menubar-height));
@@ -674,7 +676,7 @@ main.mail-detail .email-btns .btn{
   background-color: #fff;
   padding: 8px;
   cursor: pointer;
-  width: 50px;
+  width: fit-content;
   margin-right: 5px;
 }
 
@@ -796,7 +798,7 @@ main.mail-detail .mail-detail-header .outer-table tr.sender .td-right .sender-in
 /* ------------- 보낸시간 ------------- */
 /* 보낸시간 div */
 main.mail-detail .mail-detail-header .outer-table tr.sender .td-right .sentTime-info{
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   align-items: center;
   position: absolute;
@@ -852,16 +854,12 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-header {
   border-bottom: none;
   background-color: var(--mail-header-n-paging-color);
   width: 90%;
+  border-radius: 3px 3px 0 0;
 }
 
 main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-header li > div {
   display: flex;
   justify-content: center;
-}
-
-/* 수신구분 */
-main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-header li > div.rType {
-  /* padding-right: 5px; */
 }
 
 /* ------------- 수신인 리스트 내용 ------------- */
@@ -870,6 +868,7 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-contents{
   overflow-y: auto;
   margin-bottom: 5px;
   width: 90%;
+  border-radius: 0 0 3px 3px;
 }
 
 main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-contents li{
@@ -914,7 +913,6 @@ main.mail-detail .mail-detail-header .outer-table tr.receiver ul.list-contents l
 /* 수신인 요약 - 총 몇명인지 */
 main.mail-detail .mail-detail-header .outer-table tr.receiver .listSummary{
   font-size: 14px;
-  font-weight: bold;
   margin-left: 10px;
 }
 
@@ -972,10 +970,24 @@ main.mail-detail .mail-detail-content {
   white-space: pre-wrap;
 }
 
-/* ------------- 위로 올라가기 버튼 ------------- */
+/* 메일 내용 내 모든 이미지 */
+main.mail-detail .mail-detail-content img{
+  display:block;
+	max-width:100%;
+	height:auto;
+}
+
+/* 메일 내용 내 모든 b태그 */
+main.mail-detail .mail-detail-content b{
+  font-weight: bold;
+}
+
+/* ------------- 위로 올라가기 버튼 (메일상세조회, 메일쓰기) ------------- */
 
 /* 버튼을 감싸고 있는 div */
-main.mail-detail #btnToGoUp {
+main.mail-detail #btnToGoUp,
+main.mail-write #btnToGoUp
+{
   position: fixed;
   left: 80%;
   bottom: 20px;
@@ -989,13 +1001,344 @@ main.mail-detail #btnToGoUp {
 }
 
 /* 버튼을 감싸고 있는 div - hover시*/
-main.mail-detail #btnToGoUp:hover{
+main.mail-detail #btnToGoUp:hover,
+main.mail-write #btnToGoUp:hover
+{
   background-color: var(--mail-active-color);
   font-weight: bold;
 }
 
 /* 아이콘 */
-main.mail-detail #btnToGoUp .icon{
+main.mail-detail #btnToGoUp .icon,
+main.mail-write #btnToGoUp .icon
+{
   font-size: 20px;
   padding: 5px;
+}
+
+
+/* ================================ 메일쓰기 ================================ */
+/* 메일쓰기 - header, sidebar를 제외한 전체공간 */
+main.mail-write {
+  max-height: calc(100vh - var(--menubar-height));
+  overflow-y: auto;
+  position: relative;
+}
+
+main.mail-write form {
+  position: absolute;
+  width: 50%;
+  left: 0;
+  right: 0;
+  margin: 20px auto;
+  /* border: 1px solid blue; */
+}
+
+/* ------------- 메일쓰기 글자 ------------- */
+main.mail-write form .mail-write-header .title{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+main.mail-write form .mail-write-header .title h2{
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* 보내기/임시저장/취소 버튼 */
+/* 버튼 감싸고 있는 div */
+main.mail-write form .mail-write-header .title .email-btns {
+  width: max-content;
+}
+
+/* 실제 버튼 */
+main.mail-write form .mail-write-header .title .email-btns .btn {
+  border: 1px solid var(--lightGrey);
+  border-radius: 3px;
+  background-color: #fff;
+  padding: 8px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+/* 실제 버튼 - hover시*/
+main.mail-write form .mail-write-header .title .email-btns .btn:hover {
+  background-color: var(--mail-active-color);
+  font-weight: bold;
+}
+
+/* ------------- 메일쓰기 - 테이블 ------------- */
+/* 테이블 */
+main.mail-write form .mail-write-header table{
+  width: 90%;
+}
+
+/* 테이블 줄 */
+main.mail-write form .mail-write-header table tr{
+  height: 50px;
+}
+
+/* 테이블 각각의 셀 */
+main.mail-write form .mail-write-header table tr td{
+  font-family: "MinSans-Regular", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  vertical-align: middle;
+  /* color: red; */
+  /* border: 1px solid red; */
+}
+
+main.mail-write form .mail-write-header table tr td.td-left{
+  width: 80px;
+  text-align: center;
+}
+
+/* ------------- 메일쓰기 - 메일제목 ------------- */
+/* 메일제목 칸이름 */
+main.mail-write form .mail-write-header table tr.mailtitle .td-left{
+  margin-bottom: 10px;
+}
+
+/* 메일제목 입력창 */
+main.mail-write form .mail-write-header table tr.mailtitle .td-right input{
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--lightGrey);
+  padding: 10px;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+/* 메일제목 입력창 - focus시 */
+main.mail-write form .mail-write-header table tr.mailtitle .td-right input:focus{
+  border-bottom: 2px solid var(--darkPurple);
+}
+/* ------------- 메일쓰기 - 수신인 ------------- */
+/* 셀 가로정렬 */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul li{
+  height: 30px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--lightGrey);
+}
+
+/* 셀 가로비율 */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul li .rCheckbox{width: 10%; text-align: center;}
+main.mail-write form .mail-write-header table tr.receiver .td-right ul li .rUserName{width: 50%;}
+main.mail-write form .mail-write-header table tr.receiver .td-right ul li .rType{width: 40%;}
+main.mail-write form .mail-write-header table tr.receiver .td-right ul li .rDelete{width: 10%;}
+
+
+main.mail-write form .mail-write-header table tr.receiver .td-right ul li>div{
+  /* border: 1px solid purple; */
+}
+
+/* ------------- 수신인 ------------- */
+/* 받는사람 (글자) */
+main.mail-write form .mail-write-header table tr.receiver .td-left{
+  vertical-align: top;
+  padding-top: 5px;
+}
+
+/* 받는사람 - 오른쪽칸 전체 div */
+main.mail-write form .mail-write-header table tr.receiver .td-right{
+  position: relative;
+}
+
+/* ------------- 수신인 검색 ------------- */
+/* 검색 div */
+main.mail-write form .mail-write-header table tr.receiver .td-right .search{
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* 검색창 */
+main.mail-write form .mail-write-header table tr.receiver .td-right .search .search-input{
+  height: 30px;
+  background-color: #d1d1d14d;
+  border: 1px solid var(--lightGrey);
+  border-radius: 3px;
+  width: 230px;
+  padding-left: 10px;
+}
+
+/* 검색창 - focus시 테두리 강조 안되게*/
+main.mail-write form .mail-write-header table tr.receiver .td-right .search .search-input:focus{
+  background-color: var(--mail-hover-color);
+  outline: none;
+}
+
+/* 돋보기 아이콘 */
+main.mail-write form .mail-write-header table tr.receiver .td-right .search .icon{
+  height: 24px;
+  position: absolute;
+  left: 205px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+/* ------------- 수신인 검색결과 ------------- */
+/* 검색결과 - div */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult{
+  display: none;
+  background-color: #fff;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  z-index: 1;
+  border: 1px solid var(--lightGrey);
+  border-radius: 3px;
+  width: 230px;
+  box-shadow: 3px 3px 5px var(--lightGrey);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* 검색결과 - 각각의 줄 */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li{
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+/* 검색결과 - 각각의 줄 - 후버시 */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li:hover{
+  background-color: var(--mail-hover-color);
+  font-weight: bold;
+}
+
+/* 검색결과 - 마지막줄 */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li:last-child{
+  border-bottom: none;
+}
+
+/* 검색결과 - 하이라이트시 (키보드로 이동시 사용됨) */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li.highlight{
+  background-color: var(--mail-active-color);
+  font-weight: bold;
+}
+
+/* 검색결과 - 각각의 줄 */
+main.mail-write form .mail-write-header table tr.receiver .td-right #searchResult ul li .userId{
+  margin-left: 5px;
+  color: var(--lightGrey);
+  font-size: 12px;
+}
+
+
+/* ------------- 수신인 구분 ------------- */
+main.mail-write form .mail-write-header table tr.receiver .td-right #receiverType{
+  height: 30px;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+main.mail-write form .mail-write-header table tr.receiver .td-right #receiverType input{
+  cursor: pointer;
+}
+
+main.mail-write form .mail-write-header table tr.receiver .td-right #receiverType label{
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+/* ------------- 수신인 리스트 헤더 ------------- */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-header{
+  border: 1px solid var(--lightGrey);
+  border-bottom: none;
+  background-color: var(--mail-header-n-paging-color);
+  border-radius: 3px 3px 0 0;
+}
+
+/* 각각의 컬럼 div */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-header li>div{
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 수신인 리스트 헤더 - x 아이콘 */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-header li>div.rDelete .icon{
+  font-size: 16px;
+}
+
+/* ------------- 수신인 리스트 내용 ------------- */
+/* 수신인 리스트 - 전체를 감싸고 있는 div */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents{
+  border: 1px solid var(--lightGrey);
+  border-top: none;
+  min-height: 30px;
+  max-height: 120px;
+  overflow-y: auto;
+  border-radius: 0 0 3px 3px;
+}
+
+/* 수신인 리스트 - 후버시 */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li:hover{
+  background-color: var(--mail-hover-color);
+}
+
+/* 수신인 리스트 - 마지막줄 */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li:last-child{
+  border-bottom: none;
+}
+
+/* 수신인 리스트 - 각각의 열 div */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li>div{
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 수신인 체크박스 - 숨겨둠 (처음에 만들어뒀다가 나중에 보여줄 필요가 없다는걸 알게됨... 엮여있는 기능이 많으므로 삭제는 안하고 숨겨둠.*/
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li .rCheckbox{
+  display: none;
+}
+
+/* 수신인 아이디 */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li .rUserName .userId{
+  font-size: 13px;
+  color: var(--lightGrey);
+  margin-left: 10px;
+}
+
+/* 수신구분 */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li .rType select{
+  cursor: pointer;
+}
+
+/* 수신인 리스트 -  x 아이콘 */
+main.mail-write form .mail-write-header table tr.receiver .td-right ul.list-contents li .rDelete .icon{
+  font-size: 16px;
+}
+
+/* ------------- 수신인 요약 ------------- */
+main.mail-write form .mail-write-header table tr.receiver .td-right .listSummary{
+  line-height: 30px;
+  font-size: 14px;
+  display: flex;
+  margin-left: 10px;
+}
+
+/* 수신인 요약 - 분류별로 */
+main.mail-write form .mail-write-header table tr.receiver .td-right .listSummary .detailCount{
+  margin-left: 5px;
+  font-size: 13px;
+}
+
+
+/* ------------- 메일 상세내용 - 실제내용부분 (스마트에디터) ------------- */
+
+/* 메일답장시, 원본메일정보부분 (Original Message) */
+#originalMsg{
+  font-size: 14px;
 }

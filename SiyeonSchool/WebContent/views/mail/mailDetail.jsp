@@ -35,6 +35,13 @@
 	ArrayList<Attachment> attList = (ArrayList<Attachment>)request.getAttribute("attList");
 	// 첨부파일 리스트: 첨부파일번호, 원본파일명, 변경파일명, 파일경로
 	
+	//"안읽음"버튼 관련
+	String updateRead = "";
+	if(request.getAttribute("ur") != null) {
+		updateRead = (String)request.getAttribute("ur");
+		// "n" : 메일상세조회에서 "안읽음" 처리를 한경우, n을 넘겨줌. -> "안읽음"버튼을 숨기기 위해 사용됨.
+	}
+	
 %>
 
 <!DOCTYPE html>
@@ -65,7 +72,8 @@
 		</div>
 
 		<div class="email-btns">
-			<button class="btn">답장</button>
+			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>'">답장</button>
+			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>'">전체답장</button>
 			<button class="btn">전달</button>
 			<button class="btn">이동</button>
 			<button class="btn">삭제</button>
@@ -140,7 +148,7 @@
 								<button class="btn">
 									발신취소
 								</button>
-							<% }else if(!currentMailbox.equals("t")){ %>
+							<% }else if(!currentMailbox.equals("t") && !updateRead.equals("n")) { %>
 								<button class="btn" onclick="location.href='<%= contextPath %>/mail.update.read?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>&r=<%= m.getIsRead() %>'">
 									안읽음
 								</button>
@@ -151,7 +159,7 @@
 					<tr class="attachment">
 						<td class="td-left">첨부파일</td>
 						<% if(attList.size() == 0) { %>
-							<td class="td-right">(첨부파일이 없습니다.)</td>
+							<td class="td-right">-</td>
 						<% }else {%>
 							<td class="td-right">
 								<% for(Attachment at : attList) { %>
