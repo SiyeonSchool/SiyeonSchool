@@ -303,6 +303,8 @@
 								<% for(Attachment at : attList) { %>
 									<a class="file" download="<%= at.getOriginName() %>" href="<%= contextPath %>/<%= at.getFilePath() + at.getChangeName() %>">
 										<span class="icon material-icons">file_download</span>
+									</a>
+									<a href="<%= contextPath %>/<%= at.getFilePath() + at.getChangeName() %>" target="_blank">
 										<span class="fileName"><%= at.getOriginName() %></span>
 									</a>
 									<input type="hidden" name="originFileName" value="<%= at.getOriginName() %>">

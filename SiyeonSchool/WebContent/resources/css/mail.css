@@ -955,7 +955,6 @@ main.mail-detail .mail-detail-header .outer-table tr.attachment .td-right{
 main.mail-detail .mail-detail-header .outer-table tr.attachment .td-right a{
   display: flex;
   align-items: center;
-  margin-right: 15px;
 }
 
 main.mail-detail .mail-detail-header .outer-table tr.attachment .td-right a:hover{
@@ -1354,7 +1353,6 @@ main.mail-write .mail-write-header table tr.attachment .td-right{
 main.mail-write .mail-write-header table tr.attachment .td-right a{
   display: flex;
   align-items: center;
-  margin-right: 15px;
 }
 
 main.mail-write .mail-write-header table tr.attachment .td-right a:hover{
@@ -1364,4 +1362,5 @@ main.mail-write .mail-write-header table tr.attachment .td-right a:hover{
 main.mail-write .mail-write-header table tr.attachment .td-right .uploadInput{
   display: flex;
   align-items: center;
+  margin-left: 15px;
 }

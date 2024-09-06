@@ -588,6 +588,17 @@ function changeIsSentToT() {
     $isSentEl.val("T");
 }
 
+function onClickDeleteMail(mailNo) {
+    if(currentMailbox === "b") { // 휴지통인경우
+        if(confirm("정말로 메일을 삭제하시겠습니까?")) {
+            alert("메일 진짜 삭제 기능 ~ 은 나중에 구현할게요");
+        }
+    }else { // 휴지통이 아닌경우
+        alert("메일을 휴지통으로 옮깁니다. 아직 구현안되서 빈페이지로 이동함.");
+        location.href = `${contextPath}/mail.deleteToBin?mb=${currentMailbox}&m=${mailNo}`;
+    }
+}
+
 
 // ================================ 메일답장 ================================ 
 // 메일답장시, 기존메일 보낸사람을 수신인리스트에 추가
@@ -644,9 +655,4 @@ function selectOriginalReceiverList(mailNo){
             }
         })
     })
-}
-
-// 메일 전달시 - 기존 첨부파일 추가 
-function addOriginalAttachment(mailNo){
-
 }

@@ -61,6 +61,10 @@
 		if(splitURL[1].startsWith("?mb=")){
 			sessionStorage.setItem("previousPage", previousURL);
 		}
+
+
+		// 메일번호 -js에서 사용하기위함.
+		const currentMailNo = `<%= m.getMailNo() %>`;
 	</script>
 
 	<!-- ======================================== 메인 ======================================== -->
@@ -76,7 +80,7 @@
 			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=a'">전체답장</button> <!-- r=a: reply=all -->
 			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=f'">전달</button>    <!-- r=f: reply=forward -->
 			<button class="btn">이동</button>
-			<button class="btn">삭제</button>
+			<button class="btn" onclick="onClickDeleteMail(currentMailNo)">삭제</button>
 		</div>
 
 		<section>
@@ -165,6 +169,8 @@
 								<% for(Attachment at : attList) { %>
 									<a class="file" download="<%= at.getOriginName() %>" href="<%= contextPath %>/<%= at.getFilePath() + at.getChangeName() %>">
 										<span class="icon material-icons">file_download</span>
+									</a>
+									<a href="<%= contextPath %>/<%= at.getFilePath() + at.getChangeName() %>" target="_blank">
 										<span class="fileName"><%= at.getOriginName() %></span>
 									</a>
 								<% } %>
