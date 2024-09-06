@@ -31,4 +31,44 @@
 	    BY 2 ASC
 </entry>
 
+<entry key="updateMyInfo">
+	UPDATE USERS
+			 SET 
+			    USER_NAME = ?,
+			    PHONE = ?,
+			    ADDRESS = ?,
+			    EMAIL = ?,
+			    GITHUB_URL = ?,
+			    NOTION_URL = ?,
+			    MODIFY_DATE = SYSDATE
+		  WHERE 
+			    USER_NO = ?
+</entry>
+
+<entry key="loginUser">
+		SELECT 
+		       U.USER_NO
+		     , U.USER_ID
+		     , U.USER_PWD
+		     , U.USER_NAME
+		     , U.PHONE
+		     , U.PHONE_PUBLIC
+		     , TO_CHAR(U.BIRTHDAY,'YYYY-MM-DD') AS "BIRTHDAY"
+		     , U.EMAIL
+		     , U.ADDRESS
+		     , U.ENROLL_DATE
+		     , U.MODIFY_DATE
+             , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+		     , U.QUESTION_NO
+		     , U.QUESTION_ANSWER
+		     , U.USER_AUTH
+		     , U.STATUS
+		     , U.GITHUB_URL
+		     , U.NOTION_URL
+		  FROM USERS U
+          LEFT JOIN ATTACHMENT A ON U.PROFILE_FILE_NO = A.FILE_NO
+		 WHERE U.USER_NO = ?
+		   AND U.STATUS = 'Y'
+	</entry>
+
 </properties>

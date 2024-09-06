@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="resources/css/signInRequest.css">
 <script src="resources/js/sigInRequest.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 </head>
 <body>
     <%@ include file="../common/menubar.jsp" %>
@@ -20,6 +21,7 @@
     <div class="wrapper">
         <section class="body__wrapper">
             <%@ include file="../common/adminPageMenu.jsp" %>
+            <% System.out.println(list); %>
 
             <div class="signInRequest__body">
                 <div class="signInRequest__header"><p>회원가입 관리</p></div>

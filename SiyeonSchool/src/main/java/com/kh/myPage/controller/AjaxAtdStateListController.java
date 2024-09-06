@@ -41,7 +41,6 @@ public class AjaxAtdStateListController extends HttpServlet {
 			response.setContentType("application/json; charset=utf-8");
 			
 			new Gson().toJson(atd, response.getWriter());
-			System.out.println(atd);
 		}
 		
 		
