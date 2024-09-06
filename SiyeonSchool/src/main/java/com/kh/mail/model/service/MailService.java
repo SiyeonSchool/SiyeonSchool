@@ -240,7 +240,6 @@ public class MailService {
 				ownerResult *= new MailDao().insertMailOwner(conn, receiverNo, inboxNo);
 			}
 		}
-
 		
 		if(mailResult > 0 && attachmentResult > 0 && receiverResult > 0 && ownerResult > 0) {
 			commit(conn);
@@ -318,6 +317,13 @@ public class MailService {
 	public ArrayList<MailReceiver> selectMailReceiverOnlyC(String mailNo) {
 		Connection conn = getConnection();
 		ArrayList<MailReceiver> list = new MailDao().selectMailReceiverOnlyC(conn, mailNo);
+		close(conn);
+		return list;
+	}
+
+	public ArrayList<MailReceiver> selectOriginalReceiverList(String mailNo) {
+		Connection conn = getConnection();
+		ArrayList<MailReceiver> list = new MailDao().selectOriginalReceiverList(conn, mailNo);
 		close(conn);
 		return list;
 	}

@@ -84,11 +84,13 @@ $(".public-contacts .mid-cate__title.dynamic").click(function(){ // 동적으로
                                     <span class="material-icons icon">subdirectory_arrow_right</span>
                                     <span class="contactsName"> ${result[i].contactsName}</span>
                                     <span class="userCount">(${result[i].userCount})</span>
-                                </div>
-                                <div>
-								    <span class="material-symbols-rounded icon edit">edit</span>
-							    </div>
-                            </li>\n`
+                                </div>`
+            if (loginUser.userAuth == "A") {
+                value +=        `<div>
+                                  <span class="material-symbols-rounded icon edit">edit</span>
+                                </div>`;
+            }
+                value +=    `</li>\n`;
             }
             contentsArea.html(value); // ul.mid-cate__contents 안에 li 추가
         },

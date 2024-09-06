@@ -321,7 +321,6 @@ function selectContactsMemberList(contactsNo) {
                 contactsNo: contactsNo,
             },
             success: function (result) {
-                ;
                 resolve(result);
             },
             error: function () {
@@ -339,7 +338,6 @@ function selectUsersList() {
             type: "get",
             data: {},
             success: function (result) {
-                ;
                 resolve(result);
             },
             error: function () {
@@ -357,7 +355,6 @@ function selectStudentList() {
             type: "get",
             data: {},
             success: function (result) {
-                ;
                 resolve(result);
             },
             error: function () {
@@ -375,7 +372,6 @@ function selectTeacher() {
             type: "get",
             data: {},
             success: function (result) {
-                ;
                 resolve(result);
             },
             error: function () {
@@ -592,3 +588,65 @@ function changeIsSentToT() {
     $isSentEl.val("T");
 }
 
+
+// ================================ 메일답장 ================================ 
+// 메일답장시, 기존메일 보낸사람을 수신인리스트에 추가
+function addSenderToRList(userNo, userName, userId){
+    const newHtmlText = getNewHtmlTextForReceiverList(userNo, userName, userId, 'r'); // 추가할 htmlText 만들어서 반환
+    displayReceiver(newHtmlText); // 선택된 수신인 화면에 뿌려주기
+    
+    addReceiverCount('r'); //수신인카운트 증가
+    displayCurrentReceiverCount(); // 수신인카운트 화면에 뿌려주기
+}
+
+// 메일 전체답장or전달시 기존메일 수신인을 수신인리스트에 추가
+async function addOriginalReceiversToRList(mailNo){
+    const userList = await selectOriginalReceiverList(mailNo); // 기존 수신인리스트 DB조회
+
+    let newHtmlText = "";
+    for (const user of userList) {
+        const userNo = user.receiverNo;
+        if (isUserNoDuplicated(userNo)) { continue; }; // 중복검사. 중복되면 아래 내용 수행안하고 다음 iteration으로 넘어감.
+
+        const userName = user.receiverName;
+        const userId = `(${user.receiverId})`;
+        const rType = user.receiverType.toLowerCase();
+        console.log("addOriginalReceiversToRList - rType: " + rType);
+
+        addReceiverCount(rType); // 수신인카운트 증가
+
+        newHtmlText += getNewHtmlTextForReceiverList(userNo, userName, userId, rType); // 추가할 htmlText 만들기
+    };
+
+    displayReceiver(newHtmlText); // 선택된 수신인 화면에 뿌려주기
+    displayCurrentReceiverCount(); // 수신인카운트 화면에 뿌려주기
+}
+
+// 기존 수신인리스트에 새로운 수신인리스트 추가하여 화면에 반영
+function displayReceiver(newHtmlText){
+    let htmlText = $recevierListContentsEl.html();
+    htmlText += newHtmlText;
+    $recevierListContentsEl.html(htmlText);
+}
+
+// 기존 수신인리스트 DB조회
+function selectOriginalReceiverList(mailNo){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "mail.wrtieForm/list.originalReceiver",
+            type: "get",
+            data: { mailNo: mailNo },
+            success: function (result) {
+                resolve(result);
+            },
+            error: function () {
+                reject(new Error('AJAX 통신실패: selectOriginalReceiverList()'));
+            }
+        })
+    })
+}
+
+// 메일 전달시 - 기존 첨부파일 추가 
+function addOriginalAttachment(mailNo){
+
+}
