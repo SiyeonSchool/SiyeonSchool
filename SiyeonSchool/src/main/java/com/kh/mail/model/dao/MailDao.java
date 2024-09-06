@@ -1279,6 +1279,38 @@ public class MailDao {
 		return list;
 	}
 
+	// ===================== 메일 알람 관련 =============================
+
+	public ArrayList<Mail> selectNewMailList(Connection conn, int loginUserNo) {
+		ArrayList<Mail> list = new ArrayList<Mail>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectNewMailList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Mail(rset.getString("MAIL_NO"),
+								  rset.getString("USER_NAME"),
+								  rset.getString("USER_ID"),
+								  rset.getString("PROFILE_PATH"),
+								  rset.getString("MAIL_TITLE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
 
 
 	

@@ -328,4 +328,13 @@ public class MailService {
 		return list;
 	}
 
+	// ===================== 메일 알람 관련 =============================
+	
+	public ArrayList<Mail> selectNewMailList(int loginUserNo) {
+		Connection conn = getConnection();
+		ArrayList<Mail> list = new MailDao().selectNewMailList(conn, loginUserNo);
+		close(conn);
+		return list;
+	}
+
 }

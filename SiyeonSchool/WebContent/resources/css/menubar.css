@@ -233,3 +233,78 @@ header .hidden-right-menu .hidden-profile ul li .material-icons{
 header .hidden-right-menu .hidden-profile ul li span:last-child a{
     line-height: 24px;
 }
+
+/* ==================== 메일 알림 관련 ==================== */
+
+.mailNotification.bottom-right {
+    position: fixed;
+    right: 20px;
+    bottom: 2px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    z-index: 99;
+}
+
+
+.mailNotification.bottom-right.hidden {
+    display: none;
+}
+
+.mailNotification.bottom-right .mail {
+    background-color: white;
+    border: 1px solid var(--lightGrey);
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 5px 5px var(--lightGrey);
+    display: flex;
+    align-items: center;
+    width: 400px;
+    height: 90px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.mailNotification.bottom-right .mail .leftDiv{
+    margin-right: 10px;
+}
+
+.mailNotification.bottom-right .mail .leftDiv img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 5px;
+}
+
+.mailNotification.bottom-right .mail .rightDiv{
+    width: 300px;
+}
+
+.mailNotification.bottom-right .mail .rightDiv .mailTitle{
+    font-weight: bold;
+    width: 300px;
+    max-height: 50px;
+    text-overflow: clip;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.mailNotification.bottom-right .mail .rightDiv .subText{
+    padding-top: 5px;
+    border-top: 1px solid var(--lightGrey);
+    font-size: 14px;
+}
+
+.mailNotification.bottom-right .mail .rightDiv .subText .userId{
+    color: var(--lightGrey);
+    font-size: 13px;
+}
+
+.mailNotification.bottom-right .mail .closeBtn{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 16px;
+}

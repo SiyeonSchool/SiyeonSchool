@@ -69,7 +69,16 @@ public class Mail {
 		this.mailTitle = mailTitle;
 		this.sendDate = sendDate;
 	}
-
+	
+	// 새메일리스트 조회시 사용됨
+	public Mail(String mailNo, String userName, String userId, String profilePath, String mailTitle) {
+		super();
+		this.mailNo = mailNo;
+		this.userName = userName;
+		this.userId = userId;
+		this.profilePath = profilePath;
+		this.mailTitle = mailTitle;
+	}
 
 	public String getMailNo() {
 		return mailNo;

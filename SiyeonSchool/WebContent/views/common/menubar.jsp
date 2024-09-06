@@ -202,5 +202,8 @@
 
     </header>
 
+	<!-- 숨겨진 메일 알람창 (화면 오른쪽 하단)-->
+	<div class="mailNotification bottom-right hidden"></div>
+
 </body>
 </html>
