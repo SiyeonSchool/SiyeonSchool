@@ -203,6 +203,7 @@ li:first-child::before{display: none;}
 
 	
 	<script>
+		sessionStorage.clear(); // 세션 초기화
 
 		window.onload = function() {
 		    // 서버에서 전달된 loginFailed 속성의 값을 가져옴

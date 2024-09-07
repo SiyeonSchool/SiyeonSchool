@@ -19,31 +19,28 @@ $(window).on('click', function(event) {
 
 
 // =============================== 메일 알림 관련 ====================================
-const newMailNoList = [];
+
+setInterval(mailNotification, 1000); // (1000ms = 1s)
 
 async function mailNotification() {
     const mList = await selectNewMailList();
+    console.log(mList);
 
     const $notificationDiv = $(".mailNotification.bottom-right");
-    let html = $(".mailNotification.bottom-right").html();
-
+    let html = sessionStorage.getItem("mailNotificationHtml") || $notificationDiv.html(); // Load from sessionStorage
+    
     if(mList.length > 0) {
         for(let i=0; i<mList.length; i++) {
-            const newMailNo = mList[i].mailNo;
-            if(!newMailNoList.includes(newMailNo)){
-                newMailNoList.push(newMailNo);
-                html += createHtmlForMailNotification(mList[i]);
-            }
+            html += createHtmlForMailNotification(mList[i]);
+            removeNewMailHtmlInTenSec(mList[i].mailNo);
         }
-        $notificationDiv.html(html);
-        $notificationDiv.removeClass("hidden");
-    }else{
-        $notificationDiv.html("");
-        $notificationDiv.addClass("hidden");
+        sessionStorage.setItem("mailNotificationHtml", html); // Save to sessionStorage
     }
+    $notificationDiv.removeClass("hidden");
+    $notificationDiv.html(html);
 }
 
-// 새로운메일 목록조회 (최근 20초내 받은 메일 DB에서 조회)
+// 새로운메일 목록조회 (최근 몇초내 받은 메일 DB에서 조회- mail-mapper.xml 참고)
 function selectNewMailList() {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -82,4 +79,13 @@ function moveToMailDetail(mailNo){
     location.href = `${contextPath}/mail.detail?mb=i&m=${mailNo}`;
 }
 
-setInterval(mailNotification, 3000); // 3초마다 (1000ms = 1s)
+function removeNewMailHtmlInTenSec(mailNo) {
+    setTimeout(function() {
+        const $notificationDiv = $(".mailNotification.bottom-right");
+        $notificationDiv.find(`input[name=mailNo][value=${mailNo}]`).parent().remove(); // Remove notification
+        
+        // Update sessionStorage after the notification is removed
+        const updatedHtml = $notificationDiv.html();
+        sessionStorage.setItem("mailNotificationHtml", updatedHtml);
+    }, 5000); // 10초 뒤에
+}

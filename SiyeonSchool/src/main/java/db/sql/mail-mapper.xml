@@ -758,7 +758,7 @@
 	
 	<!-- ===================== 메일 알람 관련 ============================= -->
 	
-	<!-- 새메일리스트 조회 : 지금으로부터 20초 전부터 받은메일들 -->
+	<!-- 새메일리스트 조회 : 지금으로부터 10초 전부터 받은메일들 -->
 	<entry key="selectNewMailList">
 	    SELECT 
 	           MR.MAIL_NO
@@ -772,7 +772,7 @@
           LEFT JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
 	     WHERE MR.RECEIVER_NO = ?
 	       AND M.IS_SENT = 'S'
-	       AND M.SEND_DATE >= SYSDATE - INTERVAL '20' SECOND
+	       AND M.SEND_DATE >= SYSDATE - INTERVAL '10' SECOND
 	     ORDER
 	        BY REGEXP_SUBSTR(MR.MAIL_NO, '^[a-zA-Z]+'),
 	           TO_NUMBER(REGEXP_SUBSTR(MR.MAIL_NO, '[0-9]+')) DESC

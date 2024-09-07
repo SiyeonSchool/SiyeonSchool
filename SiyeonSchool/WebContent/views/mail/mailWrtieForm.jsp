@@ -83,16 +83,14 @@
 		
 		// 메일정보 + 원본 메일내용 => form에 넣어주기
 		StringBuilder sb = new StringBuilder();
-		sb.append("<br><br><br><br>");
-		sb.append("<div id='originalMsg'>");
+		sb.append("<br><br><div id='originalMsg'>");
 		sb.append("--------------- Original Message ---------------<br>");
 		sb.append("<b>From:</b> " + senderName + " (" + senderId + ")<br>");
 		sb.append("<b>To:</b> " + mrListR_str + "<br>");
 		sb.append("<b>Cc:</b> " + mrListC_str + "<br>");
 		sb.append("<b>Sent:</b> " + m.getSendDate() + "<br>");
 		sb.append("<b>Subject:</b> " + m.getMailTitle());
-		sb.append("</div>");
-		sb.append("<br><br><br><br>");
+		sb.append("</div><br>");
 		
 		sb.append(m.getMailContent()); // 메일 원본내용
 		mailContent = sb.toString(); // 에디터 본문에 넣을 최종 텍스트
@@ -100,9 +98,6 @@
 		if(mailTitle.length() > 100) { // 메일 제목이 db에 들어가기에 너무 길 경우, 뒷부분을 잘라줌.
 			mailTitle = mailTitle.subSequence(0, 96) + "...";
 		}
-		
-		// 첨부파일 받아오기
-		
 	};
 	
 %>

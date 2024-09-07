@@ -568,6 +568,20 @@ function setReceiverCheckboxesChecked() {
     })
 }
 
+
+// ------------- 버튼 비활성화 -------------
+
+// 메일 상세보기 페이지 - 버튼 클릭시 모든 버튼 비활성화 (두번 클릭되지 않도록)
+$(".mail-detail .email-btns .btn").on("click", () => {
+    $(".mail-detail .email-btns .btn").attr('disabled', true);
+})
+
+// 메일쓰기 페이지 - 버튼 클릭시 모든 버튼 비활성화 (두번 클릭되지 않도록)
+$(".mail-write .email-btns .btn").on("click", () => {
+    $(".mail-write .email-btns .btn").attr('disabled', true);
+})
+
+
 // ------------- 메일쓰기 취소 -------------
 
 // 메일취소를 진짜 할건지 확인하는 기능
