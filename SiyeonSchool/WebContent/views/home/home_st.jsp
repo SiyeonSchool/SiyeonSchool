@@ -14,7 +14,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/home.css">
+	<link rel="stylesheet" href="resources/css/home_st.css">
 	<script src="resources/js/home_st.js"></script>
 </head>
 <body>
