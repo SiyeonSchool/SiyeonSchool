@@ -607,10 +607,18 @@ function onClickDeleteMail(mailNo) {
         if(confirm("정말로 메일을 삭제하시겠습니까?")) {
             alert("메일 진짜 삭제 기능 ~ 은 나중에 구현할게요");
         }
-    }else { // 휴지통이 아닌경우
-        alert("메일을 휴지통으로 옮깁니다. 아직 구현안되서 빈페이지로 이동함.");
-        location.href = `${contextPath}/mail.deleteToBin?mb=${currentMailbox}&m=${mailNo}`;
     }
+}
+
+
+// ------------- 메일 삭제(휴지통으로 이동)/복구 -------------
+function onClickMailStatusUpdate(mailNo, mailStatus) { //mailStatus "N"이면 휴지통으로 삭제, "Y"면 휴지통에서 복구
+    location.href = `${contextPath}/mail.updateMailStatus?mb=${currentMailbox}&m=${mailNo}&st=${mailStatus}`;
+}
+
+// 메일 영구삭제
+function onClickDeleteMail(mailNo) {
+    location.href = `${contextPath}/mail.delete?m=${mailNo}`;
 }
 
 

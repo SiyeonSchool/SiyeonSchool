@@ -76,11 +76,17 @@
 		</div>
 
 		<div class="email-btns">
-			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=s'">답장</button>    <!-- r=s: reply=single -->
-			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=a'">전체답장</button> <!-- r=a: reply=all -->
-			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=f'">전달</button>    <!-- r=f: reply=forward -->
-			<button class="btn">이동</button>
-			<button class="btn" onclick="onClickDeleteMail(currentMailNo)">삭제</button>
+
+			<% if(currentMailbox.equals("b")){ // 휴지통인경우 %>
+				<button class="btn" onclick="onClickMailStatusUpdate(currentMailNo, 'Y')">복구</button>
+				<button class="btn" onclick="onClickDeleteMail(currentMailNo)">영구삭제</button>
+			<% }else { // 휴지통이 아닌경우 %> 
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=s'">답장</button>    <!-- r=s: reply=single -->
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=a'">전체답장</button> <!-- r=a: reply=all -->
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=f'">전달</button>    <!-- r=f: reply=forward -->
+				<button class="btn">이동</button>
+				<button class="btn" onclick="onClickMailStatusUpdate(currentMailNo, 'N')">삭제</button>
+			<% } %>
 		</div>
 
 		<section>

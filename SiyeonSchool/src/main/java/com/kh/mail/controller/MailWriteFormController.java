@@ -45,6 +45,9 @@ public class MailWriteFormController extends HttpServlet {
 		// 기본메일함별 메일개수 리스트
 		ArrayList<Mailbox> mailboxCountList = new MailService().selectMailboxCountList(ownerNo);
 		
+		// 내메일함별 메일 리스트
+		ArrayList<Mailbox> pMailboxCountList = new MailService().selectPrivateMailboxCountList(ownerNo);
+		
 		int allMailCount = 0;
 		for(int i=0; i<mailboxCountList.size(); i++) {
 			if(i == 2 || i == 4) {
@@ -53,11 +56,11 @@ public class MailWriteFormController extends HttpServlet {
 			allMailCount += mailboxCountList.get(i).getMailCount();
 		}
 		
+		int binMailCount = new MailService().selectBinMailCount(ownerNo); // 휴지통메일 개수
 		int unreadMailCount = new MailService().selectUnreadMailCount(ownerNo); // 않읽은메일 개수
 		int importantMailCount = new MailService().selectImportantMailCount(ownerNo); // 중요메일 개수
 
-		// 내메일함별 메일 리스트
-		ArrayList<Mailbox> pMailboxCountList = new MailService().selectPrivateMailboxCountList(ownerNo);
+
 
 		request.setAttribute("currentMailbox", currentMailbox);     	// 현재메일함
 		
@@ -65,6 +68,7 @@ public class MailWriteFormController extends HttpServlet {
 		request.setAttribute("pMailboxCountList", pMailboxCountList); 	// 내메일함별 메일개수 리스트
 		
 		request.setAttribute("allMailCount", allMailCount);  		    // 전체메일개수
+		request.setAttribute("binMailCount", binMailCount);  		    // 휴지통메일개수
 		request.setAttribute("unreadMailCount", unreadMailCount);  		// 안읽은메일개수
 		request.setAttribute("importantMailCount", importantMailCount); // 중요메일개수
 		

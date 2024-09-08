@@ -59,7 +59,7 @@
 
 				<li class="mail-column attachment">첨부</li>
 				
-				<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { // 전체메일함, 중요메일 %>
+				<% if(currentMailbox.equals("a") || currentMailbox.equals("im") || currentMailbox.equals("b")) { // 전체메일함, 중요메일, 휴지통 %>
 					<li class="mail-column mailbox">메일함</li>
 				<% } %>
 				
@@ -70,7 +70,7 @@
 					<li class="mail-column type">수신구분</li>
 				<% } %>
 				
-				<% Set<String> excludedMailboxes = Set.of("a", "i", "u", "im"); // 전체메일함, 받은메일함, 임시보관함, 안읽은메일, 중요메일
+				<% Set<String> excludedMailboxes = Set.of("a", "i", "u", "im", "b"); // 전체메일함, 받은메일함, 임시보관함, 안읽은메일, 중요메일, 휴지통
 				   if(!excludedMailboxes.contains(currentMailbox)) { %>
 					<div class="mail-column empty-space"></div>
 				<% } %>
@@ -129,7 +129,7 @@
 								</div>
 			
 								<!-- 메일함 -->
-								<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { %>
+								<% if(currentMailbox.equals("a") || currentMailbox.equals("im") || currentMailbox.equals("b")) { %>
 									<div class="mail-column mailbox jc-center">
 										<span class="mailboxName"><%= m.getMailboxName() %></span>
 									</div>

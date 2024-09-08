@@ -103,7 +103,7 @@ public class MailInsertController extends HttpServlet {
 //				}else {
 //					request.getSession().setAttribute("mailAlertMsg", "성공적으로 메일을 전송하였습니다.");
 //				}
-				
+//				
 			} else { // 실패
 				if(at != null) { // 첨부파일이 있는경우
 					new File(savePath + at.getChangeName()).delete(); // 첨부파일 삭제
@@ -113,6 +113,8 @@ public class MailInsertController extends HttpServlet {
 			
 			if(m.getIsSent().equals("T")) { // 임시저장메일인경우
 				response.sendRedirect(request.getContextPath() + "/mail?mb=t&cpage=1"); // 임시보관함으로
+			}else if(mrList.size() == 1 && mrList.get(0).getReceiverNo() == loginUserNo) { // 내게쓴메일
+				response.sendRedirect(request.getContextPath() + "/mail?mb=m&cpage=1"); // 내게쓴메일함으로
 			}else {
 				response.sendRedirect(request.getContextPath() + "/mail?mb=s&cpage=1"); // 보낸메일함으로
 			}

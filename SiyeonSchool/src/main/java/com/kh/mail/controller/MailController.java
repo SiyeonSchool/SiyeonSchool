@@ -57,6 +57,9 @@ public class MailController extends HttpServlet {
 			Mailbox [mailboxNo=MB11, mailboxName=휴지통, mailCount=0]
 			Mailbox [mailboxNo=MB12, mailboxName=내 메일함, mailCount=0]
 		 */
+
+		// 내메일함별 메일 리스트
+		ArrayList<Mailbox> pMailboxCountList = new MailService().selectPrivateMailboxCountList(ownerNo);
 		
 		// 전체메일 개수: 임시보관함과 휴지통을 제외한 나머지를 더함.
 		int allMailCount = 0;
@@ -67,12 +70,11 @@ public class MailController extends HttpServlet {
 			allMailCount += mailboxCountList.get(i).getMailCount();
 		}
 		
+		int binMailCount = new MailService().selectBinMailCount(ownerNo); // 휴지통메일 개수
 		int unreadMailCount = new MailService().selectUnreadMailCount(ownerNo); // 않읽은메일 개수
 		int importantMailCount = new MailService().selectImportantMailCount(ownerNo); // 중요메일 개수
 		
-		// 내메일함별 메일 리스트
-		ArrayList<Mailbox> pMailboxCountList = new MailService().selectPrivateMailboxCountList(ownerNo);
-		
+
 		// ===================== 페이징 처리 =============================
 		int listCount = 0;  // 현재 총 게시글 개수
 		int cPage;      // 현재 페이지
@@ -89,7 +91,7 @@ public class MailController extends HttpServlet {
 			case "s": listCount = mailboxCountList.get(1).getMailCount(); break; // 보낸메일함
 			case "t": listCount = mailboxCountList.get(2).getMailCount(); break; // 임시보관함
 			case "m": listCount = mailboxCountList.get(3).getMailCount(); break; // 내게쓴메일함
-			case "b": listCount = mailboxCountList.get(4).getMailCount(); break; // 휴지통
+			case "b": listCount = binMailCount; break; // 휴지통
 			case "u": listCount = unreadMailCount; break;  // 안읽은메일
 			case "im": listCount = unreadMailCount; break; // 중요메일
 			default: // 내메일함
@@ -141,6 +143,7 @@ public class MailController extends HttpServlet {
 		request.setAttribute("pMailboxCountList", pMailboxCountList); 	// 내메일함별 메일개수 리스트
 		
 		request.setAttribute("allMailCount", allMailCount);  		    // 전체메일개수
+		request.setAttribute("binMailCount", binMailCount);  		    // 휴지통메일개수
 		request.setAttribute("unreadMailCount", unreadMailCount);  		// 안읽은메일개수
 		request.setAttribute("importantMailCount", importantMailCount); // 중요메일개수
 		

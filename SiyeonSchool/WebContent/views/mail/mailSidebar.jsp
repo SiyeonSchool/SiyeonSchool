@@ -22,6 +22,7 @@
 	ArrayList<Mailbox> pMailboxCountList = (ArrayList<Mailbox>)request.getAttribute("pMailboxCountList"); // 내메일함별 메일개수 리스트 
 	
 	int allMailCount = (int)request.getAttribute("allMailCount");  			  // 전체메일개수
+	int binMailCount = (int)request.getAttribute("binMailCount"); 	   	      // 휴지통메일개수
 	int unreadMailCount = (int)request.getAttribute("unreadMailCount"); 	  // 안읽은메일 갯수
 	int importantMailCount = (int)request.getAttribute("importantMailCount"); // 중요메일개수
 %>
@@ -144,7 +145,7 @@
 					<div class="mailbox-div">
 						<span class="icon mailboxNo-icon material-symbols-outlined">delete</span>
 						<span class="mailboxName">휴지통</span>
-						<span class="mailCount">(<%= mailboxCountList.get(4).getMailCount() %>)</span>
+						<span class="mailCount">(<%= binMailCount %>)</span>
 						<div class="emptyBtn">비우기</div>
 					</div>
 				</li>
