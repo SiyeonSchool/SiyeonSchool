@@ -810,4 +810,15 @@
 		   AND MAIL_STATUS = 'N'
 		   AND MAIL_NO = ?
 	</entry>
+	
+	<entry key="deleteTempMail">
+		DELETE FROM MAIL_OWNER
+		 WHERE OWNER_NO = ?
+		   AND MAIL_NO = ?
+		   AND MAILBOX_NO = (SELECT MAILBOX_NO 
+			                   FROM MAILBOX 
+			                  WHERE MAILBOX_NAME = '임시보관함'
+			                    AND OWNER_NO = ?)
+	</entry>
+	
 </properties>

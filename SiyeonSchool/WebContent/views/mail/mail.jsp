@@ -75,7 +75,14 @@
 					<div class="mail-column empty-space"></div>
 				<% } %>
 				
-				<li class="mail-column sentDate">보낸시간</li>
+				
+				<li class="mail-column sentDate">
+					<% if(currentMailbox.equals("t")) { // 임시보관함 %>
+						저장시간
+					<% }else { // 임시보관함이 아닌경우 %>
+						보낸시간
+					<% } %>
+				</li>
 			</ul>
 		</section>
 		

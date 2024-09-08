@@ -89,7 +89,7 @@ public class MailWriteFormController extends HttpServlet {
 			Mail m = new MailService().selectMailtoReply(mailNo); // 메일정보
 			ArrayList<MailReceiver> mrListR = new MailService().selectMailReceiverOnlyR(mailNo); // 수신인 리스트
 			ArrayList<MailReceiver> mrListC = new MailService().selectMailReceiverOnlyC(mailNo); // 참조인 리스트
-			String replyType = request.getParameter("r"); // 답장 타입 (s:single-답장, a:all-전체답장, f:forawd-전달)
+			String replyType = request.getParameter("r"); // 답장 타입 (s:single-답장, a:all-전체답장, f:forawd-전달, u:update-수정(임시저장했다가 실제로 보내기 위해 수정하는경우))
 			
 			if(replyType.equals("f")) { // 전달하는 메일인 경우, 원본첨부파일도 전달
 				ArrayList<Attachment> attList = new MailService().selectAttachmentList(mailNo);

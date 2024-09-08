@@ -23,6 +23,8 @@
 	
 	// ===================== 답장 관련 =====================
 	// 메일답장시 - 원본 메일의 정보를 화면에 미리 넣어주기
+
+	// ------------- 정보 초기화 -------------
 	Mail m = null;
 	String mailNo = "";
 	String mailTitle = "";
@@ -35,14 +37,20 @@
 	ArrayList<Attachment> attList = null; // 첨부파일 리스트
 	String replyType = "";
 	
-	if(request.getAttribute("m") != null) { // 메일을 컨트롤러로부터 전달받았다면
+
+	// ------------- 메일을 컨트롤러로부터 전달받았다면... -------------
+	if(request.getAttribute("m") != null) {
 		m = (Mail)request.getAttribute("m"); // 메일정보
 
-		replyType = (String)request.getAttribute("replyType"); // 답장 타입 (s:single-답장, a:all-전체답장, f:forawd-전달)
+		replyType = (String)request.getAttribute("replyType"); // 답장 타입 (s:single-답장, a:all-전체답장, f:forawd-전달, u:update-수정(임시저장했다가 실제로 보내기 위해 수정하는경우))
 		
-		if(replyType.equals("f")) { // 메일을 전달하는 경우
+		if(replyType.equals("u")) { // 메일을 수정하는 경우
+			attList = (ArrayList<Attachment>)request.getAttribute("attList");
+
+		} else if(replyType.equals("f")) { // 메일을 전달하는 경우
 			mailTitle = "Fw: " + m.getMailTitle(); // Fw: 전달
 			attList = (ArrayList<Attachment>)request.getAttribute("attList");
+
 		} else { // 메일 답장/전체답장의 경우
 			mailTitle = "Re: " + m.getMailTitle(); // Re: 답장/전체답장
 		}
@@ -58,45 +66,56 @@
 		if(request.getAttribute("mrListC") != null){ // 참조인리스트를 컨트롤러로부터 받았다면
 			mrListC.addAll((ArrayList<MailReceiver>)request.getAttribute("mrListC"));
 		}
-	
-		// 수신인리스트 -> '이름(아이디)' 형식으로 하나의 문자열로 합침
-		String mrListR_str = "";
-		StringBuilder sb2 = new StringBuilder();
-		for(int i=0; i<mrListR.size(); i++) {
-			if(i != 0) {
-				sb2.append(", ");
+
+		// ===================== 메일을 수정하는 경우 -> 기존 정보만 가지고 감. =====================
+		if(replyType.equals("u")) {
+			mailTitle = m.getMailTitle();
+			mailContent = m.getMailContent();
+
+		// ===================== 답장, 전체답장, 전달인 경우 -> 기존정보 앞에 원본메일 정보를 붙임=====================
+		} else {
+
+			// ------------- 수신인리스트 -------------
+			// '이름(아이디)' 형식으로 하나의 문자열로 합침
+			String mrListR_str = "";
+			StringBuilder sb2 = new StringBuilder();
+			for(int i=0; i<mrListR.size(); i++) {
+				if(i != 0) {
+					sb2.append(", ");
+				}
+				sb2.append(mrListR.get(i).getReceiverName() + "(" + mrListR.get(i).getReceiverId() + ")");
 			}
-			sb2.append(mrListR.get(i).getReceiverName() + "(" + mrListR.get(i).getReceiverId() + ")");
-		}
-		mrListR_str = sb2.toString();
-		
-		// 참조인리스트 -> '이름(아이디)' 형식으로 하나의 문자열로 합침
-		String mrListC_str = "";
-		StringBuilder sb3 = new StringBuilder();
-		for(int i=0; i<mrListC.size(); i++) {
-			if(i != 0) {
-				sb3.append(", ");
+			mrListR_str = sb2.toString();
+
+			// ------------- 참조인리스트 -------------
+			// '이름(아이디)' 형식으로 하나의 문자열로 합침
+			String mrListC_str = "";
+			StringBuilder sb3 = new StringBuilder();
+			for(int i=0; i<mrListC.size(); i++) {
+				if(i != 0) {
+					sb3.append(", ");
+				}
+				sb3.append(mrListC.get(i).getReceiverName() + "(" + mrListC.get(i).getReceiverId() + ")");
 			}
-			sb3.append(mrListC.get(i).getReceiverName() + "(" + mrListC.get(i).getReceiverId() + ")");
-		}
-		mrListC_str = sb3.toString();
-		
-		// 메일정보 + 원본 메일내용 => form에 넣어주기
-		StringBuilder sb = new StringBuilder();
-		sb.append("<br><br><div id='originalMsg'>");
-		sb.append("--------------- Original Message ---------------<br>");
-		sb.append("<b>From:</b> " + senderName + " (" + senderId + ")<br>");
-		sb.append("<b>To:</b> " + mrListR_str + "<br>");
-		sb.append("<b>Cc:</b> " + mrListC_str + "<br>");
-		sb.append("<b>Sent:</b> " + m.getSendDate() + "<br>");
-		sb.append("<b>Subject:</b> " + m.getMailTitle());
-		sb.append("</div><br>");
-		
-		sb.append(m.getMailContent()); // 메일 원본내용
-		mailContent = sb.toString(); // 에디터 본문에 넣을 최종 텍스트
-		
-		if(mailTitle.length() > 100) { // 메일 제목이 db에 들어가기에 너무 길 경우, 뒷부분을 잘라줌.
-			mailTitle = mailTitle.subSequence(0, 96) + "...";
+			mrListC_str = sb3.toString();
+
+			// ------------- 원본메일정보 html만들기 -------------
+			StringBuilder sb = new StringBuilder();
+			sb.append("<br><br><div id='originalMsg'>");
+			sb.append("--------------- Original Message ---------------<br>");
+			sb.append("<b>From:</b> " + senderName + " (" + senderId + ")<br>");
+			sb.append("<b>To:</b> " + mrListR_str + "<br>");
+			sb.append("<b>Cc:</b> " + mrListC_str + "<br>");
+			sb.append("<b>Sent:</b> " + m.getSendDate() + "<br>");
+			sb.append("<b>Subject:</b> " + m.getMailTitle());
+			sb.append("</div><br>");
+			sb.append(m.getMailContent()); // 원본내용 합치기
+			mailContent = sb.toString(); // 에디터 본문에 넣을 최종 텍스트
+
+			// ------------- 메일제목 -------------
+			if(mailTitle.length() > 100) { // 메일 제목이 db에 들어가기에 너무 길 경우, 뒷부분을 잘라줌.
+				mailTitle = mailTitle.subSequence(0, 96) + "...";
+			}
 		}
 	};
 	
@@ -166,13 +185,14 @@
 		const senderNo = Number('<%= senderNo %>');
 		const senderName = '<%= senderName %>';
 		const senderId = '<%= senderId %>';
-		const replyType = '<%= replyType %>'; // 답장 타입 (s:single-답장, a:all-전체답장, f:forward-전달)
+		const replyType = '<%= replyType %>'; // 답장 타입 (s:single-답장, a:all-전체답장, f:forward-전달, u:update-수정(임시저장했다가 실제로 보내기 위해 수정하는경우)
 		
 		$(document).ready(function(){
 			if (senderNo !== 0){ // 보낸사람이 있는경우
-				console.log("replyType:" + replyType);
+				// console.log("replyType:" + replyType);
 				switch(replyType) {
 					case "s": addSenderToRList(senderNo, senderName, senderId); break; // 답장 - 보낸사람을 수신인리스트에 추가
+					case "u": // 수정 - 기존 수신인들을 수신인리스트에 추가
 					case "a": addOriginalReceiversToRList('<%= mailNo %>'); break; // 전체답장 - 기존 수신인들을 수신인리스트에 추가
 				}
 			}
@@ -186,6 +206,10 @@
 
 			<div class="mail-write-header">
 
+				<% if(replyType.equals("u")) { // 임시보관메일이었던 경우, 기존메일 삭제를 위해 메일번호를 전달함. %>
+					<input type="hidden" name="mailNo" value="<%= mailNo %>">
+				<% } %>
+
 				<div class="title">
 					<% if(!currentMailbox.equals("wm")) { %>
 						<h2>메일쓰기</h2>
@@ -195,7 +219,7 @@
 					<div class="email-btns">
 						<input type="button" class="btn" id="send" value="보내기"/>
 						<input type="button" class="btn" id="tempSave" value="임시저장">
-						<input type="hidden" id="isSent" name="isSent" value="S"><!-- 보내기:S, 임시저장:T-->
+						<input type="hidden" id="isSent" name="isSent" value="S"><!-- 보내기:S, 임시저장:T (js로 필요시 value 바꿈) -->
 						<input type="button" class="btn" value="취소" onclick="cancelWritingMail()"/>
 					</div>
 				</div>

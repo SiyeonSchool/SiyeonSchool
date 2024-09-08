@@ -422,5 +422,20 @@ public class MailService {
 		return result;
 	}
 
+	public int deleteTempMail(int loginUserNo, String mailNo) {
+		Connection conn = getConnection();
+		
+		int result = new MailDao().deleteTempMail(conn, loginUserNo, mailNo); 
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
 
 }

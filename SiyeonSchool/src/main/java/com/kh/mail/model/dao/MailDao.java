@@ -1406,6 +1406,28 @@ public class MailDao {
 		return result;
 	}
 
+	public int deleteTempMail(Connection conn, int loginUserNo, String mailNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteTempMail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+			pstmt.setString(2, mailNo);
+			pstmt.setInt(3, loginUserNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 
 
 

@@ -644,7 +644,7 @@ async function addOriginalReceiversToRList(mailNo){
         const userName = user.receiverName;
         const userId = `(${user.receiverId})`;
         const rType = user.receiverType.toLowerCase();
-        console.log("addOriginalReceiversToRList - rType: " + rType);
+        // console.log("addOriginalReceiversToRList - rType: " + rType);
 
         addReceiverCount(rType); // 수신인카운트 증가
 
