@@ -63,7 +63,6 @@ public class AjaxNewMailListController extends HttpServlet {
 		session.setAttribute("trackingNewMailNoList", trackingNewMailNoList);
 		
 		response.setContentType("application/json; charset=utf-8");
-		System.out.println(tempList);
 		new Gson().toJson(tempList, response.getWriter());
 	}
 

@@ -98,11 +98,11 @@ public class MailInsertController extends HttpServlet {
 			int result = new MailService().insertMail(m, at, mrList, loginUserNo);
 			
 			if(result > 0) { // 성공
-				if(m.getIsSent().equals("T")) { // 임시저장메일인경우
-					request.getSession().setAttribute("mailAlertMsg", "메일을 임시저장하였습니다.");
-				}else {
-					request.getSession().setAttribute("mailAlertMsg", "성공적으로 메일을 전송하였습니다.");
-				}
+//				if(m.getIsSent().equals("T")) { // 임시저장메일인경우
+//					request.getSession().setAttribute("mailAlertMsg", "메일을 임시저장하였습니다.");
+//				}else {
+//					request.getSession().setAttribute("mailAlertMsg", "성공적으로 메일을 전송하였습니다.");
+//				}
 				
 			} else { // 실패
 				if(at != null) { // 첨부파일이 있는경우
