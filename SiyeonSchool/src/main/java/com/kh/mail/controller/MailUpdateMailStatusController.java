@@ -42,6 +42,10 @@ public class MailUpdateMailStatusController extends HttpServlet {
 		case "s": mailBoxNo = new MailService().selectSentMailboxNo(loginUserNo); break; // 보낸메일함
 		case "m": mailBoxNo = new MailService().selectMyselfMailboxNo(loginUserNo); break; // 내게쓴메일함
 		case "t": mailBoxNo = new MailService().selectTempMailboxNo(loginUserNo); break; // 임시보관함
+		default :
+			if(mailBoxShortcut != null) { // M501, M502, M503... 개인메일함 메일인경우
+				mailBoxNo = mailBoxShortcut;
+			}
 		}
 
 		int result = 0;
