@@ -1354,7 +1354,6 @@ public class MailDao {
 			pstmt.setString(3, mailNo);
 			
 			result = pstmt.executeUpdate();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -1427,10 +1426,5 @@ public class MailDao {
 		
 		return result;
 	}
-
-
-
-
-
 	
 }

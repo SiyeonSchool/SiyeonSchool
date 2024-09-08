@@ -33,7 +33,7 @@
 		<section class="first-header">
 			<div class="first-header-btns">
 				<button class="btn moveBtn">이동</button>
-				<button class="btn deleteBtn">삭제</button>
+				<button class="btn deleteBtn" onclick="onClickDeleteSelectedMails(currentMailbox)">삭제</button>
 			</div>
 
 			<div class="search-bar-div">
@@ -103,7 +103,7 @@
 						
 								<!-- 체크박스 -->
 								<div class="mail-column checkbox jc-center">
-									<input type="checkbox">
+									<input type="checkbox" name="mailNo" value="<%= m.getMailNo() %>">
 								</div>
 								
 								<!-- 중요(별) -->

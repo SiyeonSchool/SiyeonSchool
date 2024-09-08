@@ -2,6 +2,63 @@ console.log("메일 js 실행됨!");
 console.log("현재 메일함: " + currentMailbox);
 // console.log("contextPath: " + contextPath);
 
+
+
+// ================================ 메인 목록조회 ================================ 
+
+// 헤더의 체크박스 클릭시, 리스트 전체의 체크박스 선택or해제
+$("main .second-header :checkbox").click(function(){
+    const headerCheckbox = $(".second-header :checkbox");
+    const contentsCheckbox = $(".mail-list ul li.mail :checkbox");
+
+    if(headerCheckbox.prop("checked")) {
+        contentsCheckbox.prop("checked", true);
+    }else {
+        contentsCheckbox.prop("checked", false);
+    };
+});
+
+function onClickDeleteSelectedMails(mailboxNo) {
+    const $selectedMailEls = $("main .mail-list ul li.mail :checkbox:checked");
+
+    const mailNoList = []; // 체크박스에 체크된 메일번호 리스트
+    $selectedMailEls.each((index, item)=>{
+        mailNoList.push(item.value);
+    })
+
+    console.log("Selected Mail Numbers:", mailNoList);
+    
+    updateMailStatusByList(mailboxNo, mailNoList);
+}
+
+function updateMailStatusByList(mailboxNo, mailNoList){
+
+    $.ajax({
+        url: "mail.updateMailStatusByList",
+        type: "post",
+        data: {
+            mailboxNo: mailboxNo,
+            mailNoList: mailNoList,
+        },
+        success: function (result) {
+            if(result > 0) {
+                alert("성공적으로 선택된 메일을 삭제하였습니다. (휴지통으로 이동)");
+                location.reload(true);
+            }else{
+                alert("선택된 메일삭제 실패");
+            }
+        },
+        error: function () {
+            console.log('AJAX 통신실패: updateMailStatusByList()');
+        }
+    })
+
+}
+
+
+
+
+
 // ================================ 메인 상세조회 ================================ 
 
 // 뒤로가기(목록으로) 버튼

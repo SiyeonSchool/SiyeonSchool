@@ -437,5 +437,24 @@ public class MailService {
 		return result;
 	}
 
+	public int updateMailStatusByList(int loginUserNo, String mailBoxNo, ArrayList<String> mailNoList) {
+		Connection conn = getConnection();
+		
+		int result = 1; 
+		
+		for(String mailNo : mailNoList) {
+			result *= new MailDao().updateMailStatusToN(conn, loginUserNo, mailBoxNo, mailNo); 
+		}
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
 
 }
