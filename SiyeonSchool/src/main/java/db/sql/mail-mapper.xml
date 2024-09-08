@@ -9,17 +9,17 @@
 		SELECT 
 			   MB.MAILBOX_NO
 			 , MB.MAILBOX_NAME
-			 , COUNT(MO.MAIL_NO) AS "COUNT"
+			 , COUNT(CASE WHEN MO.MAIL_STATUS = 'Y' THEN MO.MAIL_NO END) AS "COUNT"
 		  FROM MAIL_OWNER MO
 		 RIGHT JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
 		 WHERE MB.OWNER_NO = ?
-           AND MB.MAILBOX_STATUS = 'Y'
+		   AND MB.MAILBOX_STATUS = 'Y'
 		 GROUP BY (MB.MAILBOX_NO, MB.MAILBOX_NAME)
-         ORDER BY
-               REGEXP_SUBSTR(MB.MAILBOX_NO, '^[a-zA-Z]+'),
-               TO_NUMBER(REGEXP_SUBSTR(MB.MAILBOX_NO, '[0-9]+')) ASC
+		 ORDER BY
+			   REGEXP_SUBSTR(MB.MAILBOX_NO, '^[a-zA-Z]+'),
+			   TO_NUMBER(REGEXP_SUBSTR(MB.MAILBOX_NO, '[0-9]+')) ASC
 	</entry>
-
+	
 	<!-- 내메일함별 메일 개수조회 -->
 	<entry key="selectPrivateMailboxCountList">
 		SELECT 
@@ -33,6 +33,14 @@
 		  WHERE MB.OWNER_NO = ?
 			AND MB.MAILBOX_TYPE = 'P'
 			AND MB.MAILBOX_STATUS = 'Y'
+	</entry>
+	
+	<!-- 휴지통 메일 개수조회 -->
+	<entry key="selectBinMailCount">
+		SELECT COUNT(MAIL_NO) AS "COUNT"
+		  FROM MAIL_OWNER
+		 WHERE OWNER_NO = ?
+		   AND MAIL_STATUS = 'N'
 	</entry>
 
 	<!-- 않읽은메일 개수조회-->
@@ -255,6 +263,7 @@
 			     FROM (
 						SELECT 
 						  	   MO.MAIL_NO
+                             , MB.MAILBOX_NAME
 						     , MO.MAIL_STAR
                              , NVL(AC.COUNT, 0) AS "ATT_COUNT"
 						     , U.USER_NAME
@@ -262,19 +271,17 @@
 							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
 						     , M.MAIL_TITLE
 						     , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD (DY) HH24:MI') AS "SEND_DATE"
-						  FROM MAIL_OWNER MO
+                          FROM MAIL_OWNER MO
 						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
+                          JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
 						  JOIN USERS U ON (M.SENDER = U.USER_NO)
 						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
                           LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
 										FROM ATTACHMENT
 									   WHERE STATUS = 'Y'
 									   GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
-					     WHERE MO.MAILBOX_NO = (SELECT MAILBOX_NO
-							                      FROM MAILBOX
-							                     WHERE OWNER_NO = ?
-							                       AND MAILBOX_NAME = '휴지통')
-						   AND MO.MAIL_STATUS = 'N'
+                         WHERE MO.OWNER_NO = ?
+                           AND MO.MAIL_STATUS = 'N'
 				         ORDER
 				            BY M.SEND_DATE DESC
 			          ) A
@@ -758,7 +765,7 @@
 	
 	<!-- ===================== 메일 알람 관련 ============================= -->
 	
-	<!-- 새메일리스트 조회 : 지금으로부터 20초 전부터 받은메일들 -->
+	<!-- 새메일리스트 조회 : 지금으로부터 10초 전부터 받은메일들 -->
 	<entry key="selectNewMailList">
 	    SELECT 
 	           MR.MAIL_NO
@@ -772,10 +779,46 @@
           LEFT JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
 	     WHERE MR.RECEIVER_NO = ?
 	       AND M.IS_SENT = 'S'
-	       AND M.SEND_DATE >= SYSDATE - INTERVAL '20' SECOND
+	       AND M.SEND_DATE >= SYSDATE - INTERVAL '10' SECOND
 	     ORDER
 	        BY REGEXP_SUBSTR(MR.MAIL_NO, '^[a-zA-Z]+'),
 	           TO_NUMBER(REGEXP_SUBSTR(MR.MAIL_NO, '[0-9]+')) DESC
+	</entry>
+	
+	<!-- ===================== 메일 삭제 ============================= -->
+	
+	<!-- 메일 휴지통으로 이동 -->
+	<entry key="updateMailStatusToN">
+		UPDATE MAIL_OWNER
+		   SET MAIL_STATUS = 'N'
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NO = ?
+		   AND MAIL_NO = ?
+	</entry>
+	
+	<!-- 메일 휴지통에서 복구 -->
+	<entry key="updateMailStatusToY">
+		UPDATE MAIL_OWNER
+		   SET MAIL_STATUS = 'Y'
+		 WHERE OWNER_NO = ?
+		   AND MAIL_NO = ?
+	</entry>
+	
+	<entry key="deleteMail">
+		DELETE FROM MAIL_OWNER
+		 WHERE OWNER_NO = ?
+		   AND MAIL_STATUS = 'N'
+		   AND MAIL_NO = ?
+	</entry>
+	
+	<entry key="deleteTempMail">
+		DELETE FROM MAIL_OWNER
+		 WHERE OWNER_NO = ?
+		   AND MAIL_NO = ?
+		   AND MAILBOX_NO = (SELECT MAILBOX_NO 
+			                   FROM MAILBOX 
+			                  WHERE MAILBOX_NAME = '임시보관함'
+			                    AND OWNER_NO = ?)
 	</entry>
 	
 </properties>

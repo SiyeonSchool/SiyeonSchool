@@ -2,6 +2,63 @@ console.log("메일 js 실행됨!");
 console.log("현재 메일함: " + currentMailbox);
 // console.log("contextPath: " + contextPath);
 
+
+
+// ================================ 메인 목록조회 ================================ 
+
+// 헤더의 체크박스 클릭시, 리스트 전체의 체크박스 선택or해제
+$("main .second-header :checkbox").click(function(){
+    const headerCheckbox = $(".second-header :checkbox");
+    const contentsCheckbox = $(".mail-list ul li.mail :checkbox");
+
+    if(headerCheckbox.prop("checked")) {
+        contentsCheckbox.prop("checked", true);
+    }else {
+        contentsCheckbox.prop("checked", false);
+    };
+});
+
+function onClickDeleteSelectedMails(mailboxNo) {
+    const $selectedMailEls = $("main .mail-list ul li.mail :checkbox:checked");
+
+    const mailNoList = []; // 체크박스에 체크된 메일번호 리스트
+    $selectedMailEls.each((index, item)=>{
+        mailNoList.push(item.value);
+    })
+
+    console.log("Selected Mail Numbers:", mailNoList);
+    
+    updateMailStatusByList(mailboxNo, mailNoList);
+}
+
+function updateMailStatusByList(mailboxNo, mailNoList){
+
+    $.ajax({
+        url: "mail.updateMailStatusByList",
+        type: "post",
+        data: {
+            mailboxNo: mailboxNo,
+            mailNoList: mailNoList,
+        },
+        success: function (result) {
+            if(result > 0) {
+                alert("성공적으로 선택된 메일을 삭제하였습니다. (휴지통으로 이동)");
+                location.reload(true);
+            }else{
+                alert("선택된 메일삭제 실패");
+            }
+        },
+        error: function () {
+            console.log('AJAX 통신실패: updateMailStatusByList()');
+        }
+    })
+
+}
+
+
+
+
+
 // ================================ 메인 상세조회 ================================ 
 
 // 뒤로가기(목록으로) 버튼
@@ -568,6 +625,20 @@ function setReceiverCheckboxesChecked() {
     })
 }
 
+
+// ------------- 버튼 비활성화 -------------
+
+// 메일 상세보기 페이지 - 버튼 클릭시 모든 버튼 비활성화 (두번 클릭되지 않도록)
+$(".mail-detail .email-btns .btn").on("click", () => {
+    $(".mail-detail .email-btns .btn").attr('disabled', true);
+})
+
+// 메일쓰기 페이지 - 버튼 클릭시 모든 버튼 비활성화 (두번 클릭되지 않도록)
+$(".mail-write .email-btns .btn").on("click", () => {
+    $(".mail-write .email-btns .btn").attr('disabled', true);
+})
+
+
 // ------------- 메일쓰기 취소 -------------
 
 // 메일취소를 진짜 할건지 확인하는 기능
@@ -593,10 +664,18 @@ function onClickDeleteMail(mailNo) {
         if(confirm("정말로 메일을 삭제하시겠습니까?")) {
             alert("메일 진짜 삭제 기능 ~ 은 나중에 구현할게요");
         }
-    }else { // 휴지통이 아닌경우
-        alert("메일을 휴지통으로 옮깁니다. 아직 구현안되서 빈페이지로 이동함.");
-        location.href = `${contextPath}/mail.deleteToBin?mb=${currentMailbox}&m=${mailNo}`;
     }
+}
+
+
+// ------------- 메일 삭제(휴지통으로 이동)/복구 -------------
+function onClickMailStatusUpdate(mailNo, mailStatus) { //mailStatus "N"이면 휴지통으로 삭제, "Y"면 휴지통에서 복구
+    location.href = `${contextPath}/mail.updateMailStatus?mb=${currentMailbox}&m=${mailNo}&st=${mailStatus}`;
+}
+
+// 메일 영구삭제
+function onClickDeleteMail(mailNo) {
+    location.href = `${contextPath}/mail.delete?m=${mailNo}`;
 }
 
 
@@ -622,7 +701,7 @@ async function addOriginalReceiversToRList(mailNo){
         const userName = user.receiverName;
         const userId = `(${user.receiverId})`;
         const rType = user.receiverType.toLowerCase();
-        console.log("addOriginalReceiversToRList - rType: " + rType);
+        // console.log("addOriginalReceiversToRList - rType: " + rType);
 
         addReceiverCount(rType); // 수신인카운트 증가
 

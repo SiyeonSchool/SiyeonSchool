@@ -89,8 +89,34 @@ public class MailDao {
 		return list;
 	}
 
+	public int selectBinMailCount(Connection conn, int ownerNo) {
+		int mailCount = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectBinMailCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ownerNo);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				mailCount = rset.getInt("count");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mailCount;
+	}
+	
 	public int selectUnreadMailCount(Connection conn, int ownerNo) {
-		int listCount = 0;
+		int mailCount = 0;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -102,7 +128,7 @@ public class MailDao {
 			
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
-				listCount = rset.getInt("count");
+				mailCount = rset.getInt("count");
 			}
 			
 		} catch (SQLException e) {
@@ -112,12 +138,12 @@ public class MailDao {
 			close(pstmt);
 		}
 		
-		return listCount;
+		return mailCount;
 	}
 	
 
 	public int selectImportantMailCount(Connection conn, int ownerNo) {
-		int listCount = 0;
+		int mailCount = 0;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -129,7 +155,7 @@ public class MailDao {
 			
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
-				listCount = rset.getInt("count");
+				mailCount = rset.getInt("count");
 			}
 			
 		} catch (SQLException e) {
@@ -139,7 +165,7 @@ public class MailDao {
 			close(pstmt);
 		}
 		
-		return listCount;
+		return mailCount;
 	}
 	
 	// ===================== 메일 목록 조회 =============================
@@ -367,14 +393,17 @@ public class MailDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(new Mail(rset.getString("MAIL_NO"),
-								  rset.getString("MAIL_STAR"),
-								  rset.getInt("ATT_COUNT"),
-								  rset.getString("USER_NAME"),
-								  rset.getString("USER_ID"),
-								  rset.getString("PROFILE_PATH"),
-								  rset.getString("MAIL_TITLE"),
-								  rset.getString("SEND_DATE")));
+				Mail m = new Mail();
+				m.setMailNo(rset.getString("MAIL_NO"));
+				m.setMailboxName(rset.getString("MAILBOX_NAME"));
+				m.setMailStar(rset.getString("MAIL_STAR"));
+				m.setAttachmentCount(rset.getInt("ATT_COUNT"));
+				m.setUserName(rset.getString("USER_NAME"));
+				m.setUserId(rset.getString("USER_ID"));
+				m.setProfilePath(rset.getString("PROFILE_PATH"));
+				m.setMailTitle(rset.getString("MAIL_TITLE"));
+				m.setSendDate(rset.getString("SEND_DATE"));
+				list.add(m);
 			}
 			
 		} catch (SQLException e) {
@@ -1310,8 +1339,92 @@ public class MailDao {
 		
 		return list;
 	}
+	
+	// ===================== 메일 삭제 =============================
+	
+	public int updateMailStatusToN(Connection conn, int loginUserNo, String mailBoxNo, String mailNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateMailStatusToN");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+			pstmt.setString(2, mailBoxNo);
+			pstmt.setString(3, mailNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
+	public int updateMailStatusToY(Connection conn, int loginUserNo, String mailNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateMailStatusToY");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+			pstmt.setString(2, mailNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
+	public int deleteMail(Connection conn, int loginUserNo, String mailNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteMail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+			pstmt.setString(2, mailNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
+	public int deleteTempMail(Connection conn, int loginUserNo, String mailNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteTempMail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, loginUserNo);
+			pstmt.setString(2, mailNo);
+			pstmt.setInt(3, loginUserNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	
 }

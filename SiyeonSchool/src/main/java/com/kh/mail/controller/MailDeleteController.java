@@ -7,17 +7,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.mail.model.service.MailService;
+import com.kh.user.model.vo.User;
+
 /**
- * Servlet implementation class MailDeleteToBinController
+ * Servlet implementation class MailDeleteController
  */
-@WebServlet("/mail.deleteToBin")
-public class MailDeleteToBinController extends HttpServlet {
+@WebServlet("/mail.delete")
+public class MailDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MailDeleteToBinController() {
+    public MailDeleteController() {
         super();
     }
 
@@ -25,15 +28,20 @@ public class MailDeleteToBinController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 메일을 휴지통으로 보내는 컨트롤러
-		//mail.detail?mb=i&m=M500
 		
-		String mailBox = request.getParameter("mb");
+		int loginUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		
 		String mailNo = request.getParameter("m");
-	
-		System.out.println(mailBox + ", " + mailNo);
 		
+		int result = new MailService().deleteMail(loginUserNo, mailNo);
 		
+		if(result > 0) {
+			request.getSession().setAttribute("mailAlertMsg", "성공적으로 메일을 영구삭제하였습니다.");
+		} else {
+			request.getSession().setAttribute("mailAlertMsg", "메일 영구삭제 실패");
+		}
+		
+		response.sendRedirect(request.getContextPath() + "/mail?mb=b&cpage=1"); // 휴지통으로
 	}
 
 	/**

@@ -458,7 +458,7 @@ main .mail-list ul .mail {
   height: 50px;
   padding: 5px 0;
   border-bottom: 1px solid var(--lightGrey);
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 /* 메일 - 한줄 - 후버시 */
@@ -562,6 +562,7 @@ main .mail-list ul .mail .mail-column.sender .userId {
 /* 메일 제목*/
 main .mail-list ul .mail .mail-column.mailTitle{
   padding: 0 10px;
+  cursor: pointer;
 }
 
 /* 메일 제목 - 후버시*/

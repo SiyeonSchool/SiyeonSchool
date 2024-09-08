@@ -32,6 +32,14 @@ public class MailService {
 		return list;
 	}
 	
+	public int selectBinMailCount(int ownerNo) {
+		Connection conn = getConnection();
+		int result = new MailDao().selectBinMailCount(conn, ownerNo);
+		close(conn);
+		return result;
+	}
+
+	
 	public int selectUnreadMailCount(int ownerNo) {
 		Connection conn = getConnection();
 		int result = new MailDao().selectUnreadMailCount(conn, ownerNo);
@@ -336,5 +344,117 @@ public class MailService {
 		close(conn);
 		return list;
 	}
+	
+	// ===================== 메일함 번호조회 =============================
+	
+	public String selectInboxNo(int loginUserNo) {
+		Connection conn = getConnection();
+		String mailboxNo = new MailDao().selectInboxNo(conn, loginUserNo);
+		close(conn);
+		return mailboxNo;
+	}
+
+	public String selectSentMailboxNo(int loginUserNo) {
+		Connection conn = getConnection();
+		String mailboxNo = new MailDao().selectSentMailboxNo(conn, loginUserNo);
+		close(conn);
+		return mailboxNo;
+	}
+
+	public String selectMyselfMailboxNo(int loginUserNo) {
+		Connection conn = getConnection();
+		String mailboxNo = new MailDao().selectMyselfMailboxNo(conn, loginUserNo);
+		close(conn);
+		return mailboxNo;
+	}
+
+	public String selectTempMailboxNo(int loginUserNo) {
+		Connection conn = getConnection();
+		String mailboxNo = new MailDao().selectTempMailboxNo(conn, loginUserNo);
+		close(conn);
+		return mailboxNo;
+	}
+
+	// ===================== 메일 삭제 =============================
+	
+	public int updateMailStatusToN(int loginUserNo, String mailBoxNo, String mailNo) {
+		Connection conn = getConnection();
+		
+		int result = new MailDao().updateMailStatusToN(conn, loginUserNo, mailBoxNo, mailNo); 
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	public int updateMailStatusToY(int loginUserNo, String mailNo) {
+		Connection conn = getConnection();
+		
+		int result = new MailDao().updateMailStatusToY(conn, loginUserNo, mailNo); 
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	public int deleteMail(int loginUserNo, String mailNo) {
+		Connection conn = getConnection();
+		
+		int result = new MailDao().deleteMail(conn, loginUserNo, mailNo); 
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	public int deleteTempMail(int loginUserNo, String mailNo) {
+		Connection conn = getConnection();
+		
+		int result = new MailDao().deleteTempMail(conn, loginUserNo, mailNo); 
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	public int updateMailStatusByList(int loginUserNo, String mailBoxNo, ArrayList<String> mailNoList) {
+		Connection conn = getConnection();
+		
+		int result = 1; 
+		
+		for(String mailNo : mailNoList) {
+			result *= new MailDao().updateMailStatusToN(conn, loginUserNo, mailBoxNo, mailNo); 
+		}
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
 
 }

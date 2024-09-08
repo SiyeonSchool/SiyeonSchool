@@ -76,11 +76,21 @@
 		</div>
 
 		<div class="email-btns">
-			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=s'">답장</button>    <!-- r=s: reply=single -->
-			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=a'">전체답장</button> <!-- r=a: reply=all -->
-			<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=f'">전달</button>    <!-- r=f: reply=forward -->
-			<button class="btn">이동</button>
-			<button class="btn" onclick="onClickDeleteMail(currentMailNo)">삭제</button>
+			<% if(currentMailbox.equals("t")){ // 임시보관함인경우 %>
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=u'">수정</button> <!-- r=u: reply=update -->
+				<button class="btn" onclick="onClickMailStatusUpdate(currentMailNo, 'N')">삭제</button>
+			
+			<% }else if(currentMailbox.equals("b")){ // 휴지통인경우 %>
+				<button class="btn" onclick="onClickMailStatusUpdate(currentMailNo, 'Y')">복구</button>
+				<button class="btn" onclick="onClickDeleteMail(currentMailNo)">영구삭제</button>
+			
+				<% }else { // 휴지통이 아닌경우 %> 
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=s'">답장</button>    <!-- r=s: reply=single -->
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=a'">전체답장</button> <!-- r=a: reply=all -->
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=f'">전달</button>    <!-- r=f: reply=forward -->
+				<button class="btn">이동</button>
+				<button class="btn" onclick="onClickMailStatusUpdate(currentMailNo, 'N')">삭제</button>
+			<% } %>
 		</div>
 
 		<section>
@@ -101,7 +111,13 @@
 
 				<table class="outer-table">
 					<tr class="sender">
-						<td class="td-left">보낸사람</td>
+						<td class="td-left">
+							<% if (currentMailbox.equals("t")) { // 임시보관함인경우 %>
+								작성자
+							<% }else { // 임시보관함이 아닌경우 %>
+								보낸사람
+							<% } %>
+						</td>
 						<td class="td-right">
 							<img src="<%= contextPath %>/<%= m.getProfilePath() %>" class="profile-img">
 							<div class="sender-info">
@@ -109,7 +125,13 @@
 								<span class="userId">(<%= m.getUserId() %>)</span>
 							</div>
 							<div class="sentTime-info">
-								<span>보낸시간:</span>
+								<span>
+									<% if (currentMailbox.equals("t")) { // 임시보관함인경우 %>
+										저장시간:
+									<% }else { // 임시보관함이 아닌경우 %>
+										보낸시간:
+									<% } %>
+								</span>
 								<span class="sentDate"><%= m.getSendDate() %></span>
 							</div>
 						</td>
@@ -135,7 +157,13 @@
 											<div class="rCheckbox"><input type="checkbox"></div>
 											<div class="rUserName"><span class="userName"><%= mr.getReceiverName() %></span><span class="userId">(<%= mr.getReceiverId() %>)</span></div>
 											<div class="rType"><%= mr.getReceiverType() %></div>
-											<div class="rTime"><%= mr.getReadTime() %></div>
+											<div class="rTime">
+												<% if (currentMailbox.equals("t")) { // 임시보관함인경우 %>
+													-
+												<% }else { // 임시보관함이 아닌경우 %>
+													<%= mr.getReadTime() %>
+												<% } %>
+											</div>
 										</li>
 									<% } %>
 								<% } %>

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,16 +51,17 @@ public class MailInsertController extends HttpServlet {
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 		
 			// form 데이터 받아오기
-			int senderNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
+			int loginUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
 			String title = multiRequest.getParameter("title");
 			String content = multiRequest.getParameter("content");
 			String[] userNoList = multiRequest.getParameterValues("userNo");		
 			String[] rTypeList = multiRequest.getParameterValues("rType");
 			String isSent = multiRequest.getParameter("isSent");
+			String mailNo = multiRequest.getParameter("mailNo"); // 임시보관메일이었던 경우, 기존메일 삭제를 위해 메일번호를 받아옴.
 			
 			// 메일 데이터
 			Mail m = new Mail();
-			m.setUserNo(senderNo);
+			m.setUserNo(loginUserNo);
 			m.setMailTitle(title);
 			m.setMailContent(content);
 			m.setIsSent(isSent);
@@ -92,9 +92,7 @@ public class MailInsertController extends HttpServlet {
 				}
 			}
 			
-			// 로그인사용자번호
-			int loginUserNo = ((User)(request.getSession().getAttribute("loginUser"))).getUserNo();
-			
+			// db에 insert
 			int result = new MailService().insertMail(m, at, mrList, loginUserNo);
 			
 			if(result > 0) { // 성공
@@ -104,6 +102,13 @@ public class MailInsertController extends HttpServlet {
 					request.getSession().setAttribute("mailAlertMsg", "성공적으로 메일을 전송하였습니다.");
 				}
 				
+				if(mailNo != null) { // 임시보관메일이었던 경우, 기존메일 삭제
+					int deleteResult = new MailService().deleteTempMail(loginUserNo, mailNo);
+					if (deleteResult <= 0) { // 실패
+						System.out.println("임시보관중이었던 메일을 성공적으로 전송하거나 임시저장하였지만, 기존의 임시저장 메일 삭제 실패 - loginUserNo:" + loginUserNo + ", mailNo:" + mailNo);
+					} 
+				}
+				
 			} else { // 실패
 				if(at != null) { // 첨부파일이 있는경우
 					new File(savePath + at.getChangeName()).delete(); // 첨부파일 삭제
@@ -111,8 +116,11 @@ public class MailInsertController extends HttpServlet {
 				request.getSession().setAttribute("mailAlertMsg", "메일 전송 실패");
 			}
 			
+			
 			if(m.getIsSent().equals("T")) { // 임시저장메일인경우
 				response.sendRedirect(request.getContextPath() + "/mail?mb=t&cpage=1"); // 임시보관함으로
+			}else if(mrList.size() == 1 && mrList.get(0).getReceiverNo() == loginUserNo) { // 내게쓴메일
+				response.sendRedirect(request.getContextPath() + "/mail?mb=m&cpage=1"); // 내게쓴메일함으로
 			}else {
 				response.sendRedirect(request.getContextPath() + "/mail?mb=s&cpage=1"); // 보낸메일함으로
 			}
