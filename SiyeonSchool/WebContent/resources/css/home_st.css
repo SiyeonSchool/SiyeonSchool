@@ -1,0 +1,372 @@
+/* 커리큘럼 바 관련 CSS */
+.curriculum{
+	width: 100%;
+    height: auto;
+	margin-top: 30px;
+	display: flex;
+    flex-direction: column;
+	justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.curriculum .progress-area{
+	width: 100%;
+	padding-right: 110px;
+    position: absolute;
+    z-index : -1;
+}
+
+.curriculum .progress-container {
+	height: 20px;
+	width: 100%;
+	background-color: #5F5F5F;
+}
+
+.curriculum .progress-bar{
+	width: 0%;
+	height: 20px;
+	background-color: #46D3FF;
+	transition: .4s;
+}
+
+.curriculum .curriculum-bnt{
+	width: 100%;
+	padding-right: 100px;
+	padding-left: 100px;
+    display: flex;
+	justify-content: space-between;
+}
+
+
+.curriculum .cir{
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	background-color: #979797;
+	color: #ffffff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.curriculum-bnt .selected{
+	background-color: #C2F0FF;
+	color: #333;
+}
+
+/* 게시판 테이블 공통 CSS */
+.boards table {
+	width: 100%;
+    height: 300px;
+    font-size: 16px;
+}
+
+.boards td, .boards th{
+	vertical-align: middle;
+}
+
+.boards .navi{
+    height: 30px;
+}
+
+.title{
+    width: 50%;
+}
+
+.enroll-date, .comments{
+    text-align: center;
+}
+
+.boards .material-icons{
+    font-size: 16px;
+    font-weight: 100;
+    color: #333;
+}
+
+/* 수업자료 게시판 테이블 CSS */
+.classDatum {
+    width: 450px;
+    height: auto;
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.classDatum table, .classDatum th, .classDatum td{
+    border-bottom: 1px solid #C2F0FF;
+}
+
+/* 과제 게시판 테이블 CSS */
+
+.homework {
+    width: 450px;
+    height: auto;
+    margin-top: 30px;
+    margin-left: 50px;
+}
+
+.homework table {
+    width: 100%;
+    height: 300px;
+    font-size: 16px;
+}
+
+.homework table, .homework th, .homework td{
+    border-bottom: 1px solid #C2F0FF;
+}
+
+.boards{
+	width: auto;
+	height: auto;
+	justify-content: center;
+	flex-direction: column;
+	float: left;
+	margin-right: 80px;
+}
+
+/* 달력/일정 CSS */
+.todo{
+	width: 600px;
+	height: 600px;
+	margin-top: 80px;
+	margin-right: 80px;
+	background-color: #C2F0FF;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	float: left;
+}
+
+.calendar-area{
+	width: 550px;
+	height: 380px;
+	background-color: rgba(255, 255, 255, 0.5);
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	margin-top: 20px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#calendar table{
+	width: 500px;
+	height: 300px;
+	background-color: rgba(255,255,255,0.7);
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+}
+
+#calendar *{
+	/* border: 1px solid #000; */
+	text-align: center;
+	vertical-align: middle;
+}
+
+.header{
+	margin: 10px 0px;
+	padding : 0px 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24px;
+}
+
+.header span:hover{
+	cursor: pointer;
+}
+
+#calendar th{
+	height: 49px;
+	font-size: 24px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.todo-area {
+	width: 550px;
+	height: 160px;
+	background-color: rgba(255,255,255,0.8);
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.todo-header{
+	width: 500px;
+	height: 30px;
+	margin-top: 10px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.486);
+}
+
+
+/* 종강일 D-Day CSS */
+.D-day{
+	width: 300px;
+	height: 600px;
+	margin-top: 80px;
+	margin-right: 80px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	float : left;
+}
+
+.D-day .text-area{
+	border-radius: 10px;
+}
+
+.text-area {
+	width: 300px;
+	height: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.end-day, #D-day{
+	height: 50px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	background-color: #C2F0FF;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.end-day{
+	width: 250px;
+}
+
+#D-day{
+	margin-top: 20px;
+	width: 100px;
+}
+
+.D-day p{
+	text-align: center;
+	font-size: 16px;
+}
+.D-day .progress-area2{
+	margin-top: 30px;
+}
+
+.progress-circle {
+	width: 300px;
+	height: 300px;
+	border-radius: 50%;
+	background: conic-gradient(#A98AFF 0% 0%, #46D3FF 0% 100%);
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.progress-text {
+	font-size: 24px;
+	font-weight: bold;
+	position: absolute;
+}
+
+.comment-area{
+	margin-top: 50px;
+}
+
+/* 출석 버튼 CSS */
+.attendance-btn{
+	width: 230px;
+	height: auto;
+	margin-top: 80px;
+	padding: 0px 15px;
+	display: flex;
+}
+
+.atd-btn{
+	width: 230px;
+	height: 60px;
+	background-color: #C2F0FF;
+	border: 2px solid #46D3FF;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.16);
+	border-radius: 20px;
+	display: flex;
+	justify-content: center;	
+	align-items: center;
+}
+
+.atd-btn p{
+	font-size: 24px;
+}
+
+.atd-btn:hover{
+	background-color: #46D3FF;
+	border : 2px solid #00c3ff;
+	cursor: pointer;
+}
+
+/* 메일함 CSS */
+.mail-tome{
+	width: 230px;
+	height: 460px;
+	margin-top: 80px;
+	display: flex;	
+}
+
+.total-area{
+	width: 230px;
+	height: 460px;
+	border: 1px solid #C2F0FF;
+	border-radius: 10px;
+}
+
+.mail-header{
+	width: 230px;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24px;
+	color: #46D3FF;
+	border-bottom: 1px solid #C2F0FF;
+}
+
+.mail-box{
+	width: 230px;
+	height: 380px;
+	margin-top: 5px;
+	padding: 10px;
+}
+
+.mail-box table{
+	width: 210px;
+	font-size: 14px;
+}
+
+.mail-box table tr{
+	border-bottom: 1px solid #C2F0FF;
+}
+
+.mail-box .nothing{
+	text-align: center;
+	vertical-align: middle;
+}
+
+.mail-box .mail__title {
+	max-width: 140px;
+	height: 50px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 5px;
+}
+
+.mail-box .mail__send_date{
+	text-align: right;
+	vertical-align: bottom;
+	padding: 5px;
+	background-color: none;
+}

@@ -14,7 +14,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/home.css">
+	<link rel="stylesheet" href="resources/css/home_ad.css">
 	<script src="resources/js/home_ad.js"></script>
 </head>
 <body>
@@ -228,13 +228,6 @@
 		</div>
 		<div class="comment-area">
 
-		</div>
-	</section>
-
-	<!-- 출석 버튼 -->
-	<section class="attendance-btn">
-		<div class="atd-btn">
-			<p>출석하기</p>
 		</div>
 	</section>
 
