@@ -499,6 +499,7 @@ $recevierListContentsEl.on('click', '.rDelete', function () {
     $(this).parent().remove(); // 요소 화면에서 제거
 })
 
+/*
 // 수신인 리스트 헤더에서 X아이콘 클릭시, 리스트 한번에 비우기
 $("main.mail-write .receiver .list-header .rDelete").on('click', '.icon', function () {
 
@@ -515,7 +516,7 @@ $("main.mail-write .receiver .list-header .rDelete").on('click', '.icon', functi
 
     $recevierListContentsEl.empty(); // 화면에서 수신인 전체 리스트 요소 제거
 })
-
+*/
 
 // 수신구분 select가 바뀔경우, 카운트 반영 & 화면에 반영
 $recevierListContentsEl.on('change', 'select[name="rType"]', function () {
