@@ -134,28 +134,28 @@
 					<th>댓글</th>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">AJAX와 JSON</td>
+					<td class="enroll-date">2024-07-15</td>
 					<td class="comments"><span class="material-icons">insert_comment</span></td>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">AJAX 요청 및 응답 처리</td>
+					<td class="enroll-date">2024-07-14</td>
 					<td class="comments"><span class="material-icons">comment</span></td>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">AJAX 기본 개념</td>
+					<td class="enroll-date">2024-07-13</td>
 					<td class="comments"><span class="material-icons">comment</span></td>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">JSP 액션 태그</td>
+					<td class="enroll-date">2024-07-12</td>
 					<td class="comments"><span class="material-icons">comment</span></td>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">JSP 스크립틀릿과 표현식</td>
+					<td class="enroll-date">2024-07-11</td>
 					<td class="comments"><span class="material-icons">comment</span></td>
 				</tr>
 			</table>
@@ -172,28 +172,28 @@
 					<th>댓글</th>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">git 연습과제</td>
+					<td class="enroll-date">2024-07-15</td>
 					<td class="comments"><span class="material-icons">insert_comment</span></td>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">자바스크립트 실습문제 ALL</td>
+					<td class="enroll-date">2024-07-12</td>
 					<td class="comments"><span class="material-icons">comment</span></td>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">uml 실습과제</td>
+					<td class="enroll-date">2024-07-11</td>
 					<td class="comments"><span class="material-icons">comment</span></td>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">css 실습문제</td>
+					<td class="enroll-date">2024-07-03</td>
 					<td class="comments"><span class="material-icons">comment</span></td>
 				</tr>
 				<tr>
-					<td class="title">Java</td>
-					<td class="enroll-date">2024-01-01</td>
+					<td class="title">HTML 실습문제</td>
+					<td class="enroll-date">2024-06-27</td>
 					<td class="comments"><span class="material-icons">comment</span></td>
 				</tr>
 			</table>
