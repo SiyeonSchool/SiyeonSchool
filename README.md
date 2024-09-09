@@ -1,16 +1,112 @@
-## Hi there 👋
+![logo](report\sis_logo.png)
 
-<!--
-**SiyeonSchool/SiyeonSchool** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
-Here are some ideas to get you started:
+# 📌 프로젝트 소개
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+기존에 나눠져있던 학원의 여러 시스템을 하나로 통합하는 수업 <그룹웨어> 프로그램입니다. 
+
+- 수업에 필요한 공간 및 기능을 제공하여, 선생님과 학생들에게 편의를 제공하고,
+
+- 기존에 나눠져있던 여러 시스템을 하나로 통합하여 시너지 효과를 기대합니다.
+
+![logo](report\intention.png)
+
+
+# ⌚ 개발기간
+
+전체일정 : 2024-07-09(화) ~ 2024-09-09(월)
+
+- 2024-07-09(화) ~ 2024-07-15(월) : 주제, 프로젝트명, 팀명, 팀장 선정
+- 2024-07-15(월) ~ 2024-07-22(월) : 프로젝트 기획 보고서 제출
+- 2024-07-22 (월) ~ 2024-08-05(월) : 화면 설계 회의 및 보고서 제출
+- 2024-08-05 (월) ~ 2024-08-12(월) : 데이터 설계 회의 및 보고서 제출
+- 2024-08-12 (월) ~ 2024-08-16(금) : 최종보고서, DB 스크립트 파일 제출
+- 2024-08-12 (월) ~ 2024-08-31(금) : 프로젝트 구현 및 디버깅(FE + BE 구현)
+- 2024-09-01 (일) ~ 2024-09-06(금) : 베타테스트 진행 및 오류수정
+- 2024-09-07 (일) ~ 2024-09-09(월) : 프로젝트 최종 발표 및 발표자료 제출
+
+
+![logo](report\dev_plan.png)
+
+
+# 🌱 구성원 및 역할
+
+💗 조장 : 김동규
+
+- 메일
+    - 메일 목록조회 / 상세조회
+    - 메일쓰기 / 내게쓰기
+    - 메일  답장 / 전체 답장 / 전달
+    - 임시저장 / 수정
+    - 메일 삭제 / 복구 / 영구삭제
+    - 메일 중요표시, 읽음표시
+    - 수신인 검색, 주소록 연동
+    - 메일 알람
+- 주소록
+- 수업 게시판
+    - 메인화면만 구현
+- 도구
+    - 메인화면만 구현
+
+💛 조원 : 김희섭
+
+- 홈
+- 마이페이지
+- 관리자페이지
+
+💙 조원 : 이태형
+
+- 로그인/회원가입
+- 일정/할일
+- 과제 게시판
+
+![logo](report\role.png)
+
+
+# ⚙ 개발환경
+
+- Front-end : HTML5 / CSS3 / JavaScript / jQuery / AJAX / JSON
+- BackEnd : Java 11, JSP & Servlet
+- DBMS : Oracle
+- Developer Tools : Eclipse / VS Code / SqlDeveloper
+- Server : Apach Tomcat 9.0
+- Management : Git, GitHub,
+- OS : Windows10
+
+
+# 💡 사용한 라이브러리
+
+- 네이버 스마트에디터2
+
+
+# ✔ DB 설계
+
+DB Overview
+
+![logo](report\ERD_overview.png)
+
+
+DB Detail view
+![logo](report\ERD_detail.png)
+
+
+# 📽 프로젝트 구현
+
+💗 조장 : 김동규
+
+- 메일
+- 주소록
+- 수업 게시판
+- 도구
+
+💛 조원 : 김희섭
+
+- 홈
+- 마이페이지
+- 관리자페이지
+
+💙 조원 : 이태형
+
+- 로그인/회원가입
+- 일정/할일
+- 과제 게시판
