@@ -1,21 +1,22 @@
-![sis_logo](https://github.com/user-attachments/assets/7297e3be-d422-40e5-9dc4-024cfcef5daf)
-
+<img src="https://github.com/user-attachments/assets/7297e3be-d422-40e5-9dc4-024cfcef5daf" alt="sis_logo" width="400">
 
 
 # 📌 프로젝트 소개
 
-기존에 나눠져있던 학원의 여러 시스템을 하나로 통합하는 <b>그룹웨어</b> 프로그램입니다. 
+학원의 여러 시스템을 하나로 통합하는 <b>그룹웨어</b> 프로그램입니다. 
+
+![intention](https://github.com/user-attachments/assets/b72c6627-fd30-40e6-86ad-fae14c3897ac)
 
 - 수업에 필요한 공간 및 기능을 제공하여, 선생님과 학생들에게 편의를 제공하고,
 
 - 기존에 나눠져있던 여러 시스템을 하나로 통합하여 시너지 효과를 기대합니다.
 
-![intention](https://github.com/user-attachments/assets/b72c6627-fd30-40e6-86ad-fae14c3897ac)
-
 
 # ⌚ 개발기간
 
 전체일정 : 2024-07-09(화) ~ 2024-09-09(월)
+
+![dev_plan](https://github.com/user-attachments/assets/ab93c65d-6a31-4a27-8311-93916f0396e6)
 
 - 2024-07-09(화) ~ 2024-07-15(월) : 주제, 프로젝트명, 팀명, 팀장 선정
 - 2024-07-15(월) ~ 2024-07-22(월) : 프로젝트 기획 보고서 제출
@@ -27,10 +28,14 @@
 - 2024-09-07 (일) ~ 2024-09-09(월) : 프로젝트 최종 발표 및 발표자료 제출
 
 
-![dev_plan](https://github.com/user-attachments/assets/ab93c65d-6a31-4a27-8311-93916f0396e6)
-
-
 # 🌱 구성원 및 역할
+
+- 💗 조장 : 김동규
+- 💛 조원 : 김희섭
+- 💙 조원 : 이태형
+
+![role](https://github.com/user-attachments/assets/be4f9d96-f2de-4bc8-9236-95b30fa3315a)
+
 
 💗 조장 : 김동규
 
@@ -61,7 +66,6 @@
 - 일정/할일
 - 과제 게시판
 
-![role](https://github.com/user-attachments/assets/be4f9d96-f2de-4bc8-9236-95b30fa3315a)
 
 
 # ⚙ 개발환경
@@ -89,6 +93,7 @@ DB Overview
 
 
 DB Detail view
+
 ![ERD_detail](https://github.com/user-attachments/assets/77283b65-e7ff-434f-9d76-62761f8c4609)
 
 
