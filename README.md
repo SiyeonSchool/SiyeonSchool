@@ -1,15 +1,16 @@
-![logo](report\sis_logo.png)
+![sis_logo](https://github.com/user-attachments/assets/7297e3be-d422-40e5-9dc4-024cfcef5daf)
+
 
 
 # 📌 프로젝트 소개
 
-기존에 나눠져있던 학원의 여러 시스템을 하나로 통합하는 수업 <그룹웨어> 프로그램입니다. 
+기존에 나눠져있던 학원의 여러 시스템을 하나로 통합하는 <b>그룹웨어</b> 프로그램입니다. 
 
 - 수업에 필요한 공간 및 기능을 제공하여, 선생님과 학생들에게 편의를 제공하고,
 
 - 기존에 나눠져있던 여러 시스템을 하나로 통합하여 시너지 효과를 기대합니다.
 
-![logo](report\intention.png)
+![intention](https://github.com/user-attachments/assets/b72c6627-fd30-40e6-86ad-fae14c3897ac)
 
 
 # ⌚ 개발기간
@@ -26,7 +27,7 @@
 - 2024-09-07 (일) ~ 2024-09-09(월) : 프로젝트 최종 발표 및 발표자료 제출
 
 
-![logo](report\dev_plan.png)
+![dev_plan](https://github.com/user-attachments/assets/ab93c65d-6a31-4a27-8311-93916f0396e6)
 
 
 # 🌱 구성원 및 역할
@@ -60,7 +61,7 @@
 - 일정/할일
 - 과제 게시판
 
-![logo](report\role.png)
+![role](https://github.com/user-attachments/assets/be4f9d96-f2de-4bc8-9236-95b30fa3315a)
 
 
 # ⚙ 개발환경
@@ -83,11 +84,12 @@
 
 DB Overview
 
-![logo](report\ERD_overview.png)
+![ERD_overview](https://github.com/user-attachments/assets/4723f86c-68f7-4c5c-a52f-6d0311a8f30f)
+
 
 
 DB Detail view
-![logo](report\ERD_detail.png)
+![ERD_detail](https://github.com/user-attachments/assets/77283b65-e7ff-434f-9d76-62761f8c4609)
 
 
 # 📽 프로젝트 구현
