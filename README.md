@@ -138,7 +138,6 @@ DB Overview
     - 메일 임시저장 & 보내기
 ![메일_임시저장](https://github.com/user-attachments/assets/10b822bd-f769-4103-a567-8c3d022797f6)
 
-
     - 메일 삭제 / 복구 / 영구삭제
 ![메일_삭제](https://github.com/user-attachments/assets/80644ebe-7c01-4ce4-bffd-733ec39d50fd)
 
@@ -151,11 +150,36 @@ DB Overview
     - 메일 알림
 ![메일_알림](https://github.com/user-attachments/assets/e28e4e32-687c-43ba-8b31-246dd14dd502)
 
-
-
 - 주소록
+
+    - 주소록 목록조회
+![주소록_목록조회](https://github.com/user-attachments/assets/2082798a-2c15-40b0-977c-f58bd14c6506)
+
+    - 주소록 중요표시 기능
+![주소록_중요표시](https://github.com/user-attachments/assets/4a02e7f5-38cf-45d1-ae63-08d68937f34f)
+
+    - 주소록 사용자 정렬
+![주소록_사용자 정렬](https://github.com/user-attachments/assets/27fca1b9-24a6-4cc2-b7e9-911cdcdb007f)
+
+    - 주소록 사용자 검색
+![주소록_사용자 검색](https://github.com/user-attachments/assets/31288ed1-f13c-4b26-b026-8f2e3a298639)
+
+    - 주소록 추가/수정/삭제 + 사용자 추가
+![공유주소록_기존카테고리](https://github.com/user-attachments/assets/ad1abb71-478b-4faf-8e73-99ca1cc08076)
+🔺 공유 주소록 (기존 카테고리에 추가/수정)
+![공유주소록_새로운 카테고리](https://github.com/user-attachments/assets/909f916c-aa8d-4d98-9daa-20519092d17f)
+🔺 공유 주소록 (새로운 카테고리에 추가/수정)
+![개인주소록](https://github.com/user-attachments/assets/b175beb6-a96c-45f7-a86d-2daaecd9ff4f)
+🔺 개인 주소록 (추가/수정/삭제) + 기존카테고리 삭제
+
 - 수업 게시판
-- 도구
+    - 수업 게시판 - 메인화면
+![수업게시판](https://github.com/user-attachments/assets/e31a7060-333a-4e0f-9855-0c51fadaa275)
+
+- 도구 
+    - 도구 - 메인화면
+![도구](https://github.com/user-attachments/assets/9736a1d5-9f4d-4131-b860-0e578b178b90)
+
 
 💛 조원 : 김희섭
 
