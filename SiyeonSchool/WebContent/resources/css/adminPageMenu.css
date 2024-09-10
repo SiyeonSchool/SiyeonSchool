@@ -1,79 +1,94 @@
-#side-area {
-    float: left;
-    width: 485px;
-    height: 100%;
-    background-color: #ffffff;
-    padding: 10px;
-    margin-right: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    position: absolute;
-}
-
-.adminPage-title {
-    text-align: center;
-}
-
-header p{
-    color: #000;
-    font-size: 32px;
-}
-
-#img-area{
+.wrapper{
     width: 100%;
-    height: 150px;
-    margin-top: 50px;
-    margin-bottom: 100px;
+}
+
+.wrapper .body__wrapper{
+    width: 1024px;
+    display: block;
+    margin: 0px 439.5px;
+}
+
+.adminPage__header {
+    text-align: left;
+    height: auto;
+    padding-top: 40px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.adminPage__header .content__title{
+    color: #000;
+    font-size: 22px;
+}
+
+.body__wrapper .side-area{
+    width: 240px;
+    height: 100%;
+    float: left;
+}
+
+#img-area {
+    width: 100%;
+    height: 200px;
+    background-color: #f7f1ff;
+    border-radius: 20px 20px 0px 0px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
+    align-items : center;
+    text-align: center;
+    justify-content: center;
     align-items: center;
 }
 
-#profile-img{
-    width: 150px;
-    height: 150px;
-    display: inline;
+#img-area img{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-#menu-area{
-    display: flex;
-    margin-top: 50px;
-    flex-direction: column;
-    align-items: center;	
+.side_nav{
+    border: 1px solid #333;
 }
 
-a:hover{
-    background-color: #C2F0FF;
-    cursor: pointer;
-}
-
-.adminPage-menu{
-    width: 255px;
+#menu-area li{
     height: 50px;
-    background-color: #DFCCFB;  
-    display: flex;
-    margin-top: 50px;
-    border-radius: 15px;
-    border: none;
-    font-size: 32px;
-    justify-content: center;
 }
 
-.selected {
-    width: 255px;
+.side_nav, .admin-menu{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.admin-menu:nth-child(2){
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
+
+.admin-menu:nth-child(3){
+    border-bottom: 1px solid #333;
+}
+
+.admin-menu a{
     height: 50px;
-    background-color: #C2F0FF;
-    border: 1px solid #46D3FF;
+    vertical-align: top;
+    position: relative;
     display: flex;
-    margin-top: 50px;
-    border-radius: 15px;
-    border: none;
-    font-size: 32px;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+
 }
 
-#adminPage-area p{
-    font-size: 32px;
-    color: #000;
+.none a{
+    border-top: none;
+}
+
+.none:hover{
+    background-color: #f7f1ff;
+}
+.selected{
+    background-color: #DFCCFB;
 }

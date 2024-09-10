@@ -33,7 +33,7 @@
 		<section class="first-header">
 			<div class="first-header-btns">
 				<button class="btn moveBtn">이동</button>
-				<button class="btn deleteBtn">삭제</button>
+				<button class="btn deleteBtn" onclick="onClickDeleteSelectedMails(currentMailbox)">삭제</button>
 			</div>
 
 			<div class="search-bar-div">
@@ -59,7 +59,7 @@
 
 				<li class="mail-column attachment">첨부</li>
 				
-				<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { // 전체메일함, 중요메일 %>
+				<% if(currentMailbox.equals("a") || currentMailbox.equals("im") || currentMailbox.equals("b")) { // 전체메일함, 중요메일, 휴지통 %>
 					<li class="mail-column mailbox">메일함</li>
 				<% } %>
 				
@@ -70,12 +70,19 @@
 					<li class="mail-column type">수신구분</li>
 				<% } %>
 				
-				<% Set<String> excludedMailboxes = Set.of("a", "i", "u", "im"); // 전체메일함, 받은메일함, 임시보관함, 안읽은메일, 중요메일
+				<% Set<String> excludedMailboxes = Set.of("a", "i", "u", "im", "b"); // 전체메일함, 받은메일함, 임시보관함, 안읽은메일, 중요메일, 휴지통
 				   if(!excludedMailboxes.contains(currentMailbox)) { %>
 					<div class="mail-column empty-space"></div>
 				<% } %>
 				
-				<li class="mail-column sentDate">보낸시간</li>
+				
+				<li class="mail-column sentDate">
+					<% if(currentMailbox.equals("t")) { // 임시보관함 %>
+						저장시간
+					<% }else { // 임시보관함이 아닌경우 %>
+						보낸시간
+					<% } %>
+				</li>
 			</ul>
 		</section>
 		
@@ -96,7 +103,7 @@
 						
 								<!-- 체크박스 -->
 								<div class="mail-column checkbox jc-center">
-									<input type="checkbox">
+									<input type="checkbox" name="mailNo" value="<%= m.getMailNo() %>">
 								</div>
 								
 								<!-- 중요(별) -->
@@ -129,7 +136,7 @@
 								</div>
 			
 								<!-- 메일함 -->
-								<% if(currentMailbox.equals("a") || currentMailbox.equals("im")) { %>
+								<% if(currentMailbox.equals("a") || currentMailbox.equals("im") || currentMailbox.equals("b")) { %>
 									<div class="mail-column mailbox jc-center">
 										<span class="mailboxName"><%= m.getMailboxName() %></span>
 									</div>

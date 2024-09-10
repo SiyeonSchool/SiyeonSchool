@@ -124,13 +124,11 @@ INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_
 INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'CP1065', 'upfile_test_240824.pdf', 'upfile_test_240824-5.pdf', 'resources/upfiles/classroom/', TO_DATE('2024-08-24', 'YYYY-MM-DD'), 'Y');
 
 -- 메일
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M501', 'flower2.png', 'flower2_from_user01.png', 'resources/upfiles/mail/', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'mail_test_240829.pdf', 'mail_test_240829.pdf', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'flower2.png', 'flower2.png', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M503', 'tower1.png', 'tower1.png', 'resources/upfiles/mail/', TO_DATE('2024-07-03', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'river2.png', 'river2.png', 'resources/upfiles/mail/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'forest1.png', 'forest1.png', 'resources/upfiles/mail/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
-INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M507', 'flower1.png', 'flower1.png', 'resources/upfiles/mail/', TO_DATE('2024-07-07', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M501', 'mail_test_240829.pdf', 'mail_test_240829.pdf', 'resources/upfiles/mail/', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M502', 'mail_test_개발자발작버튼.jpg', 'mail_test_개발자발작버튼.jpg', 'resources/upfiles/mail/', TO_DATE('2024-07-02', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M503', 'mail_test_북금곰에어팟짤.jpg', 'mail_test_북금곰에어팟짤.jpg', 'resources/upfiles/mail/', TO_DATE('2024-07-03', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M506', 'mail_test_왜되지.png', 'mail_test_왜되지.png', 'resources/upfiles/mail/', TO_DATE('2024-07-06', 'YYYY-MM-DD'), 'Y');
+INSERT INTO ATTACHMENT VALUES('A' || SEQ_FILENO.NEXTVAL, 'M507', 'mail_test_개발자가이드.png', 'mail_test_개발자가이드.png', 'resources/upfiles/mail/', TO_DATE('2024-07-07', 'YYYY-MM-DD'), 'Y');
 
 
 --------------------------------------------------------------------------------
@@ -279,6 +277,11 @@ INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user27', 'pass27', '배수지', '0
 INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user28', 'pass28', '임윤아', '010-7890-1237', 'N', TO_DATE('1990-06-13', 'YYYY-MM-DD'), 'imyoona@kh.or.kr', '서울시 종로구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A29', 2, '행복의기억', 'U', 'Y', NULL, NULL);
 INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user29', 'pass29', '박보영', '010-8901-2348', 'N', TO_DATE('1992-02-12', 'YYYY-MM-DD'), 'parkboyoung@kh.or.kr', '서울시 서대문구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A30', 2, '즐거운기억', 'U', 'Y', NULL, NULL);
 INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user30', 'pass30', '장동건', '010-9012-3459', 'N', TO_DATE('1985-08-07', 'YYYY-MM-DD'), 'jangdonggun@kh.or.kr', '서울시 중랑구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), 'A31', 2, '나의행운', 'U', 'Y', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user31', 'pass31', '마동석', '010-8916-4891', 'N', TO_DATE('1983-08-01', 'YYYY-MM-DD'), 'madongseok@kh.or.kr', '서울시 광진구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의행운', 'U', 'W', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user32', 'pass32', '정국', '010-1234-5678', 'N', TO_DATE('1997-09-01', 'YYYY-MM-DD'), 'jungkook@bts.com', '서울시 강남구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '즐거운기억', 'U', 'W', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user33', 'pass33', '지수', '010-2345-6789', 'N', TO_DATE('1995-01-03', 'YYYY-MM-DD'), 'jisoo@blackpink.com', '서울시 종로구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '사랑의기억', 'U', 'W', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user34', 'pass34', '카이', '010-3456-7890', 'N', TO_DATE('1994-01-14', 'YYYY-MM-DD'), 'kai@exo.com', '서울시 강서구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '나의소원', 'U', 'W', NULL, NULL);
+INSERT INTO USERS VALUES(SEQ_USERNO.NEXTVAL, 'user35', 'pass35', '아이린', '010-4567-8901', 'N', TO_DATE('1991-03-29', 'YYYY-MM-DD'), 'irene@redvelvet.com', '서울시 강북구', TO_DATE('2024-05-09', 'YYYY-MM-DD'), TO_DATE('2024-05-09', 'YYYY-MM-DD'), NULL, 2, '편안한시간', 'U', 'W', NULL, NULL);
 
 
 --------------------------------------------------------------------------------
@@ -702,11 +705,7 @@ INSERT INTO CONTACTS_STAR VALUES(SEQ_CONTACTS_STARNO.NEXTVAL, 1, 28, 'Y');
 --############### 메일함 ############### (PART2 - 메뉴얼로 추가하는 데이터)
 --------------------------------------------------------------------------------
 
--- 2번 유저 개인메일함2 (메일함번호: 'MB187')
-INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, 2, '테스트메일함1', 'P', 'Y');
-
--- 2번 유저 개인메일함3 (메일함번호: 'MB188')
-INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, 2, '테스트메일함2', 'P', 'Y');
+-- 샘플데이터 삭제함.
 
 --------------------------------------------------------------------------------
 --############### 메일 ###############
@@ -714,7 +713,7 @@ INSERT INTO MAILBOX VALUES('MB' || SEQ_MAILBOXNO.NEXTVAL, 2, '테스트메일함
 CREATE TABLE MAIL (
     MAIL_NO VARCHAR2(10) PRIMARY KEY,
     SENDER NUMBER NOT NULL,
-    MAIL_TITLE VARCHAR2(150) NOT NULL,
+    MAIL_TITLE VARCHAR2(300) NOT NULL,
     MAIL_CONTENT CLOB,
     IS_SENT CHAR(1) NOT NULL,
     SEND_DATE DATE DEFAULT SYSDATE,
@@ -755,132 +754,6 @@ BEGIN
 END;
 /
 
--- 2번 유저가 보내는 메일 (메일번호: "M501")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '안녕하세요 반갑습니다.', '잘 부탁드립니다..', 'S', TO_DATE('2024-07-01 09:00:00', 'YYYY-MM-DD HH24:MI:SS'));
-
--- 3번 유저가 보내는 메일 (메일번호: "M502")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 3, '오늘 하루도 좋은 하루되세요!', '파이팅!!', 'S', TO_DATE('2024-07-02 13:00:00', 'YYYY-MM-DD HH24:MI:SS'));
-
--- 2번 유저의 임시보관 메일 (메일번호: "M503")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '이메일을 보낼까~ 말까~ (수신인은 없음!)', '아직 수신인은 정하지 않았음. 수신인 없는게 정상', 'T', TO_DATE('2024-07-03 16:30:33', 'YYYY-MM-DD HH24:MI:SS'));
-
--- 2번 유저의 임시보관 메일2 (메일번호: "M504")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '임시메일인데, 수신인은 지정해놓은 메일입니다.', '수신인은 있지만 아직 보내지 않았어요. 보내지 않고, 임시로 저장해놓을게요', 'T', TO_DATE('2024-07-04 09:25:03', 'YYYY-MM-DD HH24:MI:SS'));
-
--- 2번 유저의 내게쓴메일 (메일번호: "M505")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '나에게 보내는 편지', '테스트를 하려면 데이터를 넣어야합니다.', 'S', TO_DATE('2024-07-05 19:13:01', 'YYYY-MM-DD HH24:MI:SS'));
-
--- 2번 유저의 내게쓴메일2 (메일번호: "M506")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '혼잣말하는중', 'order by가 잘먹히는지 보려면 2개는 넣어봐야합니다.', 'S', TO_DATE('2024-07-06 01:14:21', 'YYYY-MM-DD HH24:MI:SS'));
-
--- 2번 유저의 휴지통메일 (메일번호: "M507")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 2, '정작 보낸 사람은 삭제한 메일', '보낸사람은 메일을 삭제했지만 받은 사람은 그대로 가지고 있는게 정상. (발신취소가 아님!)', 'S', TO_DATE('2024-07-07 03:20:45', 'YYYY-MM-DD HH24:MI:SS'));
-
--- 28번 유저가 보내는 메일 (메일번호: "M508")
-DECLARE
-    v_mail_content CLOB;
-BEGIN
-    v_mail_content := '이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 
-지금은 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다.
-
-이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.
-복사를 해도 좋습니다. 혹 미신이라 하실지 모르지만 사실입니다.
-
-영국에서 HGXWCH이라는 사람은 1930년에 이 편지를 받았습니다.
-그는 비서에게 복사해서 보내라고 했습니다.
-며칠 뒤에 복권이 당첨되어 20억을 받았습니다.
-어떤 이는 이 편지를 받았으나 96시간 이내 자신의 손에서 떠나야 한다는 사실을 잊었습니다.
-그는 곧 사직되었습니다.
-나중에야 이 사실을 알고 7통의 편지를 보냈는데 다시 좋은 직장을 얻었습니다.
-
-미국의 케네디 대통령은 이 편지를 받았지만 그냥 버렸습니다.
-결국 9일 후 그는 암살당했습니다. 기억해 주세요.
-이 편지를 보내면 7년의 행운이 있을 것이고 그렇지 않으면 3년의 불행이 있을 것입니다.
-그리고 이 편지를 버리거나 낙서를 해서는 절대로 안됩니다.
-
-7통입니다.
-이 편지를 받은 사람은 행운이 깃들 것입니다.
-힘들겠지만 좋은 게 좋다고 생각하세요.
-7년의 행운을 빌면서... 
-
-----------------------------------------------------------------------------------
-<a href="https://namu.wiki/w/%ED%96%89%EC%9A%B4%EC%9D%98%20%ED%8E%B8%EC%A7%80" target="_blank" style="color:blue; text-decoration: underline;">[출처] 행운의 편지 - 나무위키</a>
-----------------------------------------------------------------------------------
-한마디로 가짜 편지다. 하버드 대학교에서 검증되었다는 내용은 당연하지만 실제로 검증된 적이 없으며, 어린 시절 이런 편지를 메시지로 받아 겁을 먹어서 다른 사람에게도 여러번 보낸 기억이 있는 사람이 대다수일 것이다.
-
-제목만 봤을 땐 행운을 줄 것 같은 편지지만 막상 읽어보면 불행을 가져다 주는 편지처럼 보이는 게 웃음 포인트다.
-----------------------------------------------------------------------------------
-
-[ 개념 ]
-
-영어권에서는 체인 메일(chain mail), 또는 체인 레터(chain letter)라고 하는, 도시전설 중 하나. 영어 위키백과 문서도 함께 참조.
-
-연쇄 편지의 역사와 종류,연도별 편지를 분류한 연구 논문 페이지영어
-
-한때 카톡으로 많이 받았던 그 편지가 맞다. 근거도 없고 의미도 없지만 뭔가 혹할 만한 문장(혹은 협박)을 섞으며 말미에 "이 편지를 다른 n명에게 똑같이 보내라"는 등의 말도 안 되는 행동을 유도하는 편지. 시대에 따라 변화하며 다양한 형태로 반복되고 있다.
-
-한국에서는 1970년대에 특히 퍼졌지만 생각보다 그 역사가 오래 됐다. 1931년 동아일보 기사에서 "3, 4년 전 ''행운의 편지''라는 것이 성행하야 우편국 수입이 상당하였더니"라고 언급한 것으로 보아, 자그마치 1920년대 말부터 행운의 편지가 존재했음을 추리할 수 있다. # 우체국 의문의 호황
-
-이는 일본에서도 마찬가지로, 다이쇼 시대에는 소위 ''행복의 편지''가 너무 유행한 나머지 당시의 경찰청에서 발신자에게 벌금을 매기기까지 했다고 한다. 이후 1935년 무렵에는 ''불행의 편지''로 내용이 바뀌어 다시 유행하기 시작했으며, 이후 1966년으로 1968년에는 관동지역을 벗어나 일본 전역으로 확대되었고 이로 인해 망상에 빠진 청소년의 자살 미수 혹은 자살 사건도 벌어져서 사회 문제가 되기도 했다.
-
-한국이나 일본이나 비슷한 시기에 유행했는데, 일본 측에서는 비슷한 시기에 영국에서 유행하던 ''행운의 편지''가 일본으로 넘어온 것으로 추측하고 있다. 아마 이것이 한국으로 또 넘어온 모양.
-
-조선왕조실록에도 나온다. 무려 1470년, 성종실록 1년 8월 3일자에 전라도의 박석로라고 하는 사기꾼과 그 일당을 체포해 심문한 내용이 나오는데, 그 일당이 사람들에게 퍼트리기를 「경인년 3월부터 바람과 비가 몹시 심해 악한 사람은 다 죽는다. 전염병과 전쟁의 재변으로 경인년 ·신묘년 두 해에 사람이 8분(分)은 죽어서, 집은 있으나 사람은 없으며 땅은 있으나 경작하지는 못할 것이다. 그리고 아홉 여자가 한 지아비와 함께 살며 열 집이 한 마리의 소를 함께 부리며, 집에는 연기가 끊어지고 곡식은 쌓아 두고 먹을 것이 없다. 만일 믿지 않는 자는 눈만 멀 뿐이고, 이 글 한 벌[本]을 전하는 자는 자기 한 몸의 재앙을 면하고, 두 벌을 전하는 자는 한 집의 재앙을 면하고, 세 벌을 전하는 자는 크게 평안함을 얻을 것이다. 만일 믿지 아니하고 이 글을 집 속에 감추어 둔 자는 유혈의 재변을 볼 것이다. 이 글은 요동(遼東)에서 온 신강 화상(新降和尙)의 글인데, 이것을 베껴 사람에게 전하여 주라.」# 라는 항목이 나온다. ''행운의편지''라고 명명하지는 않았지만 내용은 비슷하다. 그런데 이 글은 또 요동의 신강 화상이라는 자에게서 건너왔다고 하니, 그 최초의 기원이 얼마나 오래되었는지는 미스터리다.
-
-정말로 따라했더니 실제로 좋은 일이 일어났다거나 하는 반응도 있다. 물론 하지 않았어도 좋은 일이 생겼을 것이다. 혹은, 아무것도 안하고 있는 것보다 그냥 뭔가를 했기 때문에 일이 풀렸을 수도 있다. 하지만 그것이 반드시 타인에게 뭔가를 보내어 귀찮은 개입을 하고 쓸데없고 자원 낭비적인 편지를 양산했기 때문은 아닐 것이다.
-
-혹할만한 이상한 내용의 편지를 다른 사람들에게 보낸다고 해서 좋은 일이 생기거나 보내지 않는다고 해서 나쁜 일이 생기진 않으니 겁먹지 말자.
-
-2010년대 이후, 카카오톡이 생기면서 정치와 관련된 가짜뉴스들이 단톡방 링크를 타고 흘러다니는 경우가 많은데, 그 중 다수가 문장 말미에 이 뉴스를 몇명에게 전달하자는 지령이 붙어있기도 하여 "행운의 편지" 방식의 새로운 세태를 보여준다.
-
-----------------------------------------------------------------------------------
-
-[ 구현 및 유형 ]
-
-''안 퍼뜨리면 죽는다''라든지 ''퍼뜨리면 내일은 당신에게 최고의 날이 된다''라는 구사법도 자주 사용된다. 매우 확신적이고 현 및 유형, 너 죽는다는 식의 위 문구는 굉장히 거슬리고 어떤 인간이 이런 걸 올려대냐 하는 생각이 절로 들다. 왠지 모르게 안보내면 불행한 일이 생길까봐 두려운 생각과 동시에 이 편지에 속아 복제 발송을 하게 되는 사람은 뭔가 꺼림칙한게 싫고 밑져야 본전이라는 생각에 사로잡히게 되는 것. 문구가 잘 먹혀야 계속 복제되고 살아날 수 있는 것이니, 이런 문구 자체도 가장 살아남기 최적화된 모델일 것이다. 일종의 적자생존 진화라고할까. 과거에는 이런 발신인 불명의 편지들이 손글씨로 정성스레 적혀서 우편함에 들어 있는 경우가 가끔 있었고, 당시 대중소설이나 라디오 사연 같은 데서 언급이 되어 알려져 있는 정도였다. 그러다가 워드프로세서가 보급된 이후부터는 프린터로 인쇄된 편지가 우편함에 들어 있기도 했고(...) 이후 PC통신과 인터넷이 도래하면서 전자우편으로 침투해 들어오게 되었다. 네트워크 공간의 다양한 행운의 편지들은 복사 붙이기의 영향인지 점점 줄어들다가, 각종 메신져 단톡방 및 SNS 그리고 네트워크 게임 분야 등의 매체를 통해 간혹 다시 확산되거나 유행하고 있다.
-(실제예는 맨 아래 항목의 예시를 참조)
-
-편지의 내용을 다른 사람들에게 전파할 것을 종용하면서, 이를 따를 경우 행운이, 그렇지 않을 경우 불운이 찾아온다는 협박 아닌 협박을 한다. 발송해야 할 편지의 수 등 내용은 조금씩 다르지만, 케네디 대통령 암살과 이름 모를 복권 당첨자의 사례가 필수요소로 들어가기도 한다.
-
-예전에는 초딩 성향의 대상을 주 타겟으로 번식해 왔으나, 최근에는 메신저 단톡방이나 게시물 댓글란 등에서 (특히 정치 관련 내용인 경우) 특정 부동 지지층 혹은 세대차 등으로 사고 경화가 있는 계층을 대상으로 하는 경우도 생겨나고 있다.
-
-또한 그럴듯한 스토리텔링 미담을 전해주며 "다들 좋은 하루가 되도록 이 글을 주변에 퍼트리세요"하는 식의 글들도 있는데, 그 글의 내용이 사실을 알고보면 어이없게 무식하고 틀린 내용일 경우가 있어서 이것 역시 행운의 편지화되어 버리기도 한다. 최초 작성자도 속은 것인지 혹은 그걸 보며 즐기는 악의를 가졌던 것인지 알 수 없으나, 결과적인 양상으로는 행운의 편지인 것.
-
-과학 칼럼니스트로 유명한 존 호건은 자신의 베스트 셀러 ''과학의 종말''에서 다른 과학자의 말을 인용해서 이런 말을 남겼다고 한다. ''전 세계적으로 가장 성공한 행운의 편지는 바로 성경입니다.'' 수많은 선교사들을 비롯한 크리스천들이 복음을 전했다는 뜻이다.
-
-만약 행운의 편지를 받은 모든 사람들이 편지의 지시대로 진짜로 보낸다면 며칠 되지 않아 행운의 편지가 온 지구를 뒤덮어 버릴 거라는 말이 있다.
-
-행운의 편지에서 굳이 유형을 나열해 보자면...
-- 행운 및 불운이 올것이라면서 똑같은 편지를 n개 (주로 7개) 다른 사람에게 보내라는 타입
-- 틀린 정보(가짜 뉴스 등)를 그럴듯하게 전해주며 이런 좋은 정보를 나눠야 한다며 복붙 발송을 종용하는 타입
-- 제3세계에서 몰락한 집안/군벌 등의 비자금을 분산 은닉하는 것을 도와줄 것을 요청하며 전송을 요청하는 타입
-- 당신의 이름이나 존재를 어느 매체(책, 인명사전 등)에 기록해주겠다며 지인들에게도 추천을 강요하는 타입
-등이 있다.';
-    
-    INSERT
-       INTO MAIL
-            (
-              MAIL_NO
-            , SENDER
-            , MAIL_TITLE
-            , MAIL_CONTENT
-            , IS_SENT
-            ,  SEND_DATE
-            ) 
-            VALUES
-            (
-             'M' || SEQ_MAILNO.NEXTVAL
-            , 28
-            , '행운의 편지 - 수신인이 많고, 본문 내용이 긴 메일입니다. (테스트시 참고!) 제목도 길면 어떻게 되나 테스트중~!'
-            , v_mail_content
-            , 'S'
-            , TO_DATE('2024-07-07 07:07:07', 'YYYY-MM-DD HH24:MI:SS')
-            );
-END;
-/
-
--- 29번 유저가 보내는 메일 (메일번호: "M509")
-INSERT INTO MAIL VALUES('M' || SEQ_MAILNO.NEXTVAL, 29, '<내메일함>을 테스트 하기 위한 메일입니다~~~~~~', '내메일함에 메일수가 제대로 들어가는지 확인 중입니다.', 'S', TO_DATE('2024-07-10 10:10:10', 'YYYY-MM-DD HH24:MI:SS'));
 
 
 --------------------------------------------------------------------------------
@@ -930,64 +803,7 @@ BEGIN
 END;
 /
 
--- 2번 유저가 보내는 메일 (메일번호: "M501") 관련, 수신인 데이터
-INSERT INTO MAIL_RECEIVER VALUES('M501', 1, 'R', NULL); -- 수신인: 1번유저, 수신, 읽지않은상태
-INSERT INTO MAIL_RECEIVER VALUES('M501', 3, 'C', NULL); -- 수신인: 2번유저, 참조, 읽지않은상태
-INSERT INTO MAIL_RECEIVER VALUES('M501', 4, 'S', NULL); -- 수신인: 3번유저, 비밀, 읽지않은상태
 
--- 3번 유저가 보내는 메일 (메일번호: "M502") 관련, 수신인 데이터
-INSERT INTO MAIL_RECEIVER VALUES('M502', 1, 'C', NULL); -- 수신인: 1번유저, 참조, 읽지않은상태
-INSERT INTO MAIL_RECEIVER VALUES('M502', 2, 'S', NULL); -- 수신인: 2번유저, 비밀, 읽지않은상태
-INSERT INTO MAIL_RECEIVER VALUES('M502', 4, 'R', NULL); -- 수신인: 3번유저, 수신, 읽지않은상태
-
--- 2번 유저의 임시보관 메일2 (메일번호: "M504")
-INSERT INTO MAIL_RECEIVER VALUES('M504', 1, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M504', 3, 'R', NULL);
-
--- 2번 유저의 내게쓴메일 (메일번호: "M505")
-INSERT INTO MAIL_RECEIVER VALUES('M505', 2, 'R', NULL);
-
--- 2번 유저의 내게쓴메일2 (메일번호: "M506")
-INSERT INTO MAIL_RECEIVER VALUES('M506', 2, 'R', NULL);
-
--- 2번 유저의 휴지통메일 (메일번호: "M507")
-INSERT INTO MAIL_RECEIVER VALUES('M507', 1, 'S', NULL); -- 수신인: 1번유저, 수신, 읽지않은상태
-
--- 28번 유저가 보내는 메일 (메일번호: "M508")
-INSERT INTO MAIL_RECEIVER VALUES('M508', 1, 'S', TO_DATE('2024-07-07 08:00:00', 'YYYY-MM-DD HH24:MI:SS'));
-INSERT INTO MAIL_RECEIVER VALUES('M508', 2, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 3, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 4, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 5, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 6, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 7, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 8, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 9, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 10, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 11, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 12, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 13, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 14, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 15, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 16, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 17, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 18, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 19, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 20, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 21, 'R', TO_DATE('2024-07-08 09:07:00', 'YYYY-MM-DD HH24:MI:SS'));
-INSERT INTO MAIL_RECEIVER VALUES('M508', 22, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 23, 'S', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 24, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 25, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 26, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 27, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 29, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 30, 'R', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M508', 31, 'R', NULL);
-
--- 29번 유저가 보내는 메일 (메일번호: "M509")
-INSERT INTO MAIL_RECEIVER VALUES('M509', 1, 'C', NULL);
-INSERT INTO MAIL_RECEIVER VALUES('M509', 2, 'R', NULL);
 
 --------------------------------------------------------------------------------
 --############### 메일_소유자 ###############
@@ -998,7 +814,7 @@ CREATE TABLE MAIL_OWNER(
     MAILBOX_NO VARCHAR2(10) NOT NULL,
     MAIL_STAR CHAR(1) DEFAULT 'N' NOT NULL,
     MAIL_STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-    PRIMARY KEY(OWNER_NO, MAIL_NO),
+    PRIMARY KEY(OWNER_NO, MAIL_NO, MAILBOX_NO),
     FOREIGN KEY(MAILBOX_NO) REFERENCES MAILBOX(MAILBOX_NO),
     CHECK(MAIL_STAR IN ('Y', 'N')),
     CHECK(MAIL_STATUS IN ('Y', 'N'))
@@ -1054,81 +870,7 @@ BEGIN
 END;
 /
 
--- 2번 유저가 보내는 메일 (메일번호: "M501") 관련, 소유자(발신인,수신인) 각각의 데이터 
--- 메일함
--- 1번 유저 (수신인) - 받은메일함: 'MB1'
--- 2번 유저 (발신인) - 보낸메일함: 'MB8'
--- 3번 유저 (수신인) - 받은메일함: 'MB13'
--- 4번 유저 (수신인) - 받은메일함: 'MB19'
-INSERT INTO MAIL_OWNER VALUES (1, 'M501', 'MB1', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (2, 'M501', 'MB8', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (3, 'M501', 'MB13', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (4, 'M501', 'MB19', 'Y', 'Y');
 
--- 3번 유저가 보내는 메일 (메일번호: "M502") 관련, 소유자(발신인,수신인) 각각의 데이터 
--- 메일함
--- 1번 유저 (수신인) - 받은메일함: 'MB1'
--- 2번 유저 (수신인) - 받은메일함: 'MB7'
--- 3번 유저 (발신인) - 보낸메일함: 'MB14'
--- 4번 유저 (수신인) - 받은메일함: 'MB19'
-INSERT INTO MAIL_OWNER VALUES (1, 'M502', 'MB1', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (2, 'M502', 'MB7', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (3, 'M502', 'MB14', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (4, 'M502', 'MB19', 'Y', 'Y');
-
--- 2번 유저의 임시보관 메일 (메일번호: "M503")
-INSERT INTO MAIL_OWNER VALUES (2, 'M503', 'MB9', 'N', 'Y');
-
--- 2번 유저의 임시보관 메일2 (메일번호: "M504")
-INSERT INTO MAIL_OWNER VALUES (2, 'M504', 'MB9', 'Y', 'Y');
-
--- 2번 유저의 내게쓴메일 (메일번호: "M505")
-INSERT INTO MAIL_OWNER VALUES (2, 'M505', 'MB10', 'Y', 'Y');
-
--- 2번 유저의 내게쓴메일2 (메일번호: "M506")
-INSERT INTO MAIL_OWNER VALUES (2, 'M506', 'MB10', 'N', 'Y');
-
--- 2번 유저의 휴지통메일 (메일번호: "M507")
-INSERT INTO MAIL_OWNER VALUES (1, 'M507', 'MB1', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (2, 'M507', 'MB11', 'N', 'N');
-
--- 28번 유저가 보내는 메일 (메일번호: "M508")
-INSERT INTO MAIL_OWNER VALUES (1, 'M508', 'MB1', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (2, 'M508', 'MB7', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (3, 'M508', 'MB13', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (4, 'M508', 'MB19', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (5, 'M508', 'MB25', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (6, 'M508', 'MB31', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (7, 'M508', 'MB37', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (8, 'M508', 'MB43', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (9, 'M508', 'MB49', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (10, 'M508', 'MB55', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (11, 'M508', 'MB61', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (12, 'M508', 'MB67', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (13, 'M508', 'MB73', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (14, 'M508', 'MB79', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (15, 'M508', 'MB85', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (16, 'M508', 'MB91', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (17, 'M508', 'MB97', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (18, 'M508', 'MB103', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (19, 'M508', 'MB109', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (20, 'M508', 'MB115', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (21, 'M508', 'MB121', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (22, 'M508', 'MB127', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (23, 'M508', 'MB133', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (24, 'M508', 'MB139', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (25, 'M508', 'MB145', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (26, 'M508', 'MB151', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (27, 'M508', 'MB157', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (28, 'M508', 'MB164', 'N', 'Y'); -- 28번 유저는 보낸메일함에 저장
-INSERT INTO MAIL_OWNER VALUES (29, 'M508', 'MB169', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (30, 'M508', 'MB175', 'N', 'Y');
-INSERT INTO MAIL_OWNER VALUES (31, 'M508', 'MB181', 'N', 'Y');
-
--- 29번 유저가 보내는 메일 (메일번호: "M509")
-INSERT INTO MAIL_OWNER VALUES (1, 'M509', 'MB6', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (2, 'M509', 'MB187', 'Y', 'Y');
-INSERT INTO MAIL_OWNER VALUES (29, 'M509', 'MB170', 'Y', 'Y'); -- 29번 유저는 보낸메일함에 저장
 
 -------------------------------------------------------------------------------
 --############### 수업_게시판 ###############
@@ -1508,7 +1250,7 @@ BEGIN
         USER_NO NUMBER,
         DAY DATE,
         STATE_CODE VARCHAR2(6),
-        USE_DAY_OFF NUMBER DEFAULT 0,
+        USE_DAY_OFF NUMBER DEFAULT 6,
         PRIMARY KEY (USER_NO, DAY),
         FOREIGN KEY (STATE_CODE) REFERENCES ATD_STATE (STATE_CODE)
     )';
@@ -1539,9 +1281,9 @@ BEGIN
                     v_user_no,
                     v_date,
                     CASE
-                        WHEN DBMS_RANDOM.VALUE < 0.1 THEN 'LATE'  -- 10% 확률로 지각
-                        WHEN DBMS_RANDOM.VALUE < 0.2 THEN 'ABS'   -- 10% 확률로 결석 (지각과 결석의 총 비율은 20%)
-                        WHEN DBMS_RANDOM.VALUE < 0.3 THEN 'E_OUT' -- 10% 확률로 조퇴
+                        WHEN DBMS_RANDOM.VALUE < 0.05 THEN 'LATE'  -- 10% 확률로 지각
+                        WHEN DBMS_RANDOM.VALUE < 0.1 THEN 'ABS'   -- 10% 확률로 결석 (지각과 결석의 총 비율은 20%)
+                        WHEN DBMS_RANDOM.VALUE < 0.15 THEN 'E_OUT' -- 10% 확률로 조퇴
                         ELSE 'ATD'                               -- 나머지는 출석
                     END
                 );
@@ -1551,32 +1293,6 @@ BEGIN
     END LOOP;
 END;
 /
-
-
--- 프로시저를 생성하여 USE_DAY_OFF 값을 업데이트합니다.
-CREATE OR REPLACE PROCEDURE update_use_day_off IS
-BEGIN
-    -- 모든 사용자 번호를 반복
-    FOR rec IN (SELECT DISTINCT USER_NO FROM ATTENDANCE) LOOP
-        -- 상태 코드가 'ATD'와 'DAY_OFF'의 수를 카운트
-        UPDATE ATTENDANCE
-        SET USE_DAY_OFF = (
-            SELECT FLOOR(COUNT(*) / 20)
-            FROM ATTENDANCE
-            WHERE USER_NO = rec.USER_NO
-              AND STATE_CODE IN ('ATD', 'DAY_OFF')
-        )
-        WHERE USER_NO = rec.USER_NO;
-    END LOOP;
-END;
-/
-
--- 프로시저 호출
-BEGIN
-    update_use_day_off;
-END;
-/
-
 
 --------------------------------------------------------------------------------
 --############### 일정표 ###############

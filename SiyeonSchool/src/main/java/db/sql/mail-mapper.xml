@@ -9,17 +9,17 @@
 		SELECT 
 			   MB.MAILBOX_NO
 			 , MB.MAILBOX_NAME
-			 , COUNT(MO.MAIL_NO) AS "COUNT"
+			 , COUNT(CASE WHEN MO.MAIL_STATUS = 'Y' THEN MO.MAIL_NO END) AS "COUNT"
 		  FROM MAIL_OWNER MO
 		 RIGHT JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
 		 WHERE MB.OWNER_NO = ?
-           AND MB.MAILBOX_STATUS = 'Y'
+		   AND MB.MAILBOX_STATUS = 'Y'
 		 GROUP BY (MB.MAILBOX_NO, MB.MAILBOX_NAME)
-         ORDER BY
-               REGEXP_SUBSTR(MB.MAILBOX_NO, '^[a-zA-Z]+'),
-               TO_NUMBER(REGEXP_SUBSTR(MB.MAILBOX_NO, '[0-9]+')) ASC
+		 ORDER BY
+			   REGEXP_SUBSTR(MB.MAILBOX_NO, '^[a-zA-Z]+'),
+			   TO_NUMBER(REGEXP_SUBSTR(MB.MAILBOX_NO, '[0-9]+')) ASC
 	</entry>
-
+	
 	<!-- 내메일함별 메일 개수조회 -->
 	<entry key="selectPrivateMailboxCountList">
 		SELECT 
@@ -33,6 +33,14 @@
 		  WHERE MB.OWNER_NO = ?
 			AND MB.MAILBOX_TYPE = 'P'
 			AND MB.MAILBOX_STATUS = 'Y'
+	</entry>
+	
+	<!-- 휴지통 메일 개수조회 -->
+	<entry key="selectBinMailCount">
+		SELECT COUNT(MAIL_NO) AS "COUNT"
+		  FROM MAIL_OWNER
+		 WHERE OWNER_NO = ?
+		   AND MAIL_STATUS = 'N'
 	</entry>
 
 	<!-- 않읽은메일 개수조회-->
@@ -59,7 +67,7 @@
 	
 
 
-	<!-- ===================== 메일 목록 조회 ============================= -->
+	<!-- ===================== 메일목록 조회 ============================= -->
 
 	<!-- 전체메일함 메일목록 조회 -->
 	<entry key="selectAllMailList">
@@ -79,7 +87,7 @@
 							 , M.MAIL_TITLE
 							 , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD (DY) HH24:MI') AS "SEND_DATE"
 						  FROM MAIL_OWNER MO
-                          JOIN MAIL_RECEIVER MR ON (MO.MAIL_NO = MR.MAIL_NO) AND (MO.OWNER_NO = MR.RECEIVER_NO)
+                          LEFT JOIN MAIL_RECEIVER MR ON (MO.MAIL_NO = MR.MAIL_NO) AND (MO.OWNER_NO = MR.RECEIVER_NO)
 						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
 						  JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
                           JOIN USERS U ON (M.SENDER = U.USER_NO)
@@ -255,6 +263,7 @@
 			     FROM (
 						SELECT 
 						  	   MO.MAIL_NO
+                             , MB.MAILBOX_NAME
 						     , MO.MAIL_STAR
                              , NVL(AC.COUNT, 0) AS "ATT_COUNT"
 						     , U.USER_NAME
@@ -262,19 +271,17 @@
 							 , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
 						     , M.MAIL_TITLE
 						     , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD (DY) HH24:MI') AS "SEND_DATE"
-						  FROM MAIL_OWNER MO
+                          FROM MAIL_OWNER MO
 						  JOIN MAIL M ON (MO.MAIL_NO = M.MAIL_NO)
+                          JOIN MAILBOX MB ON (MO.MAILBOX_NO = MB.MAILBOX_NO)
 						  JOIN USERS U ON (M.SENDER = U.USER_NO)
 						  JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
                           LEFT JOIN ( SELECT REF_BNO AS MAIL_NO, COUNT(FILE_NO) AS COUNT
 										FROM ATTACHMENT
 									   WHERE STATUS = 'Y'
 									   GROUP BY REF_BNO ) AC ON (MO.MAIL_NO = AC.MAIL_NO)
-					     WHERE MO.MAILBOX_NO = (SELECT MAILBOX_NO
-							                      FROM MAILBOX
-							                     WHERE OWNER_NO = ?
-							                       AND MAILBOX_NAME = '휴지통')
-						   AND MO.MAIL_STATUS = 'N'
+                         WHERE MO.OWNER_NO = ?
+                           AND MO.MAIL_STATUS = 'N'
 				         ORDER
 				            BY M.SEND_DATE DESC
 			          ) A
@@ -485,6 +492,333 @@
 		   SET READ_TIME = SYSDATE
 		 WHERE RECEIVER_NO = ?
 		   AND MAIL_NO = ?
+	</entry>
+	
+	<!-- ===================== 메일 보내기 ============================= -->
+	
+	<!-- 메일 추가 -->
+	<entry key="insertMail">
+		INSERT
+	      INTO MAIL
+		     (
+		       MAIL_NO
+		     , SENDER
+		     , MAIL_TITLE
+		     , MAIL_CONTENT
+		     , IS_SENT
+		     , SEND_DATE
+		     )
+		     VALUES
+		     (
+		       'M' || SEQ_MAILNO.NEXTVAL
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , SYSDATE
+		     )
+	</entry>
+	
+	<!-- 메일 첨부파일 추가-->
+	<entry key="insertAttachment">
+		INSERT
+		  INTO ATTACHMENT
+		  (
+		    FILE_NO
+		  , REF_BNO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+		  , FILE_PATH
+		  , UPLOAD_DATE
+		  , STATUS
+		  )
+		  VALUES
+		  (
+		    'A' || SEQ_FILENO.NEXTVAL
+		  , 'M' || SEQ_MAILNO.CURRVAL
+		  , ?
+		  , ?
+		  , ?
+		  , SYSDATE
+		  , 'Y'
+		  )
+	</entry>
+	
+	<!-- 메일수신인 추가 --> 
+	<entry key="insertMailReceiver">
+		INSERT
+		  INTO MAIL_RECEIVER
+		  (
+		    MAIL_NO
+		  , RECEIVER_NO
+		  , RECEIVER_TYPE
+		  , READ_TIME
+		  )
+		  VALUES
+		  (
+		    'M' || SEQ_MAILNO.CURRVAL
+		  , ?
+		  , ?
+		  , NULL
+		  )
+	</entry>
+	
+	<!-- 메일소유자 추가 --> 
+	<entry key="insertMailOwner">
+		INSERT
+		  INTO MAIL_OWNER
+		  (
+		    OWNER_NO
+		  , MAIL_NO
+		  , MAILBOX_NO
+		  , MAIL_STAR
+		  , MAIL_STATUS
+		  )
+		  VALUES
+		  (
+		    ?
+		  , 'M' || SEQ_MAILNO.CURRVAL
+		  , ?
+		  , 'N'
+		  , 'Y'
+		  )
+	</entry>
+	
+	
+	<!-- ===================== 메일함 번호조회 ============================= -->
+	
+	<!-- 보낸메일함 번호조회 -->
+	<entry key="selectSentMailboxNo">
+		SELECT MAILBOX_NO
+		  FROM MAILBOX
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NAME = '보낸메일함'
+	</entry>
+	
+	<!-- 받은메일함 번호조회 -->
+	<entry key="selectInboxNo">
+		SELECT MAILBOX_NO
+		  FROM MAILBOX
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NAME = '받은메일함'
+	</entry>
+	
+	<!-- 내게쓴메일함 번호조회 -->
+	<entry key="selectMyselfMailboxNo">
+		SELECT MAILBOX_NO
+		  FROM MAILBOX
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NAME = '내게쓴메일함'
+	</entry>
+
+	<!-- 임시보관함 번호조회 -->
+	<entry key="selectTempMailboxNo">
+		SELECT MAILBOX_NO
+		  FROM MAILBOX
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NAME = '임시보관함'
+	</entry>
+
+	
+	<!-- ===================== 수신인 검색관련 ============================= -->
+	
+	<!-- 모든사용자 목록조회 -->
+	<entry key="selectUserList">
+		SELECT
+		       USER_NO
+		     , USER_NAME
+		     , USER_ID
+		  FROM USERS
+		 WHERE STATUS = 'Y'
+		 ORDER
+		    BY USER_NAME, USER_ID
+	</entry>
+	
+	<!-- 학생 목록조회 -->
+	<entry key="selectStudentList">
+		SELECT
+		       USER_NO
+		     , USER_NAME
+		     , USER_ID
+		  FROM USERS
+		 WHERE USER_AUTH = 'U'
+		   AND STATUS = 'Y'
+   		 ORDER
+		    BY USER_NAME, USER_ID
+	</entry>
+	
+	<!-- 선생님 조회 -->
+	<entry key="selectTeacher">
+		SELECT
+		       USER_NO
+		     , USER_NAME
+		     , USER_ID
+		  FROM USERS
+		 WHERE USER_AUTH = 'A'
+		   AND STATUS = 'Y'
+   		 ORDER
+		    BY USER_NAME, USER_ID
+	</entry>
+	
+	<!-- 공유주소록 목록조회 -->
+	<entry key="selectPublicContactsList">
+		SELECT
+		       CONTACTS_NO
+		     , CONTACTS_NAME
+	   	  FROM CONTACTS
+		 WHERE STATUS = 'Y'
+		   AND CONTACTS_TYPE = 'S'
+		 ORDER
+		    BY CONTACTS_NAME, CONTACTS_NO
+	</entry>
+	
+	<!-- 개인주소록 목록조회 -->
+	<entry key="selectPrivateContactsList">
+		SELECT 
+		       CONTACTS_NO
+		     , CONTACTS_NAME
+		  FROM CONTACTS
+		 WHERE STATUS ='Y'
+		   AND CONTACTS_TYPE = 'P'
+		   AND OWNER_NO = ?
+		 ORDER
+		    BY CONTACTS_NAME, CONTACTS_NO
+	</entry>
+	
+	<!-- 주소록구성원 조회 -->
+	<entry key="selectContactsMemberList">
+		SELECT 
+		       CM.USER_NO
+		     , U.USER_NAME
+		     , U.USER_ID
+		  FROM CONTACTS_MEMBER CM
+		  JOIN USERS U ON (CM.USER_NO = U.USER_NO)
+		 WHERE CM.CONTACTS_NO = ?
+		 ORDER
+		    BY U.USER_NAME ASC
+	</entry>
+	
+	<!-- ===================== 메일 답장 관련 ============================= -->
+	
+	<!-- 메일조회 -->
+	<entry key="selectMailtoReply">
+		SELECT
+		       M.MAIL_NO
+		     , M.SENDER
+		     , U.USER_NAME
+		     , U.USER_ID
+		     , M.MAIL_TITLE
+		     , M.MAIL_CONTENT
+		     , TO_CHAR(M.SEND_DATE, 'YYYY-MM-DD (DY) HH24:MI') AS "SEND_DATE"
+		  FROM MAIL M
+		  JOIN USERS U ON (M.SENDER = U.USER_NO)
+		 WHERE M.MAIL_NO = ?
+	</entry>
+	
+	<!-- 메일수신인 조회 : 수신인만 -->
+	<entry key="selectMailReceiverOnlyR">
+		SELECT
+		       MR.MAIL_NO
+		     , MR.RECEIVER_NO
+		     , U.USER_NAME
+		     , U.USER_ID
+		     , DECODE(MR.RECEIVER_TYPE, 'R', '수신', 'C', '참조', 'S', '비밀') AS "RECEIVER_TYPE"
+		  FROM MAIL_RECEIVER MR
+		  JOIN USERS U ON (MR.RECEIVER_NO = U.USER_NO)
+		 WHERE MR.MAIL_NO = ?
+		   AND MR.RECEIVER_TYPE = 'R'
+   		 ORDER
+		    BY U.USER_NAME ASC
+	</entry>
+	
+	<!-- 메일수신인 조회 : 참조인만 -->
+	<entry key="selectMailReceiverOnlyC">
+		SELECT
+		       MR.MAIL_NO
+		     , MR.RECEIVER_NO
+		     , U.USER_NAME
+		     , U.USER_ID
+		     , DECODE(MR.RECEIVER_TYPE, 'R', '수신', 'C', '참조', 'S', '비밀') AS "RECEIVER_TYPE"
+		  FROM MAIL_RECEIVER MR
+		  JOIN USERS U ON (MR.RECEIVER_NO = U.USER_NO)
+		 WHERE MR.MAIL_NO = ?
+		   AND MR.RECEIVER_TYPE = 'C'
+         ORDER
+		    BY U.USER_NAME ASC
+	</entry>
+	
+	<!-- 메일수신인 조회 : 수신인 + 참조인 -->
+	<entry key="selectOriginalReceiverList">
+		SELECT
+		       MR.MAIL_NO
+		     , MR.RECEIVER_NO
+		     , U.USER_NAME
+		     , U.USER_ID
+		     , MR.RECEIVER_TYPE
+		  FROM MAIL_RECEIVER MR
+		  JOIN USERS U ON (MR.RECEIVER_NO = U.USER_NO)
+		 WHERE MR.MAIL_NO = ?
+		   AND MR.RECEIVER_TYPE IN ('R', 'C')
+         ORDER
+		    BY MR.RECEIVER_TYPE DESC, U.USER_NAME ASC
+	</entry>
+	
+	<!-- ===================== 메일 알람 관련 ============================= -->
+	
+	<!-- 새메일리스트 조회 : 지금으로부터 10초 전부터 받은메일들 -->
+	<entry key="selectNewMailList">
+	    SELECT 
+	           MR.MAIL_NO
+             , U.USER_NAME
+             , U.USER_ID
+             , A.FILE_PATH || A.CHANGE_NAME AS "PROFILE_PATH"
+             , M.MAIL_TITLE
+	      FROM MAIL_RECEIVER MR
+          JOIN MAIL M ON (MR.MAIL_NO = M.MAIL_NO)
+          JOIN USERS U ON (M.SENDER = U.USER_NO)
+          LEFT JOIN ATTACHMENT A ON (U.PROFILE_FILE_NO = A.FILE_NO)
+	     WHERE MR.RECEIVER_NO = ?
+	       AND M.IS_SENT = 'S'
+	       AND M.SEND_DATE >= SYSDATE - INTERVAL '10' SECOND
+	     ORDER
+	        BY REGEXP_SUBSTR(MR.MAIL_NO, '^[a-zA-Z]+'),
+	           TO_NUMBER(REGEXP_SUBSTR(MR.MAIL_NO, '[0-9]+')) DESC
+	</entry>
+	
+	<!-- ===================== 메일 삭제 ============================= -->
+	
+	<!-- 메일 휴지통으로 이동 -->
+	<entry key="updateMailStatusToN">
+		UPDATE MAIL_OWNER
+		   SET MAIL_STATUS = 'N'
+		 WHERE OWNER_NO = ?
+		   AND MAILBOX_NO = ?
+		   AND MAIL_NO = ?
+	</entry>
+	
+	<!-- 메일 휴지통에서 복구 -->
+	<entry key="updateMailStatusToY">
+		UPDATE MAIL_OWNER
+		   SET MAIL_STATUS = 'Y'
+		 WHERE OWNER_NO = ?
+		   AND MAIL_NO = ?
+	</entry>
+	
+	<entry key="deleteMail">
+		DELETE FROM MAIL_OWNER
+		 WHERE OWNER_NO = ?
+		   AND MAIL_STATUS = 'N'
+		   AND MAIL_NO = ?
+	</entry>
+	
+	<entry key="deleteTempMail">
+		DELETE FROM MAIL_OWNER
+		 WHERE OWNER_NO = ?
+		   AND MAIL_NO = ?
+		   AND MAILBOX_NO = (SELECT MAILBOX_NO 
+			                   FROM MAILBOX 
+			                  WHERE MAILBOX_NAME = '임시보관함'
+			                    AND OWNER_NO = ?)
 	</entry>
 	
 </properties>

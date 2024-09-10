@@ -35,6 +35,13 @@
 	ArrayList<Attachment> attList = (ArrayList<Attachment>)request.getAttribute("attList");
 	// 첨부파일 리스트: 첨부파일번호, 원본파일명, 변경파일명, 파일경로
 	
+	//"안읽음"버튼 관련
+	String updateRead = "";
+	if(request.getAttribute("ur") != null) {
+		updateRead = (String)request.getAttribute("ur");
+		// "n" : 메일상세조회에서 "안읽음" 처리를 한경우, n을 넘겨줌. -> "안읽음"버튼을 숨기기 위해 사용됨.
+	}
+	
 %>
 
 <!DOCTYPE html>
@@ -54,6 +61,10 @@
 		if(splitURL[1].startsWith("?mb=")){
 			sessionStorage.setItem("previousPage", previousURL);
 		}
+
+
+		// 메일번호 -js에서 사용하기위함.
+		const currentMailNo = `<%= m.getMailNo() %>`;
 	</script>
 
 	<!-- ======================================== 메인 ======================================== -->
@@ -65,10 +76,21 @@
 		</div>
 
 		<div class="email-btns">
-			<button class="btn">답장</button>
-			<button class="btn">전달</button>
-			<button class="btn">이동</button>
-			<button class="btn">삭제</button>
+			<% if(currentMailbox.equals("t")){ // 임시보관함인경우 %>
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=u'">수정</button> <!-- r=u: reply=update -->
+				<button class="btn" onclick="onClickMailStatusUpdate(currentMailNo, 'N')">삭제</button>
+			
+			<% }else if(currentMailbox.equals("b")){ // 휴지통인경우 %>
+				<button class="btn" onclick="onClickMailStatusUpdate(currentMailNo, 'Y')">복구</button>
+				<button class="btn" onclick="onClickDeleteMail(currentMailNo)">영구삭제</button>
+			
+				<% }else { // 휴지통이 아닌경우 %> 
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=s'">답장</button>    <!-- r=s: reply=single -->
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=a'">전체답장</button> <!-- r=a: reply=all -->
+				<button class="btn" onclick="location.href='<%= contextPath %>/mail.writeForm?mb=w&m=<%= m.getMailNo() %>&r=f'">전달</button>    <!-- r=f: reply=forward -->
+				<button class="btn">이동</button>
+				<button class="btn" onclick="onClickMailStatusUpdate(currentMailNo, 'N')">삭제</button>
+			<% } %>
 		</div>
 
 		<section>
@@ -89,7 +111,13 @@
 
 				<table class="outer-table">
 					<tr class="sender">
-						<td class="td-left">보낸사람</td>
+						<td class="td-left">
+							<% if (currentMailbox.equals("t")) { // 임시보관함인경우 %>
+								작성자
+							<% }else { // 임시보관함이 아닌경우 %>
+								보낸사람
+							<% } %>
+						</td>
 						<td class="td-right">
 							<img src="<%= contextPath %>/<%= m.getProfilePath() %>" class="profile-img">
 							<div class="sender-info">
@@ -97,7 +125,13 @@
 								<span class="userId">(<%= m.getUserId() %>)</span>
 							</div>
 							<div class="sentTime-info">
-								<span>보낸시간:</span>
+								<span>
+									<% if (currentMailbox.equals("t")) { // 임시보관함인경우 %>
+										저장시간:
+									<% }else { // 임시보관함이 아닌경우 %>
+										보낸시간:
+									<% } %>
+								</span>
 								<span class="sentDate"><%= m.getSendDate() %></span>
 							</div>
 						</td>
@@ -123,7 +157,13 @@
 											<div class="rCheckbox"><input type="checkbox"></div>
 											<div class="rUserName"><span class="userName"><%= mr.getReceiverName() %></span><span class="userId">(<%= mr.getReceiverId() %>)</span></div>
 											<div class="rType"><%= mr.getReceiverType() %></div>
-											<div class="rTime"><%= mr.getReadTime() %></div>
+											<div class="rTime">
+												<% if (currentMailbox.equals("t")) { // 임시보관함인경우 %>
+													-
+												<% }else { // 임시보관함이 아닌경우 %>
+													<%= mr.getReadTime() %>
+												<% } %>
+											</div>
 										</li>
 									<% } %>
 								<% } %>
@@ -140,7 +180,7 @@
 								<button class="btn">
 									발신취소
 								</button>
-							<% }else if(!currentMailbox.equals("t")){ %>
+							<% }else if(!currentMailbox.equals("t") && !updateRead.equals("n")) { %>
 								<button class="btn" onclick="location.href='<%= contextPath %>/mail.update.read?mb=<%= currentMailbox %>&m=<%= m.getMailNo() %>&r=<%= m.getIsRead() %>'">
 									안읽음
 								</button>
@@ -151,12 +191,14 @@
 					<tr class="attachment">
 						<td class="td-left">첨부파일</td>
 						<% if(attList.size() == 0) { %>
-							<td class="td-right">(첨부파일이 없습니다.)</td>
+							<td class="td-right">-</td>
 						<% }else {%>
 							<td class="td-right">
 								<% for(Attachment at : attList) { %>
 									<a class="file" download="<%= at.getOriginName() %>" href="<%= contextPath %>/<%= at.getFilePath() + at.getChangeName() %>">
 										<span class="icon material-icons">file_download</span>
+									</a>
+									<a href="<%= contextPath %>/<%= at.getFilePath() + at.getChangeName() %>" target="_blank">
 										<span class="fileName"><%= at.getOriginName() %></span>
 									</a>
 								<% } %>

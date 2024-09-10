@@ -40,7 +40,11 @@ public class LoginUserController extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", loginUser);
 
-			response.sendRedirect(request.getContextPath() + "/home");
+			if(loginUser.getUserAuth().equals("A")){
+				response.sendRedirect(request.getContextPath() + "/home.ad");
+			}else if(loginUser.getUserAuth().equals("U")){
+				response.sendRedirect(request.getContextPath() + "/home.st");
+			}
 		}else { // 로그인 실패 
 	        request.setAttribute("loginFailed", true);
 	        request.getRequestDispatcher("index.jsp").forward(request, response);

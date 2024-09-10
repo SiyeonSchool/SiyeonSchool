@@ -17,7 +17,7 @@ import com.kh.user.model.vo.User;
 /**
  * Servlet implementation class HomeController
  */
-@WebServlet("/home")
+@WebServlet("/home.st")
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -44,11 +44,11 @@ public class HomeController extends HttpServlet {
 
 		ArrayList<Mail> mList = new HomeService().selectMailList(userNo);
 
-		request.getSession().setAttribute("currentPage", "home");
+		request.getSession().setAttribute("currentPage", "home_st");
 		request.setAttribute("list", list);
 		request.setAttribute("progressValue", progressValue);
 		request.setAttribute("mList", mList);
-		request.getRequestDispatcher("views/home/home.jsp").forward(request, response);
+		request.getRequestDispatcher("views/home/home_st.jsp").forward(request, response);
 
 	}
 

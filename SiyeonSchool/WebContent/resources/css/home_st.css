@@ -54,11 +54,6 @@
 	background-color: #C2F0FF;
 	color: #333;
 }
-.cir:hover{
-	background-color: #e6f9ff;
-	color: #000;
-	cursor: pointer;
-}
 
 /* 게시판 테이블 공통 CSS */
 .boards table {
@@ -373,4 +368,5 @@
 	text-align: right;
 	vertical-align: bottom;
 	padding: 5px;
+	background-color: none;
 }

@@ -20,4 +20,48 @@ public class AdminPageService {
         return list;
     }
 
+    public ArrayList<User> selectSignRequest(){
+        Connection conn = getConnection();
+        
+        ArrayList<User> list = new AdminPageDao().selectSignRequest(conn);
+        
+        close(conn);
+        
+        return list;
+    }
+
+    public int approveUser(int userNo){
+        Connection conn = getConnection();
+        
+        int result = new AdminPageDao().approveUser(conn, userNo);
+
+        if(result > 0){
+            commit(conn);
+        }else{
+            rollback(conn);
+        }
+
+        close(conn);
+        
+        return result;
+    }
+
+    public int refusalStudent(int userNo){
+        Connection conn = getConnection();
+        
+        int result = new AdminPageDao().refusalStudent(conn, userNo);
+
+        if(result > 0){
+            commit(conn);
+        }else{
+            rollback(conn);
+        }
+        
+        close(conn);
+        
+        return result;
+    }
+
 }
+
+

@@ -7,6 +7,7 @@ public class Mail {
 	private String mailStar;
 	private String isRead;
 	private int attachmentCount; // 첨부파일개수
+	private int userNo;
 	private String userName;
 	private String userId;
 	private String profilePath;
@@ -19,15 +20,16 @@ public class Mail {
 	public Mail() {}
 
 	// 전체필드
-	public Mail(String mailNo, String mailboxName, String mailStar, String isRead, int attachmentCount, String userName,
-			String userId, String profilePath, String mailTitle, String mailContent, String receiverType, String isSent,
-			String sendDate) {
+	public Mail(String mailNo, String mailboxName, String mailStar, String isRead, int attachmentCount, int userNo,
+			String userName, String userId, String profilePath, String mailTitle, String mailContent,
+			String receiverType, String isSent, String sendDate) {
 		super();
 		this.mailNo = mailNo;
 		this.mailboxName = mailboxName;
 		this.mailStar = mailStar;
 		this.isRead = isRead;
 		this.attachmentCount = attachmentCount;
+		this.userNo = userNo;
 		this.userName = userName;
 		this.userId = userId;
 		this.profilePath = profilePath;
@@ -67,7 +69,16 @@ public class Mail {
 		this.mailTitle = mailTitle;
 		this.sendDate = sendDate;
 	}
-
+	
+	// 새메일리스트 조회시 사용됨
+	public Mail(String mailNo, String userName, String userId, String profilePath, String mailTitle) {
+		super();
+		this.mailNo = mailNo;
+		this.userName = userName;
+		this.userId = userId;
+		this.profilePath = profilePath;
+		this.mailTitle = mailTitle;
+	}
 
 	public String getMailNo() {
 		return mailNo;
@@ -107,6 +118,14 @@ public class Mail {
 
 	public void setAttachmentCount(int attachmentCount) {
 		this.attachmentCount = attachmentCount;
+	}
+
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
 	public String getUserName() {
@@ -176,9 +195,10 @@ public class Mail {
 	@Override
 	public String toString() {
 		return "Mail [mailNo=" + mailNo + ", mailboxName=" + mailboxName + ", mailStar=" + mailStar + ", isRead="
-				+ isRead + ", userName=" + userName + ", userId=" + userId + ", profilePath=" + profilePath
-				+ ", mailTitle=" + mailTitle + ", mailContent=" + mailContent + ", receiverType=" + receiverType
-				+ ", isSent=" + isSent + ", sendDate=" + sendDate + "]";
+				+ isRead + ", attachmentCount=" + attachmentCount + ", userNo=" + userNo + ", userName=" + userName
+				+ ", userId=" + userId + ", profilePath=" + profilePath + ", mailTitle=" + mailTitle + ", mailContent="
+				+ mailContent + ", receiverType=" + receiverType + ", isSent=" + isSent + ", sendDate=" + sendDate
+				+ "]";
 	}
 
 }

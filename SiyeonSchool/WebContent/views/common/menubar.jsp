@@ -28,23 +28,40 @@
 
 		<!-- ==================== 왼쪽 로고 ==================== -->
         <div class="logo">
-			<a href="<%= contextPath2 %>/home">
-            	<img src="resources/images/sis_logo.png" alt="logo" height="50px;"> <!-- 로고 -->
-			</a>
+        	<% if(loginUser.getUserAuth().equals("A")){ %>
+				<a href="<%= contextPath2 %>/home.ad">
+	            	<img src="resources/images/sis_logo.png" alt="logo" height="50px;"> <!-- 로고 -->
+				</a>
+			<% } else{ %>
+				<a href="<%= contextPath2 %>/home.st">
+	            	<img src="resources/images/sis_logo.png" alt="logo" height="50px;"> <!-- 로고 -->
+				</a>
+			<% } %>
         </div>
 
 		<!-- ==================== 가운데 메인메뉴  ==================== -->
         <div class="main-menu">
 
 			<!-- 홈 -->
-			<a href="<%= contextPath2 %>/home">
-				<% if(currentPage.equals("home")) { %>
-					<!-- 메뉴 아이콘 이미지를 사용하기엔 크기를 맞추기 어려워서, 우선은 테두리 없는 아이콘으로 사용했습니다. 기존 이미지들은 주석처리함.-->
- 	  	            <!-- <img src="resources/images/menubar/home_sel.png" alt="홈버튼" style="height:45px; padding: 5px;"> -->
-					<div class="menu-icon material-icons-round" style="color: var(--darkSkyBlue);">home</div>
-            	<% } else { %>
-		            <div class="menu-icon material-icons-round">home</div>
-            	<% } %>
+			<% if(loginUser.getUserAuth().equals("A")){ %>
+				<a href="<%= contextPath2 %>/home.ad">
+					<% if(currentPage.equals("home_ad")) { %>
+						<!-- 메뉴 아이콘 이미지를 사용하기엔 크기를 맞추기 어려워서, 우선은 테두리 없는 아이콘으로 사용했습니다. 기존 이미지들은 주석처리함.-->
+	 	  	            <!-- <img src="resources/images/menubar/home_sel.png" alt="홈버튼" style="height:45px; padding: 5px;"> -->
+						<div class="menu-icon material-icons-round" style="color: var(--darkSkyBlue);">home</div>
+	            	<% } else { %>
+			            <div class="menu-icon material-icons-round">home</div>
+	            	<% } %>
+            <% }else { %>
+            	<a href="<%= contextPath2 %>/home.st">
+					<% if(currentPage.equals("home_st")) { %>
+						<!-- 메뉴 아이콘 이미지를 사용하기엔 크기를 맞추기 어려워서, 우선은 테두리 없는 아이콘으로 사용했습니다. 기존 이미지들은 주석처리함.-->
+						<!-- <img src="resources/images/menubar/home_sel.png" alt="홈버튼" style="height:45px; padding: 5px;"> -->
+						<div class="menu-icon material-icons-round" style="color: var(--darkSkyBlue);">home</div>
+					<% } else { %>
+						<div class="menu-icon material-icons-round">home</div>
+					<% } %>
+            <% } %>
             </a>
 
 			<!-- 메일 -->
@@ -170,7 +187,7 @@
 								<span><a href="<%= contextPath2 %>/mypageInfo">마이페이지</a></span>
 							<% } else{ %>
 								<span class="material-icons">account_circle</span>
-								<span><a href="<%= contextPath2 %>/adminpage">관리자페이지</a></span>
+								<span><a href="<%= contextPath2 %>/sigInRequest.list">관리자페이지</a></span>
 							<% } %>		
 						</li>
 					
@@ -184,6 +201,9 @@
 		</div>
 
     </header>
+
+	<!-- 숨겨진 메일 알람창 (화면 오른쪽 하단)-->
+	<div class="mailNotification bottom-right hidden"></div>
 
 </body>
 </html>

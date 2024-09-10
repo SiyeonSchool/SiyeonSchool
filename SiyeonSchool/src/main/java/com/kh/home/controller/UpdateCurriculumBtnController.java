@@ -36,7 +36,7 @@ public class UpdateCurriculumBtnController extends HttpServlet {
 		ArrayList<Curriculum> list = new HomeService().updateCbState(subject);
 
 		if(list.size() > 0){
-			response.sendRedirect(request.getContextPath() + "/home");
+			response.sendRedirect(request.getContextPath() + "/home.ad");
 		}
 	}
 
