@@ -71,7 +71,6 @@
 💙 조원 : 이태형
 
 - 로그인/회원가입
-- ![login](https://github.com/user-attachments/assets/9ad8519f-8113-42f6-aa31-30060e9e59bf)
 - 일정/할일
 - 과제 게시판
 
@@ -128,5 +127,8 @@ DB Overview
 💙 조원 : 이태형
 
 - 로그인/회원가입
+- ![loginout](https://github.com/user-attachments/assets/2a704fcc-cf5c-40dd-85ac-598bb7b86861)
+- ![Honeycam 2024-09-10 10-40-40](https://github.com/user-attachments/assets/e8cbcbf3-fc64-4521-bc58-fa920b129188)
+- ![Honeycam 2024-09-10 10-53-13](https://github.com/user-attachments/assets/2cb75e69-dfb5-4d2d-bebf-b137d3e983d3)
 - 일정/할일
 - 과제 게시판
