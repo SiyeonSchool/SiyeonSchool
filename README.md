@@ -24,9 +24,9 @@
 - 2024-07-22 (월) ~ 2024-08-05 (월) : 화면 설계 회의 및 보고서 제출
 - 2024-08-05 (월) ~ 2024-08-12 (월) : 데이터 설계 회의 및 보고서 제출
 - 2024-08-12 (월) ~ 2024-08-16 (금) : 최종보고서, DB 스크립트 파일 제출
-- 2024-08-12 (월) ~ 2024-08-31 (금) : 프로젝트 구현 및 디버깅(FE + BE 구현)
+- 2024-08-12 (월) ~ 2024-08-31 (토) : 프로젝트 구현 및 디버깅(FE + BE 구현)
 - 2024-09-01 (일) ~ 2024-09-06 (금) : 베타테스트 진행 및 오류수정
-- 2024-09-07 (일) ~ 2024-09-09 (월) : 프로젝트 최종 발표 및 발표자료 제출
+- 2024-09-07 (토) ~ 2024-09-09 (월) : 프로젝트 최종 발표 및 발표자료 제출
 
 
 # 🌱 구성원 및 역할
@@ -206,10 +206,10 @@ DB Overview
 💙 조원 : 이태형
 
 - 로그인/회원가입
-- ![loginout](https://github.com/user-attachments/assets/2a704fcc-cf5c-40dd-85ac-598bb7b86861)
-- ![Honeycam 2024-09-10 11-05-02](https://github.com/user-attachments/assets/5300c36b-5480-4b17-90ed-f743437c04cd)
-- ![Honeycam 2024-09-10 10-53-13](https://github.com/user-attachments/assets/2cb75e69-dfb5-4d2d-bebf-b137d3e983d3)
+![loginout](https://github.com/user-attachments/assets/cf3fd82f-d1bb-4e36-ba14-9cb209856876)
+![Honeycam 2024-09-10 11-05-02](https://github.com/user-attachments/assets/3fdb1207-e9a5-4981-aaef-0495c358a51b)
+![Honeycam 2024-09-10 10-53-13](https://github.com/user-attachments/assets/0806f13e-cfab-4e52-ab64-e842719b0417)
 - 일정/할일
-- ![Honeycam 2024-09-10 11-32-09](https://github.com/user-attachments/assets/d9ac19da-bca2-4aa5-bd62-430591065c13)
+![Honeycam 2024-09-10 11-32-09](https://github.com/user-attachments/assets/0d9a48e1-57dd-4516-b7f4-c38e26143617)
 - 과제 게시판
-- ![Honeycam 2024-09-10 11-14-21](https://github.com/user-attachments/assets/e6f246aa-dfd1-4698-8282-4b431ccc9e99)
+![Honeycam 2024-09-10 11-14-21](https://github.com/user-attachments/assets/363a7469-46c6-4229-a9b7-e17a86a78ae6)

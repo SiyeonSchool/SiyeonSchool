@@ -1,4 +1,4 @@
-#container{
+#container_create{
     display: flex;
     position: relative;
 }
@@ -9,6 +9,7 @@
     margin: auto;
     position: absolute;
     left: 600px;
+    display: flex;
 }
 
 #homework_create span:first-child{
@@ -20,14 +21,14 @@
     margin: 20px 0;
 }
 
-#container #back{
+#container_create #back{
     cursor: pointer;
     height: 20px;
     width: 88px;
     position: relative;
 }
 
-#container #back:hover{
+#container_create #back:hover{
     font-weight: bold;
 }
 

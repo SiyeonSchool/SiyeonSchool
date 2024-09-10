@@ -95,19 +95,21 @@
 				<div class="todo">
                     <div class="todoList" id="leftToDo">
                         <form id="todo-form">
-                            <input type="text" id="todo-input" placeholder="Add a new item">
+                            <input type="text" id="todo-input" placeholder="">
                             <button type="button" id="todo-add">
-                                <span class="material-icons-outlined">add_circle</span>
+                                <span class="material-icons-outlined">추가</span>
                             </button>
+							<ul id="todo-list"></ul>
                         </form>
                         <ul id="todo-list"></ul>
                     </div>
                     <div class="todoList" id="rightToDo">
 						<form id="todo-form">
-                            <input type="text" id="todo-input" placeholder="Add a new item">
+                            <input type="text" id="todo-input" placeholder="">
                             <button type="button" id="todo-add">
-                                <span class="material-icons-outlined">add_circle</span>
+                                <span class="material-icons-outlined">추가</span>
                             </button>
+							<ul id="todo-list"></ul>
                         </form>
                     </div>
                 </div>

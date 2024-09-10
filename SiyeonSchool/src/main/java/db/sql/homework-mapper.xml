@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="addSubject">
+		INSERT
+		  INTO HOMEWORK_SUBJECT 
+		VALUES (
+			   'S'||SEQ_HOMEWORK_SUBJECT_NO.NEXTVAL
+			   ,?
+			   )
+	</entry>
+	
+	<entry key="selectSubject">
+		SELECT SUBJECT_NO, SUBJECT_NAME
+   		  FROM HOMEWORK_SUBJECT
+	</entry>
+
+</properties>

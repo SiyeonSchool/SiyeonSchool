@@ -1,8 +1,11 @@
+<%@page import="com.kh.homework.model.vo.Subject"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <%@ include file="../common/common.jsp" %>
 <%@ include file="../common/menubar.jsp" %>
+<%@ include file="sidebar.jsp" %>
 
 
 <!DOCTYPE html>
@@ -12,8 +15,7 @@
         <link rel="stylesheet" href="resources/css/homework_create.css">
     </head>
     <body>
-        <div id="container">
-            <%@ include file="sidebar.jsp" %>
+        <div id="container_create">
             <div id="homework_create_content">
                 <form action="<%=contextPath%>/insert.homework" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="userNo" value="<%= loginUser.getUserNo() %>">
@@ -32,8 +34,17 @@
                             <tr>
                                 <th>구분</th>
                                 <td>
-                                    <select name="subject" id="" required>
+                                    <select name="subjectNo" id="" required>
                                         <option value=""></option>
+                                        <% ArrayList<Subject> subjectList = (ArrayList<Subject>)request.getAttribute("subjectList");
+									        if (subjectList != null && !subjectList.isEmpty()) {
+									            for (Subject s : subjectList) {
+									    %>
+									        <option value="<%= s.getSubjectNo() %>"><%= s.getSubjectName() %></option>
+									    <%     }
+									        } else {
+									    %> <option value=""></option>
+									    <% } %>
                                     </select>
                                 </td>
                             </tr>

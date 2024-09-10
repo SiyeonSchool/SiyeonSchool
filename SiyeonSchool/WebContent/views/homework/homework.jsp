@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ include file="../common/common.jsp" %>
+<%@ include file="../common/menubar.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,9 +10,6 @@
 		<link rel="stylesheet" href="resources/css/homework.css">
 	</head>
 	<body>
-	<%@ include file="../common/menubar.jsp" %>
-	
-	
 	<div class="container">
 		<%@ include file="sidebar.jsp" %>
 		<div id="homework">
