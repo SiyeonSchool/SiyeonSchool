@@ -125,6 +125,8 @@ DB Overview
 - 마이페이지
 - [마이페이지 - 내 정보 확인 및 변경]
 - ![마이페이지 - 내 정보 확인 및 변경](https://github.com/user-attachments/assets/bf13f1cd-dcb1-4fec-aa6b-05c050de6a7e)
+- [마이페이지 - 출결 확인]
+- ![마이페이지 - 출결 확인](https://github.com/user-attachments/assets/2a771839-ce09-41ba-add7-eccad2464499)
 - 관리자페이지
 
 💙 조원 : 이태형
