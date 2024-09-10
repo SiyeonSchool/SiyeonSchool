@@ -121,10 +121,24 @@ DB Overview
 💛 조원 : 김희섭
 
 - 홈
+- 관리자용 홈화면 (커리큘럼바 업데이트)
+ ![관리자용 홈화면 (커리큘럼바 업데이트)](https://github.com/user-attachments/assets/9558f843-21c2-40a3-813f-f453dc09ae81)
+- 학생용 홈화면(커리큘럼바 업데이트 전)
+ ![학생용 홈화면 (커리큘럼바 업데이트 전)](https://github.com/user-attachments/assets/ee68498c-abef-42d4-92cc-b0db0beb2eed)
+- 학생용 홈화면 (커리큘럼바 업데이트 후)
+ ![학생용 홈화면 (커리큘럼바 업데이트 후)](https://github.com/user-attachments/assets/361a11dd-7399-4d97-9039-59a604132c37)
 - 마이페이지
 - [마이페이지 - 내 정보 확인 및 변경]
-- ![마이페이지 - 내 정보 확인 및 변경](https://github.com/user-attachments/assets/bf13f1cd-dcb1-4fec-aa6b-05c050de6a7e)
+ ![마이페이지 - 내 정보 확인 및 변경](https://github.com/user-attachments/assets/bf13f1cd-dcb1-4fec-aa6b-05c050de6a7e)
+- [마이페이지 - 출결 확인]
+ ![마이페이지 - 출결 확인](https://github.com/user-attachments/assets/2a771839-ce09-41ba-add7-eccad2464499)
 - 관리자페이지
+- [관리자페이지 - 회원가입 요청 승인/거절]
+ ![관리자페이지 - 회원가입 요청 승인-거절](https://github.com/user-attachments/assets/38ddf8ca-af41-4a0b-8e83-0213dc6dff6f)
+- 회원가입 요청 승인/거절 결과 확인
+- 마동석 회원 아이디 : user31 / 비밀번호 pass31 (승인)
+- 지수 회원 아이디 : user33 / 비밀번호 pass33 (거절)
+ ![회원가입 요청 승인-거절 결과 확인](https://github.com/user-attachments/assets/3ed85efb-335e-4858-9192-7ae762c972a6)
 
 💙 조원 : 이태형
 
@@ -136,3 +150,4 @@ DB Overview
 ![Honeycam 2024-09-10 11-32-09](https://github.com/user-attachments/assets/b1ef6b81-26ac-4782-849e-03359282e206)
 - 과제 게시판
 ![Honeycam 2024-09-10 11-14-21](https://github.com/user-attachments/assets/bc376d4b-6e2e-46a4-bc77-3c981a7d9668)
+
