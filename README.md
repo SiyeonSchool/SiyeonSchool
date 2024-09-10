@@ -211,8 +211,8 @@ ID/PW 찾기
 
 # 📚 최종보고서
 
-<a href="https://drive.google.com/file/d/1TzhtRYJS7bZVXqyzSjK-BDPE3knV1nMQ/view?usp=sharing">📋 세미프로젝트_2조_최종보고서<a>
+📋 <a href="https://drive.google.com/file/d/1TzhtRYJS7bZVXqyzSjK-BDPE3knV1nMQ/view?usp=sharing">세미프로젝트_2조_최종보고서<a>
 
-<a href="https://drive.google.com/file/d/1fgE28Ez-noLO3WzsI3T1CZP_ffNLZYHe/view?usp=sharing">📜 세미프로젝트_2조_최종 SQL 스크립트<a>
+📜 <a href="https://drive.google.com/file/d/1fgE28Ez-noLO3WzsI3T1CZP_ffNLZYHe/view?usp=sharing">세미프로젝트_2조_최종 SQL 스크립트<a>
 
-<a href="https://drive.google.com/file/d/1-0bDstwngCpWxVPh2r_EmFqdLGd2vB7Q/view?usp=sharing">🎁 세미프로젝트_2조_최종발표 PPT<a>
+🎁 <a href="https://drive.google.com/file/d/1-0bDstwngCpWxVPh2r_EmFqdLGd2vB7Q/view?usp=sharing">세미프로젝트_2조_최종발표 PPT<a>
