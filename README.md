@@ -226,4 +226,3 @@ ID/PW 찾기
 
 📜 <a href="https://drive.google.com/file/d/1fgE28Ez-noLO3WzsI3T1CZP_ffNLZYHe/view?usp=sharing" target="_blank">세미프로젝트_2조_최종 SQL 스크립트<a>
 
-🎁 <a href="https://drive.google.com/file/d/1-0bDstwngCpWxVPh2r_EmFqdLGd2vB7Q/view?usp=sharing" target="_blank">세미프로젝트_2조_최종발표 PPT<a>
