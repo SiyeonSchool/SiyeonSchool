@@ -128,9 +128,9 @@ DB Overview
 
 - 로그인/회원가입
 - ![loginout](https://github.com/user-attachments/assets/2a704fcc-cf5c-40dd-85ac-598bb7b86861)
-- 
 - ![Honeycam 2024-09-10 11-05-02](https://github.com/user-attachments/assets/5300c36b-5480-4b17-90ed-f743437c04cd)
-
 - ![Honeycam 2024-09-10 10-53-13](https://github.com/user-attachments/assets/2cb75e69-dfb5-4d2d-bebf-b137d3e983d3)
 - 일정/할일
+- ![Honeycam 2024-09-10 11-32-09](https://github.com/user-attachments/assets/d9ac19da-bca2-4aa5-bd62-430591065c13)
 - 과제 게시판
+- ![Honeycam 2024-09-10 11-14-21](https://github.com/user-attachments/assets/e6f246aa-dfd1-4698-8282-4b431ccc9e99)
