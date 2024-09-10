@@ -121,6 +121,7 @@ DB Overview
 💛 조원 : 김희섭
 
 - 홈
+- ![홈화면](https://github.com/user-attachments/assets/5e19d53f-cb79-4baa-89fa-f0330abc787b)
 - 마이페이지
 - [마이페이지 - 내 정보 확인 및 변경]
 - ![마이페이지 - 내 정보 확인 및 변경](https://github.com/user-attachments/assets/bf13f1cd-dcb1-4fec-aa6b-05c050de6a7e)
