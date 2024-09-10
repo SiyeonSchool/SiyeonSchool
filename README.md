@@ -80,31 +80,9 @@ DB Overview
 
 # 📽 프로젝트 구현
 
-## 회원가입 / 로그인 - 💙 이태형
+## 💗 김동규
 
-회원가입
-![Honeycam 2024-09-10 11-05-02](https://github.com/user-attachments/assets/3fdb1207-e9a5-4981-aaef-0495c358a51b)
-
-로그인
-![loginout](https://github.com/user-attachments/assets/cf3fd82f-d1bb-4e36-ba14-9cb209856876)
-
-ID/PW 찾기
-![Honeycam 2024-09-10 10-53-13](https://github.com/user-attachments/assets/0806f13e-cfab-4e52-ab64-e842719b0417)
-
-
-## 홈 - 💛 김희섭
-
-학생용 홈화면(커리큘럼바 업데이트 전)
- ![학생용 홈화면 (커리큘럼바 업데이트 전)](https://github.com/user-attachments/assets/ee68498c-abef-42d4-92cc-b0db0beb2eed)
-
-관리자용 홈화면 (커리큘럼바 업데이트)
- ![관리자용 홈화면 (커리큘럼바 업데이트)](https://github.com/user-attachments/assets/9558f843-21c2-40a3-813f-f453dc09ae81)
-
-학생용 홈화면 (커리큘럼바 업데이트 후)
- ![학생용 홈화면 (커리큘럼바 업데이트 후)](https://github.com/user-attachments/assets/361a11dd-7399-4d97-9039-59a604132c37)
-
-
-## 메일 - 💗 김동규
+### 메일
 
 메일 목록조회
 ![메일_목록조회](https://github.com/user-attachments/assets/a6202549-81ad-4d16-8ff8-c3d800b02d7f)
@@ -143,12 +121,7 @@ ID/PW 찾기
 ![메일_알림](https://github.com/user-attachments/assets/e28e4e32-687c-43ba-8b31-246dd14dd502)
 
 
-## 일정 - 💙 이태형
-
-![Honeycam 2024-09-10 11-32-09](https://github.com/user-attachments/assets/0d9a48e1-57dd-4516-b7f4-c38e26143617)
-
-
-## 주소록 - 💗 김동규
+### 주소록
 
 주소록 목록조회
 ![주소록_목록조회](https://github.com/user-attachments/assets/2082798a-2c15-40b0-977c-f58bd14c6506)
@@ -174,21 +147,30 @@ ID/PW 찾기
 ![개인주소록](https://github.com/user-attachments/assets/b175beb6-a96c-45f7-a86d-2daaecd9ff4f)
 
 
-## 수업 게시판 - 💗 김동규
+### 수업 게시판
 
 ![수업게시판](https://github.com/user-attachments/assets/e31a7060-333a-4e0f-9855-0c51fadaa275)
 
-
-## 과제 게시판 - 💙 이태형
-
-![Honeycam 2024-09-10 11-14-21](https://github.com/user-attachments/assets/363a7469-46c6-4229-a9b7-e17a86a78ae6)
-
-## 도구 - 💗 김동규
+### 도구
 
 ![도구](https://github.com/user-attachments/assets/9736a1d5-9f4d-4131-b860-0e578b178b90)
 
 
-## 마이페이지 - 💛 김희섭
+
+## 💛 김희섭
+
+### 홈
+
+학생용 홈화면(커리큘럼바 업데이트 전)
+ ![학생용 홈화면 (커리큘럼바 업데이트 전)](https://github.com/user-attachments/assets/ee68498c-abef-42d4-92cc-b0db0beb2eed)
+
+관리자용 홈화면 (커리큘럼바 업데이트)
+ ![관리자용 홈화면 (커리큘럼바 업데이트)](https://github.com/user-attachments/assets/9558f843-21c2-40a3-813f-f453dc09ae81)
+
+학생용 홈화면 (커리큘럼바 업데이트 후)
+ ![학생용 홈화면 (커리큘럼바 업데이트 후)](https://github.com/user-attachments/assets/361a11dd-7399-4d97-9039-59a604132c37)
+
+### 마이페이지
 
 마이페이지 - 내 정보 확인 및 변경
  ![마이페이지 - 내 정보 확인 및 변경](https://github.com/user-attachments/assets/bf13f1cd-dcb1-4fec-aa6b-05c050de6a7e)
@@ -197,7 +179,7 @@ ID/PW 찾기
  ![마이페이지 - 출결 확인](https://github.com/user-attachments/assets/2a771839-ce09-41ba-add7-eccad2464499)
 
 
-## 관리자페이지 - 💛 김희섭
+### 관리자페이지
 
 관리자페이지 - 회원가입 요청 승인/거절
  ![관리자페이지 - 회원가입 요청 승인-거절](https://github.com/user-attachments/assets/38ddf8ca-af41-4a0b-8e83-0213dc6dff6f)
@@ -207,6 +189,35 @@ ID/PW 찾기
 - 지수 회원 아이디 : user33 / 비밀번호 pass33 (거절)
 
 ![회원가입 요청 승인-거절 결과 확인](https://github.com/user-attachments/assets/3ed85efb-335e-4858-9192-7ae762c972a6)
+
+
+
+## 💙 이태형
+
+### 회원가입 / 로그인
+
+회원가입
+![Honeycam 2024-09-10 11-05-02](https://github.com/user-attachments/assets/3fdb1207-e9a5-4981-aaef-0495c358a51b)
+
+로그인
+![loginout](https://github.com/user-attachments/assets/cf3fd82f-d1bb-4e36-ba14-9cb209856876)
+
+ID/PW 찾기
+![Honeycam 2024-09-10 10-53-13](https://github.com/user-attachments/assets/0806f13e-cfab-4e52-ab64-e842719b0417)
+
+
+### 일정
+
+![Honeycam 2024-09-10 11-32-09](https://github.com/user-attachments/assets/0d9a48e1-57dd-4516-b7f4-c38e26143617)
+
+
+### 과제 게시판
+
+![Honeycam 2024-09-10 11-14-21](https://github.com/user-attachments/assets/363a7469-46c6-4229-a9b7-e17a86a78ae6)
+
+
+
+
 
 
 # 📚 최종보고서
