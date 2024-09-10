@@ -182,11 +182,10 @@ DB Overview
 💙 조원 : 이태형
 
 - 로그인/회원가입
-![loginout](https://github.com/user-attachments/assets/27b0f815-32c6-47dc-bd88-3d8ad5421843)
-![Honeycam 2024-09-10 11-05-02](https://github.com/user-attachments/assets/d36d4707-dc56-4b4b-b8aa-f592b1821f4d)
-![Honeycam 2024-09-10 10-53-13](https://github.com/user-attachments/assets/e4306eca-1ef7-48ab-a80f-1d2345ba2594)
+![loginout](https://github.com/user-attachments/assets/cf3fd82f-d1bb-4e36-ba14-9cb209856876)
+![Honeycam 2024-09-10 11-05-02](https://github.com/user-attachments/assets/3fdb1207-e9a5-4981-aaef-0495c358a51b)
+![Honeycam 2024-09-10 10-53-13](https://github.com/user-attachments/assets/0806f13e-cfab-4e52-ab64-e842719b0417)
 - 일정/할일
-![Honeycam 2024-09-10 11-32-09](https://github.com/user-attachments/assets/b1ef6b81-26ac-4782-849e-03359282e206)
+![Honeycam 2024-09-10 11-32-09](https://github.com/user-attachments/assets/0d9a48e1-57dd-4516-b7f4-c38e26143617)
 - 과제 게시판
-![Honeycam 2024-09-10 11-14-21](https://github.com/user-attachments/assets/bc376d4b-6e2e-46a4-bc77-3c981a7d9668)
-
+![Honeycam 2024-09-10 11-14-21](https://github.com/user-attachments/assets/363a7469-46c6-4229-a9b7-e17a86a78ae6)
