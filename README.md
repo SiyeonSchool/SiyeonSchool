@@ -122,6 +122,7 @@ DB Overview
 
 - 홈
 - 마이페이지
+- ![마이페이지 - 내 정보 확인 및 변경](https://github.com/user-attachments/assets/bf13f1cd-dcb1-4fec-aa6b-05c050de6a7e)
 - 관리자페이지
 
 💙 조원 : 이태형
